@@ -19,7 +19,7 @@ function card(c, i) {
 
 function render() {
   const box = $("#coBody");
-  if (!current) { box.innerHTML = '<div class="card empty">No competitor searches yet. Enter your account above and click Find.</div>'; return; }
+  if (!current) { box.innerHTML = '<div class="card empty">No competitor searches yet. Enter your account above and click Find competitors.</div>'; return; }
   const o = current;
   box.innerHTML = `
   <div class="card">

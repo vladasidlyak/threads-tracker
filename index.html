@@ -135,6 +135,22 @@ a{color:var(--accent)}
   body.printing-report #tab-reports>.card:not(#repOutCard){display:none}
   .post{break-inside:avoid}
 }
+
+.nav-label{display:none}
+.ico{display:none}
+@media(min-width:900px){
+  header{padding:14px 22px;position:fixed;left:0;right:0;top:0;height:68px;box-sizing:border-box}
+  nav{position:fixed;top:68px;left:0;bottom:0;width:224px;flex-direction:column;gap:2px;margin:0;padding:14px 10px;background:var(--card);border-right:1px solid var(--line);overflow-y:auto;z-index:4}
+  nav button{display:flex;align-items:center;gap:10px;text-align:left;border:0;border-radius:8px;padding:9px 12px;font-size:14px;width:100%}
+  nav button:hover{background:var(--line-2);color:var(--ink)}
+  nav button.on{background:var(--accent-soft);color:var(--ink);font-weight:600}
+  .ico{display:inline-flex;width:20px;justify-content:center;font-size:13px;color:var(--ink-3)}
+  nav button.on .ico{color:var(--accent)}
+  .nav-label{display:block;font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3);padding:14px 12px 6px}
+  .nav-label:first-child{padding-top:2px}
+  main{margin-left:224px;padding:86px 28px 28px;max-width:1120px}
+  #runCard{scroll-margin-top:90px}
+}
 </style>
 </head>
 <body>
@@ -143,15 +159,18 @@ a{color:var(--accent)}
     <h1>Threads Competitor Tracker<small id="updated">Loading...</small></h1>
     <a class="btn primary" id="ghReport" href="#runCard" style="text-decoration:none">New report</a>
   </div>
-  <nav id="nav">
-    <button data-tab="overview" class="on">Overview</button>
-    <button data-tab="posts">Posts</button>
-    <button data-tab="replies">Replies &amp; comments</button>
-    <button data-tab="competitors">Competitors</button>
-    <button data-tab="plan">Content plan</button>
-    <button data-tab="voice">Voice</button>
-    <button data-tab="compare">Compare</button>
-    <button data-tab="reports">AI reports</button>
+  <nav id="nav" aria-label="Sections">
+    <div class="nav-label">Analyze</div>
+    <button data-tab="overview" class="on"><span class="ico">▦</span>Overview</button>
+    <button data-tab="posts"><span class="ico">≡</span>Posts</button>
+    <button data-tab="replies"><span class="ico">↩</span>Replies &amp; comments</button>
+    <button data-tab="voice"><span class="ico">Aa</span>Tone of voice</button>
+    <button data-tab="compare"><span class="ico">⇄</span>Compare accounts</button>
+    <div class="nav-label">Discover</div>
+    <button data-tab="competitors"><span class="ico">⌕</span>Competitor search</button>
+    <div class="nav-label">Create</div>
+    <button data-tab="plan"><span class="ico">▤</span>Content plan</button>
+    <button data-tab="reports"><span class="ico">✦</span>AI reports</button>
   </nav>
 </header>
 <main>
@@ -180,7 +199,7 @@ a{color:var(--accent)}
     </div>
     <div class="row" style="margin-top:8px">
       <select id="runBrand" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option><option value="liven">For: Liven</option><option value="overwell">For: Overwell</option></select>
-      <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">Full analysis</option><option value="ideas">Post ideas</option><option value="replies">Replies &amp; tone</option><option value="voice">Voice guide</option></select>
+      <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">Full analysis</option><option value="ideas">Post ideas</option><option value="replies">Replies &amp; tone</option><option value="voice">AI linguistic report</option></select>
       <select id="runMax" style="width:auto" aria-label="Posts"><option value="30">30 posts</option><option value="60" selected>60 posts</option><option value="100">100 posts</option></select>
       <button class="btn primary" id="runGo" type="button">Run</button>
     </div>
@@ -251,13 +270,13 @@ a{color:var(--accent)}
 
   <section id="tab-competitors" class="hidden">
     <div class="card">
-      <h2>Find competitors</h2>
-      <p class="sub">Enter your own account. The tracker reads it, searches Threads for similar accounts in the same language, checks their latest posts and picks the 10 best benchmarks. About 3-6 minutes, roughly $0.35.</p>
+      <h2>Competitor search</h2>
+      <p class="sub">Enter your own account and get your 10 closest direct competitors. The tracker reads your posts, searches Threads for similar accounts in the same language, checks their latest posts and ranks them by topic match, engagement and activity. About 3-6 minutes, roughly $0.35.</p>
       <div class="row"><input id="coUrl" class="grow" placeholder="https://www.threads.com/@your_account"></div>
       <div class="row" style="margin-top:8px">
         <select id="coMin" style="width:auto" aria-label="Minimum followers"><option value="1000">1k+ followers</option><option value="5000" selected>5k+ followers</option><option value="10000">10k+ followers</option><option value="30000">30k+ followers</option></select>
         <input id="coKw" class="grow" placeholder="Optional: your own search terms, comma-separated">
-        <button class="btn primary" id="coGo" type="button">Find</button>
+        <button class="btn primary" id="coGo" type="button">Find competitors</button>
       </div>
       <div class="status" id="coStatus"></div>
     </div>

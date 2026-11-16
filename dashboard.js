@@ -296,7 +296,7 @@ tokenUI();
 
 const dataHooks = [];
 window.TT = { $, esc, fmt, eng, median, allPosts, S, goto: t => goto(t), onData: fn => dataHooks.push(fn),
-  B: () => B, mode: () => MODE, hasToken: () => !!memToken, sleep, getJSON, reloadData: () => reloadData() };
+  md: t => md(t), B: () => B, mode: () => MODE, hasToken: () => !!memToken, sleep, getJSON, reloadData: () => reloadData() };
 /* ---------- wiring ---------- */
 function goto(tab) { $$("#nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab)); $$("main > section").forEach(s => s.classList.toggle("hidden", s.id !== "tab-" + tab)); hideTip(); }
 $$("#nav button").forEach(b => b.onclick = () => goto(b.dataset.tab));

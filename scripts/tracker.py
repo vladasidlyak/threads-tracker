@@ -553,7 +553,7 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d-%H%M")
     slug = handles[0] if len(handles) == 1 else "all-accounts"
     rel = f"reports/{slug}/{stamp}-{focus}-{brand}.md"
-    title = {"full": "Full analysis", "ideas": "Post ideas", "replies": "Reply analysis", "voice": "Voice guide"}[focus]
+    title = {"full": "Full analysis", "ideas": "Post ideas", "replies": "Reply analysis", "voice": "AI linguistic report"}[focus]
     header = (f"# {title}: {', '.join('@' + h for h in handles)}\n\n"
               f"Brand: {read_json(paths.config / 'brands.json')[brand]['name']} · Generated {now_iso()[:16].replace('T', ' ')} UTC\n\n")
     out = paths.root / rel

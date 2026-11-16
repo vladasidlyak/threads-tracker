@@ -124,15 +124,32 @@ function render() {
     <div class="card"><h2>Favourite words</h2><p class="sub">Most used words, without filler words</p>
       <div class="chips">${a.words.map(([w, c]) => `<span class="chip" style="padding:5px 12px">${esc(w)} <span class="muted small">${c}</span></span>`).join("")}</div></div>
   </div>
-  <div class="card"><h2>Key takeaways</h2><p class="sub">Calculated from the numbers above. For a full, written voice guide, generate the AI report below.</p><ul style="margin:0;padding-left:20px">${takeaways(a, lifts, unit).map(t => `<li style="margin:4px 0">${t}</li>`).join("")}</ul>
-    <div class="row" style="margin-top:12px"><button class="btn primary" id="vGuide" type="button">Generate AI voice guide</button><span class="small muted">Uses the Get a report form - a few cents, no Apify cost.</span></div></div>
+  <div class="card"><h2>Key takeaways</h2><p class="sub">Calculated from the numbers above.</p><ul style="margin:0;padding-left:20px">${takeaways(a, lifts, unit).map(t => `<li style="margin:4px 0">${t}</li>`).join("")}</ul>
+</div>
+  <div class="card" id="vAi"><div class="row" style="justify-content:space-between"><h2 style="margin:0">AI linguistic report</h2><button class="btn primary" id="vGuide" type="button">Generate a new one</button></div>
+    <p class="sub">Claude's written analysis of tone, sentence patterns, punctuation, emojis, vocabulary, openings and closings, plus do / don't rules and rewrites for your brand. A few cents, no Apify cost.</p>
+    <div class="md" id="vAiBody"><p class="muted small">Loading...</p></div></div>
   ${compare(src)}`;
   $("#vGuide").onclick = () => {
     const h = acc || Object.keys(TT.S.accounts)[0];
     TT.goto("overview"); $("#runUrl").value = "https://www.threads.com/@" + h; $("#runFocus").value = "voice"; $("#runSkip").checked = true;
     $("#runCard").scrollIntoView({ behavior: "smooth" });
-    $("#runStatus").textContent = "Ready: voice guide for @" + h + " from saved data. Check the brand and click Run.";
+    $("#runStatus").textContent = "Ready: AI linguistic report for @" + h + " from saved data. Check the brand and click Run.";
   };
+  loadAi(acc);
+}
+
+let aiToken = 0;
+async function loadAi(acc) {
+  const my = ++aiToken, body = $("#vAiBody");
+  const reps = ((TT.S.index && TT.S.index.reports) || []).filter(r => r.focus === "voice" && (!acc || r.accounts.includes(acc)));
+  if (!reps.length) { body.innerHTML = `<p class="muted small">No AI linguistic report ${acc ? "for @" + esc(acc) + " " : ""}yet. Click <b>Generate a new one</b>.</p>`; return; }
+  const r = reps[0];
+  try {
+    const t = await (await fetch(r.path + "?v=" + Date.now())).text();
+    if (my !== aiToken) return;
+    body.innerHTML = `<p class="small muted">${r.accounts.map(a => "@" + esc(a)).join(", ")} · for ${esc(r.brand)} · ${new Date(r.created).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}${reps.length > 1 ? ` · ${reps.length - 1} older in AI reports` : ""}</p>` + TT.md(t.replace(/^# .*\n+.*\n+/, ""));
+  } catch (e) { body.innerHTML = '<p class="muted small">Couldn\'t load the report.</p>'; }
 }
 
 const cap = s => s.charAt(0).toUpperCase() + s.slice(1);
