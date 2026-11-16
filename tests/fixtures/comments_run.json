@@ -1,0 +1,55 @@
+[
+ {
+  "dataType": "post",
+  "postId": "3886253143130658797",
+  "username": "esmipsicologa",
+  "text": "(root post)",
+  "createdAt": "2026-04-29T21:18:17Z",
+  "likeCount": 5237,
+  "replyCount": 46,
+  "isReply": false,
+  "url": "https://www.threads.com/@esmipsicologa/post/DXuvqS3jFft"
+ },
+ {
+  "dataType": "post",
+  "postId": "t1",
+  "username": "test_follower_a",
+  "text": "Test comment one",
+  "createdAt": "2026-04-29T23:58:55Z",
+  "likeCount": 68,
+  "replyCount": 1,
+  "isReply": true,
+  "replyDepth": 1,
+  "parentPostId": "3886253143130658797",
+  "rootPostId": "3886253143130658797",
+  "url": ""
+ },
+ {
+  "dataType": "post",
+  "postId": "t2",
+  "username": "esmipsicologa",
+  "text": "Test author answer",
+  "createdAt": "2026-04-30T08:00:00Z",
+  "likeCount": 12,
+  "replyCount": 0,
+  "isReply": true,
+  "replyDepth": 2,
+  "parentPostId": "t1",
+  "rootPostId": null,
+  "url": ""
+ },
+ {
+  "dataType": "post",
+  "postId": "t3",
+  "username": "test_follower_b",
+  "text": "Test comment two",
+  "createdAt": "2026-04-30T05:49:05Z",
+  "likeCount": 30,
+  "replyCount": 0,
+  "isReply": true,
+  "replyDepth": 1,
+  "parentPostId": "3886253143130658797",
+  "rootPostId": "3886253143130658797",
+  "url": ""
+ }
+]

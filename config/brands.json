@@ -1,0 +1,17 @@
+{
+  "ines": {
+    "name": "Inés (Spanish market)",
+    "context": "Spanish-language personal Threads blog (@quintanilla_iness) in the wellbeing, self-care and psychology space. Warm, personal, relatable voice. Audience: Spanish-speaking women interested in emotional wellbeing.",
+    "drafts_language": "Spanish (Spain)"
+  },
+  "liven": {
+    "name": "Liven",
+    "context": "Liven - wellness subscription app for English-speaking markets (mood, habits, self-discovery, emotional wellbeing). Supportive, non-clinical, friendly voice. Never gives medical advice.",
+    "drafts_language": "English"
+  },
+  "overwell": {
+    "name": "Overwell",
+    "context": "Overwell - new wellbeing brand.",
+    "drafts_language": "English"
+  }
+}

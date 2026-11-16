@@ -1,0 +1,21 @@
+# Checks the pipeline with sample data on every change. Costs nothing.
+name: Test
+
+on:
+  push:
+    paths: ["scripts/**", "prompts/**", "config/**", "tests/**"]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  dry-run:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - run: python scripts/tracker.py collect --handle esmipsicologa --comments --dry-run
+      - run: python scripts/tracker.py report --handle esmipsicologa --brand ines --focus full --dry-run
+      - run: python scripts/tracker.py report --all --brand liven --focus replies --dry-run

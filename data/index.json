@@ -1,0 +1,27 @@
+{
+ "updated": "2026-11-16T12:18:13Z",
+ "accounts": [
+  {
+   "handle": "esmipsicologa",
+   "note": "Spanish psychologist, author, 225k followers",
+   "fullName": "",
+   "followers": 225242,
+   "lastFetched": "2026-11-16T11:59:54Z",
+   "posts": 60,
+   "replies": 39,
+   "commentThreads": 0
+  }
+ ],
+ "reports": [
+  {
+   "path": "reports/esmipsicologa/2026-11-16-1220-full-ines.md",
+   "title": "Full analysis",
+   "accounts": [
+    "esmipsicologa"
+   ],
+   "brand": "ines",
+   "focus": "full",
+   "created": "2026-11-16T12:20:00Z"
+  }
+ ]
+}

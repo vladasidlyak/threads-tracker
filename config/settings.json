@@ -1,0 +1,12 @@
+{
+  "apify_profile_actor": "deepmine/threads-posts-scraper",
+  "apify_comments_actor": "deepmine/threads-scraper",
+  "max_posts_per_account": 60,
+  "include_replies": true,
+  "max_cost_usd_per_run": 0.5,
+  "comments_top_posts": 10,
+  "comments_per_post": 30,
+  "claude_model": "claude-sonnet-5-5",
+  "claude_max_tokens": 6000,
+  "history_snapshots_to_keep": 26
+}

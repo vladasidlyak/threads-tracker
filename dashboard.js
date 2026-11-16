@@ -1,0 +1,205 @@
+/* Threads Competitor Tracker - dashboard (vanilla JS, no dependencies).
+   Reads data/index.json, data/accounts/<handle>.json and reports/*.md from this repository. */
+(function () {
+"use strict";
+const $ = s => document.querySelector(s);
+const $$ = s => Array.from(document.querySelectorAll(s));
+const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const fmt = n => { n = Number(n) || 0; return n >= 10000 ? (n / 1000).toFixed(n >= 100000 ? 0 : 1) + "k" : n.toLocaleString("en-US"); };
+const DAYS = ["Mon","Tue","Wed","Thu","Fri","Sat","Sun"];
+const S = { index: null, accounts: {}, pLimit: 30, rLimit: 30 };
+
+/* ---------- link to the GitHub "Get report" workflow ---------- */
+function repoUrl() {
+  const m = location.hostname.match(/^([^.]+)\.github\.io$/);
+  const repo = location.pathname.split("/").filter(Boolean)[0];
+  return m && repo ? `https://github.com/${m[1]}/${repo}` : null;
+}
+
+/* ---------- helpers ---------- */
+const eng = p => (p.likes || 0) + (p.replies || 0) + (p.reposts || 0) + (p.quotes || 0);
+function median(a) { if (!a.length) return 0; const s = [...a].sort((x, y) => x - y); const m = Math.floor(s.length / 2); return s.length % 2 ? s[m] : (s[m - 1] + s[m]) / 2; }
+function formatOf(t) {
+  t = (t || "").trim();
+  if (/^\s*["“«]/.test(t) || /\n\s*[-–—]\s*[A-ZÁÉÍÓÚÑ][^\n]{1,40}$/.test(t)) return "Quote";
+  if (t.split("\n").filter(l => /^\s*(\d+[.)]|[-•*–])\s/.test(l)).length >= 2) return "List";
+  const first = (t.split(/[.!\n]/)[0] || "");
+  if (/[?¿]/.test(first) || /\?$/.test(t)) return "Question";
+  if (/https?:\/\//.test(t)) return "With link";
+  if (/^(i |yo |me |mi |my |when i|cuando )/i.test(t)) return "Personal story";
+  return "Statement";
+}
+const lenOf = t => { const n = (t || "").length; return n < 100 ? "< 100" : n < 250 ? "100-250" : n < 500 ? "250-500" : "500+"; };
+const FMT_ORDER = ["Quote","Question","List","Personal story","Statement","With link"];
+const LEN_ORDER = ["< 100","100-250","250-500","500+"];
+const HOURS = [["Night 0-6",0,6],["Morning 6-12",6,12],["Afternoon 12-18",12,18],["Evening 18-24",18,24]];
+const dayOf = d => DAYS[(new Date(d).getDay() + 6) % 7];
+function groupBy(list, fn) { const g = {}; list.forEach(p => { const k = fn(p); if (k == null) return; (g[k] = g[k] || []).push(p); }); return g; }
+async function getJSON(path) { const r = await fetch(path + "?v=" + Date.now()); if (!r.ok) throw new Error(path + " " + r.status); return r.json(); }
+
+/* ---------- data ---------- */
+function allPosts() { return Object.values(S.accounts).flatMap(a => Object.values(a.posts || {})); }
+function filtered(acc, range, type) {
+  const now = Date.now();
+  return allPosts().filter(p => (!type || p.type === type) && (!acc || p.account === acc) && (!+range || (p.date && now - new Date(p.date) < +range * 864e5)));
+}
+function followersOf(acc) {
+  const list = acc ? [S.accounts[acc]] : Object.values(S.accounts);
+  return list.reduce((s, a) => s + ((a && a.profile && a.profile.followers) || 0), 0);
+}
+
+/* ---------- charts ---------- */
+const tip = $("#tip");
+function showTip(e, html) { tip.innerHTML = html; tip.style.opacity = 1; tip.style.left = Math.min(e.clientX + 12, innerWidth - 250) + "px"; tip.style.top = (e.clientY + 14) + "px"; }
+function hideTip() { tip.style.opacity = 0; }
+function barChart(el, groups, order) {
+  const keys = order.filter(k => groups[k] && groups[k].length);
+  if (!keys.length) { el.innerHTML = '<p class="muted small">Not enough data.</p>'; return; }
+  const rows = keys.map(k => { const a = groups[k].map(eng); return { k, avg: Math.round(a.reduce((x, y) => x + y, 0) / a.length), n: a.length, med: Math.round(median(a)) }; });
+  const max = Math.max(...rows.map(r => r.avg), 1);
+  el.innerHTML = '<div class="bars" role="img" aria-label="Average engagement by group">' + rows.map(r =>
+    `<div class="bar-row" data-t="<b>${esc(r.k)}</b><br>Avg ${fmt(r.avg)} · median ${fmt(r.med)}<br>${r.n} post${r.n > 1 ? "s" : ""}"><span class="lab">${esc(r.k)}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(1, r.avg / max * 100)}%"></div></div><span class="val">${fmt(r.avg)}</span></div>`).join("") + "</div>" +
+    `<details class="tbl"><summary>Show as table</summary><table><tr><th>Group</th><th class="n">Posts</th><th class="n">Avg</th><th class="n">Median</th></tr>${rows.map(r => `<tr><td>${esc(r.k)}</td><td class="n">${r.n}</td><td class="n">${fmt(r.avg)}</td><td class="n">${fmt(r.med)}</td></tr>`).join("")}</table></details>`;
+  el.querySelectorAll(".bar-row").forEach(b => { b.addEventListener("mousemove", e => showTip(e, b.dataset.t)); b.addEventListener("mouseleave", hideTip); });
+}
+
+/* ---------- render ---------- */
+function postHTML(p, showParent) {
+  const d = p.date ? new Date(p.date) : null;
+  return `<div class="post">
+    <div class="meta"><b>@${esc(p.account)}</b><span>${d ? d.toLocaleDateString("en-GB", {day:"numeric",month:"short",year:"numeric"}) + " " + d.toLocaleTimeString("en-GB", {hour:"2-digit",minute:"2-digit"}) : "no date"}</span><span class="tag">${esc(p.type === "reply" ? "reply" : formatOf(p.text))}</span>${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">open</a>` : ""}</div>
+    ${showParent && (p.parentText || p.parentAuthor) ? `<div class="parent">${p.parentAuthor ? "<b>@" + esc(p.parentAuthor) + "</b>: " : ""}${esc(p.parentText || "(original text not available)")}</div>` : ""}
+    <div class="txt">${esc(p.text) || '<span class="muted">(image or video without text)</span>'}</div>
+    <div class="stats"><span>♥ ${fmt(p.likes)}</span><span>💬 ${fmt(p.replies)}</span><span>↻ ${fmt(p.reposts)}</span>${p.quotes ? `<span>❝ ${fmt(p.quotes)}</span>` : ""}${p.views ? `<span>👁 ${fmt(p.views)}</span>` : ""}${p.shares ? `<span>➤ ${fmt(p.shares)}</span>` : ""}<span><b>${fmt(eng(p))}</b> total</span></div>
+  </div>`;
+}
+function fillSelects() {
+  const accs = Object.keys(S.accounts).sort();
+  ["#ovAccount", "#pAccount", "#rAccount", "#repAccount"].forEach(sel => {
+    const el = $(sel), cur = el.value;
+    el.innerHTML = '<option value="">All accounts</option>' + accs.map(a => `<option value="${esc(a)}">@${esc(a)}</option>`).join("");
+    if (accs.includes(cur)) el.value = cur;
+  });
+}
+function renderOverview() {
+  const acc = $("#ovAccount").value, range = $("#ovRange").value;
+  const posts = filtered(acc, range, "post"), reps = filtered(acc, range, "reply");
+  $("#kPosts").textContent = fmt(posts.length);
+  const accs = new Set(posts.map(p => p.account));
+  $("#kPostsH").textContent = accs.size ? `across ${accs.size} account${accs.size > 1 ? "s" : ""}` : "none in range";
+  $("#kReplies").textContent = fmt(reps.length);
+  $("#kRepliesH").textContent = reps.length ? `median ${fmt(median(reps.map(eng)))} engagement` : "none in range";
+  $("#kMed").textContent = fmt(Math.round(median(posts.map(eng))));
+  const byDay = groupBy(posts.filter(p => p.date), p => dayOf(p.date));
+  let best = null; Object.entries(byDay).forEach(([k, v]) => { if (v.length < 2) return; const a = v.reduce((s, p) => s + eng(p), 0) / v.length; if (!best || a > best.a) best = { k, a, n: v.length }; });
+  $("#kDay").textContent = best ? best.k : "-"; $("#kDayH").textContent = best ? `avg ${fmt(Math.round(best.a))} over ${best.n} posts` : "needs 2+ posts per day";
+  const vw = posts.filter(p => p.views > 0);
+  $("#kViews").textContent = vw.length ? fmt(Math.round(median(vw.map(p => p.views)))) : "-";
+  $("#kViewsH").textContent = vw.length ? `${vw.length} of ${posts.length} posts show views` : "views not available";
+  const ers = posts.map(p => { const f = p.followers || (S.accounts[p.account] && S.accounts[p.account].profile.followers); return f ? eng(p) / f * 100 : null; }).filter(x => x != null);
+  const er = median(ers); $("#kER").textContent = ers.length ? (er < 1 ? er.toFixed(2) : er.toFixed(1)) + "%" : "-";
+  $("#kEPV").textContent = vw.length ? String(Math.round(median(vw.map(p => eng(p) / p.views * 1000)))) : "-";
+  const fol = followersOf(acc); $("#kFol").textContent = fol ? fmt(fol) : "-";
+  const hist = acc && S.accounts[acc] ? S.accounts[acc].followersHistory || [] : [];
+  $("#kFolH").textContent = hist.length > 1 ? `${hist[hist.length - 1].followers - hist[0].followers >= 0 ? "+" : ""}${fmt(hist[hist.length - 1].followers - hist[0].followers)} since ${hist[0].d}` : (acc ? "trend after the next refresh" : "all tracked accounts");
+  barChart($("#chFormat"), groupBy(posts, p => formatOf(p.text)), FMT_ORDER);
+  barChart($("#chLen"), groupBy(posts, p => lenOf(p.text)), LEN_ORDER);
+  barChart($("#chDay"), byDay, DAYS);
+  barChart($("#chHour"), groupBy(posts.filter(p => p.date), p => { const h = new Date(p.date).getHours(); return HOURS.find(x => h >= x[1] && h < x[2])[0]; }), HOURS.map(h => h[0]));
+  const ranked = [...posts].sort((a, b) => eng(b) - eng(a));
+  $("#topPosts").innerHTML = ranked.length ? ranked.slice(0, 5).map(p => postHTML(p, false)).join("") : '<p class="muted small">No posts in this range.</p>';
+  $("#weakPosts").innerHTML = ranked.length > 10 ? ranked.slice(-5).reverse().map(p => postHTML(p, false)).join("") : '<p class="muted small">Needs more than 10 posts.</p>';
+}
+function renderPosts() {
+  const q = $("#pSearch").value.toLowerCase(), acc = $("#pAccount").value, sort = $("#pSort").value;
+  const l = filtered(acc, 0, "post").filter(p => !q || p.text.toLowerCase().includes(q));
+  l.sort(sort === "eng" ? (a, b) => eng(b) - eng(a) : sort === "views" ? (a, b) => (b.views || 0) - (a.views || 0) : (a, b) => (b.date || "").localeCompare(a.date || ""));
+  $("#pList").innerHTML = l.length ? l.slice(0, S.pLimit).map(p => postHTML(p, false)).join("") : '<p class="empty">No posts match.</p>';
+  $("#pMore").classList.toggle("hidden", l.length <= S.pLimit);
+}
+function renderReplies() {
+  const q = $("#rSearch").value.toLowerCase(), acc = $("#rAccount").value;
+  const l = filtered(acc, 0, "reply").filter(p => !q || (p.text + " " + p.parentText).toLowerCase().includes(q)).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  $("#rList").innerHTML = l.length ? l.slice(0, S.rLimit).map(p => postHTML(p, true)).join("") : '<p class="empty">No replies collected.</p>';
+  $("#rMore").classList.toggle("hidden", l.length <= S.rLimit);
+  // conversations under posts
+  const threads = [];
+  Object.values(S.accounts).forEach(a => { if (acc && a.handle !== acc) return; Object.entries(a.comments || {}).forEach(([pid, items]) => threads.push({ a, post: (a.posts || {})[pid], items })); });
+  const authorAnswers = threads.reduce((s, t) => s + t.items.filter(c => c.isAuthor).length, 0);
+  const totalComments = threads.reduce((s, t) => s + t.items.length, 0);
+  $("#cSummary").textContent = threads.length ? `${totalComments} comments under ${threads.length} posts · the author answered ${authorAnswers} of them` : "";
+  $("#cList").innerHTML = threads.length ? threads.map(t => `<details class="thread"><summary><b>@${esc(t.a.handle)}</b> · ${esc((t.post && t.post.text || "").slice(0, 90))}… <span class="muted small">${t.items.length} comments${t.items.some(c => c.isAuthor) ? " · author replied" : ""}</span></summary>${t.items.map(c => `<div class="cmt d${Math.min(c.depth, 3)}${c.isAuthor ? " author" : ""}"><div class="meta"><b>@${esc(c.username)}</b>${c.isAuthor ? '<span class="tag">author</span>' : ""}<span>♥ ${fmt(c.likes)}</span></div><div class="txt">${esc(c.text)}</div></div>`).join("")}</details>`).join("")
+    : '<p class="muted small">Comments under posts are not collected yet. Run "Get report" with "Also collect comments" ticked, or set "comments": true for the account in config/accounts.json.</p>';
+}
+function renderCompare() {
+  const rows = Object.values(S.accounts).map(a => {
+    const posts = Object.values(a.posts || {}).filter(p => p.type === "post");
+    const reps = Object.values(a.posts || {}).filter(p => p.type === "reply");
+    const vw = posts.filter(p => p.views > 0); const f = a.profile.followers || 0;
+    const dates = posts.map(p => p.date).filter(Boolean).sort();
+    const weeks = dates.length > 1 ? (new Date(dates[dates.length - 1]) - new Date(dates[0])) / 6048e5 : 0;
+    const fmts = groupBy(posts, p => formatOf(p.text)); let bestF = "-", bestA = -1;
+    Object.entries(fmts).forEach(([k, v]) => { if (v.length < 3) return; const av = v.reduce((s, p) => s + eng(p), 0) / v.length; if (av > bestA) { bestA = av; bestF = k; } });
+    return { h: a.handle, f, posts: posts.length, reps: reps.length, med: Math.round(median(posts.map(eng))), views: vw.length ? Math.round(median(vw.map(p => p.views))) : 0, er: f ? median(posts.map(p => eng(p) / f * 100)) : 0, perWeek: weeks ? posts.length / weeks : 0, bestF };
+  }).sort((a, b) => b.er - a.er);
+  $("#cmpTable").innerHTML = rows.length ? `<table><tr><th>Account</th><th class="n">Followers</th><th class="n">Posts</th><th class="n">Replies</th><th class="n">Posts / week</th><th class="n">Median eng.</th><th class="n">Median views</th><th class="n">Eng. rate</th><th>Best format</th></tr>${rows.map(r => `<tr><td><a href="https://www.threads.com/@${esc(r.h)}" target="_blank" rel="noopener">@${esc(r.h)}</a></td><td class="n">${fmt(r.f)}</td><td class="n">${r.posts}</td><td class="n">${r.reps}</td><td class="n">${r.perWeek ? r.perWeek.toFixed(1) : "-"}</td><td class="n">${fmt(r.med)}</td><td class="n">${r.views ? fmt(r.views) : "-"}</td><td class="n">${r.er ? r.er.toFixed(2) + "%" : "-"}</td><td>${esc(r.bestF)}</td></tr>`).join("")}</table>` : '<p class="muted small">No accounts yet.</p>';
+}
+
+/* ---------- reports ---------- */
+function md(t) {
+  const lines = esc(t).split("\n"); let out = "", inList = false;
+  const inline = s => s.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|\s)\*(.+?)\*(?=\s|$)/g, "$1<i>$2</i>");
+  let quote = [];
+  const flushQuote = () => { if (quote.length) { out += "<blockquote>" + quote.map(inline).join("\n") + "</blockquote>"; quote = []; } };
+  for (const l of lines) {
+    const q = l.match(/^\s*&gt;\s?(.*)/);
+    if (q) { if (inList) { out += "</ul>"; inList = false; } quote.push(q[1]); continue; }
+    flushQuote();
+    const h = l.match(/^(#{1,4})\s+(.*)/), li = l.match(/^\s*(?:[-*•]|\d+[.)])\s+(.*)/);
+    if (li) { if (!inList) { out += "<ul>"; inList = true; } out += "<li>" + inline(li[1]) + "</li>"; continue; }
+    if (inList) { out += "</ul>"; inList = false; }
+    if (h) out += (h[1].length === 1 ? "<h2>" : "<h3>") + inline(h[2]) + (h[1].length === 1 ? "</h2>" : "</h3>");
+    else if (l.trim()) out += "<p>" + inline(l) + "</p>";
+  }
+  flushQuote();
+  if (inList) out += "</ul>"; return out;
+}
+function renderReportList() {
+  const acc = $("#repAccount").value;
+  const list = (S.index.reports || []).filter(r => !acc || r.accounts.includes(acc));
+  $("#repList").innerHTML = list.length ? list.map((r, i) => `<div class="ins-item" data-path="${esc(r.path)}"><b>${esc(r.title)}</b> · ${r.accounts.map(a => "@" + esc(a)).join(", ")}<div class="small muted">${new Date(r.created).toLocaleString("en-GB", {day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})} · ${esc(r.brand)}</div></div>`).join("") : '<p class="muted small">No reports yet. Run "Get report" in GitHub Actions.</p>';
+  $$("#repList .ins-item").forEach(d => d.onclick = () => openReport(d.dataset.path));
+}
+async function openReport(path) {
+  $("#repOut").innerHTML = '<p class="muted">Loading...</p>'; $("#repOutCard").classList.remove("hidden");
+  try { const r = await fetch(path + "?v=" + Date.now()); const t = await r.text(); $("#repOut").innerHTML = md(t); $("#repRaw").href = path; $("#repOutCard").scrollIntoView({ behavior: "smooth" }); }
+  catch (e) { $("#repOut").innerHTML = '<p class="muted">Couldn\'t load this report.</p>'; }
+}
+
+/* ---------- wiring ---------- */
+function goto(tab) { $$("#nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab)); $$("main > section").forEach(s => s.classList.toggle("hidden", s.id !== "tab-" + tab)); hideTip(); }
+$$("#nav button").forEach(b => b.onclick = () => goto(b.dataset.tab));
+["#ovAccount", "#ovRange"].forEach(s => $(s).onchange = renderOverview);
+$("#pSearch").oninput = () => { S.pLimit = 30; renderPosts(); }; $("#pAccount").onchange = $("#pSort").onchange = () => { S.pLimit = 30; renderPosts(); };
+$("#pMore").onclick = () => { S.pLimit += 30; renderPosts(); };
+$("#rSearch").oninput = () => { S.rLimit = 30; renderReplies(); }; $("#rAccount").onchange = () => { S.rLimit = 30; renderReplies(); };
+$("#rMore").onclick = () => { S.rLimit += 30; renderReplies(); };
+$("#repAccount").onchange = renderReportList;
+
+const gh = repoUrl();
+if (gh) { $("#ghReport").href = gh + "/actions/workflows/report.yml"; $("#ghRepo").href = gh; }
+else { $("#ghReport").href = "https://github.com"; }
+
+(async function load() {
+  try {
+    S.index = await getJSON("data/index.json");
+    await Promise.all(S.index.accounts.filter(a => a.posts || a.replies).map(async a => { try { S.accounts[a.handle] = await getJSON(`data/accounts/${a.handle}.json`); } catch (e) {} }));
+    $("#updated").textContent = "Data updated " + new Date(S.index.updated).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
+    fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList();
+    if (!Object.keys(S.accounts).length) $("#loadMsg").textContent = "No data yet. Run \"Get report\" in GitHub Actions to collect the first account.";
+    else $("#loadMsg").classList.add("hidden");
+  } catch (e) {
+    $("#loadMsg").textContent = "Couldn't load data/index.json. If you opened this file directly from your computer, use the GitHub Pages link instead.";
+  }
+})();
+})();

@@ -1,0 +1,55 @@
+# Weekly refresh of every account in config/accounts.json, plus a summary report.
+# Runs every Monday around 06:40 Kyiv time (04:40 UTC), and on demand from the Actions tab.
+name: Weekly refresh
+
+on:
+  schedule:
+    - cron: "40 4 * * 1"
+  workflow_dispatch:
+    inputs:
+      brand:
+        description: "Weekly summary written for"
+        default: ines
+        type: choice
+        options: [ines, liven, overwell]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tracker-data
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Refresh all accounts
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+        run: python scripts/tracker.py refresh
+
+      - name: Weekly summary across all accounts
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: python scripts/tracker.py report --all --brand ${{ inputs.brand || 'ines' }} --focus full
+
+      - name: Save to the repository
+        run: |
+          git config user.name "threads-tracker-bot"
+          git config user.email "threads-tracker-bot@users.noreply.github.com"
+          git add data reports
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git commit -m "Weekly refresh $(date -u +%Y-%m-%d)"
+          git pull --rebase
+          git push

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Threads Competitor Tracker</title>
+<style>
+:root{
+  --bg:#f6f6f4; --surface:#fcfcfb; --card:#ffffff; --line:#e4e3df; --line-2:#efeeea;
+  --ink:#0b0b0b; --ink-2:#52514e; --ink-3:#8a8984;
+  --accent:#2a78d6; --accent-soft:#e8f1fc; --bar:#2a78d6; --bar-hi:#1c5cab;
+  --warn-bg:#fff6e0; --warn-ink:#7a5200; --good:#0ca30c; --crit:#d03b3b;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#121211; --surface:#1a1a19; --card:#1f1f1e; --line:#33332f; --line-2:#2a2a27;
+    --ink:#f0efec; --ink-2:#c3c2b7; --ink-3:#8f8e86;
+    --accent:#3987e5; --accent-soft:#1d2b3d; --bar:#3987e5; --bar-hi:#86b6ef;
+    --warn-bg:#3a2e10; --warn-ink:#f3cf7a;
+  }
+}
+*{box-sizing:border-box}
+body{margin:0;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+header{background:var(--card);border-bottom:1px solid var(--line);padding:16px 18px 0;position:sticky;top:0;z-index:5}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+h1{font-size:18px;margin:0;letter-spacing:-.01em}
+h1 small{display:block;font-size:12px;font-weight:400;color:var(--ink-3)}
+nav{display:flex;gap:4px;margin-top:12px;overflow-x:auto}
+nav button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 12px;font:inherit;font-weight:500;color:var(--ink-2);cursor:pointer;white-space:nowrap}
+nav button.on{color:var(--ink);border-color:var(--accent)}
+main{max-width:1080px;margin:0 auto;padding:18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:16px}
+.card h2{font-size:15px;margin:0 0 4px}
+.card .sub{font-size:13px;color:var(--ink-3);margin:0 0 12px}
+.grid{display:grid;gap:16px}
+@media(min-width:760px){.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}}
+.g4{grid-template-columns:repeat(2,1fr)}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
+.tile .k{font-size:12px;color:var(--ink-3)}
+.tile .v{font-size:24px;font-weight:650;letter-spacing:-.02em;margin-top:2px}
+.tile .h{font-size:12px;color:var(--ink-2)}
+button.btn,label.btn,a.btn{display:inline-flex;align-items:center;gap:6px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:8px 12px;font:inherit;font-size:14px;font-weight:500;cursor:pointer}
+button.btn.primary,label.btn.primary,a.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+button.btn:disabled{opacity:.5;cursor:default}
+button.btn.danger{color:var(--crit)}
+input,select,textarea{font:inherit;font-size:14px;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:8px 10px;width:100%}
+textarea{min-height:80px;resize:vertical}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row > *{flex:0 0 auto}
+.row .grow{flex:1 1 180px}
+.field{display:flex;flex-direction:column;gap:4px;font-size:12px;color:var(--ink-2)}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--accent-soft);border-radius:999px;padding:5px 6px 5px 12px;font-size:13px}
+.chip a{color:var(--ink);text-decoration:none;font-weight:500}
+.chip button{border:0;background:none;color:var(--ink-3);cursor:pointer;font-size:15px;line-height:1;padding:0 4px}
+.banner{background:var(--warn-bg);color:var(--warn-ink);border-radius:var(--r);padding:10px 14px;font-size:13px;margin-bottom:16px;display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.muted{color:var(--ink-3)}
+.small{font-size:12px}
+/* bar chart */
+.bars{display:flex;flex-direction:column;gap:6px}
+.bar-row{display:grid;grid-template-columns:116px 1fr 48px;gap:8px;align-items:center;font-size:13px;cursor:default;padding:2px 0}
+.bar-row .lab{color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bar-track{height:14px;position:relative}
+.bar-fill{height:100%;background:var(--bar);border-radius:0 4px 4px 0;min-width:2px;transition:background .15s}
+.bar-row:hover .bar-fill{background:var(--bar-hi)}
+.bar-row .val{text-align:right;color:var(--ink);font-variant-numeric:tabular-nums}
+details.tbl{margin-top:10px;font-size:12px;color:var(--ink-3)}
+details.tbl table{margin-top:6px}
+#tip{position:fixed;pointer-events:none;background:var(--ink);color:var(--bg);font-size:12px;padding:6px 9px;border-radius:7px;opacity:0;transition:opacity .1s;z-index:20;max-width:240px}
+/* posts */
+.post{border-top:1px solid var(--line-2);padding:12px 0}
+.post:first-child{border-top:0}
+.post .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--ink-3);margin-bottom:4px}
+.post .meta b{color:var(--ink);font-weight:600}
+.post .txt{white-space:pre-wrap;word-break:break-word}
+.post .parent{border-left:3px solid var(--line);padding:4px 10px;margin:4px 0 8px;font-size:13px;color:var(--ink-2);white-space:pre-wrap}
+.stats{display:flex;gap:14px;font-size:12px;color:var(--ink-2);margin-top:6px;font-variant-numeric:tabular-nums}
+.tag{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;background:var(--line-2);color:var(--ink-2)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--line-2);vertical-align:top}
+th{color:var(--ink-3);font-weight:500;font-size:12px}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+.empty{text-align:center;padding:30px 10px;color:var(--ink-3)}
+.md h3{font-size:15px;margin:18px 0 6px}
+.md h3:first-child{margin-top:0}
+.md p{margin:6px 0}
+.md ul{margin:6px 0;padding-left:20px}
+.md li{margin:3px 0}
+.hidden{display:none!important}
+.status{font-size:13px;color:var(--ink-2);margin-top:8px}
+.ins-item{border-top:1px solid var(--line-2);padding:10px 0;cursor:pointer}
+.ins-item:first-child{border-top:0}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:30;padding:20px}
+.modal .box{background:var(--card);border-radius:var(--r);padding:18px;max-width:380px;width:100%}
+
+a{color:var(--accent)}
+.md h2{font-size:18px;margin:0 0 6px}
+.thread{border-top:1px solid var(--line-2);padding:10px 0}
+.thread summary{cursor:pointer;font-size:14px}
+.cmt{border-left:3px solid var(--line);padding:6px 10px;margin:8px 0 0}
+.cmt.d2{margin-left:18px}.cmt.d3{margin-left:36px}
+.cmt.author{border-left-color:var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0}
+.scroll{overflow-x:auto}
+.md blockquote{margin:6px 0;padding:8px 12px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0;white-space:pre-wrap}
+.cta{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+</style>
+</head>
+<body>
+<header>
+  <div class="top">
+    <h1>Threads Competitor Tracker<small id="updated">Loading...</small></h1>
+    <a class="btn primary" id="ghReport" target="_blank" rel="noopener" style="text-decoration:none">Get a new report</a>
+  </div>
+  <nav id="nav">
+    <button data-tab="overview" class="on">Overview</button>
+    <button data-tab="posts">Posts</button>
+    <button data-tab="replies">Replies &amp; comments</button>
+    <button data-tab="compare">Compare</button>
+    <button data-tab="reports">AI reports</button>
+  </nav>
+</header>
+<main>
+  <div class="banner" id="loadMsg">Loading data...</div>
+
+  <section id="tab-overview">
+    <div class="row" style="margin-bottom:14px">
+      <select id="ovAccount" style="width:auto" aria-label="Account"></select>
+      <select id="ovRange" style="width:auto" aria-label="Date range">
+        <option value="0" selected>All time</option><option value="7">Last 7 days</option>
+        <option value="30">Last 30 days</option><option value="90">Last 90 days</option>
+      </select>
+    </div>
+    <div class="grid g4" style="margin-bottom:16px">
+      <div class="tile"><div class="k">Posts tracked</div><div class="v" id="kPosts">0</div><div class="h" id="kPostsH"></div></div>
+      <div class="tile"><div class="k">Replies tracked</div><div class="v" id="kReplies">0</div><div class="h" id="kRepliesH"></div></div>
+      <div class="tile"><div class="k">Median engagement / post</div><div class="v" id="kMed">0</div><div class="h">likes + replies + reposts + quotes</div></div>
+      <div class="tile"><div class="k">Best day to post</div><div class="v" id="kDay">-</div><div class="h" id="kDayH"></div></div>
+      <div class="tile"><div class="k">Median views / post</div><div class="v" id="kViews">-</div><div class="h" id="kViewsH"></div></div>
+      <div class="tile"><div class="k">Engagement rate</div><div class="v" id="kER">-</div><div class="h">median engagement / followers</div></div>
+      <div class="tile"><div class="k">Engagement per 1k views</div><div class="v" id="kEPV">-</div><div class="h">how strongly viewers react</div></div>
+      <div class="tile"><div class="k">Followers</div><div class="v" id="kFol">-</div><div class="h" id="kFolH"></div></div>
+    </div>
+    <div class="grid g2">
+      <div class="card"><h2>Avg engagement by format</h2><p class="sub">How the post opens and is structured</p><div id="chFormat"></div></div>
+      <div class="card"><h2>Avg engagement by length</h2><p class="sub">Characters per post</p><div id="chLen"></div></div>
+      <div class="card"><h2>Avg engagement by weekday</h2><p class="sub">Day the post was published</p><div id="chDay"></div></div>
+      <div class="card"><h2>Avg engagement by time of day</h2><p class="sub">Your local time</p><div id="chHour"></div></div>
+    </div>
+    <div class="grid g2">
+      <div class="card"><h2>Top posts</h2><p class="sub">Highest engagement in the range</p><div id="topPosts"></div></div>
+      <div class="card"><h2>Weakest posts</h2><p class="sub">Lowest engagement in the range</p><div id="weakPosts"></div></div>
+    </div>
+  </section>
+
+  <section id="tab-posts" class="hidden">
+    <div class="card">
+      <div class="row" style="margin-bottom:10px">
+        <input id="pSearch" class="grow" placeholder="Search text">
+        <select id="pAccount" style="width:auto"></select>
+        <select id="pSort" style="width:auto"><option value="eng">Top engagement</option><option value="views">Most views</option><option value="date">Newest</option></select>
+      </div>
+      <div id="pList"></div>
+      <div class="row" style="justify-content:center;margin-top:8px"><button class="btn hidden" id="pMore">Show more</button></div>
+    </div>
+  </section>
+
+  <section id="tab-replies" class="hidden">
+    <div class="row" style="margin-bottom:14px">
+      <input id="rSearch" class="grow" placeholder="Search replies">
+      <select id="rAccount" style="width:auto"></select>
+    </div>
+    <div class="card">
+      <h2>Conversations under their posts</h2>
+      <p class="sub">Follower comments and, highlighted, the author's own answers. <span id="cSummary"></span></p>
+      <div id="cList"></div>
+    </div>
+    <div class="card">
+      <h2>Their replies to other people</h2>
+      <p class="sub">Each reply with the comment or post it answered. Useful for tone-of-voice benchmarking.</p>
+      <div id="rList"></div>
+      <div class="row" style="justify-content:center;margin-top:8px"><button class="btn hidden" id="rMore">Show more</button></div>
+    </div>
+  </section>
+
+  <section id="tab-compare" class="hidden">
+    <div class="card">
+      <h2>All accounts side by side</h2>
+      <p class="sub">Sorted by engagement rate. Best format needs at least 3 posts of that format.</p>
+      <div class="scroll" id="cmpTable"></div>
+    </div>
+  </section>
+
+  <section id="tab-reports" class="hidden">
+    <div class="card cta">
+      <div><h2>Need a new report?</h2><p class="sub" style="margin:0">Run "Get report" on GitHub, paste a profile link, and the report appears here in a few minutes.</p></div>
+      <a class="btn" id="ghRepo" target="_blank" rel="noopener" href="#" style="text-decoration:none">Open repository</a>
+    </div>
+    <div class="card">
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0">Reports</h2><select id="repAccount" style="width:auto"></select></div>
+      <div id="repList"></div>
+    </div>
+    <div class="card hidden" id="repOutCard">
+      <div class="row" style="justify-content:flex-end;margin-bottom:6px"><a class="small" id="repRaw" target="_blank" rel="noopener">Open as Markdown</a></div>
+      <div class="md" id="repOut"></div>
+    </div>
+  </section>
+</main>
+<div id="tip"></div>
+<script src="dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+# "Paste a link, get a report"
+# Run it from GitHub: Actions → Get report → Run workflow (works in the GitHub mobile app too).
+name: Get report
+
+on:
+  workflow_dispatch:
+    inputs:
+      profile_url:
+        description: "Threads profile link or @handle"
+        required: true
+        type: string
+      brand:
+        description: "Write post ideas for"
+        required: true
+        default: ines
+        type: choice
+        options: [ines, liven, overwell]
+      focus:
+        description: "Report type"
+        required: true
+        default: full
+        type: choice
+        options: [full, ideas, replies]
+      max_posts:
+        description: "Posts to collect"
+        required: true
+        default: "60"
+        type: choice
+        options: ["30", "60", "100"]
+      include_comments:
+        description: "Also collect comments under the top 10 posts (costs about $0.50 more)"
+        required: false
+        default: false
+        type: boolean
+      skip_collect:
+        description: "Only write a new report from data already saved (no Apify cost)"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tracker-data
+  cancel-in-progress: false
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install
+        run: pip install -r requirements.txt
+
+      - name: Collect posts and replies
+        if: ${{ !inputs.skip_collect }}
+        env:
+          APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
+          PROFILE_URL: ${{ inputs.profile_url }}
+        run: |
+          EXTRA=""
+          if [ "${{ inputs.include_comments }}" = "true" ]; then EXTRA="--comments"; fi
+          python scripts/tracker.py collect --handle "$PROFILE_URL" --max-posts ${{ inputs.max_posts }} $EXTRA
+
+      - name: Write the AI report
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          PROFILE_URL: ${{ inputs.profile_url }}
+        run: python scripts/tracker.py report --handle "$PROFILE_URL" --brand ${{ inputs.brand }} --focus ${{ inputs.focus }}
+
+      - name: Save to the repository
+        run: |
+          git config user.name "threads-tracker-bot"
+          git config user.email "threads-tracker-bot@users.noreply.github.com"
+          git add data reports config/accounts.json
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git commit -m "Report: ${{ inputs.profile_url }} (${{ inputs.focus }}, ${{ inputs.brand }})"
+          git pull --rebase
+          git push
+
+      - name: Where to find it
+        run: |
+          echo "### Done" >> "$GITHUB_STEP_SUMMARY"
+          echo "Open the dashboard → Reports, or the reports/ folder in the repository." >> "$GITHUB_STEP_SUMMARY"
