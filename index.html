@@ -263,7 +263,7 @@ a{color:var(--accent)}
       <h2>Create a content plan</h2>
       <p class="sub">Claude reads everything collected about your tracked competitors (their stats, voice and the latest AI reports) and writes action steps plus dated posts with full drafts. About 1-3 minutes, roughly $0.10-0.20.</p>
       <div class="row">
-        <select id="plBrand" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option><option value="liven">For: Liven</option><option value="overwell">For: Overwell</option></select>
+        <select id="plBrand" class="brand-select" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option></select>
         <select id="plWeeks" style="width:auto" aria-label="Weeks"><option value="1">1 week</option><option value="2">2 weeks</option><option value="4" selected>4 weeks</option><option value="6">6 weeks</option><option value="8">8 weeks</option></select>
         <select id="plPer" style="width:auto" aria-label="Posts per week"><option value="2">2 posts/week</option><option value="3">3 posts/week</option><option value="4" selected>4 posts/week</option><option value="5">5 posts/week</option><option value="7">7 posts/week</option></select>
         <label class="small muted" style="display:flex;gap:6px;align-items:center">Start <input type="date" id="plStart" style="width:auto"></label>
@@ -315,7 +315,7 @@ a{color:var(--accent)}
       <input id="runUrl" class="grow" placeholder="https://www.threads.com/@username">
     </div>
     <div class="row" style="margin-top:8px">
-      <select id="runBrand" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option><option value="liven">For: Liven</option><option value="overwell">For: Overwell</option></select>
+      <select id="runBrand" class="brand-select" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option></select>
       <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">Full analysis</option><option value="ideas">Post ideas</option><option value="replies">Replies &amp; tone</option><option value="voice">AI linguistic report</option></select>
       <select id="runMax" style="width:auto" aria-label="Posts"><option value="30">30 posts</option><option value="60" selected>60 posts</option><option value="100">100 posts</option></select>
       <button class="btn primary" id="runGo" type="button">Run</button>

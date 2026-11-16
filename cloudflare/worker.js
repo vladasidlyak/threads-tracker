@@ -27,9 +27,9 @@
  * and stay signed in for 30 days on that browser.
  */
 
-const ALLOWED_FILES = /^(index\.html|dashboard\.js|voice\.js|competitors\.js|plan\.js|data\/[\w.\-\/]+\.json|reports\/[\w.\-\/]+\.(md|json))$/;
+const ALLOWED_FILES = /^(config\/brands\.json|index\.html|dashboard\.js|voice\.js|competitors\.js|plan\.js|data\/[\w.\-\/]+\.json|reports\/[\w.\-\/]+\.(md|json))$/;
 const TYPES = { html: "text/html", js: "application/javascript", json: "application/json", md: "text/markdown" };
-const BRANDS = ["ines", "liven", "overwell"];
+const BRAND_RE = /^[a-z0-9_-]{1,30}$/; // brands live in config/brands.json; the scripts check the name
 const FOCUS = ["full", "ideas", "replies", "voice"];
 const WORKFLOWS = { report: "report.yml", competitors: "competitors.yml", plan: "plan.yml" };
 const PROFILE_RE = /^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+\/?(\?.*)?|@?[A-Za-z0-9._]{1,40})$/;
@@ -195,12 +195,12 @@ async function startRun(request, env, email) {
   if (wf === "report") {
     const url = String(b.profile_url || "").trim();
     if (!PROFILE_RE.test(url)) return json({ error: "That doesn't look like a Threads profile link." }, 400);
-    if (!BRANDS.includes(b.brand) || !FOCUS.includes(b.focus) || !["30", "60", "100"].includes(String(b.max_posts)))
+    if (!BRAND_RE.test(String(b.brand)) || !FOCUS.includes(b.focus) || !["30", "60", "100"].includes(String(b.max_posts)))
       return json({ error: "Bad form values." }, 400);
     inputs = { profile_url: url, brand: b.brand, focus: b.focus, max_posts: String(b.max_posts),
                include_comments: !!b.include_comments, skip_collect: !!b.skip_collect, requested_by: email };
   } else if (wf === "plan") {
-    if (!BRANDS.includes(b.brand) || !["1", "2", "4", "6", "8"].includes(String(b.weeks)) || !["2", "3", "4", "5", "7"].includes(String(b.per_week)))
+    if (!BRAND_RE.test(String(b.brand)) || !["1", "2", "4", "6", "8"].includes(String(b.weeks)) || !["2", "3", "4", "5", "7"].includes(String(b.per_week)))
       return json({ error: "Bad form values." }, 400);
     const start = String(b.start || "");
     if (start && !/^\d{4}-\d{2}-\d{2}$/.test(start)) return json({ error: "Bad start date." }, 400);

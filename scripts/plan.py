@@ -5,8 +5,8 @@ Turn the tracked competitors' data and AI reports into action steps and a dated 
   python scripts/plan.py --brand ines --weeks 4 --per-week 4 [--start 2026-11-23] [--accounts a,b] [--dry-run]
 
 Reads data/accounts/*.json and the latest reports per account, asks Claude for a JSON plan, and saves
-data/plans/<id>.json (shown on the dashboard's Content plan tab). If NOTION_TOKEN and NOTION_PARENT_PAGE are set,
-the plan is also created in Notion as a database.
+data/plans/<id>.json (shown on the dashboard's Content plan tab). If NOTION_TOKEN is set, the plan is also created in Notion
+as a database, under the brand's "notion_page" in config/brands.json (or NOTION_PARENT_PAGE as a fallback).
 """
 from __future__ import annotations
 
@@ -118,8 +118,8 @@ def dry_plan(start: dt.date, weeks: int, per_week: int) -> dict:
 
 # ------------------------------------------------------------------ Notion (optional)
 
-def push_notion(plan: dict, title: str) -> str | None:
-    token, parent = os.environ.get("NOTION_TOKEN"), os.environ.get("NOTION_PARENT_PAGE", "")
+def push_notion(plan: dict, title: str, page: str = "") -> str | None:
+    token, parent = os.environ.get("NOTION_TOKEN"), page or os.environ.get("NOTION_PARENT_PAGE", "")
     if not token or not parent:
         return None
     parent = re.sub(r"[^0-9a-fA-F]", "", parent.split("?")[0])[-32:]
@@ -219,7 +219,7 @@ def main(argv=None) -> int:
                "weeks": weeks, "perWeek": per_week, "basedOn": [x["handle"] for x in accs], "created": T.now_iso(),
                "requestedBy": a.requested_by[:120], **plan}
         if not a.dry_run:
-            out["notionUrl"] = push_notion(plan, title)
+            out["notionUrl"] = push_notion(plan, title, brands[a.brand].get("notion_page", ""))
         rel = f"data/plans/{pid}.json"
         T.write_json(paths.root / rel, out)
         idx = T.read_json(paths.data / "plans" / "index.json", [])

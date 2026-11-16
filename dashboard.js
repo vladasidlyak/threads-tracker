@@ -317,6 +317,16 @@ async function reloadData() {
   fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList();
   dataHooks.forEach(f => { try { f(); } catch (e) { console.error(e); } });
 }
+(async function loadBrands() {
+  try {
+    const brands = await getJSON("config/brands.json");
+    $$(".brand-select").forEach(sel => {
+      const cur = sel.value;
+      sel.innerHTML = Object.entries(brands).map(([k, b]) => `<option value="${esc(k)}">For: ${esc(b.name)}</option>`).join("");
+      if (brands[cur]) sel.value = cur;
+    });
+  } catch (e) {}
+})();
 (async function load() {
   try {
     S.index = await getJSON("data/index.json");

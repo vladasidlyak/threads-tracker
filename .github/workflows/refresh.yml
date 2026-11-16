@@ -10,8 +10,7 @@ on:
       brand:
         description: "Monthly summary written for"
         default: ines
-        type: choice
-        options: [ines, liven, overwell]
+        type: string
 
 permissions:
   contents: write
@@ -42,7 +41,8 @@ jobs:
       - name: Monthly summary across all accounts
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: python scripts/tracker.py report --all --brand ${{ inputs.brand || 'ines' }} --focus full
+          BRAND: ${{ inputs.brand || 'ines' }}
+        run: python scripts/tracker.py report --all --brand "$BRAND" --focus full
 
       - name: Save to the repository
         if: always()

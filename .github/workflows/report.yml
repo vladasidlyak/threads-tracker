@@ -13,8 +13,7 @@ on:
         description: "Write post ideas for"
         required: true
         default: ines
-        type: choice
-        options: [ines, liven, overwell]
+        type: string
       focus:
         description: "Report type"
         required: true
@@ -79,7 +78,8 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PROFILE_URL: ${{ inputs.profile_url }}
           REQUESTED_BY: ${{ inputs.requested_by }}
-        run: python scripts/tracker.py report --handle "$PROFILE_URL" --brand ${{ inputs.brand }} --focus ${{ inputs.focus }} --requested-by "$REQUESTED_BY"
+          BRAND: ${{ inputs.brand }}
+        run: python scripts/tracker.py report --handle "$PROFILE_URL" --brand "$BRAND" --focus ${{ inputs.focus }} --requested-by "$REQUESTED_BY"
 
       - name: Save to the repository
         if: always()
