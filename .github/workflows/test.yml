@@ -20,3 +20,4 @@ jobs:
       - run: python scripts/tracker.py report --handle esmipsicologa --brand ines --focus full --dry-run
       - run: python scripts/tracker.py report --all --brand liven --focus voice --dry-run
       - run: python scripts/discover.py --handle quintanilla_iness --min-followers 5000 --dry-run
+      - run: python scripts/plan.py --brand ines --weeks 2 --per-week 3 --dry-run

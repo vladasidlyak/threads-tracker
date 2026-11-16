@@ -105,6 +105,36 @@ a{color:var(--accent)}
 .scroll{overflow-x:auto}
 .md blockquote{margin:6px 0;padding:8px 12px;border-left:3px solid var(--accent);background:var(--accent-soft);border-radius:0 8px 8px 0;white-space:pre-wrap}
 .cta{display:flex;justify-content:space-between;gap:12px;align-items:center;flex-wrap:wrap}
+
+.cal{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.cal-h{font-size:11px;color:var(--ink-3);text-align:center;padding:2px 0}
+.cal-d{min-height:64px;border:1px solid var(--line-2);border-radius:8px;padding:4px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.cal-d.empty{border:0}
+.cal-d.has{border-color:var(--line);background:var(--surface)}
+.cal-n{font-size:11px;color:var(--ink-3)}
+.cal-i{all:unset;cursor:pointer;font-size:11px;line-height:1.3;background:var(--accent-soft);border-radius:5px;padding:3px 5px;overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;word-break:break-word}
+.cal-i:hover,.cal-i:focus-visible{outline:2px solid var(--accent)}
+@media(max-width:560px){.cal-d{min-height:48px}.cal-i{-webkit-line-clamp:2;font-size:10px}}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.seg button{border:0;background:var(--card);color:var(--ink-2);font:inherit;font-size:13px;padding:6px 12px;cursor:pointer}
+.seg button.on{background:var(--accent);color:#fff}
+.act{display:flex;gap:10px;align-items:flex-start;border-top:1px solid var(--line-2);padding:10px 0;cursor:pointer}
+.act input{width:18px;height:18px;margin-top:3px;flex:0 0 auto}
+.act:has(input:checked) b{text-decoration:line-through;color:var(--ink-3)}
+.print-only{display:none}
+@media print{
+  header,nav,#runCard,#loadMsg,#dbBanner,.no-print,#tip{display:none!important}
+  body{background:#fff;color:#000}
+  .card{border:0;padding:0;break-inside:auto}
+  body.printing-plan main>section:not(#tab-plan){display:none!important}
+  body.printing-plan #tab-plan{display:block!important}
+  body.printing-plan #plView{display:none}
+  body.printing-plan .print-only{display:block}
+  body.printing-report main>section:not(#tab-reports){display:none!important}
+  body.printing-report #tab-reports{display:block!important}
+  body.printing-report #tab-reports>.card:not(#repOutCard){display:none}
+  .post{break-inside:avoid}
+}
 </style>
 </head>
 <body>
@@ -118,6 +148,7 @@ a{color:var(--accent)}
     <button data-tab="posts">Posts</button>
     <button data-tab="replies">Replies &amp; comments</button>
     <button data-tab="competitors">Competitors</button>
+    <button data-tab="plan">Content plan</button>
     <button data-tab="voice">Voice</button>
     <button data-tab="compare">Compare</button>
     <button data-tab="reports">AI reports</button>
@@ -234,6 +265,23 @@ a{color:var(--accent)}
     <div id="coBody"><div class="card empty">Loading...</div></div>
   </section>
 
+  <section id="tab-plan" class="hidden">
+    <div class="card no-print">
+      <h2>Create a content plan</h2>
+      <p class="sub">Claude reads everything collected about your tracked competitors (their stats, voice and the latest AI reports) and writes action steps plus dated posts with full drafts. About 1-3 minutes, roughly $0.10-0.20.</p>
+      <div class="row">
+        <select id="plBrand" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option><option value="liven">For: Liven</option><option value="overwell">For: Overwell</option></select>
+        <select id="plWeeks" style="width:auto" aria-label="Weeks"><option value="1">1 week</option><option value="2">2 weeks</option><option value="4" selected>4 weeks</option><option value="6">6 weeks</option><option value="8">8 weeks</option></select>
+        <select id="plPer" style="width:auto" aria-label="Posts per week"><option value="2">2 posts/week</option><option value="3">3 posts/week</option><option value="4" selected>4 posts/week</option><option value="5">5 posts/week</option><option value="7">7 posts/week</option></select>
+        <label class="small muted" style="display:flex;gap:6px;align-items:center">Start <input type="date" id="plStart" style="width:auto"></label>
+        <button class="btn primary" id="plGo" type="button">Create plan</button>
+      </div>
+      <div class="status" id="plStatus"></div>
+    </div>
+    <div class="row no-print" style="margin-bottom:12px"><select id="plPick" class="hidden" style="width:auto" aria-label="Earlier plans"></select></div>
+    <div id="plBody"><div class="card empty">Loading...</div></div>
+  </section>
+
   <section id="tab-voice" class="hidden">
     <div class="row" style="margin-bottom:14px">
       <select id="vAccount" style="width:auto" aria-label="Account"></select>
@@ -260,7 +308,7 @@ a{color:var(--accent)}
       <div id="repList"></div>
     </div>
     <div class="card hidden" id="repOutCard">
-      <div class="row" style="justify-content:flex-end;margin-bottom:6px"><a class="small" id="repRaw" target="_blank" rel="noopener">Open as Markdown</a></div>
+      <div class="row no-print" style="justify-content:flex-end;margin-bottom:6px"><button class="btn" type="button" id="repDl">Download .md</button><button class="btn" type="button" id="repPrint">Print / PDF</button><a class="small" id="repRaw" target="_blank" rel="noopener">Open raw</a></div>
       <div class="md" id="repOut"></div>
     </div>
   </section>
@@ -269,5 +317,6 @@ a{color:var(--accent)}
 <script src="dashboard.js"></script>
 <script src="voice.js"></script>
 <script src="competitors.js"></script>
+<script src="plan.js"></script>
 </body>
 </html>

@@ -360,7 +360,8 @@ def update_index(paths: Paths) -> None:
     reports = read_json(paths.reports / "index.json", [])
     competitors = read_json(paths.data / "competitors" / "index.json", [])
     write_json(paths.data / "index.json", {"updated": now_iso(), "accounts": out, "reports": reports[:200],
-                                           "competitors": competitors[:100]})
+                                           "competitors": competitors[:100],
+                                           "plans": read_json(paths.data / "plans" / "index.json", [])[:100]})
 
 
 # ---------------------------------------------------------------- commands

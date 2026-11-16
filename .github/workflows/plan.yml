@@ -1,0 +1,76 @@
+# Turn the competitor research into action steps and a dated content plan.
+# Actions → Content plan → Run workflow, or the Content plan tab on the dashboard.
+name: Content plan
+
+on:
+  workflow_dispatch:
+    inputs:
+      brand:
+        description: "Plan for"
+        required: true
+        default: ines
+        type: choice
+        options: [ines, liven, overwell]
+      weeks:
+        description: "Weeks"
+        required: true
+        default: "4"
+        type: choice
+        options: ["1", "2", "4", "6", "8"]
+      per_week:
+        description: "Posts per week"
+        required: true
+        default: "4"
+        type: choice
+        options: ["2", "3", "4", "5", "7"]
+      start:
+        description: "Start date YYYY-MM-DD (empty = next Monday)"
+        required: false
+        default: ""
+        type: string
+      accounts:
+        description: "Competitors to base it on, comma-separated (empty = all tracked)"
+        required: false
+        default: ""
+        type: string
+      requested_by:
+        description: "Who asked for it (filled in by the dashboard)"
+        required: false
+        default: ""
+        type: string
+
+permissions:
+  contents: write
+
+concurrency:
+  group: tracker-data
+  cancel-in-progress: false
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install -r requirements.txt
+      - name: Create the plan
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_PARENT_PAGE: ${{ secrets.NOTION_PARENT_PAGE }}
+          START: ${{ inputs.start }}
+          ACCOUNTS: ${{ inputs.accounts }}
+          REQUESTED_BY: ${{ inputs.requested_by }}
+        run: python scripts/plan.py --brand ${{ inputs.brand }} --weeks ${{ inputs.weeks }} --per-week ${{ inputs.per_week }} --start "$START" --accounts "$ACCOUNTS" --requested-by "$REQUESTED_BY"
+      - name: Save to the repository
+        run: |
+          git config user.name "threads-tracker-bot"
+          git config user.email "threads-tracker-bot@users.noreply.github.com"
+          git add data
+          if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
+          git commit -m "Content plan: ${{ inputs.brand }}, ${{ inputs.weeks }} weeks"
+          git pull --rebase
+          git push

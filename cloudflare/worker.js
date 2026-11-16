@@ -27,11 +27,11 @@
  * and stay signed in for 30 days on that browser.
  */
 
-const ALLOWED_FILES = /^(index\.html|dashboard\.js|voice\.js|competitors\.js|data\/[\w.\-\/]+\.json|reports\/[\w.\-\/]+\.(md|json))$/;
+const ALLOWED_FILES = /^(index\.html|dashboard\.js|voice\.js|competitors\.js|plan\.js|data\/[\w.\-\/]+\.json|reports\/[\w.\-\/]+\.(md|json))$/;
 const TYPES = { html: "text/html", js: "application/javascript", json: "application/json", md: "text/markdown" };
 const BRANDS = ["ines", "liven", "overwell"];
 const FOCUS = ["full", "ideas", "replies", "voice"];
-const WORKFLOWS = { report: "report.yml", competitors: "competitors.yml" };
+const WORKFLOWS = { report: "report.yml", competitors: "competitors.yml", plan: "plan.yml" };
 const PROFILE_RE = /^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+\/?(\?.*)?|@?[A-Za-z0-9._]{1,40})$/;
 const runsToday = new Map(); // best-effort, per Worker instance
 
@@ -199,6 +199,12 @@ async function startRun(request, env, email) {
       return json({ error: "Bad form values." }, 400);
     inputs = { profile_url: url, brand: b.brand, focus: b.focus, max_posts: String(b.max_posts),
                include_comments: !!b.include_comments, skip_collect: !!b.skip_collect, requested_by: email };
+  } else if (wf === "plan") {
+    if (!BRANDS.includes(b.brand) || !["1", "2", "4", "6", "8"].includes(String(b.weeks)) || !["2", "3", "4", "5", "7"].includes(String(b.per_week)))
+      return json({ error: "Bad form values." }, 400);
+    const start = String(b.start || "");
+    if (start && !/^\d{4}-\d{2}-\d{2}$/.test(start)) return json({ error: "Bad start date." }, 400);
+    inputs = { brand: b.brand, weeks: String(b.weeks), per_week: String(b.per_week), start, accounts: String(b.accounts || "").slice(0, 300), requested_by: email };
   } else {
     const url = String(b.target_url || "").trim();
     if (!PROFILE_RE.test(url)) return json({ error: "That doesn't look like a Threads profile link." }, 400);

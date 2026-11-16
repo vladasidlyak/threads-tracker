@@ -172,7 +172,11 @@ function renderReportList() {
 }
 async function openReport(path) {
   $("#repOut").innerHTML = '<p class="muted">Loading...</p>'; $("#repOutCard").classList.remove("hidden");
-  try { const r = await fetch(path + "?v=" + Date.now()); const t = await r.text(); $("#repOut").innerHTML = md(t); $("#repRaw").href = path; $("#repOutCard").scrollIntoView({ behavior: "smooth" }); }
+  try {
+    const r = await fetch(path + "?v=" + Date.now()); const t = await r.text(); $("#repOut").innerHTML = md(t); $("#repRaw").href = path; $("#repOutCard").scrollIntoView({ behavior: "smooth" });
+    $("#repDl").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([t], { type: "text/markdown;charset=utf-8" })); a.download = path.split("/").slice(-2).join("-"); document.body.appendChild(a); a.click(); setTimeout(() => a.remove(), 500); };
+    $("#repPrint").onclick = () => { document.body.classList.add("printing-report"); window.print(); setTimeout(() => document.body.classList.remove("printing-report"), 500); };
+  }
   catch (e) { $("#repOut").innerHTML = '<p class="muted">Couldn\'t load this report.</p>'; }
 }
 

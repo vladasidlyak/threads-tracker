@@ -89,6 +89,27 @@ Every Monday morning, **Weekly refresh** updates every tracked account and write
 - **Remove:** edit `config/accounts.json` on GitHub (pencil icon) and delete the account's line. Its saved data stays in `data/accounts/` until you delete that file too.
 - To always collect comments for an account, set `"comments": true` in its line.
 
+### Content plan
+On the dashboard, open **Content plan**, choose the brand, the number of weeks, the posts per week and a start date, then click **Create plan**. Claude uses everything collected about the tracked competitors to write:
+- a short strategy and 3-4 content pillars;
+- **action steps**, each with priority, evidence and how to do it. You can tick them off in the browser or download them as CSV;
+- **dated posts** with time, format, hook, full draft, call to action and which competitor pattern each one builds on. You can view them as a calendar, a table or a list of drafts.
+
+**Downloads:**
+- **Notion / Excel CSV:** in Notion, choose **Import → CSV** to get a database. Then add a **Calendar** view on the Date property.
+- **Markdown**
+- **Print / PDF:** use your browser's "Save as PDF".
+
+AI reports have the same **Download** and **Print / PDF** buttons.
+
+**Optional: send every plan straight to Notion**
+1. Create an integration at **notion.so/profile/integrations** (Internal) and copy its secret.
+2. Create an empty Notion page for the plans. Use **••• → Connections**, and add the integration.
+3. Add two GitHub secrets:
+   - `NOTION_TOKEN`: the integration secret;
+   - `NOTION_PARENT_PAGE`: the page's link.
+4. From then on, each plan is created in that page as a database (with Status, Pillar and Format), plus a to-do page with the action steps. The dashboard shows an **Open in Notion** button.
+
 ### Change what the AI writes
 - **Brand descriptions:** `config/brands.json`. Add a new brand here, then add its name to the `options:` lists in `.github/workflows/report.yml` and `refresh.yml`.
 - **Report instructions:** `prompts/report.md` (shared rules) and `prompts/task_full.md`, `task_ideas.md` and `task_replies.md`.
