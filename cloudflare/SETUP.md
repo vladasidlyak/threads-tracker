@@ -36,7 +36,27 @@ It takes about 20 minutes, all in the browser, with no code to run.
 
 Your link is now `https://threads-tracker.<your-name>.workers.dev`. It shows "Sign-in is not set up yet", which is expected.
 
-## Step 3. Turn on email sign-in
+## Step 3, option A (simplest). Shared team password
+
+Use this if Zero Trust won't load or you want the quickest setup.
+
+1. In the Worker, go to **Settings → Variables and Secrets → Add** and add:
+
+| Type | Name | Value |
+|---|---|---|
+| **Secret** | `GITHUB_TOKEN` | the token from step 1 |
+| Text | `REPO` | `vladasidlyak/threads-tracker` |
+| **Secret** | `TEAM_PASSWORD` | a long password you'll share with the team |
+
+2. Click **Deploy**.
+3. Open your link. You'll see a sign-in page with **Your name** and **Team password**.
+   - People stay signed in for 30 days.
+   - Each report shows the name of whoever ran it.
+4. To remove access for everyone, change `TEAM_PASSWORD`. Everyone is signed out, and you share the new password with the people who should keep access.
+
+Then skip to **Step 5**.
+
+## Step 3, option B (more secure). Email sign-in with Cloudflare Access
 
 1. Open the Worker. Depending on your Cloudflare dashboard version, use one of these:
    - **Access** tab → **Protect this Worker behind Access** → **All traffic**

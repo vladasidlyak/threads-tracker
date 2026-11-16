@@ -239,9 +239,10 @@ const B = {
   try {
     const r = await fetch("api/me", { cache: "no-store" });
     if (r.ok && (r.headers.get("content-type") || "").includes("json")) {
-      ME = (await r.json()).email || ""; MODE = "worker";
+      ME = (await r.clone().json()).email || ""; MODE = "worker";
       $("#tokBtn").classList.add("hidden"); $("#tokBox").classList.add("hidden");
-      $("#whoami").textContent = ME ? "Signed in as " + ME : ""; $("#whoami").classList.remove("hidden");
+      const me = await r.clone().json().catch(() => ({}));
+      $("#whoami").innerHTML = ME ? "Signed in as " + esc(ME) + (me.logout ? ' · <a href="logout">Log out</a>' : "") : ""; $("#whoami").classList.remove("hidden");
     }
   } catch (e) {}
 })();

@@ -20,6 +20,11 @@
  *
  * TEAM_DOMAIN and POLICY_AUD let the Worker check Cloudflare's signature on every request,
  * so nobody can pretend to be signed in.
+ *
+ * Simpler alternative without Cloudflare Access - a shared team password:
+ *   TEAM_PASSWORD (Secret)  the password colleagues type on the login page
+ * If TEAM_PASSWORD is set and Access isn't, people see a login page (name + password)
+ * and stay signed in for 30 days on that browser.
  */
 
 const ALLOWED_FILES = /^(index\.html|dashboard\.js|voice\.js|competitors\.js|data\/[\w.\-\/]+\.json|reports\/[\w.\-\/]+\.(md|json))$/;
@@ -34,14 +39,31 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const jwt = request.headers.get("Cf-Access-Jwt-Assertion");
-    if (!jwt) return text("Sign-in is not set up yet. In Cloudflare, open this Worker and protect it behind Cloudflare Access.", 401);
-    if (!env.TEAM_DOMAIN || !env.POLICY_AUD) return text("The Worker is missing TEAM_DOMAIN or POLICY_AUD in its settings.", 500);
-    const email = await verifyAccess(jwt, env);
-    if (!email) return text("Your sign-in couldn't be verified. Close the tab and open the link again.", 403);
+    let email = null;
+    if (jwt && env.TEAM_DOMAIN && env.POLICY_AUD) {
+      email = await verifyAccess(jwt, env);
+      if (!email) return text("Your sign-in couldn't be verified. Close the tab and open the link again.", 403);
+    } else if (env.TEAM_PASSWORD) {
+      if (url.pathname === "/login") return request.method === "POST" ? await doLogin(request, env) : loginPage();
+      if (url.pathname === "/logout") return new Response(null, { status: 302, headers: { Location: "/login", "Set-Cookie": cookie("", 0) } });
+      email = await readSession(request, env);
+      if (!email) {
+        if (url.pathname.startsWith("/api/")) return json({ error: "Please sign in again." }, 401);
+        return new Response(null, { status: 302, headers: { Location: "/login" } });
+      }
+      if (request.method === "POST") {
+        const origin = request.headers.get("Origin");
+        if (origin && origin !== url.origin) return json({ error: "Blocked." }, 403);
+      }
+    } else if (jwt) {
+      return text("The Worker is missing TEAM_DOMAIN or POLICY_AUD in its settings.", 500);
+    } else {
+      return text("Sign-in is not set up yet. Add TEAM_PASSWORD in the Worker's settings, or protect it with Cloudflare Access.", 401);
+    }
     if (!env.GITHUB_TOKEN || !env.REPO) return text("The Worker is missing GITHUB_TOKEN or REPO in its settings.", 500);
 
     try {
-      if (url.pathname === "/api/me") return json({ email });
+      if (url.pathname === "/api/me") return json({ email, logout: !!env.TEAM_PASSWORD && !jwt });
       if (url.pathname === "/api/run" && request.method === "POST") return await startRun(request, env, email);
       if (url.pathname === "/api/runs") return await findRun(url, env);
       const m = url.pathname.match(/^\/api\/runs\/(\d+)$/);
@@ -52,6 +74,62 @@ export default {
     }
   },
 };
+
+/* ---- Shared-password login ---- */
+const SESSION_DAYS = 30;
+const attempts = new Map(); // ip -> [count, windowStart], best effort
+const enc = new TextEncoder();
+const b64e = buf => btoa(String.fromCharCode(...new Uint8Array(buf))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+async function hmac(env, data) {
+  const key = await crypto.subtle.importKey("raw", enc.encode("tt-session:" + env.TEAM_PASSWORD), { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
+  return b64e(await crypto.subtle.sign("HMAC", key, enc.encode(data)));
+}
+function safeEqual(a, b) {
+  if (a.length !== b.length) return false;
+  let r = 0; for (let i = 0; i < a.length; i++) r |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  return r === 0;
+}
+const cookie = (v, maxAge) => `tt_session=${v}; Path=/; HttpOnly; Secure; SameSite=Lax; Max-Age=${maxAge}`;
+async function readSession(request, env) {
+  const m = (request.headers.get("Cookie") || "").match(/(?:^|;\s*)tt_session=([^;]+)/);
+  if (!m) return null;
+  const [data, sig] = m[1].split(".");
+  if (!data || !sig || !safeEqual(sig, await hmac(env, data))) return null;
+  let s; try { s = JSON.parse(new TextDecoder().decode(b64u(data))); } catch { return null; }
+  return s.exp > Date.now() ? s.name : null;
+}
+async function doLogin(request, env) {
+  const ip = request.headers.get("CF-Connecting-IP") || "?";
+  const a = attempts.get(ip) || [0, Date.now()];
+  if (Date.now() - a[1] > 15 * 60e3) { a[0] = 0; a[1] = Date.now(); }
+  if (a[0] >= 10) return loginPage("Too many attempts. Wait 15 minutes and try again.", 429);
+  const f = await request.formData();
+  const name = String(f.get("name") || "").trim().replace(/[<>"]/g, "").slice(0, 60);
+  const pw = String(f.get("password") || "");
+  if (!name) return loginPage("Please enter your name.", 400);
+  if (!safeEqual(enc.encode(pw).join(","), enc.encode(env.TEAM_PASSWORD).join(","))) {
+    a[0]++; attempts.set(ip, a);
+    return loginPage("Wrong password.", 401);
+  }
+  attempts.delete(ip);
+  const data = b64e(enc.encode(JSON.stringify({ name, exp: Date.now() + SESSION_DAYS * 864e5 })));
+  return new Response(null, { status: 302, headers: { Location: "/", "Set-Cookie": cookie(data + "." + await hmac(env, data), SESSION_DAYS * 86400) } });
+}
+function loginPage(msg = "", status = 200) {
+  return new Response(`<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Sign in · Threads Competitor Tracker</title>
+<style>body{margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:#f6f6f4;color:#0b0b0b}
+@media(prefers-color-scheme:dark){body{background:#121211;color:#f0efec}.box{background:#1f1f1e!important;border-color:#33332f!important}input{background:#1a1a19!important;color:#f0efec!important;border-color:#33332f!important}}
+.box{background:#fff;border:1px solid #e4e3df;border-radius:14px;padding:28px;width:100%;max-width:340px;margin:16px}
+h1{font-size:19px;margin:0 0 4px}p{margin:0 0 18px;color:#8a8984;font-size:13px}label{display:block;font-size:13px;margin:12px 0 4px;color:#52514e}
+input{width:100%;box-sizing:border-box;font:inherit;padding:10px 12px;border:1px solid #e4e3df;border-radius:9px;background:#fcfcfb}
+button{width:100%;margin-top:18px;padding:11px;border:0;border-radius:9px;background:#2a78d6;color:#fff;font:inherit;font-weight:600;cursor:pointer}
+.err{color:#d03b3b;font-size:13px;margin-top:12px}</style></head><body>
+<form class="box" method="POST" action="/login"><h1>Threads Competitor Tracker</h1><p>Sign in with the team password.</p>
+<label for="n">Your name</label><input id="n" name="name" autocomplete="name" required maxlength="60">
+<label for="p">Team password</label><input id="p" name="password" type="password" autocomplete="current-password" required>
+<button type="submit">Sign in</button>${msg ? `<div class="err">${msg}</div>` : ""}</form></body></html>`,
+    { status, headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store" } });
+}
 
 /* ---- Cloudflare Access signature check (RS256 JWT) ---- */
 let certCache = { at: 0, keys: [] };
