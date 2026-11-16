@@ -214,20 +214,20 @@ $("#tokForget").onclick = () => { memToken = ""; store.set(""); tokenUI(); $("#t
    - "token":  GitHub Pages; the owner pastes a GitHub token once. */
 let MODE = "token", ME = "";
 const B = {
-  async dispatch(inputs) {
+  async dispatch(inputs, wf = "report") {
     if (MODE === "worker") {
-      const r = await fetch("api/run", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(inputs) });
+      const r = await fetch("api/run", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.assign({ workflow: wf }, inputs)) });
       if (!r.ok) { let m = "Couldn't start the run (" + r.status + ")."; try { m = (await r.json()).error || m; } catch (e) {} throw new Error(m); }
       return;
     }
-    const r = await ghApi("/actions/workflows/report.yml/dispatches", { method: "POST", body: JSON.stringify({ ref: "main", inputs }) });
+    const r = await ghApi("/actions/workflows/" + wf + ".yml/dispatches", { method: "POST", body: JSON.stringify({ ref: "main", inputs }) });
     if (r.status === 401) throw new Error("GitHub rejected the token. Connect GitHub again.");
     if (r.status === 403 || r.status === 404) throw new Error("The token isn't allowed to run workflows. It needs Actions: Read and write on threads-tracker.");
     if (!r.ok) throw new Error("GitHub refused the request (" + r.status + ").");
   },
-  async find(since) {
-    if (MODE === "worker") { const r = await fetch("api/runs?since=" + encodeURIComponent(since), { cache: "no-store" }); return r.ok ? (await r.json()).run : null; }
-    const lr = await ghApi("/actions/workflows/report.yml/runs?per_page=5&event=workflow_dispatch&created=%3E%3D" + encodeURIComponent(since));
+  async find(since, wf = "report") {
+    if (MODE === "worker") { const r = await fetch("api/runs?workflow=" + wf + "&since=" + encodeURIComponent(since), { cache: "no-store" }); return r.ok ? (await r.json()).run : null; }
+    const lr = await ghApi("/actions/workflows/" + wf + ".yml/runs?per_page=5&event=workflow_dispatch&created=%3E%3D" + encodeURIComponent(since));
     return lr.ok ? ((await lr.json()).workflow_runs || [])[0] || null : null;
   },
   async status(id) {
@@ -290,7 +290,8 @@ $("#runUrl").onkeydown = e => { if (e.key === "Enter") runReport(); };
 tokenUI();
 
 const dataHooks = [];
-window.TT = { $, esc, fmt, eng, median, allPosts, S, goto: t => goto(t), onData: fn => dataHooks.push(fn) };
+window.TT = { $, esc, fmt, eng, median, allPosts, S, goto: t => goto(t), onData: fn => dataHooks.push(fn),
+  B: () => B, mode: () => MODE, hasToken: () => !!memToken, sleep, getJSON, reloadData: () => reloadData() };
 /* ---------- wiring ---------- */
 function goto(tab) { $$("#nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab)); $$("main > section").forEach(s => s.classList.toggle("hidden", s.id !== "tab-" + tab)); hideTip(); }
 $$("#nav button").forEach(b => b.onclick = () => goto(b.dataset.tab));

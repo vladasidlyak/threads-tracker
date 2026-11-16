@@ -3,7 +3,7 @@ name: Test
 
 on:
   push:
-    paths: ["scripts/**", "prompts/**", "config/**", "tests/**"]
+    paths: ["scripts/**", "prompts/**", "config/**", "tests/**", ".github/workflows/**"]
   pull_request:
   workflow_dispatch:
 
@@ -19,3 +19,4 @@ jobs:
       - run: python scripts/tracker.py collect --handle esmipsicologa --comments --dry-run
       - run: python scripts/tracker.py report --handle esmipsicologa --brand ines --focus full --dry-run
       - run: python scripts/tracker.py report --all --brand liven --focus voice --dry-run
+      - run: python scripts/discover.py --handle quintanilla_iness --min-followers 5000 --dry-run

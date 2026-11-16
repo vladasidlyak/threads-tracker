@@ -1,0 +1,47 @@
+[
+ {
+  "dataType": "profile",
+  "username": "patri_psicologa",
+  "fullName": "Patri Psicóloga",
+  "followerCount": 127003,
+  "bio": "Psicóloga | Conferenciante. Autora y divulgadora",
+  "isPrivate": false,
+  "searchQuery": "psicóloga"
+ },
+ {
+  "dataType": "profile",
+  "username": "psicologiaconb",
+  "fullName": "Psicóloga Brenda Benavides",
+  "followerCount": 184620,
+  "bio": "La dosis diaria de psicología que necesitas",
+  "isPrivate": false,
+  "searchQuery": "psicóloga"
+ },
+ {
+  "dataType": "profile",
+  "username": "test_pt_account",
+  "fullName": "Psicóloga Teste",
+  "followerCount": 90000,
+  "bio": "Ajudo você a cuidar da sua saúde emocional. Atendimento online",
+  "isPrivate": false,
+  "searchQuery": "autoestima"
+ },
+ {
+  "dataType": "profile",
+  "username": "test_small",
+  "fullName": "Tiny",
+  "followerCount": 300,
+  "bio": "Salud mental para ti",
+  "isPrivate": false,
+  "searchQuery": "salud mental"
+ },
+ {
+  "dataType": "profile",
+  "username": "patri_psicologa",
+  "fullName": "Patri Psicóloga",
+  "followerCount": 127003,
+  "bio": "Psicóloga | Conferenciante. Autora y divulgadora",
+  "isPrivate": false,
+  "searchQuery": "autoestima"
+ }
+]

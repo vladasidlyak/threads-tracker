@@ -22,10 +22,12 @@
  * so nobody can pretend to be signed in.
  */
 
-const ALLOWED_FILES = /^(index\.html|dashboard\.js|voice\.js|data\/[\w.\-\/]+\.json|reports\/[\w.\-\/]+\.(md|json))$/;
+const ALLOWED_FILES = /^(index\.html|dashboard\.js|voice\.js|competitors\.js|data\/[\w.\-\/]+\.json|reports\/[\w.\-\/]+\.(md|json))$/;
 const TYPES = { html: "text/html", js: "application/javascript", json: "application/json", md: "text/markdown" };
 const BRANDS = ["ines", "liven", "overwell"];
 const FOCUS = ["full", "ideas", "replies", "voice"];
+const WORKFLOWS = { report: "report.yml", competitors: "competitors.yml" };
+const PROFILE_RE = /^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+\/?(\?.*)?|@?[A-Za-z0-9._]{1,40})$/;
 const runsToday = new Map(); // best-effort, per Worker instance
 
 export default {
@@ -109,25 +111,30 @@ async function serveFile(pathname, env) {
 async function startRun(request, env, email) {
   let b;
   try { b = await request.json(); } catch { return json({ error: "Bad request." }, 400); }
-  const url = String(b.profile_url || "").trim();
-  if (!/^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+\/?(\?.*)?|@?[A-Za-z0-9._]{1,40})$/.test(url))
-    return json({ error: "That doesn't look like a Threads profile link." }, 400);
-  if (!BRANDS.includes(b.brand) || !FOCUS.includes(b.focus) || !["30", "60", "100"].includes(String(b.max_posts)))
-    return json({ error: "Bad form values." }, 400);
+  const wf = b.workflow || "report";
+  if (!WORKFLOWS[wf]) return json({ error: "Unknown action." }, 400);
+  let inputs;
+  if (wf === "report") {
+    const url = String(b.profile_url || "").trim();
+    if (!PROFILE_RE.test(url)) return json({ error: "That doesn't look like a Threads profile link." }, 400);
+    if (!BRANDS.includes(b.brand) || !FOCUS.includes(b.focus) || !["30", "60", "100"].includes(String(b.max_posts)))
+      return json({ error: "Bad form values." }, 400);
+    inputs = { profile_url: url, brand: b.brand, focus: b.focus, max_posts: String(b.max_posts),
+               include_comments: !!b.include_comments, skip_collect: !!b.skip_collect, requested_by: email };
+  } else {
+    const url = String(b.target_url || "").trim();
+    if (!PROFILE_RE.test(url)) return json({ error: "That doesn't look like a Threads profile link." }, 400);
+    if (!["1000", "5000", "10000", "30000"].includes(String(b.min_followers))) return json({ error: "Bad form values." }, 400);
+    inputs = { target_url: url, min_followers: String(b.min_followers), keywords: String(b.keywords || "").slice(0, 200), requested_by: email };
+  }
 
   const day = new Date().toISOString().slice(0, 10), k = day + "|" + email;
   const limit = parseInt(env.MAX_RUNS_PER_DAY || "20", 10);
   if ((runsToday.get(k) || 0) >= limit) return json({ error: `Daily limit of ${limit} reports reached for ${email}.` }, 429);
 
-  const r = await gh(env, "/actions/workflows/report.yml/dispatches", {
+  const r = await gh(env, `/actions/workflows/${WORKFLOWS[wf]}/dispatches`, {
     method: "POST",
-    body: JSON.stringify({
-      ref: env.BRANCH || "main",
-      inputs: {
-        profile_url: url, brand: b.brand, focus: b.focus, max_posts: String(b.max_posts),
-        include_comments: !!b.include_comments, skip_collect: !!b.skip_collect, requested_by: email,
-      },
-    }),
+    body: JSON.stringify({ ref: env.BRANCH || "main", inputs }),
   });
   if (!r.ok) return json({ error: "GitHub refused to start the run (" + r.status + "). Check the Worker's token permissions." }, 502);
   runsToday.set(k, (runsToday.get(k) || 0) + 1);
@@ -136,7 +143,8 @@ async function startRun(request, env, email) {
 
 async function findRun(url, env) {
   const since = url.searchParams.get("since") || new Date(Date.now() - 60000).toISOString();
-  const r = await gh(env, `/actions/workflows/report.yml/runs?per_page=5&event=workflow_dispatch&created=%3E%3D${encodeURIComponent(since)}`);
+  const wf = WORKFLOWS[url.searchParams.get("workflow") || "report"] || "report.yml";
+  const r = await gh(env, `/actions/workflows/${wf}/runs?per_page=5&event=workflow_dispatch&created=%3E%3D${encodeURIComponent(since)}`);
   if (!r.ok) return json({ run: null });
   const d = await r.json();
   return json({ run: slim((d.workflow_runs || [])[0]) });
