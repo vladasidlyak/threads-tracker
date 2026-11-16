@@ -13,15 +13,15 @@ on:
       weeks:
         description: "Weeks"
         required: true
-        default: "4"
+        default: "2"
         type: choice
         options: ["1", "2", "4", "6", "8"]
       per_week:
-        description: "Posts per week"
+        description: "Posts per week (7 = 1 a day, 14 = 2 a day, 21 = 3 a day)"
         required: true
-        default: "4"
+        default: "21"
         type: choice
-        options: ["2", "3", "4", "5", "7"]
+        options: ["2", "3", "4", "5", "7", "14", "21"]
       start:
         description: "Start date YYYY-MM-DD (empty = next Monday)"
         required: false

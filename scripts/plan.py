@@ -52,8 +52,38 @@ def account_brief(paths: T.Paths, acc: dict) -> str:
     return "\n".join(lines)
 
 
-def build_prompt(brand: dict, briefs: list[str], start: dt.date, weeks: int, per_week: int) -> str:
-    end = start + dt.timedelta(days=7 * weeks - 1)
+# Fixed, consistent schedule: which weekdays (0=Mon) and which times of day.
+WEEKDAYS = {1: [2], 2: [1, 3], 3: [0, 2, 4], 4: [0, 1, 3, 4], 5: [0, 1, 2, 3, 4], 6: [0, 1, 2, 3, 4, 5]}
+DEFAULT_TIMES = {1: ["21:30"], 2: ["13:00", "21:30"], 3: ["09:00", "14:00", "21:30"]}
+SLOT_ROLE = {"09:00": "morning: short, soft, comforting (1-2 sentences)",
+             "13:00": "midday: practical - a list, signs, or a clear tip",
+             "14:00": "afternoon: practical - a list, signs, or a clear tip",
+             "21:30": "evening, the main post of the day: strongest idea, a story or a question that invites replies"}
+PER_WEEK_OPTIONS = [2, 3, 4, 5, 7, 14, 21]
+
+
+def schedule(start: dt.date, weeks: int, per_week: int, brand: dict) -> list[dict]:
+    """Every slot in order: same weekdays every week, same times every day, morning to evening."""
+    per_day = max(1, per_week // 7) if per_week >= 7 else 1
+    days = list(range(7)) if per_week >= 7 else WEEKDAYS[per_week]
+    times = (brand.get("post_times") or {}).get(str(per_day)) or DEFAULT_TIMES[per_day]
+    slots = []
+    for i in range(weeks * 7):
+        d = start + dt.timedelta(days=i)
+        if d.weekday() in days:
+            for t in times:
+                slots.append({"date": d.isoformat(), "time": t, "slot": slot_name(t)})
+    return slots
+
+
+def slot_name(t: str) -> str:
+    h = int(t[:2])
+    return "Morning" if h < 12 else "Afternoon" if h < 18 else "Evening"
+
+
+def build_prompt(brand: dict, briefs: list[str], slots: list[dict]) -> str:
+    lines = "\n".join(f"{i + 1}. {dt.date.fromisoformat(x['date']).strftime('%a %d %b')} {x['time']} - "
+                      f"{SLOT_ROLE.get(x['time'], x['slot'].lower())}" for i, x in enumerate(slots))
     return f"""You are a content strategist. Using the competitor research below, create action steps and a content plan.
 
 BRAND
@@ -70,7 +100,7 @@ Return ONLY valid JSON, no commentary, in exactly this shape:
   "pillars": [{{"name": "short content pillar name", "share": "e.g. 40%", "why": "one sentence with evidence"}}],
   "actions": [{{"title": "imperative, max 10 words", "priority": "High|Medium|Low", "why": "evidence from the data, cite numbers or posts",
                "how": "1-2 concrete sentences", "effort": "Quick|Medium|Big"}}],
-  "posts": [{{"date": "YYYY-MM-DD", "time": "HH:MM", "pillar": "one of the pillar names", "format": "Statement|Question|List|Personal story|Quote|Thread",
+  "posts": [{{"slot": 1, "pillar": "one of the pillar names", "format": "Statement|Question|List|Personal story|Quote|Thread",
              "topic": "short", "hook": "first line, in {brand['drafts_language']}", "draft": "full ready-to-post text in {brand['drafts_language']}",
              "hook_en": "English translation of the hook (empty if already English)", "draft_en": "English translation of the draft (empty if already English)",
              "cta": "how to invite replies, or empty", "inspiration": "@handle and the pattern it builds on", "why": "one sentence"}}]
@@ -78,8 +108,9 @@ Return ONLY valid JSON, no commentary, in exactly this shape:
 
 RULES
 - 3-4 pillars; 6-10 actions ordered by priority; each action must rest on something in the research.
-- Exactly {per_week * weeks} posts between {start.isoformat()} and {end.isoformat()}, {per_week} per week, spread across the week
-  using the weekdays and times that performed best in the research (times in the audience's local time, 24h).
+- The posting schedule is FIXED. Write exactly {len(slots)} posts, one per slot, in this order (slot = the number):
+{lines}
+- Follow each slot's role. Within a day, the three posts must not repeat the same topic; across days, rotate pillars evenly.
 - Mix formats according to what worked; vary topics; never copy competitor text - adapt the pattern in the brand's voice.
 - Drafts: Threads length (mostly under 300 characters), no hashtags unless the research shows they help.
 - Wellbeing brand: no medical claims, no diagnoses, no promises of cure. Use hyphens, never em dashes.
@@ -101,19 +132,31 @@ def parse_plan(text: str) -> dict:
     return plan
 
 
-def dry_plan(start: dt.date, weeks: int, per_week: int) -> dict:
+def dry_plan(slots: list[dict]) -> dict:
     posts = []
-    for w in range(weeks):
-        for i in range(per_week):
-            d = start + dt.timedelta(days=7 * w + [1, 2, 3, 5, 6][i % 5])
-            posts.append({"date": d.isoformat(), "time": "21:30", "pillar": ["Validation", "Relationships"][i % 2],
-                          "format": ["Statement", "List"][i % 2], "topic": f"Sample topic {w + 1}.{i + 1}",
+    for i, _ in enumerate(slots):
+            posts.append({"slot": i + 1, "pillar": ["Validation", "Relationships"][i % 2],
+                          "format": ["Statement", "List"][i % 2], "topic": f"Sample topic {i + 1}",
                           "hook": "Hook de ejemplo", "draft": "Texto de ejemplo (dry run).", "cta": "",
                           "inspiration": "@esmipsicologa - 'tú' validation", "why": "(dry run)"})
     return {"summary": "(dry run) sample plan.", "pillars": [{"name": "Validation", "share": "60%", "why": "(dry run)"},
                                                               {"name": "Relationships", "share": "40%", "why": "(dry run)"}],
             "actions": [{"title": "Speak to the reader as 'tú'", "priority": "High", "why": "(dry run)", "how": "(dry run)", "effort": "Quick"}],
             "posts": posts}
+
+
+def place_on_slots(posts: list[dict], slots: list[dict]) -> list[dict]:
+    """Put the posts on the fixed schedule, whatever dates Claude wrote."""
+    def key(ip):
+        i, p = ip
+        try:
+            return int(p.get("slot", i + 1))
+        except (TypeError, ValueError):
+            return i + 1
+    ordered = [p for _, p in sorted(enumerate(posts), key=key)][:len(slots)]
+    for p, sl in zip(ordered, slots):
+        p.update(sl)
+    return ordered
 
 
 # ------------------------------------------------------------------ Notion (optional)
@@ -131,7 +174,9 @@ def push_notion(plan: dict, title: str, page: str = "") -> str | None:
         "parent": {"type": "page_id", "page_id": parent},
         "title": rt(title),
         "properties": {
-            "Post": {"title": {}}, "Date": {"date": {}},
+            "Post": {"title": {}}, "Date": {"date": {}}, "#": {"number": {}},
+            "Slot": {"select": {"options": [{"name": "Morning", "color": "yellow"}, {"name": "Afternoon", "color": "orange"},
+                                            {"name": "Evening", "color": "purple"}]}},
             "Status": {"select": {"options": [{"name": "Idea", "color": "gray"}, {"name": "Draft", "color": "yellow"},
                                               {"name": "Scheduled", "color": "blue"}, {"name": "Published", "color": "green"}]}},
             "Pillar": {"select": {"options": sel(pillars)}},
@@ -144,12 +189,15 @@ def push_notion(plan: dict, title: str, page: str = "") -> str | None:
               "Check NOTION_TOKEN and that the parent page is shared with the integration.")
         return None
     db_id, url = db.json()["id"], db.json().get("url")
-    for p in plan["posts"]:
+    tz = plan.get("timezone") or "Europe/Madrid"
+    for n, p in enumerate(plan["posts"], 1):
+        when = {"start": f"{p['date']}T{p['time']}:00", "time_zone": tz} if p.get("time") else {"start": p["date"]}
         r = requests.post("https://api.notion.com/v1/pages", headers=h, timeout=60, json={
             "parent": {"database_id": db_id},
             "properties": {
                 "Post": {"title": rt(p.get("topic") or p.get("hook", "Post"))},
-                "Date": {"date": {"start": p["date"]}},
+                "Date": {"date": when}, "#": {"number": n},
+                **({"Slot": {"select": {"name": p["slot"]}}} if p.get("slot") else {}),
                 "Status": {"select": {"name": "Idea"}},
                 **({"Pillar": {"select": {"name": p["pillar"][:90]}}} if p.get("pillar") else {}),
                 **({"Format": {"select": {"name": p["format"][:90]}}} if p.get("format") else {}),
@@ -197,8 +245,14 @@ def main(argv=None) -> int:
         brands = T.read_json(paths.config / "brands.json")
         if a.brand not in brands:
             raise T.TrackerError(f"Unknown brand '{a.brand}'.")
-        weeks, per_week = max(1, min(a.weeks, 8)), max(1, min(a.per_week, 7))
+        if a.per_week not in PER_WEEK_OPTIONS:
+            raise T.TrackerError(f"Posts per week must be one of {PER_WEEK_OPTIONS}.")
+        per_week = a.per_week
+        weeks = max(1, min(a.weeks, 8, max(1, 42 // per_week)))  # keep one answer to at most ~42 posts
+        if weeks < a.weeks:
+            T.log(f"Note: {per_week} posts a week is a lot for one plan - making {weeks} weeks instead of {a.weeks}.")
         start = dt.date.fromisoformat(a.start) if a.start else next_monday()
+        slots = schedule(start, weeks, per_week, brands[a.brand])
         handles = [T.clean_handle(h) for h in a.accounts.split(",") if h.strip()] or \
                   [x["handle"] for x in T.read_json(paths.config / "accounts.json")["accounts"]]
         accs = [T.read_json(paths.account_file(h)) for h in handles]
@@ -208,17 +262,18 @@ def main(argv=None) -> int:
         T.log(f"\n=== Content plan for {brands[a.brand]['name']}: {weeks} weeks x {per_week} posts from {start} ===")
         T.log("Based on: " + ", ".join("@" + x["handle"] for x in accs))
         if a.dry_run:
-            plan = dry_plan(start, weeks, per_week)
+            plan = dry_plan(slots)
         else:
-            prompt = build_prompt(brands[a.brand], [account_brief(paths, x) for x in accs], start, weeks, per_week)
-            plan = parse_plan(T.ask_claude(prompt, {**settings, "claude_max_tokens": 16000}, False))
-        plan["posts"].sort(key=lambda p: (p.get("date", ""), p.get("time", "")))
+            prompt = build_prompt(brands[a.brand], [account_brief(paths, x) for x in accs], slots)
+            plan = parse_plan(T.ask_claude(prompt, {**settings, "claude_max_tokens": 24000 if len(slots) > 20 else 16000}, False))
+        plan["posts"] = place_on_slots(plan["posts"], slots)
         pid = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d-%H%M") + f"-{a.brand}"
         title = f"Content plan - {brands[a.brand]['name']} - {start.isoformat()}"
         out = {"id": pid, "title": title, "brand": a.brand, "brandName": brands[a.brand]["name"], "start": start.isoformat(),
                "weeks": weeks, "perWeek": per_week, "basedOn": [x["handle"] for x in accs], "created": T.now_iso(),
                "requestedBy": a.requested_by[:120], **plan}
         if not a.dry_run:
+            plan["timezone"] = brands[a.brand].get("timezone", "Europe/Madrid")
             out["notionUrl"] = push_notion(plan, title, brands[a.brand].get("notion_page", ""))
         rel = f"data/plans/{pid}.json"
         T.write_json(paths.root / rel, out)

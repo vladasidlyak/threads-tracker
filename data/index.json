@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T16:20:12Z",
+ "updated": "2026-11-16T16:40:54Z",
  "accounts": [
   {
    "handle": "esmipsicologa",
@@ -95,6 +95,15 @@
   }
  ],
  "plans": [
+  {
+   "id": "2026-11-16-1700-ines",
+   "path": "data/plans/2026-11-16-1700-ines.json",
+   "title": "Content plan - Inés - 17-30 Nov 2026 (3 posts a day)",
+   "brand": "ines",
+   "created": "2026-11-16T16:00:00Z",
+   "posts": 42,
+   "requestedBy": "Vlada"
+  },
   {
    "id": "2026-11-16-1412-ines",
    "path": "data/plans/2026-11-16-1412-ines.json",

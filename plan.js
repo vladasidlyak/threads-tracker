@@ -117,7 +117,7 @@ async function loadList(select) {
   el.innerHTML = list.map(e => `<option value="${esc(e.path)}">${esc(e.title)}</option>`).join("");
   el.classList.toggle("hidden", list.length < 2);
   const path = select || (list.some(e => e.path === cur) ? cur : list[0] && list[0].path);
-  if (path) { el.value = path; try { plan = await TT.getJSON(path); } catch (e) { plan = null; } } else plan = null;
+  if (path) { el.value = path; try { plan = await TT.getJSON(path); plan.posts.sort((a, b) => (a.date + (a.time || "")).localeCompare(b.date + (b.time || ""))); } catch (e) { plan = null; } } else plan = null;
   render();
 }
 
