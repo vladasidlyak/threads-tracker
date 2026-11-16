@@ -418,7 +418,8 @@ def update_index(paths: Paths) -> None:
     competitors = read_json(paths.data / "competitors" / "index.json", [])
     settings = read_json(paths.config / "settings.json", {})
     month = (read_json(paths.data / "usage.json", {}) or {}).get(month_key(), {})
-    write_json(paths.data / "index.json", {"updated": now_iso(), "accounts": out, "reports": reports[:200],
+    brands = {k: {"name": v.get("name", k)} for k, v in (read_json(paths.config / "brands.json", {}) or {}).items()}
+    write_json(paths.data / "index.json", {"updated": now_iso(), "brands": brands, "accounts": out, "reports": reports[:200],
                                            "competitors": competitors[:100],
                                            "plans": read_json(paths.data / "plans" / "index.json", [])[:100],
                                            "usage": {"month": month_key(), "spent": round(month.get("total", 0), 2),

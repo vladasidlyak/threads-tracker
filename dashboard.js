@@ -221,7 +221,9 @@ const B = {
   async dispatch(inputs, wf = "report") {
     if (MODE === "worker") {
       const r = await fetch("api/run", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.assign({ workflow: wf }, inputs)) });
-      if (!r.ok) { let m = "Couldn't start the run (" + r.status + ")."; try { m = (await r.json()).error || m; } catch (e) {} throw new Error(m); }
+      if (!r.ok) { let m = "Couldn't start the run (" + r.status + ")."; try { m = (await r.json()).error || m; } catch (e) {}
+        if (/bad form values|unknown brand/i.test(m)) m = "The sign-in server (Cloudflare Worker) runs old code that doesn't know this option yet. Paste the latest cloudflare/worker.js into Cloudflare (Edit code, select all, paste, Deploy) and try again.";
+        throw new Error(m); }
       return;
     }
     const r = await ghApi("/actions/workflows/" + wf + ".yml/dispatches", { method: "POST", body: JSON.stringify({ ref: "main", inputs }) });
@@ -319,7 +321,8 @@ async function reloadData() {
 }
 (async function loadBrands() {
   try {
-    const brands = await getJSON("config/brands.json");
+    let brands;
+    try { brands = await getJSON("config/brands.json"); } catch (e) { brands = (await getJSON("data/index.json")).brands; }
     $$(".brand-select").forEach(sel => {
       const cur = sel.value;
       sel.innerHTML = Object.entries(brands).map(([k, b]) => `<option value="${esc(k)}">For: ${esc(b.name)}</option>`).join("");

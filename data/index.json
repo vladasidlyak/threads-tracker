@@ -1,5 +1,25 @@
 {
- "updated": "2026-11-16T16:40:54Z",
+ "updated": "2026-11-16T16:45:08Z",
+ "brands": {
+  "ines": {
+   "name": "Inés (Spanish, psychologist)"
+  },
+  "jeff": {
+   "name": "Jeff (English, productivity)"
+  },
+  "pablo": {
+   "name": "Pablo (Spanish, relationships)"
+  },
+  "adeline": {
+   "name": "Adeline (English, relationships)"
+  },
+  "liven": {
+   "name": "Liven"
+  },
+  "overwell": {
+   "name": "Overwell"
+  }
+ },
  "accounts": [
   {
    "handle": "esmipsicologa",
