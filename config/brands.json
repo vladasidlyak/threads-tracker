@@ -1,9 +1,27 @@
 {
   "ines": {
-    "name": "Inés (Spanish market)",
-    "context": "Spanish-language personal Threads blog (@quintanilla_iness) in the wellbeing, self-care and psychology space. Warm, personal, relatable voice. Audience: Spanish-speaking women interested in emotional wellbeing.",
+    "name": "Inés (Spanish, psychologist)",
+    "context": "Inés (@quintanilla_iness) - Spanish-speaking psychologist and expert ambassador. Talks about ex-boyfriends and breakups, relationships, friendship, setting boundaries and recognising manipulation. Warm, personal, relatable but expert voice. Audience: Spanish-speaking women interested in emotional wellbeing and healthier relationships.",
     "drafts_language": "Spanish (Spain)",
     "notion_page": "https://app.notion.com/p/41a6bfce6459809fb03cc49eb97b32d1"
+  },
+  "jeff": {
+    "name": "Jeff (English, productivity)",
+    "context": "Jeff - English-speaking expert ambassador. Main topic is productivity (focus, habits, routines, getting things done). Expanding into relationships and finding love, so plans can mix productivity posts with relationship and dating topics. Confident, practical, expert voice. Audience: English-speaking adults who want to organise their life and relationships better.",
+    "drafts_language": "English",
+    "notion_page": "https://app.notion.com/p/41a6bfce6459800ab12bd136f93fafda"
+  },
+  "pablo": {
+    "name": "Pablo (Spanish, relationships)",
+    "context": "Pablo - Spanish-speaking relationship expert ambassador, similar niche to Inés. Helps women recognise and get out of abusive relationships. Supportive, direct, protective voice from a male expert. Audience: Spanish-speaking women in or leaving toxic or abusive relationships.",
+    "drafts_language": "Spanish (Spain)",
+    "notion_page": ""
+  },
+  "adeline": {
+    "name": "Adeline (English, relationships)",
+    "context": "Adeline - English-speaking relationship expert ambassador. Helps women find out whether their relationship is toxic, spot red flags and toxic men, and recover after an abusive relationship. Empathetic, validating, clear voice. Audience: English-speaking women questioning or healing from toxic relationships.",
+    "drafts_language": "English",
+    "notion_page": ""
   },
   "liven": {
     "name": "Liven",
