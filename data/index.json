@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T15:51:17Z",
+ "updated": "2026-11-16T16:10:23Z",
  "accounts": [
   {
    "handle": "esmipsicologa",
@@ -10,9 +10,30 @@
    "posts": 60,
    "replies": 39,
    "commentThreads": 0
+  },
+  {
+   "handle": "psico.maxi",
+   "note": "",
+   "fullName": "Maxi McCoubrey | Psicólogo Clínico",
+   "followers": 181179,
+   "lastFetched": "2026-11-16T16:09:03Z",
+   "posts": 27,
+   "replies": 18,
+   "commentThreads": 5
   }
  ],
  "reports": [
+  {
+   "path": "reports/psico.maxi/2026-11-16-1610-full-ines.md",
+   "title": "Full analysis",
+   "accounts": [
+    "psico.maxi"
+   ],
+   "brand": "ines",
+   "focus": "full",
+   "created": "2026-11-16T16:10:23Z",
+   "requestedBy": "Vlada"
+  },
   {
    "path": "reports/esmipsicologa/2026-11-16-1318-voice-ines.md",
    "title": "AI linguistic report",
@@ -65,7 +86,7 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 0.35,
+  "spent": 0.67,
   "budget": 5
  }
 }

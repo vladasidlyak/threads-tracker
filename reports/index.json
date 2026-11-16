@@ -1,5 +1,16 @@
 [
  {
+  "path": "reports/psico.maxi/2026-11-16-1610-full-ines.md",
+  "title": "Full analysis",
+  "accounts": [
+   "psico.maxi"
+  ],
+  "brand": "ines",
+  "focus": "full",
+  "created": "2026-11-16T16:10:23Z",
+  "requestedBy": "Vlada"
+ },
+ {
   "path": "reports/esmipsicologa/2026-11-16-1318-voice-ines.md",
   "title": "AI linguistic report",
   "accounts": [

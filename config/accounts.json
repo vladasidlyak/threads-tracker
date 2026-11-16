@@ -1,5 +1,14 @@
 {
-  "accounts": [
-    {"handle": "esmipsicologa", "note": "Spanish psychologist, author, 225k followers", "comments": false}
-  ]
+ "accounts": [
+  {
+   "handle": "esmipsicologa",
+   "note": "Spanish psychologist, author, 225k followers",
+   "comments": false
+  },
+  {
+   "handle": "psico.maxi",
+   "note": "",
+   "comments": true
+  }
+ ]
 }
