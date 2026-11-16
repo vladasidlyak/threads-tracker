@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T12:52:48Z",
+ "updated": "2026-11-16T13:18:00Z",
  "accounts": [
   {
    "handle": "esmipsicologa",
@@ -13,6 +13,16 @@
   }
  ],
  "reports": [
+  {
+   "path": "reports/esmipsicologa/2026-11-16-1318-voice-ines.md",
+   "title": "Voice guide",
+   "accounts": [
+    "esmipsicologa"
+   ],
+   "brand": "ines",
+   "focus": "voice",
+   "created": "2026-11-16T13:18:00Z"
+  },
   {
    "path": "reports/esmipsicologa/2026-11-16-1252-replies-ines.md",
    "title": "Reply analysis",
