@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T16:10:23Z",
+ "updated": "2026-11-16T16:20:12Z",
  "accounts": [
   {
    "handle": "esmipsicologa",
@@ -20,9 +20,30 @@
    "posts": 27,
    "replies": 18,
    "commentThreads": 5
+  },
+  {
+   "handle": "enric_corbera",
+   "note": "",
+   "fullName": "Enric Corbera - Bioneuroemoción®",
+   "followers": 315580,
+   "lastFetched": "2026-11-16T16:18:36Z",
+   "posts": 30,
+   "replies": 30,
+   "commentThreads": 3
   }
  ],
  "reports": [
+  {
+   "path": "reports/enric_corbera/2026-11-16-1620-full-ines.md",
+   "title": "Full analysis",
+   "accounts": [
+    "enric_corbera"
+   ],
+   "brand": "ines",
+   "focus": "full",
+   "created": "2026-11-16T16:20:12Z",
+   "requestedBy": "Vlada"
+  },
   {
    "path": "reports/psico.maxi/2026-11-16-1610-full-ines.md",
    "title": "Full analysis",
@@ -86,7 +107,7 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 0.67,
+  "spent": 0.91,
   "budget": 5
  }
 }

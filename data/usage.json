@@ -1,6 +1,6 @@
 {
  "2026-11": {
-  "total": 0.6668,
+  "total": 0.9148,
   "items": [
    {
     "t": "2026-11-16T15:48:20Z",
@@ -48,6 +48,24 @@
     "t": "2026-11-16T16:10:23Z",
     "kind": "claude",
     "usd": 0.111,
+    "what": "You are a social media strategist analyzing competitors on Threads.  BRAND WE AR"
+   },
+   {
+    "t": "2026-11-16T16:18:36Z",
+    "kind": "apify",
+    "usd": 0.0976,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"enric_corbera\"], \"profileContent\""
+   },
+   {
+    "t": "2026-11-16T16:18:50Z",
+    "kind": "apify",
+    "usd": 0.0128,
+    "what": "deepmine/threads-scraper {\"postUrls\": [\"https://www.threads.com/@enric_corbera/p"
+   },
+   {
+    "t": "2026-11-16T16:20:12Z",
+    "kind": "claude",
+    "usd": 0.1376,
     "what": "You are a social media strategist analyzing competitors on Threads.  BRAND WE AR"
    }
   ]

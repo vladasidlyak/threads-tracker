@@ -1,5 +1,16 @@
 [
  {
+  "path": "reports/enric_corbera/2026-11-16-1620-full-ines.md",
+  "title": "Full analysis",
+  "accounts": [
+   "enric_corbera"
+  ],
+  "brand": "ines",
+  "focus": "full",
+  "created": "2026-11-16T16:20:12Z",
+  "requestedBy": "Vlada"
+ },
+ {
   "path": "reports/psico.maxi/2026-11-16-1610-full-ines.md",
   "title": "Full analysis",
   "accounts": [
