@@ -279,6 +279,9 @@ def ask_claude(prompt: str, settings: dict, dry_run: bool) -> str:
             raise TrackerError(f"Claude API error {r.status_code}: {r.text[:300]}")
         data = r.json()
         text = "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text")
+        if data.get("stop_reason") == "max_tokens":
+            log("WARNING: the report hit claude_max_tokens and was cut off. Raise it in config/settings.json.")
+            text += "\n\n*(Report cut off at the length limit. Raise claude_max_tokens in config/settings.json.)*\n"
         usage = data.get("usage", {})
         log(f"Claude answered: {usage.get('input_tokens')} input tokens, {usage.get('output_tokens')} output tokens")
         return text.replace("—", " - ")

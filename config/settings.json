@@ -7,6 +7,6 @@
   "comments_top_posts": 10,
   "comments_per_post": 30,
   "claude_model": "claude-sonnet-5-5",
-  "claude_max_tokens": 6000,
+  "claude_max_tokens": 16000,
   "history_snapshots_to_keep": 26
 }
