@@ -29,7 +29,8 @@ h1 small{display:block;font-size:12px;font-weight:400;color:var(--ink-3)}
 nav{display:flex;gap:4px;margin-top:12px;overflow-x:auto}
 nav button{background:none;border:0;border-bottom:2px solid transparent;padding:10px 12px;font:inherit;font-weight:500;color:var(--ink-2);cursor:pointer;white-space:nowrap}
 nav button.on{color:var(--ink);border-color:var(--accent)}
-main{max-width:1080px;margin:0 auto;padding:18px}
+main{max-width:1080px;margin:0 auto;padding:18px;overflow-x:hidden}
+#runCard{scroll-margin-top:140px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:16px}
 .card h2{font-size:15px;margin:0 0 4px}
 .card .sub{font-size:13px;color:var(--ink-3);margin:0 0 12px}
@@ -110,7 +111,7 @@ a{color:var(--accent)}
 <header>
   <div class="top">
     <h1>Threads Competitor Tracker<small id="updated">Loading...</small></h1>
-    <a class="btn primary" id="ghReport" target="_blank" rel="noopener" style="text-decoration:none">Get a new report</a>
+    <a class="btn primary" id="ghReport" href="#runCard" style="text-decoration:none">New report</a>
   </div>
   <nav id="nav">
     <button data-tab="overview" class="on">Overview</button>
@@ -122,6 +123,37 @@ a{color:var(--accent)}
 </header>
 <main>
   <div class="banner" id="loadMsg">Loading data...</div>
+  <div class="card" id="runCard">
+    <div class="row" style="justify-content:space-between;align-items:flex-start">
+      <div style="flex:1 1 200px;min-width:0"><h2>Get a report</h2><p class="sub">Paste a Threads profile link. New accounts are added and tracked every Monday.</p></div>
+      <button class="btn" id="tokBtn" type="button">Connect GitHub</button>
+    </div>
+    <div id="tokBox" class="hidden" style="margin-bottom:12px;border:1px solid var(--line);border-radius:10px;padding:12px">
+      <p class="small" style="margin-top:0">Paste a GitHub token that can run this repository's workflows. It's saved only in this browser. <a href="#" id="tokHelpLink">How to create one</a></p>
+      <div id="tokHelp" class="hidden small muted" style="margin-bottom:8px">
+        <ol style="padding-left:18px;margin:4px 0">
+          <li>GitHub → your photo → <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token</b>.</li>
+          <li>Name: <code>dashboard</code>. Expiration: 1 year. Repository access: <b>Only select repositories → threads-tracker</b>.</li>
+          <li>Permissions → Repository permissions → <b>Actions: Read and write</b>. Leave everything else as is.</li>
+          <li>Generate, copy the token (starts with <code>github_pat_</code>) and paste it here.</li>
+        </ol>
+      </div>
+      <div class="row"><input type="password" id="tokIn" class="grow" placeholder="github_pat_..." autocomplete="off"><button class="btn primary" id="tokSave" type="button">Save</button><button class="btn danger hidden" id="tokForget" type="button">Forget token</button></div>
+      <div class="status" id="tokStatus"></div>
+    </div>
+    <div class="row">
+      <input id="runUrl" class="grow" placeholder="https://www.threads.com/@username">
+    </div>
+    <div class="row" style="margin-top:8px">
+      <select id="runBrand" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option><option value="liven">For: Liven</option><option value="overwell">For: Overwell</option></select>
+      <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">Full analysis</option><option value="ideas">Post ideas</option><option value="replies">Replies &amp; tone</option></select>
+      <select id="runMax" style="width:auto" aria-label="Posts"><option value="30">30 posts</option><option value="60" selected>60 posts</option><option value="100">100 posts</option></select>
+      <button class="btn primary" id="runGo" type="button">Run</button>
+    </div>
+    <label class="small muted" style="display:flex;gap:6px;align-items:center;margin-top:8px"><input type="checkbox" id="runComments" style="width:auto"> Also collect comments under the top 10 posts (about $0.50 more)</label>
+    <label class="small muted" style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="checkbox" id="runSkip" style="width:auto"> Only write a new report from saved data (no Apify cost)</label>
+    <div class="status" id="runStatus"></div>
+  </div>
 
   <section id="tab-overview">
     <div class="row" style="margin-bottom:14px">
@@ -193,7 +225,7 @@ a{color:var(--accent)}
 
   <section id="tab-reports" class="hidden">
     <div class="card cta">
-      <div><h2>Need a new report?</h2><p class="sub" style="margin:0">Run "Get report" on GitHub, paste a profile link, and the report appears here in a few minutes.</p></div>
+      <div><h2>Need a new report?</h2><p class="sub" style="margin:0">Use the "Get a report" form on the Overview tab, or run "Get report" on GitHub.</p></div>
       <a class="btn" id="ghRepo" target="_blank" rel="noopener" href="#" style="text-decoration:none">Open repository</a>
     </div>
     <div class="card">

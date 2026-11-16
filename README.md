@@ -51,6 +51,18 @@ Apify (collects posts) ──► GitHub Actions (runs the scripts) ──► dat
 ## 2. Everyday use
 
 ### Get a report for any account ("paste a link")
+**Easiest: from the dashboard.** The "Get a report" form sits at the top of the Overview tab.
+
+1. The first time, click **Connect GitHub** and paste a token that is allowed to run this repository's workflows. Create it in GitHub:
+   - your photo → **Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token**;
+   - repository access: **only threads-tracker**;
+   - permissions: **Actions: Read and write**.
+
+   The token is saved only in that browser.
+2. Paste a profile link, choose the brand and report type, and click **Run**.
+3. The form shows the progress. When the run finishes, it opens the new report.
+
+**Or from GitHub:**
 1. Open the **Actions** tab, or tap **Get a new report** on the dashboard.
 2. Choose **Get report → Run workflow**.
 3. Fill in the form:

@@ -176,6 +176,87 @@ async function openReport(path) {
   catch (e) { $("#repOut").innerHTML = '<p class="muted">Couldn\'t load this report.</p>'; }
 }
 
+/* ---------- run a report from the dashboard (GitHub API) ---------- */
+const REPO = (() => { const u = repoUrl(); return u ? u.replace("https://github.com/", "") : "vladasidlyak/threads-tracker"; })();
+const API = "https://api.github.com/repos/" + REPO;
+const store = { get() { try { return localStorage.getItem("tt_token") || ""; } catch (e) { return ""; } },
+  set(v) { try { v ? localStorage.setItem("tt_token", v) : localStorage.removeItem("tt_token"); return true; } catch (e) { return false; } } };
+let memToken = store.get();
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+function ghApi(path, opts = {}) {
+  return fetch(API + path, Object.assign({}, opts, { headers: Object.assign({ "Authorization": "Bearer " + memToken, "Accept": "application/vnd.github+json", "X-GitHub-Api-Version": "2022-11-28" }, opts.body ? { "Content-Type": "application/json" } : {}) }));
+}
+function tokenUI() {
+  const on = !!memToken;
+  $("#tokBtn").textContent = on ? "GitHub connected ✓" : "Connect GitHub";
+  $("#tokForget").classList.toggle("hidden", !on);
+  $("#runGo").disabled = false;
+}
+$("#tokBtn").onclick = () => $("#tokBox").classList.toggle("hidden");
+$("#tokHelpLink").onclick = e => { e.preventDefault(); $("#tokHelp").classList.toggle("hidden"); };
+$("#tokSave").onclick = async () => {
+  const v = $("#tokIn").value.trim(); const st = $("#tokStatus");
+  if (!v) { st.textContent = "Paste the token first."; return; }
+  memToken = v; st.textContent = "Checking...";
+  try {
+    const r = await ghApi("/actions/workflows/report.yml");
+    if (r.status === 401) { memToken = store.get(); st.textContent = "GitHub rejected this token. Check you copied all of it."; return; }
+    if (!r.ok) { memToken = store.get(); st.textContent = "This token can't see the repository. Give it access to threads-tracker with Actions: Read and write."; return; }
+    const saved = store.set(v); $("#tokIn").value = "";
+    st.textContent = saved ? "Connected. The token is saved in this browser only." : "Connected for this visit (this browser can't save it).";
+    tokenUI(); setTimeout(() => $("#tokBox").classList.add("hidden"), 1500);
+  } catch (e) { memToken = store.get(); st.textContent = "Couldn't reach GitHub. Check your connection."; }
+};
+$("#tokForget").onclick = () => { memToken = ""; store.set(""); tokenUI(); $("#tokStatus").textContent = "Token removed from this browser."; };
+
+let running = false;
+async function runReport() {
+  if (running) return;
+  const st = $("#runStatus"), url = $("#runUrl").value.trim();
+  if (!url) { st.textContent = "Paste a Threads profile link or @handle."; return; }
+  if (!/^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+|@?[A-Za-z0-9._]+)\/?(\?.*)?$/.test(url)) { st.textContent = "That doesn't look like a Threads profile link."; return; }
+  if (!memToken) { $("#tokBox").classList.remove("hidden"); st.textContent = "Connect GitHub first (one time only)."; return; }
+  running = true; $("#runGo").disabled = true;
+  const started = new Date(Date.now() - 30000).toISOString();
+  try {
+    st.textContent = "Starting...";
+    const r = await ghApi("/actions/workflows/report.yml/dispatches", { method: "POST", body: JSON.stringify({ ref: "main", inputs: {
+      profile_url: url, brand: $("#runBrand").value, focus: $("#runFocus").value, max_posts: $("#runMax").value,
+      include_comments: $("#runComments").checked, skip_collect: $("#runSkip").checked } }) });
+    if (r.status === 401) throw new Error("GitHub rejected the token. Connect GitHub again.");
+    if (r.status === 403 || r.status === 404) throw new Error("The token isn't allowed to run workflows. It needs Actions: Read and write on threads-tracker.");
+    if (!r.ok) throw new Error("GitHub refused the request (" + r.status + ").");
+    let run = null;
+    for (let i = 0; i < 12 && !run; i++) {
+      await sleep(5000);
+      const lr = await ghApi("/actions/workflows/report.yml/runs?per_page=5&event=workflow_dispatch&created=%3E%3D" + encodeURIComponent(started));
+      if (lr.ok) { const d = await lr.json(); run = (d.workflow_runs || [])[0] || null; }
+    }
+    if (!run) throw new Error("The run started but I couldn't find it. Check the Actions tab on GitHub.");
+    const link = ` <a href="${esc(run.html_url)}" target="_blank" rel="noopener">View on GitHub</a>`;
+    const t0 = Date.now();
+    while (run.status !== "completed") {
+      if (Date.now() - t0 > 30 * 60e3) throw new Error("This is taking over 30 minutes. Check the run on GitHub.");
+      const label = $("#runSkip").checked ? "Writing the report" : (Date.now() - t0 < 90e3 ? "Collecting posts from Threads" : "Collecting posts and writing the report");
+      st.innerHTML = `${label}... ${Math.round((Date.now() - t0) / 1000)}s.` + link;
+      await sleep(10000);
+      const rr = await ghApi("/actions/runs/" + run.id); if (rr.ok) run = await rr.json();
+    }
+    if (run.conclusion !== "success") { st.innerHTML = "The run failed. Open it to see why (the last lines explain the problem)." + link; return; }
+    st.innerHTML = "Done. Publishing to the dashboard (1-2 minutes)..." + link;
+    const before = (S.index && S.index.reports || []).length;
+    for (let i = 0; i < 24; i++) {
+      await sleep(10000);
+      try { const idx = await getJSON("data/index.json"); if ((idx.reports || []).length > before) { await reloadData(); goto("reports"); const p = (S.index.reports[0] || {}).path; if (p) openReport(p); st.innerHTML = "Done. The new report is open in AI reports." + link; return; } } catch (e) {}
+    }
+    st.innerHTML = "Done. The dashboard is still publishing - refresh this page in a minute." + link;
+  } catch (e) { st.textContent = e.message || "Something went wrong."; }
+  finally { running = false; $("#runGo").disabled = false; }
+}
+$("#runGo").onclick = runReport;
+$("#runUrl").onkeydown = e => { if (e.key === "Enter") runReport(); };
+tokenUI();
+
 /* ---------- wiring ---------- */
 function goto(tab) { $$("#nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab)); $$("main > section").forEach(s => s.classList.toggle("hidden", s.id !== "tab-" + tab)); hideTip(); }
 $$("#nav button").forEach(b => b.onclick = () => goto(b.dataset.tab));
@@ -187,9 +268,14 @@ $("#rMore").onclick = () => { S.rLimit += 30; renderReplies(); };
 $("#repAccount").onchange = renderReportList;
 
 const gh = repoUrl();
-if (gh) { $("#ghReport").href = gh + "/actions/workflows/report.yml"; $("#ghRepo").href = gh; }
-else { $("#ghReport").href = "https://github.com"; }
+if (gh) $("#ghRepo").href = gh;
+$("#ghReport").onclick = e => { e.preventDefault(); goto("overview"); $("#runCard").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#runUrl").focus(), 400); };
 
+async function reloadData() {
+  S.index = await getJSON("data/index.json"); S.accounts = {};
+  await Promise.all(S.index.accounts.filter(a => a.posts || a.replies).map(async a => { try { S.accounts[a.handle] = await getJSON(`data/accounts/${a.handle}.json`); } catch (e) {} }));
+  fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList();
+}
 (async function load() {
   try {
     S.index = await getJSON("data/index.json");
