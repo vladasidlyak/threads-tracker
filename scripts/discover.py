@@ -88,6 +88,21 @@ def parse_json(text: str):
     raise T.TrackerError("Claude didn't return the expected list. Try again.")
 
 
+def normalize_picks(raw) -> list[dict]:
+    """Accept whatever shape Claude returned: a list of objects, a list of handles, or {"anything": [...]}."""
+    if isinstance(raw, dict):
+        lists = [v for v in raw.values() if isinstance(v, list)]
+        raw = lists[0] if lists else [raw]
+    out = []
+    for p in raw if isinstance(raw, list) else []:
+        if isinstance(p, str):
+            out.append({"handle": p, "reason": ""})
+        elif isinstance(p, dict):
+            h = p.get("handle") or p.get("username") or p.get("account") or ""
+            out.append({"handle": str(h), "reason": str(p.get("reason") or p.get("why") or "")})
+    return out
+
+
 def discover(paths: T.Paths, settings: dict, apify: T.Apify, handle: str, min_followers: int,
              keywords: list[str], count: int, dry_run: bool, requested_by: str = "") -> Path:
     T.log(f"\n=== Finding competitors for @{handle} ===")
@@ -213,7 +228,14 @@ def discover(paths: T.Paths, settings: dict, apify: T.Apify, handle: str, min_fo
                   "and good engagement for their size. Skip brands, clinics, aggregators and accounts in another language "
                   "unless nothing better exists. Return JSON only: [{\"handle\": \"...\", \"reason\": \"one sentence in "
                   "English on why it's a good benchmark and what to learn from it\"}]. Use hyphens, never em dashes.")
-        picks = parse_json(T.ask_claude(prompt, {**settings, "claude_max_tokens": 1500}, False))
+        try:
+            picks = parse_json(T.ask_claude(prompt, {**settings, "claude_max_tokens": 1500}, False))
+        except T.TrackerError as e:
+            if "budget" in str(e):
+                raise
+            T.log(f"Couldn't read Claude's picks ({e}); using the score ranking instead.")
+            picks = []
+    picks = normalize_picks(picks)
     by = {s["handle"]: s for s in scored}
     final = []
     for p in picks:

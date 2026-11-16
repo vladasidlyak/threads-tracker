@@ -82,6 +82,7 @@ jobs:
         run: python scripts/tracker.py report --handle "$PROFILE_URL" --brand ${{ inputs.brand }} --focus ${{ inputs.focus }} --requested-by "$REQUESTED_BY"
 
       - name: Save to the repository
+        if: always()
         env:
           PROFILE_URL: ${{ inputs.profile_url }}
           FOCUS: ${{ inputs.focus }}

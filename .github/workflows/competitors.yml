@@ -52,6 +52,7 @@ jobs:
           REQUESTED_BY: ${{ inputs.requested_by }}
         run: python scripts/discover.py --handle "$TARGET" --min-followers ${{ inputs.min_followers }} --keywords "$KEYWORDS" --requested-by "$REQUESTED_BY"
       - name: Save to the repository
+        if: always()
         env:
           TARGET: ${{ inputs.target_url }}
         run: |

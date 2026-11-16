@@ -66,6 +66,7 @@ jobs:
           REQUESTED_BY: ${{ inputs.requested_by }}
         run: python scripts/plan.py --brand ${{ inputs.brand }} --weeks ${{ inputs.weeks }} --per-week ${{ inputs.per_week }} --start "$START" --accounts "$ACCOUNTS" --requested-by "$REQUESTED_BY"
       - name: Save to the repository
+        if: always()
         run: |
           git config user.name "threads-tracker-bot"
           git config user.email "threads-tracker-bot@users.noreply.github.com"
