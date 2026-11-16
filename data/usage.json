@@ -1,0 +1,37 @@
+{
+ "2026-11": {
+  "total": 0.3542,
+  "items": [
+   {
+    "t": "2026-11-16T15:48:20Z",
+    "kind": "apify",
+    "usd": 0.0336,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"quintanilla_iness\"], \"profileCont"
+   },
+   {
+    "t": "2026-11-16T15:48:21Z",
+    "kind": "claude",
+    "usd": 0.0061,
+    "what": "Here is a Threads account's bio and recent posts.  ¿Demasiado pendiente de él? ¿"
+   },
+   {
+    "t": "2026-11-16T15:49:23Z",
+    "kind": "apify",
+    "usd": 0.2512,
+    "what": "deepmine/threads-scraper {\"searchQueries\": [\"psicóloga\", \"relaciones\", \"autoesti"
+   },
+   {
+    "t": "2026-11-16T15:51:06Z",
+    "kind": "apify",
+    "usd": 0.04,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"relacion_en_cristo\", \"amorconscie"
+   },
+   {
+    "t": "2026-11-16T15:51:17Z",
+    "kind": "claude",
+    "usd": 0.0233,
+    "what": "We want benchmark competitors on Threads for @quintanilla_iness. About @quintani"
+   }
+  ]
+ }
+}

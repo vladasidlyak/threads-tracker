@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T15:01:06Z",
+ "updated": "2026-11-16T15:51:17Z",
  "accounts": [
   {
    "handle": "esmipsicologa",
@@ -44,7 +44,14 @@
    "created": "2026-11-16T12:20:00Z"
   }
  ],
- "competitors": [],
+ "competitors": [
+  {
+   "target": "quintanilla_iness",
+   "path": "data/competitors/quintanilla_iness.json",
+   "created": "2026-11-16T15:51:17Z",
+   "count": 10
+  }
+ ],
  "plans": [
   {
    "id": "2026-11-16-1412-ines",
@@ -58,7 +65,7 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 0,
+  "spent": 0.35,
   "budget": 5
  }
 }

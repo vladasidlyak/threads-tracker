@@ -1,0 +1,610 @@
+{
+ "target": "quintanilla_iness",
+ "targetFollowers": 1472,
+ "language": "es",
+ "keywords": [
+  "psicóloga",
+  "relaciones",
+  "autoestima",
+  "ansiedad",
+  "apego",
+  "amistad"
+ ],
+ "minFollowers": 5000,
+ "created": "2026-11-16T15:51:17Z",
+ "requestedBy": "Vlada",
+ "competitors": [
+  {
+   "handle": "neurografica_es",
+   "fullName": "Escuela Neurografica |Dinero| Salud | Relaciónes",
+   "bio": "calma • dinero • relaciones • realización •claridad \n+1000 de transformaciones a través de nuestras prácticas\nEspacio para transformar tu vida 👇🏻",
+   "verified": true,
+   "followers": 11707,
+   "similarity": 0.207,
+   "medianEngagement": 52,
+   "engagementRate": 0.44,
+   "postsLast30d": 10,
+   "daysSinceLastPost": 2,
+   "matchedTerms": [
+    "relaciones"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Encontré una técnica que consistía en decir antes de dormir: «Me estoy quedando dormida y mañana despertaré en la mejor línea posible de mi realidad». Y al despertar, decir: «He llegado a la mejor línea posible de mi realidad».",
+    "engagement": 881,
+    "url": "https://www.threads.com/@neurografica_es/post/DflzSBADLyD"
+   },
+   "score": 99,
+   "active": true,
+   "reason": "It has the closest content match (similarity 0.207) and the best engagement rate in the set (0.44%, median 52) at 11.7k followers, so study how its relationship and mindset posts and its first-person, story-style hooks earn so much interaction."
+  },
+  {
+   "handle": "psico.maxi",
+   "fullName": "Maxi McCoubrey | Psicólogo Clínico",
+   "bio": "✍️Divulgación en\nTrauma Complejo & Estrés Postraumático, Abuso Emocional, Narcisismo Patológico\nConsulta online\n24 años de Practica Clínica\nMP52229",
+   "verified": true,
+   "followers": 181174,
+   "similarity": 0.097,
+   "medianEngagement": 132,
+   "engagementRate": 0.073,
+   "postsLast30d": 10,
+   "daysSinceLastPost": 1,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Hola, soy Maxi.\nMi cuenta de Instagram @psico.maxi está suspendida. Ya apelé y estoy esperando que @meta revise mi caso.\nGran parte de mi trabajo proviene de ahí, y tengo una comunidad de más de 1M de personas que me acompaña hace años con contenido de psicología y salud mental.\n",
+    "engagement": 2936,
+    "url": "https://www.threads.com/@psico.maxi/post/DftLDOcjEQU"
+   },
+   "score": 66,
+   "active": true,
+   "reason": ""
+  },
+  {
+   "handle": "psic_mafermezar",
+   "fullName": "Psicóloga Marifer Meza Rangel 🌟🌸",
+   "bio": "📍Terapia online y presencial (niños, adolescentes, adultos jóvenes y parejas) \n🌟 Sanar también es elegirte \n📱 Citas: 33 5120 1122",
+   "verified": false,
+   "followers": 37173,
+   "similarity": 0.073,
+   "medianEngagement": 38,
+   "engagementRate": 0.101,
+   "postsLast30d": 9,
+   "daysSinceLastPost": 2,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Hay decisiones que tenemos que tomar, hay cambios que tienen que ocurrir, hay miedos que tenemos que afrontar, hay soledades que tenemos que soportar, hay lágrimas que tenemos que derramar, hay personas que tenemos que dejar ir y nuevos comienzos que tienen que florecer dentro de",
+    "engagement": 2793,
+    "url": "https://www.threads.com/@psic_mafermezar/post/DEagXQCvC6X"
+   },
+   "score": 64,
+   "active": true,
+   "reason": ""
+  },
+  {
+   "handle": "erik.vivesinansiedad",
+   "fullName": "Erik | Vive Sin Ansiedad ®️",
+   "bio": "La solución para la ansiedad con más personas recuperadas.\nClic aquí abajo 👇",
+   "verified": false,
+   "followers": 15933,
+   "similarity": 0.116,
+   "medianEngagement": 3,
+   "engagementRate": 0.019,
+   "postsLast30d": 8,
+   "daysSinceLastPost": 11,
+   "matchedTerms": [
+    "ansiedad"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "No es fácil superar la ansiedad. Es simple pero no es fácil. En menos de 1 minuto no puedo decirte todo lo que hay que hacer pero si puedo darte dos cosas que tienes que dejar de hacer hoy mismo para empezar a mejorar desde este mismo instante.",
+    "engagement": 34,
+    "url": "https://www.threads.com/@erik.vivesinansiedad/post/Dey_Ai9Du-a"
+   },
+   "score": 63,
+   "active": true,
+   "reason": ""
+  },
+  {
+   "handle": "nico.paipa",
+   "fullName": "Nicolás Paipa | Psicólogo",
+   "bio": "Te ayudo a sanar lo que cargas solo.\nPsicólogo EMDR · apego, trauma y relaciones · +5 años\nSesiones online 🌎\n👇 Primera sesión: escríbeme aquí",
+   "verified": true,
+   "followers": 52055,
+   "similarity": 0.097,
+   "medianEngagement": 26,
+   "engagementRate": 0.049,
+   "postsLast30d": 10,
+   "daysSinceLastPost": 2,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "6 señales de que estás listo para conocer a alguien nuevo después de una ruptura.",
+    "engagement": 58,
+    "url": "https://www.threads.com/@nico.paipa/post/DftWhKVimnV"
+   },
+   "score": 63,
+   "active": true,
+   "reason": ""
+  },
+  {
+   "handle": "amorconsciente360",
+   "fullName": "RELACIONES | SANAR INFIDELIDAD",
+   "bio": "INFIDELIDAD | RECONEXION \nSoy tu amiga Mimi y te ayudo a sanar heridas de pareja y superar la infidelidad \nRecupera tu paz aquí  👇",
+   "verified": false,
+   "followers": 22468,
+   "similarity": 0.076,
+   "medianEngagement": 16,
+   "engagementRate": 0.071,
+   "postsLast30d": 10,
+   "daysSinceLastPost": 2,
+   "matchedTerms": [
+    "relaciones"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Antes me consumía la curiosidad. Ahora me consume la paz.\n\nDespués de una infidelidad una aprende algo: el que quiere ser fiel lo es sin vigilancia, y el que quiere engañar lo hace hasta con el teléfono apagado.\n\nSi pasaste por una infidelidad, en mi perfil encuentra una guía que",
+    "engagement": 157,
+    "url": "https://www.threads.com/@amorconsciente360/post/Dfi8m1SkhV0"
+   },
+   "score": 60,
+   "active": true,
+   "reason": ""
+  },
+  {
+   "handle": "psicoeducacionhoy",
+   "fullName": "Psicóloga | Johanna Sacalovich",
+   "bio": "🖥 Asistencia psicológica online\n🧠 Terapia Cognitivo Conductual\n👇🏾 Agendá tu sesión\n🌐 www.psicoeducacionhoy.com.ar",
+   "verified": false,
+   "followers": 160728,
+   "similarity": 0.159,
+   "medianEngagement": 2,
+   "engagementRate": 0.001,
+   "postsLast30d": 10,
+   "daysSinceLastPost": 3,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Cuántas veces necesitamos ponernos una máscara para afrontar el día a día. Una sonrisa, un “todo bien” y a seguir con nuestras obligaciones, aunque por dentro estemos pasando por un momento difícil.\n\nY no está mal. No siempre tenemos ganas de compartir con los demás cómo nos sent",
+    "engagement": 10,
+    "url": "https://www.threads.com/@psicoeducacionhoy/post/Dfo3tmtFkbb"
+   },
+   "score": 60,
+   "active": true,
+   "reason": ""
+  },
+  {
+   "handle": "psicologa_luciamachado",
+   "fullName": "Lucia Machado | Psicóloga - Biodescodificadora 🪬",
+   "bio": "",
+   "verified": false,
+   "followers": 31040,
+   "similarity": 0.056,
+   "medianEngagement": 24,
+   "engagementRate": 0.079,
+   "postsLast30d": 10,
+   "daysSinceLastPost": 1,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Tres razones por las que las relaciones tienden a fracasar hoy en día …",
+    "engagement": 69,
+    "url": "https://www.threads.com/@psicologa_luciamachado/post/Dfmph0WDLKq"
+   },
+   "score": 58,
+   "active": true,
+   "reason": ""
+  },
+  {
+   "handle": "relacion_en_cristo",
+   "fullName": "Jesús Rey de los cielos",
+   "bio": "Yo soy la vid vosotros los panpanos el que permanece en mi y yo en el este llevara mucho fruto por que apartados de mi nada podemos hacer..Aleluya🙇🏾",
+   "verified": false,
+   "followers": 13247,
+   "similarity": 0.069,
+   "medianEngagement": 6,
+   "engagementRate": 0.045,
+   "postsLast30d": 2,
+   "daysSinceLastPost": 13,
+   "matchedTerms": [
+    "relaciones"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "ASI TE DICE EL SEÑOR...EN ESTA NOCHE🙇🏾‍♀️🙏🏾",
+    "engagement": 24,
+    "url": "https://www.threads.com/@relacion_en_cristo/post/DY03Ej7DhjR"
+   },
+   "score": 55,
+   "active": true,
+   "reason": ""
+  },
+  {
+   "handle": "psicoespacio",
+   "fullName": "Belkis Carrillo Psicóloga🎓Conferencista🎤",
+   "bio": "Regístrate GRATIS en ReprogÁMATE 💜\nHaz CLIC AQUÍ 👇🏻",
+   "verified": true,
+   "followers": 101098,
+   "similarity": 0.104,
+   "medianEngagement": 2,
+   "engagementRate": 0.002,
+   "postsLast30d": 10,
+   "daysSinceLastPost": 1,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Brian Tracy nos dejó dos enseñanzas poderosas:\n\n1️⃣ Nadie va a venir a salvarte. Hazte 100% responsable de tu vida.\n\n2️⃣ El futuro no se construye tomando decisiones, sino sosteniéndolas en el tiempo.\n\nDespedimos a un gigante de las emociones, pero su legado sigue más vivo que nu",
+    "engagement": 15,
+    "url": "https://www.threads.com/@psicoespacio/post/DfvYhcdCKHR"
+   },
+   "score": 50,
+   "active": true,
+   "reason": ""
+  }
+ ],
+ "others": [
+  {
+   "handle": "psicologiatedice",
+   "fullName": "Jesica Coronado ♡︎ Psicóloga / coach",
+   "bio": "Conversaciones con sentido\n💛by: @jesicacoronadoam / agenda conmigo si necesitas avanzar de verdad📩\n🌸💌🧋📈💗🎧",
+   "verified": false,
+   "followers": 37123,
+   "similarity": 0.056,
+   "medianEngagement": 3,
+   "engagementRate": 0.008,
+   "postsLast30d": 9,
+   "daysSinceLastPost": 3,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Recuérdalo cada vez que alguien te quiera hacer sentir como una opción 👌🏻✨✨",
+    "engagement": 83,
+    "url": "https://www.threads.com/@psicologiatedice/post/DfhrQKhH7op"
+   },
+   "score": 47,
+   "active": true
+  },
+  {
+   "handle": "encarnacionlopez_psicologa",
+   "fullName": "Encarnación López Psicóloga  Ansiedad y miedos",
+   "bio": "",
+   "verified": true,
+   "followers": 21649,
+   "similarity": 0.091,
+   "medianEngagement": 2,
+   "engagementRate": 0.012,
+   "postsLast30d": 0,
+   "daysSinceLastPost": 61,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "A veces tenemos ansiedad constante y no somos conscientes. Pero nuestro cuerpo nos avisa del exceso de cortisol:\n\n🚨 Molestias gastrointestinales \n🚨 Se cae el pelo \n🚨 Siento que el corazón se acelera de golpe\n🚨 Ganas de vomitar\n🚨 Sueño no reparador\n🚨 Cansancio constante\n🚨 Te despi",
+    "engagement": 130,
+    "url": "https://www.threads.com/@encarnacionlopez_psicologa/post/DagKEk4AgQI"
+   },
+   "score": 44,
+   "active": false
+  },
+  {
+   "handle": "psicologabelenlamia",
+   "fullName": "Belén Lamia | Psicóloga 💜",
+   "bio": "Psicóloga con mucha Pasión! Escribo con el ❤️\n🧠Espacio para cuidar tu Salud Mental\n🔥Hablamos de Sexualidad y parejas\n💻Atención estés donde estés 🌍👇🏻",
+   "verified": true,
+   "followers": 33017,
+   "similarity": 0.105,
+   "medianEngagement": 0,
+   "engagementRate": 0.0,
+   "postsLast30d": 1,
+   "daysSinceLastPost": 4,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "¿Cuántas veces te separaste... para volver a los pocos días? 💔🔄\nHay parejas que viven atrapadas en un simulacro de abandono: “me separo, vuelvo, me separo, vuelvo”. Y aunque duela reconocerlo, muchas veces no es amor, es un patrón que se repite sin que lo notemos.\n👇 Contame en lo",
+    "engagement": 2,
+    "url": "https://www.threads.com/@psicologabelenlamia/post/Db3tHjIEj6Z"
+   },
+   "score": 43,
+   "active": true
+  },
+  {
+   "handle": "tupsicologa.cristiana",
+   "fullName": "Natalia Puga | Psicóloga Cristiana",
+   "bio": "Te acompaño a sanar el alma para que te veas como Jesús te ve💖\nFe | autoestima | relaciones | amor propio | emociones \n➡️ Ve al 🔗 y Hagámoslo juntas🌼",
+   "verified": false,
+   "followers": 39586,
+   "similarity": 0.063,
+   "medianEngagement": 14,
+   "engagementRate": 0.037,
+   "postsLast30d": 0,
+   "daysSinceLastPost": 75,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "¿Recibes esta verdad?",
+    "engagement": 59,
+    "url": "https://www.threads.com/@tupsicologa.cristiana/post/DZ6lfJyFd0g"
+   },
+   "score": 41,
+   "active": false
+  },
+  {
+   "handle": "psicologiaemocion",
+   "fullName": "Psicóloga Cristiana | Natalia Herrera 🍂",
+   "bio": "Psicóloga cristiana \nInformación en mi Instagram @psicologiaemocion \nDios tienen un propósito con tu vida💫",
+   "verified": false,
+   "followers": 36090,
+   "similarity": 0.021,
+   "medianEngagement": 1,
+   "engagementRate": 0.003,
+   "postsLast30d": 6,
+   "daysSinceLastPost": 5,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Nadie como el Espíritu Santo 😇 \n\n#psicologacristiana #espiritusanto",
+    "engagement": 15,
+    "url": "https://www.threads.com/@psicologiaemocion/post/DeRteuJjJoV"
+   },
+   "score": 35,
+   "active": true
+  },
+  {
+   "handle": "nazarena_loureiro",
+   "fullName": "Ansiedad • Trauma • Emdr",
+   "bio": "◍ Psicoterapeuta integral • Ansiedad y Trauma + Instructor Mindfulness ▲\n❋ Formacion a terapeutas",
+   "verified": false,
+   "followers": 8560,
+   "similarity": 0.066,
+   "medianEngagement": 0,
+   "engagementRate": 0.0,
+   "postsLast30d": 1,
+   "daysSinceLastPost": 6,
+   "matchedTerms": [
+    "ansiedad"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "❤️‍🩹 #terapia",
+    "engagement": 12,
+    "url": "https://www.threads.com/@nazarena_loureiro/post/DVztPCMF7iw"
+   },
+   "score": 34,
+   "active": true
+  },
+  {
+   "handle": "scp.psicologa",
+   "fullName": "Psicóloga Paulina Sánchez Cortés",
+   "bio": "●Terapia cognitivo conductual🌬️\n●Psicóloga clínica y educativa ⚕️\n○adultos/parejas/adolescentes 👥\n》Presencial /En linea\ncitas a 2286032596",
+   "verified": false,
+   "followers": 34826,
+   "similarity": 0.055,
+   "medianEngagement": 0,
+   "engagementRate": 0.0,
+   "postsLast30d": 10,
+   "daysSinceLastPost": 1,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "",
+    "engagement": 18,
+    "url": "https://www.threads.com/@scp.psicologa/post/DepCDi4EZj8"
+   },
+   "score": 32,
+   "active": true
+  },
+  {
+   "handle": "ansiedadepresiva",
+   "fullName": "Juan Delgado🇻🇪🇺🇸",
+   "bio": "Salud mental 🧠\n26 kissimmee Fl.\nPlan nacional de prevención del suicidio!\n10 años de activismo.\nstop.suicidios redlibrementes",
+   "verified": true,
+   "followers": 95895,
+   "similarity": 0.034,
+   "medianEngagement": 2,
+   "engagementRate": 0.002,
+   "postsLast30d": 0,
+   "daysSinceLastPost": 79,
+   "matchedTerms": [
+    "ansiedad"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Y de pronto estás ahí, mirando a tu alrededor.\n\nAmigos enfermando y otros muriendo.\nUnos casándose, otros teniendo hijos.\nUnos marchándose del país y otros intentando sobrevivir dentro de él. Unos locos por volver y otros muriendo por salir. Algunos comenzando de nuevo, mientras ",
+    "engagement": 15,
+    "url": "https://www.threads.com/@ansiedadepresiva/post/DcH2dd_Fm0V"
+   },
+   "score": 23,
+   "active": false
+  },
+  {
+   "handle": "metodocupido",
+   "fullName": "Núria Cusiné | Relaciones Conscientes",
+   "bio": "",
+   "verified": false,
+   "followers": 33007,
+   "similarity": 0.004,
+   "medianEngagement": 1,
+   "engagementRate": 0.003,
+   "postsLast30d": 0,
+   "daysSinceLastPost": 39,
+   "matchedTerms": [
+    "relaciones"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "#relacionesconscientes #nodisponible #ielegirpareja #lovecoachespaña #relacionessanas",
+    "engagement": 39,
+    "url": "https://www.threads.com/@metodocupido/post/DePsqrOj3CR"
+   },
+   "score": 19,
+   "active": false
+  },
+  {
+   "handle": "gemabenitezpsicologia",
+   "fullName": "Gema Benítez 🇪🇸 | Psicóloga experta en ansiedad",
+   "bio": "🧠 Psicóloga | Experta en ansiedad y agotamiento emocional\n❤️‍🩹 Hilos que ponen palabras a lo que sientes\n📲 ¿Buscas ayuda? Agenda tu sesión aquí 👇",
+   "verified": false,
+   "followers": 15769,
+   "similarity": 0.12,
+   "medianEngagement": 490,
+   "engagementRate": 3.104,
+   "postsLast30d": 0,
+   "daysSinceLastPost": 164,
+   "matchedTerms": [
+    "ansiedad"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Una paciente me dijo:\n“cuando todo está bien, me siento rara… como si algo malo tuviera que pasar”\nEse es el precio de vivir mucho tiempo en modo supervivencia\nSi te suena, quédate por aquí 💛",
+    "engagement": 5728,
+    "url": "https://www.threads.com/@gemabenitezpsicologia/post/DQle9GBDVBE"
+   },
+   "score": 15,
+   "active": false
+  },
+  {
+   "handle": "sexoholistico",
+   "fullName": "Patricia | Coach Relaciones y Amor propio",
+   "bio": "🔥Facilitador de procesos de consciencia \n❤️Crecimiento Personal y en Pareja\n💖 Orientador Holístico \nDescubre más ⤵️",
+   "verified": true,
+   "followers": 6331,
+   "similarity": 0.111,
+   "medianEngagement": 14,
+   "engagementRate": 0.213,
+   "postsLast30d": 0,
+   "daysSinceLastPost": 808,
+   "matchedTerms": [
+    "relaciones"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "El camino de evolución desde la consciencia implica una reconciliación con el placer.. una reconexion con tu verdadero ser es placentera.",
+    "engagement": 51,
+    "url": "https://www.threads.com/@sexoholistico/post/C-_a-tApNuH"
+   },
+   "score": 13,
+   "active": false
+  },
+  {
+   "handle": "psicologiaconb",
+   "fullName": "Psicóloga Brenda Benavides",
+   "bio": "✨ La dosis diaria de psicología que necesitas \n🧠 Enfoque cognitivo conductual \n🌎 Psicoterapia internacional\n@ansiedadconb",
+   "verified": true,
+   "followers": 184617,
+   "similarity": 0.069,
+   "medianEngagement": 503,
+   "engagementRate": 0.272,
+   "postsLast30d": 0,
+   "daysSinceLastPost": 1044,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "Cuando tu salud mental no esté del todo bien, date un respiro. No te sientas culpable por no hacer tanto como lo harías normalmente. No te sientas mal de no estar en un 100%. Estás haciendo lo mejor que puedes. Eres humano. Vas a tener días malos, pero no definen tu proceso. Cuíd",
+    "engagement": 2544,
+    "url": "https://www.threads.com/@psicologiaconb/post/C0uOQmkxDHR"
+   },
+   "score": 11,
+   "active": false
+  },
+  {
+   "handle": "autoestimademujer_",
+   "fullName": "motivación 👄autoestima, amor propio 💖",
+   "bio": "",
+   "verified": false,
+   "followers": 150308,
+   "similarity": 0.0,
+   "medianEngagement": 618,
+   "engagementRate": 0.411,
+   "postsLast30d": 0,
+   "daysSinceLastPost": 931,
+   "matchedTerms": [
+    "autoestima"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "",
+    "engagement": 636,
+    "url": "https://www.threads.com/@autoestimademujer_/post/C6XdKdzNmgi"
+   },
+   "score": 8,
+   "active": false
+  },
+  {
+   "handle": "psicologia.crisoliveira",
+   "fullName": "Psicóloga✵Cris Oliveira",
+   "bio": "𝐏𝐬𝐢𝐜𝐨́𝐥𝐨𝐠𝐚 𝐏𝐬𝐢𝐜𝐚𝐧𝐚𝐥𝐢𝐬𝐭𝐚\n𝑃𝑟𝑎́𝑥𝑖𝑠 𝑛𝑎 𝑙𝑢𝑧 𝑑𝑎 𝑒́𝑡𝑖𝑐𝑎\n#desenvolvimentopessoal #autoconhecimento \n#psicologia #psicanálise \nWhatsApp (27)992281145",
+   "verified": true,
+   "followers": 88093,
+   "similarity": 0.087,
+   "medianEngagement": 4,
+   "engagementRate": 0.004,
+   "postsLast30d": 10,
+   "daysSinceLastPost": 0,
+   "matchedTerms": [
+    "psicóloga"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "",
+    "engagement": 19,
+    "url": "https://www.threads.com/@psicologia.crisoliveira/post/DfxNPYNkrKT"
+   },
+   "score": 8,
+   "active": false
+  },
+  {
+   "handle": "superandolaansiedad",
+   "fullName": "Superando la Ansiedad",
+   "bio": "Centro de Ayuda Psicológica SLA",
+   "verified": false,
+   "followers": 84981,
+   "similarity": 0.011,
+   "medianEngagement": 0,
+   "engagementRate": 0.0,
+   "postsLast30d": 10,
+   "daysSinceLastPost": 0,
+   "matchedTerms": [
+    "ansiedad"
+   ],
+   "alreadyTracked": false,
+   "topPost": {
+    "text": "",
+    "engagement": 2,
+    "url": "https://www.threads.com/@superandolaansiedad/post/DfXkFQAktxm"
+   },
+   "score": 1,
+   "active": false
+  }
+ ],
+ "stats": {
+  "found": 157,
+  "afterFilters": 43,
+  "lookedUp": 25
+ }
+}
