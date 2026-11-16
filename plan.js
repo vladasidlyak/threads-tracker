@@ -14,8 +14,8 @@ function download(name, text, type) {
 }
 const csvCell = v => '"' + String(v ?? "").replace(/"/g, '""') + '"';
 function planCSV(p) {
-  const cols = ["Post", "Date", "Time", "Status", "Pillar", "Format", "Hook", "Draft", "CTA", "Inspiration", "Why"];
-  const rows = p.posts.map(x => [x.topic || x.hook, x.date, x.time, "Idea", x.pillar, x.format, x.hook, x.draft, x.cta, x.inspiration, x.why]);
+  const cols = ["Post", "Date", "Time", "Status", "Pillar", "Format", "Hook", "Hook (EN)", "Draft", "Draft (EN)", "CTA", "Inspiration", "Why"];
+  const rows = p.posts.map(x => [x.topic || x.hook, x.date, x.time, "Idea", x.pillar, x.format, x.hook, x.hook_en, x.draft, x.draft_en, x.cta, x.inspiration, x.why]);
   return "﻿" + [cols, ...rows].map(r => r.map(csvCell).join(",")).join("\r\n");
 }
 function actionsCSV(p) {
@@ -27,7 +27,7 @@ function planMD(p) {
     "## Content pillars", ...(p.pillars || []).map(x => `- **${x.name}** (${x.share}): ${x.why}`), "",
     "## Action steps", ...p.actions.map(a => `- [ ] **${a.title}** (${a.priority}, ${a.effort})\n  - Why: ${a.why}\n  - How: ${a.how}`), "",
     "## Posts"];
-  p.posts.forEach(x => L.push("", `### ${x.date} ${x.time} · ${x.format} · ${x.pillar}`, `**${x.topic}**`, "", x.draft.split("\n").map(l => "> " + l).join("\n"),
+  p.posts.forEach(x => L.push("", `### ${x.date} ${x.time} · ${x.format} · ${x.pillar}`, `**${x.topic}**`, "", x.draft.split("\n").map(l => "> " + l).join("\n"), x.draft_en ? `\n*EN: ${x.draft_en}*` : "",
     "", x.cta ? `CTA: ${x.cta}` : "", `Inspiration: ${x.inspiration}`, `Why: ${x.why}`));
   return L.filter((l, i, a) => !(l === "" && a[i - 1] === "")).join("\n") + "\n";
 }
@@ -41,7 +41,7 @@ function setDone(v) { try { localStorage.setItem(doneKey(), JSON.stringify(v)); 
 function postDetail(x) {
   return `<div class="post"><div class="meta"><b>${esc(new Date(x.date + "T12:00").toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }))} · ${esc(x.time)}</b><span class="tag">${esc(x.format)}</span><span class="tag">${esc(x.pillar)}</span></div>
     <div style="font-weight:600;margin-bottom:4px">${esc(x.topic)}</div>
-    <div class="parent" style="white-space:pre-wrap">${esc(x.draft)}</div>
+    <div class="parent" style="white-space:pre-wrap">${esc(x.draft)}${x.draft_en ? `<div class="en">EN: ${esc(x.draft_en)}</div>` : ""}</div>
     ${x.cta ? `<div class="small"><b>Invite replies:</b> ${esc(x.cta)}</div>` : ""}
     <div class="small muted"><b>Inspired by:</b> ${esc(x.inspiration)}</div><div class="small muted"><b>Why:</b> ${esc(x.why)}</div>
     <div class="row" style="margin-top:6px"><button class="btn" type="button" data-copy="${esc(x.draft)}" style="padding:4px 10px;font-size:12px">Copy draft</button></div></div>`;
@@ -65,7 +65,7 @@ function calendar(p) {
 }
 function table(p) {
   return `<div class="scroll"><table><tr><th>Date</th><th>Time</th><th>Pillar</th><th>Format</th><th>Topic and hook</th><th>Inspired by</th></tr>${p.posts.map((x, i) =>
-    `<tr class="pl-row" data-post="${i}" style="cursor:pointer"><td style="white-space:nowrap">${esc(new Date(x.date + "T12:00").toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }))}</td><td>${esc(x.time)}</td><td>${esc(x.pillar)}</td><td>${esc(x.format)}</td><td><b>${esc(x.topic)}</b><br><span class="muted">${esc(x.hook)}</span></td><td class="small">${esc(x.inspiration)}</td></tr>`).join("")}</table></div><p class="small muted">Tap a row to see the full draft.</p><div id="plDetail"></div>`;
+    `<tr class="pl-row" data-post="${i}" style="cursor:pointer"><td style="white-space:nowrap">${esc(new Date(x.date + "T12:00").toLocaleDateString("en-GB", { weekday: "short", day: "numeric", month: "short" }))}</td><td>${esc(x.time)}</td><td>${esc(x.pillar)}</td><td>${esc(x.format)}</td><td><b>${esc(x.topic)}</b><br><span class="muted">${esc(x.hook)}</span>${x.hook_en ? `<br><i class="small muted">EN: ${esc(x.hook_en)}</i>` : ""}</td><td class="small">${esc(x.inspiration)}</td></tr>`).join("")}</table></div><p class="small muted">Tap a row to see the full draft.</p><div id="plDetail"></div>`;
 }
 
 function render() {

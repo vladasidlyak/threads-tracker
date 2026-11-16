@@ -88,6 +88,30 @@ def parse_json(text: str):
     raise T.TrackerError("Claude didn't return the expected list. Try again.")
 
 
+def parse_picks(text: str) -> list[dict]:
+    """Collect every complete {...} object that has a handle, even if the list itself was cut off."""
+    dec, out, i = json.JSONDecoder(), [], 0
+    try:
+        whole = parse_json(text)
+        if isinstance(whole, list) and len(whole) > 1:
+            return whole
+        if isinstance(whole, dict) and any(isinstance(v, list) and len(v) > 1 for v in whole.values()):
+            return whole
+    except T.TrackerError:
+        pass
+    while True:
+        i = text.find("{", i)
+        if i < 0:
+            return out
+        try:
+            obj, end = dec.raw_decode(text[i:])
+            if isinstance(obj, dict) and (obj.get("handle") or obj.get("username")):
+                out.append(obj)
+            i += max(end, 1)
+        except json.JSONDecodeError:
+            i += 1
+
+
 def normalize_picks(raw) -> list[dict]:
     """Accept whatever shape Claude returned: a list of objects, a list of handles, or {"anything": [...]}."""
     if isinstance(raw, dict):
@@ -99,7 +123,8 @@ def normalize_picks(raw) -> list[dict]:
             out.append({"handle": p, "reason": ""})
         elif isinstance(p, dict):
             h = p.get("handle") or p.get("username") or p.get("account") or ""
-            out.append({"handle": str(h), "reason": str(p.get("reason") or p.get("why") or "")})
+            out.append({"handle": str(h), "reason": str(p.get("reason") or p.get("why") or ""),
+                        "best_post_en": str(p.get("best_post_en") or ""), "bio_en": str(p.get("bio_en") or "")})
     return out
 
 
@@ -227,9 +252,11 @@ def discover(paths: T.Paths, settings: dict, apify: T.Apify, handle: str, min_fo
                   f"Candidates:\n{lines}\n\nPick the {count} most useful benchmarks: same niche and audience, active, "
                   "and good engagement for their size. Skip brands, clinics, aggregators and accounts in another language "
                   "unless nothing better exists. Return JSON only: [{\"handle\": \"...\", \"reason\": \"one sentence in "
-                  "English on why it's a good benchmark and what to learn from it\"}]. Use hyphens, never em dashes.")
+                  "English on why it's a good benchmark and what to learn from it\", \"best_post_en\": \"English translation "
+                  "of their best recent post shown above (empty if it is already English)\", \"bio_en\": \"English translation of "
+                  "the bio (empty if English)\"}]. Use hyphens, never em dashes.")
         try:
-            picks = parse_json(T.ask_claude(prompt, {**settings, "claude_max_tokens": 1500}, False))
+            picks = parse_picks(T.ask_claude(prompt, {**settings, "claude_max_tokens": 4000}, False))
         except T.TrackerError as e:
             if "budget" in str(e):
                 raise
@@ -241,7 +268,10 @@ def discover(paths: T.Paths, settings: dict, apify: T.Apify, handle: str, min_fo
     for p in picks:
         h = str(p.get("handle", "")).lstrip("@").lower()
         if h in by and h not in {f["handle"] for f in final}:
-            final.append({**by[h], "reason": str(p.get("reason", "")).replace("—", " - ")})
+            item = {**by[h], "reason": str(p.get("reason", "")).replace("—", " - "), "bioEn": p.get("bio_en", "")}
+            if item.get("topPost") and p.get("best_post_en"):
+                item["topPost"] = {**item["topPost"], "textEn": p["best_post_en"]}
+            final.append(item)
     for s in scored:  # top up if Claude returned fewer
         if len(final) >= count:
             break

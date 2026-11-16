@@ -72,6 +72,7 @@ Return ONLY valid JSON, no commentary, in exactly this shape:
                "how": "1-2 concrete sentences", "effort": "Quick|Medium|Big"}}],
   "posts": [{{"date": "YYYY-MM-DD", "time": "HH:MM", "pillar": "one of the pillar names", "format": "Statement|Question|List|Personal story|Quote|Thread",
              "topic": "short", "hook": "first line, in {brand['drafts_language']}", "draft": "full ready-to-post text in {brand['drafts_language']}",
+             "hook_en": "English translation of the hook (empty if already English)", "draft_en": "English translation of the draft (empty if already English)",
              "cta": "how to invite replies, or empty", "inspiration": "@handle and the pattern it builds on", "why": "one sentence"}}]
 }}
 
@@ -82,7 +83,8 @@ RULES
 - Mix formats according to what worked; vary topics; never copy competitor text - adapt the pattern in the brand's voice.
 - Drafts: Threads length (mostly under 300 characters), no hashtags unless the research shows they help.
 - Wellbeing brand: no medical claims, no diagnoses, no promises of cure. Use hyphens, never em dashes.
-- Everything except hook and draft in English."""
+- Everything except hook and draft in English. When hook and draft are not in English, always fill hook_en and draft_en.
+- When "why" or an action quotes a non-English post, add the English translation in brackets right after the quote."""
 
 
 def parse_plan(text: str) -> dict:

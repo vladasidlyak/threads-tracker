@@ -11,8 +11,8 @@ function card(c, i) {
     <div class="meta"><b style="font-size:15px">${i + 1}. <a href="https://www.threads.com/@${esc(c.handle)}" target="_blank" rel="noopener">@${esc(c.handle)}</a></b>${c.verified ? '<span class="tag">verified</span>' : ""}${c.alreadyTracked ? '<span class="tag">tracked</span>' : ""}${c.active ? "" : '<span class="tag">inactive</span>'}<span class="muted">${esc(c.fullName || "")}</span></div>
     ${c.reason ? `<div class="txt" style="margin:4px 0 6px">${esc(c.reason)}</div>` : ""}
     <div class="stats"><span><b>${fmt(c.followers)}</b> followers</span><span><b>${c.engagementRate}%</b> eng. rate</span><span>median ${fmt(c.medianEngagement)} per post</span><span>${c.postsLast30d} posts / 30 days · ${last}</span><span>match ${c.score}/100</span></div>
-    ${c.bio ? `<div class="small muted" style="margin-top:6px">${esc(c.bio)}</div>` : ""}
-    ${c.topPost && c.topPost.text ? `<div class="parent" style="margin-top:8px"><span class="small muted">Best recent post (${fmt(c.topPost.engagement)} engagement):</span><br>${esc(c.topPost.text)}</div>` : ""}
+    ${c.bio ? `<div class="small muted" style="margin-top:6px">${esc(c.bio)}${c.bioEn ? `<br><i>EN: ${esc(c.bioEn)}</i>` : ""}</div>` : ""}
+    ${c.topPost && c.topPost.text ? `<div class="parent" style="margin-top:8px"><span class="small muted">Best recent post (${fmt(c.topPost.engagement)} engagement):</span><br>${esc(c.topPost.text)}${c.topPost.textEn ? `<div class="en">EN: ${esc(c.topPost.textEn)}</div>` : ""}</div>` : ""}
     <div class="row" style="margin-top:8px">${c.alreadyTracked ? '<span class="small muted">Already in the monthly refresh.</span>' : `<button class="btn" type="button" data-track="${esc(c.handle)}">Track and analyze</button>`}</div>
   </div>`;
 }
