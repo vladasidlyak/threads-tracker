@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Threads Competitor Tracker</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2032%2032%22%3E%3Crect%20width%3D%2232%22%20height%3D%2232%22%20rx%3D%228%22%20fill%3D%22%232a78d6%22/%3E%3Ccircle%20cx%3D%2214%22%20cy%3D%2214%22%20r%3D%227.6%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%222.4%22/%3E%3Cpath%20d%3D%22M8.6%2015.2c1.6-2.6%203.3%202.4%205.4%200s3.6-2.5%205.4%200%22%20fill%3D%22none%22%20stroke%3D%22%23fff%22%20stroke-width%3D%221.9%22%20stroke-linecap%3D%22round%22/%3E%3Cpath%20d%3D%22M19.8%2019.8%2025%2025%22%20stroke%3D%22%23fff%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22/%3E%3C/svg%3E">
 <style>
 :root{
   --bg:#f6f6f4; --surface:#fcfcfb; --card:#ffffff; --line:#e4e3df; --line-2:#efeeea;
@@ -151,12 +152,16 @@ a{color:var(--accent)}
   main{margin-left:224px;padding:86px 28px 28px;max-width:1120px}
   #runCard{scroll-margin-top:90px}
 }
+
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.logo{width:36px;height:36px;flex:0 0 auto;border-radius:9px}
+@media(max-width:480px){.logo{width:30px;height:30px}}
 </style>
 </head>
 <body>
 <header>
   <div class="top">
-    <h1>Threads Competitor Tracker<small id="updated">Loading...</small></h1>
+    <div class="brand"><svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#2a78d6"/><circle cx="14" cy="14" r="7.6" fill="none" stroke="#fff" stroke-width="2.4"/><path d="M8.6 15.2c1.6-2.6 3.3 2.4 5.4 0s3.6-2.5 5.4 0" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/><path d="M19.8 19.8 25 25" stroke="#fff" stroke-width="3" stroke-linecap="round"/></svg><h1><span id="appName">Threads Competitor Tracker</span><small id="updated">Loading...</small></h1></div>
     <a class="btn primary" id="ghReport" href="#runCard" style="text-decoration:none">New report</a>
   </div>
   <nav id="nav" aria-label="Sections">
