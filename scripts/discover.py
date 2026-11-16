@@ -77,10 +77,15 @@ def days_since(iso: str | None) -> float:
 
 
 def parse_json(text: str):
-    m = re.search(r"\{.*\}|\[.*\]", text, re.S)
-    if not m:
-        raise T.TrackerError("Claude didn't return the expected list. Try again.")
-    return json.loads(m.group(0))
+    """Read the first JSON object or list in Claude's answer, ignoring any text around it."""
+    dec = json.JSONDecoder()
+    for i, ch in enumerate(text):
+        if ch in "{[":
+            try:
+                return dec.raw_decode(text[i:])[0]
+            except json.JSONDecodeError:
+                continue
+    raise T.TrackerError("Claude didn't return the expected list. Try again.")
 
 
 def discover(paths: T.Paths, settings: dict, apify: T.Apify, handle: str, min_followers: int,

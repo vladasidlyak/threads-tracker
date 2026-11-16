@@ -86,11 +86,11 @@ RULES
 
 
 def parse_plan(text: str) -> dict:
-    m = re.search(r"\{.*\}", text, re.S)
-    if not m:
+    start = text.find("{")
+    if start < 0:
         raise T.TrackerError("Claude didn't return a plan in the expected format. Try again.")
     try:
-        plan = json.loads(m.group(0))
+        plan = json.JSONDecoder().raw_decode(text[start:])[0]
     except json.JSONDecodeError:
         raise T.TrackerError("The plan came back incomplete (probably too long). Try fewer weeks or posts per week.")
     for k in ("actions", "posts"):
