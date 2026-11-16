@@ -536,7 +536,8 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str)
     return template
 
 
-def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: str, dry_run: bool) -> Path:
+def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: str, dry_run: bool,
+           requested_by: str = "") -> Path:
     accounts = []
     for h in handles:
         acc = read_json(paths.account_file(h))
@@ -556,7 +557,10 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(header + text.strip() + "\n", encoding="utf-8")
     idx = read_json(paths.reports / "index.json", [])
-    idx.insert(0, {"path": rel, "title": title, "accounts": handles, "brand": brand, "focus": focus, "created": now_iso()})
+    entry = {"path": rel, "title": title, "accounts": handles, "brand": brand, "focus": focus, "created": now_iso()}
+    if requested_by:
+        entry["requestedBy"] = requested_by[:120]
+    idx.insert(0, entry)
     write_json(paths.reports / "index.json", idx[:500])
     log(f"Report saved: {rel}")
     return out
@@ -591,6 +595,7 @@ def main(argv=None) -> int:
             p.add_argument("--all", action="store_true", help="one report across every tracked account")
             p.add_argument("--brand", default="ines")
             p.add_argument("--focus", default="full", choices=["full", "ideas", "replies", "voice"])
+            p.add_argument("--requested-by", default="")
         if name == "add":
             p.add_argument("--note", default="")
     args = ap.parse_args(argv)
@@ -619,7 +624,7 @@ def main(argv=None) -> int:
                 handles = [a["handle"] for a in cfg if paths.account_file(a["handle"]).exists()]
             else:
                 handles = [clean_handle(args.handle)]
-            report(paths, settings, handles, args.brand, args.focus, args.dry_run)
+            report(paths, settings, handles, args.brand, args.focus, args.dry_run, args.requested_by)
             update_index(paths)
             return 0
         apify = Apify(os.environ.get("APIFY_TOKEN"), args.dry_run)

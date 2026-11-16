@@ -32,6 +32,11 @@ on:
         required: false
         default: false
         type: boolean
+      requested_by:
+        description: "Who asked for it (filled in by the dashboard)"
+        required: false
+        default: ""
+        type: string
       skip_collect:
         description: "Only write a new report from data already saved (no Apify cost)"
         required: false
@@ -73,15 +78,21 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           PROFILE_URL: ${{ inputs.profile_url }}
-        run: python scripts/tracker.py report --handle "$PROFILE_URL" --brand ${{ inputs.brand }} --focus ${{ inputs.focus }}
+          REQUESTED_BY: ${{ inputs.requested_by }}
+        run: python scripts/tracker.py report --handle "$PROFILE_URL" --brand ${{ inputs.brand }} --focus ${{ inputs.focus }} --requested-by "$REQUESTED_BY"
 
       - name: Save to the repository
+        env:
+          PROFILE_URL: ${{ inputs.profile_url }}
+          FOCUS: ${{ inputs.focus }}
+          BRAND: ${{ inputs.brand }}
+          REQUESTED_BY: ${{ inputs.requested_by }}
         run: |
           git config user.name "threads-tracker-bot"
           git config user.email "threads-tracker-bot@users.noreply.github.com"
           git add data reports config/accounts.json
           if git diff --cached --quiet; then echo "Nothing changed."; exit 0; fi
-          git commit -m "Report: ${{ inputs.profile_url }} (${{ inputs.focus }}, ${{ inputs.brand }})"
+          git commit -m "Report: $PROFILE_URL ($FOCUS, $BRAND) $REQUESTED_BY"
           git pull --rebase
           git push
 

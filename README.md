@@ -51,6 +51,8 @@ Apify (collects posts) ──► GitHub Actions (runs the scripts) ──► dat
 ## 2. Everyday use
 
 ### Get a report for any account ("paste a link")
+**For a team: email sign-in.** See [cloudflare/SETUP.md](cloudflare/SETUP.md). After about 20 minutes of setup, everyone signs in with an email code and can run reports. No GitHub tokens, and the repository can be private.
+
 **Easiest: from the dashboard.** The "Get a report" form sits at the top of the Overview tab.
 
 1. The first time, click **Connect GitHub** and paste a token that is allowed to run this repository's workflows. Create it in GitHub:

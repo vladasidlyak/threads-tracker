@@ -167,7 +167,7 @@ function md(t) {
 function renderReportList() {
   const acc = $("#repAccount").value;
   const list = (S.index.reports || []).filter(r => !acc || r.accounts.includes(acc));
-  $("#repList").innerHTML = list.length ? list.map((r, i) => `<div class="ins-item" data-path="${esc(r.path)}"><b>${esc(r.title)}</b> · ${r.accounts.map(a => "@" + esc(a)).join(", ")}<div class="small muted">${new Date(r.created).toLocaleString("en-GB", {day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})} · ${esc(r.brand)}</div></div>`).join("") : '<p class="muted small">No reports yet. Run "Get report" in GitHub Actions.</p>';
+  $("#repList").innerHTML = list.length ? list.map((r, i) => `<div class="ins-item" data-path="${esc(r.path)}"><b>${esc(r.title)}</b> · ${r.accounts.map(a => "@" + esc(a)).join(", ")}<div class="small muted">${new Date(r.created).toLocaleString("en-GB", {day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})} · ${esc(r.brand)}${r.requestedBy ? " · by " + esc(r.requestedBy) : ""}</div></div>`).join("") : '<p class="muted small">No reports yet. Run "Get report" in GitHub Actions.</p>';
   $$("#repList .ins-item").forEach(d => d.onclick = () => openReport(d.dataset.path));
 }
 async function openReport(path) {
@@ -209,28 +209,60 @@ $("#tokSave").onclick = async () => {
 };
 $("#tokForget").onclick = () => { memToken = ""; store.set(""); tokenUI(); $("#tokStatus").textContent = "Token removed from this browser."; };
 
+/* Two ways to start runs:
+   - "worker": the dashboard is served by the Cloudflare Worker; people sign in with email, no token.
+   - "token":  GitHub Pages; the owner pastes a GitHub token once. */
+let MODE = "token", ME = "";
+const B = {
+  async dispatch(inputs) {
+    if (MODE === "worker") {
+      const r = await fetch("api/run", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(inputs) });
+      if (!r.ok) { let m = "Couldn't start the run (" + r.status + ")."; try { m = (await r.json()).error || m; } catch (e) {} throw new Error(m); }
+      return;
+    }
+    const r = await ghApi("/actions/workflows/report.yml/dispatches", { method: "POST", body: JSON.stringify({ ref: "main", inputs }) });
+    if (r.status === 401) throw new Error("GitHub rejected the token. Connect GitHub again.");
+    if (r.status === 403 || r.status === 404) throw new Error("The token isn't allowed to run workflows. It needs Actions: Read and write on threads-tracker.");
+    if (!r.ok) throw new Error("GitHub refused the request (" + r.status + ").");
+  },
+  async find(since) {
+    if (MODE === "worker") { const r = await fetch("api/runs?since=" + encodeURIComponent(since), { cache: "no-store" }); return r.ok ? (await r.json()).run : null; }
+    const lr = await ghApi("/actions/workflows/report.yml/runs?per_page=5&event=workflow_dispatch&created=%3E%3D" + encodeURIComponent(since));
+    return lr.ok ? ((await lr.json()).workflow_runs || [])[0] || null : null;
+  },
+  async status(id) {
+    if (MODE === "worker") { const r = await fetch("api/runs/" + id, { cache: "no-store" }); return r.ok ? (await r.json()).run : null; }
+    const rr = await ghApi("/actions/runs/" + id); return rr.ok ? rr.json() : null;
+  }
+};
+(async () => {
+  try {
+    const r = await fetch("api/me", { cache: "no-store" });
+    if (r.ok && (r.headers.get("content-type") || "").includes("json")) {
+      ME = (await r.json()).email || ""; MODE = "worker";
+      $("#tokBtn").classList.add("hidden"); $("#tokBox").classList.add("hidden");
+      $("#whoami").textContent = ME ? "Signed in as " + ME : ""; $("#whoami").classList.remove("hidden");
+    }
+  } catch (e) {}
+})();
+
 let running = false;
 async function runReport() {
   if (running) return;
   const st = $("#runStatus"), url = $("#runUrl").value.trim();
   if (!url) { st.textContent = "Paste a Threads profile link or @handle."; return; }
   if (!/^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+|@?[A-Za-z0-9._]+)\/?(\?.*)?$/.test(url)) { st.textContent = "That doesn't look like a Threads profile link."; return; }
-  if (!memToken) { $("#tokBox").classList.remove("hidden"); st.textContent = "Connect GitHub first (one time only)."; return; }
+  if (MODE === "token" && !memToken) { $("#tokBox").classList.remove("hidden"); st.textContent = "Connect GitHub first (one time only)."; return; }
   running = true; $("#runGo").disabled = true;
   const started = new Date(Date.now() - 30000).toISOString();
   try {
     st.textContent = "Starting...";
-    const r = await ghApi("/actions/workflows/report.yml/dispatches", { method: "POST", body: JSON.stringify({ ref: "main", inputs: {
-      profile_url: url, brand: $("#runBrand").value, focus: $("#runFocus").value, max_posts: $("#runMax").value,
-      include_comments: $("#runComments").checked, skip_collect: $("#runSkip").checked } }) });
-    if (r.status === 401) throw new Error("GitHub rejected the token. Connect GitHub again.");
-    if (r.status === 403 || r.status === 404) throw new Error("The token isn't allowed to run workflows. It needs Actions: Read and write on threads-tracker.");
-    if (!r.ok) throw new Error("GitHub refused the request (" + r.status + ").");
+    await B.dispatch({ profile_url: url, brand: $("#runBrand").value, focus: $("#runFocus").value, max_posts: $("#runMax").value,
+      include_comments: $("#runComments").checked, skip_collect: $("#runSkip").checked });
     let run = null;
     for (let i = 0; i < 12 && !run; i++) {
       await sleep(5000);
-      const lr = await ghApi("/actions/workflows/report.yml/runs?per_page=5&event=workflow_dispatch&created=%3E%3D" + encodeURIComponent(started));
-      if (lr.ok) { const d = await lr.json(); run = (d.workflow_runs || [])[0] || null; }
+      run = await B.find(started);
     }
     if (!run) throw new Error("The run started but I couldn't find it. Check the Actions tab on GitHub.");
     const link = ` <a href="${esc(run.html_url)}" target="_blank" rel="noopener">View on GitHub</a>`;
@@ -240,7 +272,7 @@ async function runReport() {
       const label = $("#runSkip").checked ? "Writing the report" : (Date.now() - t0 < 90e3 ? "Collecting posts from Threads" : "Collecting posts and writing the report");
       st.innerHTML = `${label}... ${Math.round((Date.now() - t0) / 1000)}s.` + link;
       await sleep(10000);
-      const rr = await ghApi("/actions/runs/" + run.id); if (rr.ok) run = await rr.json();
+      const nr = await B.status(run.id); if (nr) run = nr;
     }
     if (run.conclusion !== "success") { st.innerHTML = "The run failed. Open it to see why (the last lines explain the problem)." + link; return; }
     st.innerHTML = "Done. Publishing to the dashboard (1-2 minutes)..." + link;
