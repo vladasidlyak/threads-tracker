@@ -30,7 +30,7 @@ function render() {
   </div>
   ${o.others && o.others.length ? `<div class="card"><h2>Also considered</h2><div class="scroll"><table><tr><th>Account</th><th class="n">Followers</th><th class="n">Eng. rate</th><th class="n">Posts / 30d</th><th class="n">Match</th><th></th></tr>${o.others.map(c => `<tr><td><a href="https://www.threads.com/@${esc(c.handle)}" target="_blank" rel="noopener">@${esc(c.handle)}</a></td><td class="n">${fmt(c.followers)}</td><td class="n">${c.engagementRate}%</td><td class="n">${c.postsLast30d}</td><td class="n">${c.score}</td><td>${c.alreadyTracked ? "" : `<button class="btn" type="button" data-track="${esc(c.handle)}" style="padding:4px 8px;font-size:12px">Track</button>`}</td></tr>`).join("")}</table></div></div>` : ""}`;
   box.querySelectorAll("[data-track]").forEach(b => b.onclick = () => {
-    TT.goto("overview"); $("#runUrl").value = "https://www.threads.com/@" + b.dataset.track; $("#runFocus").value = "full"; $("#runSkip").checked = false;
+    TT.goto("reports"); $("#runUrl").value = "https://www.threads.com/@" + b.dataset.track; $("#runFocus").value = "full"; $("#runSkip").checked = false;
     $("#runCard").scrollIntoView({ behavior: "smooth" });
     $("#runStatus").textContent = `Ready: @${b.dataset.track}. Choose the brand and click Run - it collects their posts, adds them to the monthly refresh and writes a report.`;
   });
@@ -50,7 +50,7 @@ async function find() {
   if (busy) return;
   const st = $("#coStatus"), url = $("#coUrl").value.trim();
   if (!/^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+|@?[A-Za-z0-9._]+)\/?(\?.*)?$/.test(url)) { st.textContent = "Paste your Threads profile link or @handle."; return; }
-  if (TT.mode() === "token" && !TT.hasToken()) { TT.goto("overview"); $("#tokBox").classList.remove("hidden"); $("#runCard").scrollIntoView({ behavior: "smooth" }); $("#tokStatus").textContent = "Connect GitHub first (one time only), then go back to Competitors."; return; }
+  if (TT.mode() === "token" && !TT.hasToken()) { TT.goto("reports"); $("#tokBox").classList.remove("hidden"); $("#runCard").scrollIntoView({ behavior: "smooth" }); $("#tokStatus").textContent = "Connect GitHub first (one time only), then go back to Competitor search."; return; }
   busy = true; $("#coGo").disabled = true;
   const B = TT.B(), started = new Date(Date.now() - 30000).toISOString();
   try {

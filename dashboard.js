@@ -309,7 +309,7 @@ $("#repAccount").onchange = renderReportList;
 
 const gh = repoUrl();
 if (gh) $("#ghRepo").href = gh;
-$("#ghReport").onclick = e => { e.preventDefault(); goto("overview"); $("#runCard").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#runUrl").focus(), 400); };
+$("#ghReport").onclick = e => { e.preventDefault(); goto("reports"); $("#runCard").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#runUrl").focus(), 400); };
 
 async function reloadData() {
   S.index = await getJSON("data/index.json"); S.accounts = {};

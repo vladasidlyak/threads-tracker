@@ -124,7 +124,7 @@ async function loadList(select) {
 async function create() {
   if (busy) return;
   const st = $("#plStatus");
-  if (TT.mode() === "token" && !TT.hasToken()) { TT.goto("overview"); $("#tokBox").classList.remove("hidden"); $("#runCard").scrollIntoView({ behavior: "smooth" }); $("#tokStatus").textContent = "Connect GitHub first (one time only), then go back to Content plan."; return; }
+  if (TT.mode() === "token" && !TT.hasToken()) { TT.goto("reports"); $("#tokBox").classList.remove("hidden"); $("#runCard").scrollIntoView({ behavior: "smooth" }); $("#tokStatus").textContent = "Connect GitHub first (one time only), then go back to Content plan."; return; }
   if (!Object.keys(TT.S.accounts).length) { st.textContent = "Track at least one competitor first."; return; }
   busy = true; $("#plGo").disabled = true;
   const B = TT.B(), started = new Date(Date.now() - 30000).toISOString();

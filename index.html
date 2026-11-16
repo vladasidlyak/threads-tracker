@@ -180,39 +180,6 @@ a{color:var(--accent)}
 </header>
 <main>
   <div class="banner" id="loadMsg">Loading data...</div>
-  <div class="card" id="runCard">
-    <div class="row" style="justify-content:space-between;align-items:flex-start">
-      <div style="flex:1 1 200px;min-width:0"><h2>Get a report</h2><p class="sub">Paste a Threads profile link. New accounts are added to the monthly refresh.</p></div>
-      <button class="btn" id="tokBtn" type="button">Connect GitHub</button>
-      <span class="small muted hidden" id="whoami"></span>
-    </div>
-    <div id="tokBox" class="hidden" style="margin-bottom:12px;border:1px solid var(--line);border-radius:10px;padding:12px">
-      <p class="small" style="margin-top:0">Paste a GitHub token that can run this repository's workflows. It's saved only in this browser. <a href="#" id="tokHelpLink">How to create one</a></p>
-      <div id="tokHelp" class="hidden small muted" style="margin-bottom:8px">
-        <ol style="padding-left:18px;margin:4px 0">
-          <li>GitHub → your photo → <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token</b>.</li>
-          <li>Name: <code>dashboard</code>. Expiration: 1 year. Repository access: <b>Only select repositories → threads-tracker</b>.</li>
-          <li>Permissions → Repository permissions → <b>Actions: Read and write</b>. Leave everything else as is.</li>
-          <li>Generate, copy the token (starts with <code>github_pat_</code>) and paste it here.</li>
-        </ol>
-      </div>
-      <div class="row"><input type="password" id="tokIn" class="grow" placeholder="github_pat_..." autocomplete="off"><button class="btn primary" id="tokSave" type="button">Save</button><button class="btn danger hidden" id="tokForget" type="button">Forget token</button></div>
-      <div class="status" id="tokStatus"></div>
-    </div>
-    <div class="row">
-      <input id="runUrl" class="grow" placeholder="https://www.threads.com/@username">
-    </div>
-    <div class="row" style="margin-top:8px">
-      <select id="runBrand" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option><option value="liven">For: Liven</option><option value="overwell">For: Overwell</option></select>
-      <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">Full analysis</option><option value="ideas">Post ideas</option><option value="replies">Replies &amp; tone</option><option value="voice">AI linguistic report</option></select>
-      <select id="runMax" style="width:auto" aria-label="Posts"><option value="30">30 posts</option><option value="60" selected>60 posts</option><option value="100">100 posts</option></select>
-      <button class="btn primary" id="runGo" type="button">Run</button>
-    </div>
-    <label class="small muted" style="display:flex;gap:6px;align-items:center;margin-top:8px"><input type="checkbox" id="runComments" style="width:auto"> Also collect comments under the top 10 posts (top 5 posts, about $0.15 more)</label>
-    <label class="small muted" style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="checkbox" id="runSkip" style="width:auto"> Only write a new report from saved data (no Apify cost)</label>
-    <div class="status" id="runStatus"></div>
-  </div>
-
   <section id="tab-overview">
     <div class="row" style="margin-bottom:14px">
       <select id="ovAccount" style="width:auto" aria-label="Account"></select>
@@ -323,10 +290,40 @@ a{color:var(--accent)}
   </section>
 
   <section id="tab-reports" class="hidden">
-    <div class="card cta">
-      <div><h2>Need a new report?</h2><p class="sub" style="margin:0">Use the "Get a report" form on the Overview tab, or run "Get report" on GitHub.</p></div>
-      <a class="btn" id="ghRepo" target="_blank" rel="noopener" href="#" style="text-decoration:none">Open repository</a>
+    <div class="card" id="runCard">
+    <div class="row" style="justify-content:space-between;align-items:flex-start">
+      <div style="flex:1 1 200px;min-width:0"><h2>Get a new report</h2><p class="sub">Paste a Threads profile link. New accounts are added to the monthly refresh.</p></div>
+      <button class="btn" id="tokBtn" type="button">Connect GitHub</button>
+      <span class="small muted hidden" id="whoami"></span>
     </div>
+    <div id="tokBox" class="hidden" style="margin-bottom:12px;border:1px solid var(--line);border-radius:10px;padding:12px">
+      <p class="small" style="margin-top:0">Paste a GitHub token that can run this repository's workflows. It's saved only in this browser. <a href="#" id="tokHelpLink">How to create one</a></p>
+      <div id="tokHelp" class="hidden small muted" style="margin-bottom:8px">
+        <ol style="padding-left:18px;margin:4px 0">
+          <li>GitHub → your photo → <b>Settings → Developer settings → Personal access tokens → Fine-grained tokens → Generate new token</b>.</li>
+          <li>Name: <code>dashboard</code>. Expiration: 1 year. Repository access: <b>Only select repositories → threads-tracker</b>.</li>
+          <li>Permissions → Repository permissions → <b>Actions: Read and write</b>. Leave everything else as is.</li>
+          <li>Generate, copy the token (starts with <code>github_pat_</code>) and paste it here.</li>
+        </ol>
+      </div>
+      <div class="row"><input type="password" id="tokIn" class="grow" placeholder="github_pat_..." autocomplete="off"><button class="btn primary" id="tokSave" type="button">Save</button><button class="btn danger hidden" id="tokForget" type="button">Forget token</button></div>
+      <div class="status" id="tokStatus"></div>
+    </div>
+    <div class="row">
+      <input id="runUrl" class="grow" placeholder="https://www.threads.com/@username">
+    </div>
+    <div class="row" style="margin-top:8px">
+      <select id="runBrand" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option><option value="liven">For: Liven</option><option value="overwell">For: Overwell</option></select>
+      <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">Full analysis</option><option value="ideas">Post ideas</option><option value="replies">Replies &amp; tone</option><option value="voice">AI linguistic report</option></select>
+      <select id="runMax" style="width:auto" aria-label="Posts"><option value="30">30 posts</option><option value="60" selected>60 posts</option><option value="100">100 posts</option></select>
+      <button class="btn primary" id="runGo" type="button">Run</button>
+    </div>
+    <label class="small muted" style="display:flex;gap:6px;align-items:center;margin-top:8px"><input type="checkbox" id="runComments" style="width:auto"> Also collect comments under the top 5 posts (about $0.15 more)</label>
+    <label class="small muted" style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="checkbox" id="runSkip" style="width:auto"> Only write a new report from saved data (no Apify cost)</label>
+    <div class="status" id="runStatus"></div>
+  </div>
+
+    <p class="small muted" style="margin:-6px 0 16px"><a id="ghRepo" target="_blank" rel="noopener" href="#">Open the repository on GitHub</a></p>
     <div class="card">
       <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0">Reports</h2><select id="repAccount" style="width:auto"></select></div>
       <div id="repList"></div>

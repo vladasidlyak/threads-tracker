@@ -132,7 +132,7 @@ function render() {
   ${compare(src)}`;
   $("#vGuide").onclick = () => {
     const h = acc || Object.keys(TT.S.accounts)[0];
-    TT.goto("overview"); $("#runUrl").value = "https://www.threads.com/@" + h; $("#runFocus").value = "voice"; $("#runSkip").checked = true;
+    TT.goto("reports"); $("#runUrl").value = "https://www.threads.com/@" + h; $("#runFocus").value = "voice"; $("#runSkip").checked = true;
     $("#runCard").scrollIntoView({ behavior: "smooth" });
     $("#runStatus").textContent = "Ready: AI linguistic report for @" + h + " from saved data. Check the brand and click Run.";
   };
