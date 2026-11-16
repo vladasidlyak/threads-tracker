@@ -20,7 +20,7 @@ on:
         required: true
         default: full
         type: choice
-        options: [full, ideas, replies]
+        options: [full, ideas, replies, voice]
       max_posts:
         description: "Posts to collect"
         required: true

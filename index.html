@@ -117,6 +117,7 @@ a{color:var(--accent)}
     <button data-tab="overview" class="on">Overview</button>
     <button data-tab="posts">Posts</button>
     <button data-tab="replies">Replies &amp; comments</button>
+    <button data-tab="voice">Voice</button>
     <button data-tab="compare">Compare</button>
     <button data-tab="reports">AI reports</button>
   </nav>
@@ -146,7 +147,7 @@ a{color:var(--accent)}
     </div>
     <div class="row" style="margin-top:8px">
       <select id="runBrand" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option><option value="liven">For: Liven</option><option value="overwell">For: Overwell</option></select>
-      <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">Full analysis</option><option value="ideas">Post ideas</option><option value="replies">Replies &amp; tone</option></select>
+      <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">Full analysis</option><option value="ideas">Post ideas</option><option value="replies">Replies &amp; tone</option><option value="voice">Voice guide</option></select>
       <select id="runMax" style="width:auto" aria-label="Posts"><option value="30">30 posts</option><option value="60" selected>60 posts</option><option value="100">100 posts</option></select>
       <button class="btn primary" id="runGo" type="button">Run</button>
     </div>
@@ -215,6 +216,14 @@ a{color:var(--accent)}
     </div>
   </section>
 
+  <section id="tab-voice" class="hidden">
+    <div class="row" style="margin-bottom:14px">
+      <select id="vAccount" style="width:auto" aria-label="Account"></select>
+      <select id="vSource" style="width:auto" aria-label="Analyze"><option value="post">Their posts</option><option value="reply">Their replies</option></select>
+    </div>
+    <div id="vBody"><div class="card empty">Loading...</div></div>
+  </section>
+
   <section id="tab-compare" class="hidden">
     <div class="card">
       <h2>All accounts side by side</h2>
@@ -240,5 +249,6 @@ a{color:var(--accent)}
 </main>
 <div id="tip"></div>
 <script src="dashboard.js"></script>
+<script src="voice.js"></script>
 </body>
 </html>

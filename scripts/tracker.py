@@ -420,6 +420,56 @@ def collect_comments(settings: dict, apify: Apify, account: dict) -> None:
     log(f"Comments saved: {total} across {sum(1 for v in by_post.values() if v)} posts")
 
 
+EMOJI_RE = re.compile(r"[\U0001F300-\U0001FAFF\u2600-\u27BF\u2661][\ufe0f\U0001F3FB-\U0001F3FF]*(?:\u200d[\U0001F300-\U0001FAFF\u2600-\u27BF][\ufe0f\U0001F3FB-\U0001F3FF]*)*")
+YOU_RE = re.compile(r"\b(tú|tu|tus|te|ti|contigo|usted|you|your|yourself)\b", re.I)
+I_RE = re.compile(r"\b(yo|me|mi|mis|conmigo|i|my|myself)\b", re.I)
+
+
+def voice_stats(items: list[dict]) -> str:
+    """Compact language statistics for the prompt (the dashboard's Voice tab shows the full version)."""
+    texts = [p for p in items if (p.get("text") or "").strip()]
+    if not texts:
+        return "n/a"
+    n = len(texts)
+    words = lambda s: re.findall(r"[\w'’]+", s)
+    sents = [s for p in texts for s in re.split(r"(?<=[.!?…])\s+|\n+", p["text"]) if words(s)]
+    share = lambda pred: f"{round(100 * sum(1 for p in texts if pred(p['text'])) / n)}%"
+    def lift(pred):
+        yes = [engagement(p) for p in texts if pred(p["text"])]
+        no = [engagement(p) for p in texts if not pred(p["text"])]
+        if len(yes) < 3 or len(no) < 3:
+            return ""
+        return f" (median engagement {round(statistics.median(yes))} with vs {round(statistics.median(no))} without)"
+    emojis: dict[str, int] = {}
+    for p in texts:
+        for e in EMOJI_RE.findall(p["text"]):
+            emojis[e] = emojis.get(e, 0) + 1
+    openings: dict[str, int] = {}
+    for p in texts:
+        w = " ".join(words(p["text"])[:2]).lower()
+        if w:
+            openings[w] = openings.get(w, 0) + 1
+    checks = [
+        ("question marks", lambda s: bool(re.search(r"[?¿]", s))),
+        ("exclamation marks", lambda s: bool(re.search(r"[!¡]", s))),
+        ("ellipsis", lambda s: "…" in s or "..." in s),
+        ("quotation marks", lambda s: bool(re.search(r"[“”\"«»]", s))),
+        ("line breaks", lambda s: "\n" in s),
+        ("emoji", lambda s: bool(EMOJI_RE.search(s))),
+        ("CAPS emphasis", lambda s: bool(re.search(r"\b[A-ZÁÉÍÓÚÑ]{2,}\b", s))),
+        ("'you' address", lambda s: bool(YOU_RE.search(s))),
+        ("'I' voice", lambda s: bool(I_RE.search(s))),
+    ]
+    lines = [
+        f"{n} texts. Median {round(statistics.median(len(words(p['text'])) for p in texts))} words; "
+        f"average sentence {sum(len(words(s)) for s in sents) / max(1, len(sents)):.1f} words.",
+    ] + [f"Uses {name}: {share(fn)}{lift(fn)}" for name, fn in checks] + [
+        "Top emojis: " + (" ".join(f"{e}×{c}" for e, c in sorted(emojis.items(), key=lambda x: -x[1])[:8]) or "none"),
+        "Repeated openings: " + (", ".join([f'"{k}…"×{c}' for k, c in sorted(openings.items(), key=lambda x: -x[1]) if c > 1][:6]) or "none"),
+    ]
+    return "\n".join(lines)
+
+
 def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str) -> str:
     brands = read_json(paths.config / "brands.json")
     if brand_key not in brands:
@@ -438,7 +488,7 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str)
                 f"format {format_of(p['text'])} | {len(p['text'])} chars\n  \"{txt}\"")
 
     ranked = sorted(posts, key=engagement, reverse=True)
-    top = "\n".join(line(p) for p in ranked[:25]) or "(none)"
+    top = "\n".join(line(p) for p in ranked[:60 if focus == "voice" else 25]) or "(none)"
     weak = "\n".join(line(p) for p in ranked[-8:]) if len(ranked) > 30 else "(not enough posts to compare)"
     rep = "\n".join(
         f"- @{p['account']} replied to @{p['parentAuthor'] or 'someone'}: "
@@ -476,6 +526,7 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str)
         "POST_COUNT": str(len(posts)), "REPLY_COUNT": str(len(replies)), "VIEWS": views_line,
         "BY_FORMAT": agg(lambda p: format_of(p["text"])), "BY_LENGTH": agg(lambda p: length_of(p["text"])),
         "BY_WEEKDAY": agg(lambda p: weekday_of(p["date"])),
+        "VOICE_POSTS": voice_stats(posts), "VOICE_REPLIES": voice_stats(replies),
         "TOP_POSTS": top, "WEAK_POSTS": weak, "REPLIES": rep, "CONVERSATIONS": convo_txt,
     }
     task = task.replace("{{BRAND_NAME}}", brand["name"]).replace("{{DRAFTS_LANGUAGE}}", brand["drafts_language"])
@@ -498,7 +549,7 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d-%H%M")
     slug = handles[0] if len(handles) == 1 else "all-accounts"
     rel = f"reports/{slug}/{stamp}-{focus}-{brand}.md"
-    title = {"full": "Full analysis", "ideas": "Post ideas", "replies": "Reply analysis"}[focus]
+    title = {"full": "Full analysis", "ideas": "Post ideas", "replies": "Reply analysis", "voice": "Voice guide"}[focus]
     header = (f"# {title}: {', '.join('@' + h for h in handles)}\n\n"
               f"Brand: {read_json(paths.config / 'brands.json')[brand]['name']} · Generated {now_iso()[:16].replace('T', ' ')} UTC\n\n")
     out = paths.root / rel
@@ -539,7 +590,7 @@ def main(argv=None) -> int:
         if name == "report":
             p.add_argument("--all", action="store_true", help="one report across every tracked account")
             p.add_argument("--brand", default="ines")
-            p.add_argument("--focus", default="full", choices=["full", "ideas", "replies"])
+            p.add_argument("--focus", default="full", choices=["full", "ideas", "replies", "voice"])
         if name == "add":
             p.add_argument("--note", default="")
     args = ap.parse_args(argv)

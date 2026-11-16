@@ -257,6 +257,8 @@ $("#runGo").onclick = runReport;
 $("#runUrl").onkeydown = e => { if (e.key === "Enter") runReport(); };
 tokenUI();
 
+const dataHooks = [];
+window.TT = { $, esc, fmt, eng, median, allPosts, S, goto: t => goto(t), onData: fn => dataHooks.push(fn) };
 /* ---------- wiring ---------- */
 function goto(tab) { $$("#nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab)); $$("main > section").forEach(s => s.classList.toggle("hidden", s.id !== "tab-" + tab)); hideTip(); }
 $$("#nav button").forEach(b => b.onclick = () => goto(b.dataset.tab));
@@ -275,6 +277,7 @@ async function reloadData() {
   S.index = await getJSON("data/index.json"); S.accounts = {};
   await Promise.all(S.index.accounts.filter(a => a.posts || a.replies).map(async a => { try { S.accounts[a.handle] = await getJSON(`data/accounts/${a.handle}.json`); } catch (e) {} }));
   fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList();
+  dataHooks.forEach(f => { try { f(); } catch (e) { console.error(e); } });
 }
 (async function load() {
   try {
@@ -282,6 +285,7 @@ async function reloadData() {
     await Promise.all(S.index.accounts.filter(a => a.posts || a.replies).map(async a => { try { S.accounts[a.handle] = await getJSON(`data/accounts/${a.handle}.json`); } catch (e) {} }));
     $("#updated").textContent = "Data updated " + new Date(S.index.updated).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
     fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList();
+    dataHooks.forEach(f => { try { f(); } catch (e) { console.error(e); } });
     if (!Object.keys(S.accounts).length) $("#loadMsg").textContent = "No data yet. Run \"Get report\" in GitHub Actions to collect the first account.";
     else $("#loadMsg").classList.add("hidden");
   } catch (e) {
