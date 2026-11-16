@@ -44,6 +44,56 @@ class TrackerError(Exception):
     """An error with a message that is safe and useful to show in the Actions log."""
 
 
+# ---------------------------------------------------------------- monthly budget
+# Every paid call is recorded in data/usage.json. When this month's total reaches
+# monthly_budget_usd (config/settings.json), paid actions stop with a clear message.
+BUDGET = {"path": None, "settings": {}}
+
+
+def _usage() -> dict:
+    return read_json(BUDGET["path"], {}) if BUDGET["path"] else {}
+
+
+def month_key() -> str:
+    return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m")
+
+
+def spent_this_month() -> float:
+    return float(_usage().get(month_key(), {}).get("total", 0))
+
+
+def budget_left() -> float:
+    limit = float(BUDGET["settings"].get("monthly_budget_usd", 0) or 0)
+    return 9999.0 if not limit or not BUDGET["path"] else round(limit - spent_this_month(), 4)
+
+
+def check_budget(minimum: float = 0.02) -> float:
+    left = budget_left()
+    if left < minimum:
+        limit = BUDGET["settings"].get("monthly_budget_usd")
+        raise TrackerError(f"This month's budget of ${limit} is used up (spent ${spent_this_month():.2f}). "
+                           "Paid actions start again on the 1st, or raise monthly_budget_usd in config/settings.json.")
+    return left
+
+
+def record_cost(kind: str, usd: float, what: str) -> None:
+    if not BUDGET["path"]:
+        return
+    u = _usage()
+    m = u.setdefault(month_key(), {"total": 0, "items": []})
+    m["total"] = round(m["total"] + usd, 4)
+    m["items"] = (m["items"] + [{"t": now_iso(), "kind": kind, "usd": round(usd, 4), "what": what[:80]}])[-300:]
+    for k in sorted(u)[:-12]:  # keep a year
+        u.pop(k, None)
+    write_json(BUDGET["path"], u)
+    log(f"Cost: ${usd:.3f} ({kind}). This month: ${m['total']:.2f}")
+
+
+def setup_budget(paths, settings: dict, dry_run: bool) -> None:
+    BUDGET["settings"] = settings
+    BUDGET["path"] = None if dry_run else paths.data / "usage.json"
+
+
 # ---------------------------------------------------------------- paths & io
 
 class Paths:
@@ -221,6 +271,7 @@ class Apify:
         if self.dry_run:
             log(f"[dry run] would run {actor} with {json.dumps(actor_input)[:200]}")
             return read_json(FIXTURES / fixture, [])
+        max_cost = round(min(max_cost, check_budget()), 2)
         actor_id = actor.replace("/", "~")
         run = self._req("POST", f"{APIFY_API}/acts/{actor_id}/runs",
                         params={"maxTotalChargeUsd": max_cost}, json=actor_input)["data"]
@@ -242,8 +293,10 @@ class Apify:
             if len(page) < 500:
                 break
             offset += 500
-        cost = (run.get("usageTotalUsd") or 0)
-        log(f"Apify run finished: {len(items)} rows, usage about ${cost:.2f}")
+        price = float(BUDGET["settings"].get("apify_price_per_item_usd", 0.0016))
+        cost = max(len(items) * price, float(run.get("usageTotalUsd") or 0))
+        log(f"Apify run finished: {len(items)} rows")
+        record_cost("apify", cost, f"{actor} {json.dumps(actor_input, ensure_ascii=False)[:60]}")
         return items
 
 
@@ -254,6 +307,7 @@ def ask_claude(prompt: str, settings: dict, dry_run: bool) -> str:
         log("[dry run] would send the report prompt to Claude "
             f"({len(prompt)} characters, model {settings['claude_model']})")
         return "### What's working\n- (dry run) This is where Claude's analysis would appear.\n"
+    check_budget(0.02)
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
         raise TrackerError("ANTHROPIC_API_KEY is missing. Add it in GitHub: Settings → Secrets and variables → Actions.")
@@ -284,6 +338,9 @@ def ask_claude(prompt: str, settings: dict, dry_run: bool) -> str:
             text += "\n\n*(Report cut off at the length limit. Raise claude_max_tokens in config/settings.json.)*\n"
         usage = data.get("usage", {})
         log(f"Claude answered: {usage.get('input_tokens')} input tokens, {usage.get('output_tokens')} output tokens")
+        cost = ((usage.get("input_tokens") or 0) * float(settings.get("claude_price_input_per_mtok", 2)) +
+                (usage.get("output_tokens") or 0) * float(settings.get("claude_price_output_per_mtok", 10))) / 1e6
+        record_cost("claude", cost, prompt[:80].replace("\n", " "))
         return text.replace("—", " - ")
     raise TrackerError("The Claude API didn't answer after 3 tries.")
 
@@ -359,9 +416,13 @@ def update_index(paths: Paths) -> None:
         })
     reports = read_json(paths.reports / "index.json", [])
     competitors = read_json(paths.data / "competitors" / "index.json", [])
+    settings = read_json(paths.config / "settings.json", {})
+    month = (read_json(paths.data / "usage.json", {}) or {}).get(month_key(), {})
     write_json(paths.data / "index.json", {"updated": now_iso(), "accounts": out, "reports": reports[:200],
                                            "competitors": competitors[:100],
-                                           "plans": read_json(paths.data / "plans" / "index.json", [])[:100]})
+                                           "plans": read_json(paths.data / "plans" / "index.json", [])[:100],
+                                           "usage": {"month": month_key(), "spent": round(month.get("total", 0), 2),
+                                                     "budget": settings.get("monthly_budget_usd")}})
 
 
 # ---------------------------------------------------------------- commands
@@ -370,11 +431,16 @@ def collect(paths: Paths, settings: dict, apify: Apify, handle: str, max_posts: 
             replies: bool, comments: bool) -> dict:
     log(f"\n=== Collecting @{handle} ===")
     content = ["profile", "posts"] + (["replies"] if replies else [])
-    rows = apify.run(settings["apify_profile_actor"], {
-        "usernames": [handle], "profileContent": content, "maxItemsPerInput": max_posts,
-        "includeViewCounts": True, "includeAuthorDetails": True,
-        "proxyConfiguration": {"useApifyProxy": True},
-    }, settings["max_cost_usd_per_run"], "profile_run.json")
+    actor_input = {"usernames": [handle], "profileContent": content, "maxItemsPerInput": max_posts,
+                   "includeViewCounts": True, "includeAuthorDetails": True,
+                   "proxyConfiguration": {"useApifyProxy": True}}
+    existing = load_account(paths, handle)
+    last = existing["profile"].get("lastFetched")
+    if settings.get("only_new_posts_on_refresh") and last and existing["posts"]:
+        days = max(2, int((dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(last.replace("Z", "+00:00"))).days) + 2)
+        actor_input["postedAfter"] = f"{days} days"
+        log(f"Only posts from the last {days} days (older ones are already saved)")
+    rows = apify.run(settings["apify_profile_actor"], actor_input, settings["max_cost_usd_per_run"], "profile_run.json")
     if not rows:
         raise TrackerError(f"Apify returned no data for @{handle}. Is the profile public and spelled right?")
     account = load_account(paths, handle)
@@ -612,6 +678,7 @@ def main(argv=None) -> int:
         log(f"[dry run] working in {root} - nothing in the repository will change")
     paths = Paths(root)
     settings = read_json(paths.config / "settings.json")
+    setup_budget(paths, settings, args.dry_run)
 
     try:
         if args.cmd == "index":

@@ -182,7 +182,7 @@ a{color:var(--accent)}
   <div class="banner" id="loadMsg">Loading data...</div>
   <div class="card" id="runCard">
     <div class="row" style="justify-content:space-between;align-items:flex-start">
-      <div style="flex:1 1 200px;min-width:0"><h2>Get a report</h2><p class="sub">Paste a Threads profile link. New accounts are added and tracked every Monday.</p></div>
+      <div style="flex:1 1 200px;min-width:0"><h2>Get a report</h2><p class="sub">Paste a Threads profile link. New accounts are added to the monthly refresh.</p></div>
       <button class="btn" id="tokBtn" type="button">Connect GitHub</button>
       <span class="small muted hidden" id="whoami"></span>
     </div>
@@ -208,7 +208,7 @@ a{color:var(--accent)}
       <select id="runMax" style="width:auto" aria-label="Posts"><option value="30">30 posts</option><option value="60" selected>60 posts</option><option value="100">100 posts</option></select>
       <button class="btn primary" id="runGo" type="button">Run</button>
     </div>
-    <label class="small muted" style="display:flex;gap:6px;align-items:center;margin-top:8px"><input type="checkbox" id="runComments" style="width:auto"> Also collect comments under the top 10 posts (about $0.50 more)</label>
+    <label class="small muted" style="display:flex;gap:6px;align-items:center;margin-top:8px"><input type="checkbox" id="runComments" style="width:auto"> Also collect comments under the top 10 posts (top 5 posts, about $0.15 more)</label>
     <label class="small muted" style="display:flex;gap:6px;align-items:center;margin-top:4px"><input type="checkbox" id="runSkip" style="width:auto"> Only write a new report from saved data (no Apify cost)</label>
     <div class="status" id="runStatus"></div>
   </div>

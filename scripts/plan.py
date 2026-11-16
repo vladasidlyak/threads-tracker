@@ -190,6 +190,7 @@ def main(argv=None) -> int:
         T.log(f"[dry run] working in {root}")
     paths = T.Paths(root)
     settings = T.read_json(paths.config / "settings.json")
+    T.setup_budget(paths, settings, a.dry_run)
     try:
         brands = T.read_json(paths.config / "brands.json")
         if a.brand not in brands:

@@ -13,7 +13,7 @@ function card(c, i) {
     <div class="stats"><span><b>${fmt(c.followers)}</b> followers</span><span><b>${c.engagementRate}%</b> eng. rate</span><span>median ${fmt(c.medianEngagement)} per post</span><span>${c.postsLast30d} posts / 30 days · ${last}</span><span>match ${c.score}/100</span></div>
     ${c.bio ? `<div class="small muted" style="margin-top:6px">${esc(c.bio)}</div>` : ""}
     ${c.topPost && c.topPost.text ? `<div class="parent" style="margin-top:8px"><span class="small muted">Best recent post (${fmt(c.topPost.engagement)} engagement):</span><br>${esc(c.topPost.text)}</div>` : ""}
-    <div class="row" style="margin-top:8px">${c.alreadyTracked ? '<span class="small muted">Already in the weekly refresh.</span>' : `<button class="btn" type="button" data-track="${esc(c.handle)}">Track and analyze</button>`}</div>
+    <div class="row" style="margin-top:8px">${c.alreadyTracked ? '<span class="small muted">Already in the monthly refresh.</span>' : `<button class="btn" type="button" data-track="${esc(c.handle)}">Track and analyze</button>`}</div>
   </div>`;
 }
 
@@ -32,7 +32,7 @@ function render() {
   box.querySelectorAll("[data-track]").forEach(b => b.onclick = () => {
     TT.goto("overview"); $("#runUrl").value = "https://www.threads.com/@" + b.dataset.track; $("#runFocus").value = "full"; $("#runSkip").checked = false;
     $("#runCard").scrollIntoView({ behavior: "smooth" });
-    $("#runStatus").textContent = `Ready: @${b.dataset.track}. Choose the brand and click Run - it collects their posts, adds them to the weekly refresh and writes a report.`;
+    $("#runStatus").textContent = `Ready: @${b.dataset.track}. Choose the brand and click Run - it collects their posts, adds them to the monthly refresh and writes a report.`;
   });
 }
 

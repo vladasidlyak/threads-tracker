@@ -255,6 +255,7 @@ def main(argv=None) -> int:
         T.log(f"[dry run] working in {root}")
     paths = T.Paths(root)
     settings = T.read_json(paths.config / "settings.json")
+    T.setup_budget(paths, settings, a.dry_run)
     try:
         import os
         apify = T.Apify(os.environ.get("APIFY_TOKEN"), a.dry_run)

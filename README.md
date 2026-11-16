@@ -81,8 +81,8 @@ Apify (collects posts) ──► GitHub Actions (runs the scripts) ──► dat
 
 You can do all of this in the **GitHub mobile app**: Repository → Actions → Get report → Run workflow.
 
-### Weekly refresh (automatic)
-Every Monday morning, **Weekly refresh** updates every tracked account and writes one summary report. You can also run it by hand from the Actions tab.
+### Monthly refresh (automatic)
+On the 1st of every month, **Monthly refresh** collects new posts from every tracked account and writes one summary report. You can also run it by hand from the Actions tab.
 
 ### Add or remove tracked accounts
 - **Add:** running **Get report** with a new link adds the account automatically.
@@ -117,23 +117,39 @@ AI reports have the same **Download** and **Print / PDF** buttons.
 
 ---
 
-## 3. What it costs
+## 3. What it costs - and the $5 monthly limit
 
-| Item | Price | Typical use |
+**Built-in budget:**
+- Every paid call is recorded in `data/usage.json`.
+- When the month's total reaches **$5** (`monthly_budget_usd` in `config/settings.json`), all paid actions stop with a clear message until the 1st of the next month.
+- Each single run is also capped so it can't spend more than what's left.
+- The dashboard header shows **"Spent this month $x of $5"**.
+
+**Default settings to keep it around $3-4 a month (even with ~40 accounts):**
+
+| Setting | Value | Why |
 |---|---|---|
-| **Apify**, posts and replies | about $0.0016 per post or reply (free tier) | 60 posts + replies ≈ $0.15 per account |
-| **Apify**, comments (optional) | same per comment | 10 posts × 30 comments ≈ $0.50 |
-| **Claude API** | pay per use | a report sends about 5,000 words of data, a few cents each (check current prices on the Claude pricing page) |
-| **GitHub Actions** | free at this volume | |
-| **GitHub Pages** | free on public repos | private needs a paid plan |
+| Refresh | **monthly**, on the 1st | weekly would cost about 4x more |
+| `only_new_posts_on_refresh` | `true` | collects only posts published since the last refresh |
+| `max_posts_per_account` | 25 | posts and replies per account per run |
+| Comments | off by default; when ticked, top **5** posts × **20** comments | comments are the most expensive part |
+| AI reports | 1 monthly summary automatically; others only when you click Run | |
 
-**Example:** 5 competitors refreshed weekly + 5 reports ≈ **$5-10 a month**.
+**What each action costs, roughly:**
 
-**Safety caps:**
-- Every Apify run stops at **$0.50** (`max_cost_usd_per_run` in `config/settings.json`).
-- Set a monthly limit in Apify (Billing → Limits) and in the Claude Console (Billing → Limits) too.
+| Action | Cost |
+|---|---|
+| Report with fresh data | ~$0.10-0.25 |
+| Report from saved data / AI linguistic report | ~$0.10 |
+| + comments (5 posts × 20) | +~$0.15 |
+| Competitor search | ~$0.35 |
+| Content plan | ~$0.15-0.20 |
+| Monthly refresh | ~$0.05 per account + ~$0.15 summary |
+| Viewing anything, the Tone of voice stats, downloads, login | free |
 
----
+**Recommended backup limits in the services themselves:**
+- **Claude Console:** Billing → Limits → $3 a month.
+- **Apify:** Billing → Limits → $4 a month.
 
 ## 4. What's in the data
 

@@ -28,7 +28,7 @@ on:
         type: choice
         options: ["30", "60", "100"]
       include_comments:
-        description: "Also collect comments under the top 10 posts (costs about $0.50 more)"
+        description: "Also collect comments under the top 5 posts (about $0.15 more)"
         required: false
         default: false
         type: boolean
