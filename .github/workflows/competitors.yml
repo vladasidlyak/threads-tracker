@@ -30,7 +30,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: tracker-data
+  group: tracker-data-v2
   cancel-in-progress: false
 
 jobs:
