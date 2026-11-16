@@ -1,0 +1,304 @@
+{
+ "id": "2026-11-16-1412-ines",
+ "title": "Content plan - Inés (Spanish market) - 2026-11-23",
+ "brand": "ines",
+ "brandName": "Inés (Spanish market)",
+ "start": "2026-11-23",
+ "weeks": 4,
+ "perWeek": 4,
+ "basedOn": [
+  "esmipsicologa"
+ ],
+ "created": "2026-11-16T14:12:33Z",
+ "requestedBy": "",
+ "summary": "Build a warm, short, 'tú'-addressed feed of reassurance, relationship boundaries and gentle self-care, because 'tú' posts reached a median of 1344 engagement vs 664 without. Use one-liner verdicts and parallel-structure lists as the backbone. Add what the competitor lacks: Inés's own voice, questions and real replies that turn broadcast likes into conversation.",
+ "pillars": [
+  {
+   "name": "Consuelo y permiso",
+   "share": "35%",
+   "why": "Reassuring 'tú' posts such as 'Tengo una buena noticia para ti...' (3,212 likes) and 'Te pasó porque había algo malo en esa persona, no en ti.' (125,694 views, the highest reach) lead the data."
+  },
+  {
+   "name": "Relaciones y límites",
+   "share": "30%",
+   "why": "Standards, red flags and boundaries drive the multi-sentence hits, e.g. the 'Sé exigente porque...' list (2,416 likes) and 'Querer a una persona también es trabajarte TÚ...' (2,187 likes)."
+  },
+  {
+   "name": "Autocuidado cotidiano",
+   "share": "20%",
+   "why": "Calm-life permission lists like 'Una pareja que te adore... un sistema nervioso en calma...' (1,930 likes) show appetite for gentle, practical wellbeing imagery."
+  },
+  {
+   "name": "Inés conversa",
+   "share": "15%",
+   "why": "The competitor broadcasts (3,096 likes but 4 replies on the Nedra Tawwab quote) and has only 1 question and 1 personal story in 60 posts, so there is open space for a personal, conversational voice."
+  }
+ ],
+ "actions": [
+  {
+   "title": "Address 'tú' in most posts",
+   "priority": "High",
+   "why": "'You' address has the clearest signal in the data: median engagement 1344 with vs 664 without, and it appears in 45% of posts.",
+   "how": "Aim for 'tú' or 'te' in at least 10 of every 16 posts, written to a woman (e.g. 'tranquila', 'cuidada'). Keep 'yo' for the personal-story posts only.",
+   "effort": "Quick"
+  },
+  {
+   "title": "Lead with short one-line verdicts",
+   "priority": "High",
+   "why": "Posts under 250 characters dominate (55 of 60). The 56-character 'Te pasó porque había algo malo en esa persona, no en ti.' got the most reach (125,694 views).",
+   "how": "Write most posts as 1-3 declarative sentences with a comforting or firm verdict. Cut any setup that doesn't add to the point.",
+   "effort": "Quick"
+  },
+  {
+   "title": "Use parallel-structure lists weekly",
+   "priority": "High",
+   "why": "Anaphora lists did well: 'Sé exigente porque:...' (2,416 likes) and the permission list (1,930 likes). 'Y puedes irte. Y levantarte...' got 1,157.",
+   "how": "Publish one list post a week built on repeated openings ('Puedes...', 'Elige a quien...') with a short closing line. Write each item as its own sentence.",
+   "effort": "Quick"
+  },
+  {
+   "title": "Fill the conversation gap with questions",
+   "priority": "High",
+   "why": "Top competitor posts get thousands of likes but few replies (4 and 7). Only 1 of 60 posts is a question and 1 a personal story, so the formats are untested there.",
+   "how": "Run one question or personal-story post per week that ends with an easy prompt. Treat the results as a test, since the competitor's n=1.",
+   "effort": "Medium"
+  },
+  {
+   "title": "Answer comments with real sentences, not emojis",
+   "priority": "High",
+   "why": "The competitor's praise replies are almost all emoji-only and earn 1-14 likes. Only 2 vulnerable followers got longer replies.",
+   "how": "Within the first hours of each post, reply to 5-10 comments with one personal, specific line. Mirror their words and add a small question when it fits.",
+   "effort": "Medium"
+  },
+  {
+   "title": "Hook with colons and clear verdicts",
+   "priority": "Medium",
+   "why": "Colon hooks are frequent in the competitor's winners ('Sé exigente porque:', 'Tengo una buena noticia para ti:', 'Red flag 🚩:').",
+   "how": "Open about a third of posts with a short colon setup such as 'Algo que necesitas oír:' or 'Señal de que estás sanando:', then deliver the payoff.",
+   "effort": "Quick"
+  },
+  {
+   "title": "Keep emojis rare and consistent",
+   "priority": "Low",
+   "why": "Emoji appear in 19% of posts with no lift (median 841 with vs 895 without). The repertoire is tiny (❤️‍🩹, ♡).",
+   "how": "Use at most one emoji, only in about 1 post in 4, from a small signature set (🩷, ♡, 🫂). Never open with an emoji.",
+   "effort": "Quick"
+  },
+  {
+   "title": "Stay clear of categorical therapy claims",
+   "priority": "Medium",
+   "why": "The competitor's rebuttal 'La terapia no transforma a un maltratador en un buen marido' is a categorical claim about therapy outcomes. Weak posts also include policy-style statements (212 likes).",
+   "how": "Frame ideas as personal perspective ('a mí me ayuda...', 'a veces'). Make no diagnoses, no promises of healing, and add 'busca apoyo profesional' where a topic is heavy.",
+   "effort": "Quick"
+  },
+  {
+   "title": "Write quotes sparingly and always with credit",
+   "priority": "Low",
+   "why": "Quotes have a high average (1,488) but a low median (780). Cryptic or context-free lines did badly (151-206 likes).",
+   "how": "Skip generic quote cards for now. When using someone else's idea, credit it and add one line of your own on why it matters to you.",
+   "effort": "Quick"
+  },
+  {
+   "title": "Test posting times and review after 4 weeks",
+   "priority": "Low",
+   "why": "The top posts fall on Tue, Wed, Thu, Mon and Sun. The research has no hour data and the top posts cluster in Aug-Oct 2025, so timing may be confounded.",
+   "how": "Use the scheduled slots (08:30, 13:00, 21:00, 11:00 Sun). After 4 weeks, compare engagement by day and hour and keep the best two slots.",
+   "effort": "Medium"
+  }
+ ],
+ "posts": [
+  {
+   "date": "2026-11-23",
+   "time": "08:30",
+   "pillar": "Consuelo y permiso",
+   "format": "Statement",
+   "topic": "Permission to rest on a heavy day",
+   "hook": "Hoy no tienes que poder con todo.",
+   "draft": "Hoy no tienes que poder con todo.\n\nCon hacer lo siguiente que toque, aunque sea pequeño, ya estás cuidándote. Ve poco a poco, que no hay prisa ♡",
+   "cta": "",
+   "inspiration": "@esmipsicologa - short reassuring 'tú' statement (median 1344 engagement with 'you' address)",
+   "why": "Starts the week with a Monday reassurance post in the format that carries the most reach."
+  },
+  {
+   "date": "2026-11-24",
+   "time": "13:00",
+   "pillar": "Relaciones y límites",
+   "format": "List",
+   "topic": "What a safe relationship feels like",
+   "hook": "Quédate donde puedas ser tú:",
+   "draft": "Quédate donde puedas ser tú:\n\nDonde decir que no no da miedo.\nDonde cambiar de opinión no es un drama.\nDonde estar triste no es una molestia.\nY donde tu calma importa tanto como la de los demás.",
+   "cta": "",
+   "inspiration": "@esmipsicologa - anaphora list ('Sé exigente porque:' got 2,416 likes)",
+   "why": "A parallel-structure list with a colon hook, the pattern behind two of the best multi-sentence posts."
+  },
+  {
+   "date": "2026-11-26",
+   "time": "21:00",
+   "pillar": "Autocuidado cotidiano",
+   "format": "Statement",
+   "topic": "Rest is not earned",
+   "hook": "Descansar no es un premio.",
+   "draft": "Descansar no es un premio por haber hecho mucho.\n\nEs una necesidad, también en los días en los que sientes que no has llegado a nada. Esta noche, te toca parar ♡",
+   "cta": "",
+   "inspiration": "@esmipsicologa - calm, verdict-style one-liner with 'tú' address",
+   "why": "A Thursday-night wind-down post, the day that appears twice among the top 10."
+  },
+  {
+   "date": "2026-11-29",
+   "time": "11:00",
+   "pillar": "Inés conversa",
+   "format": "Personal story",
+   "topic": "Saying 'estoy bien' on autopilot",
+   "hook": "Esta semana me he pillado diciendo \"estoy bien\" sin pensarlo.",
+   "draft": "Esta semana me he pillado diciendo \"estoy bien\" sin pensarlo.\n\nLlevaba días así, en automático. Hoy me he parado a preguntarme cómo estoy de verdad, y ya solo eso me ha aliviado un poco.\n\n¿Tú te lo preguntas de vez en cuando?",
+   "cta": "Ask followers to share how they are really doing today, and reply to each one.",
+   "inspiration": "@esmipsicologa - personal story was rare (only 7% 'I' voice), so this fills a gap with a soft question",
+   "why": "A Sunday personal post to test Inés's own voice and invite real conversation."
+  },
+  {
+   "date": "2026-12-01",
+   "time": "08:30",
+   "pillar": "Consuelo y permiso",
+   "format": "Statement",
+   "topic": "Crying is not going backwards",
+   "hook": "Si hoy has llorado, no estás retrocediendo.",
+   "draft": "Si hoy has llorado, no estás retrocediendo.\n\nA veces el cuerpo suelta lo que llevaba tiempo aguantando. Sé amable contigo esta tarde 🫂",
+   "cta": "",
+   "inspiration": "@esmipsicologa - comforting 'tú' verdicts like 'Cómo te comportaste en modo supervivencia no define cómo eres'",
+   "why": "Permission-giving 'tú' post on a Tuesday, one of the best-performing days."
+  },
+  {
+   "date": "2026-12-02",
+   "time": "13:00",
+   "pillar": "Relaciones y límites",
+   "format": "Statement",
+   "topic": "Over-apologising for feeling",
+   "hook": "Algo a vigilar: pedir perdón por lo que sientes.",
+   "draft": "Algo a vigilar: pedir perdón por lo que sientes.\n\nSi con alguien acabas disculpándote por estar dolida, cansada o confundida, merece la pena preguntarte qué espacio te deja esa relación.",
+   "cta": "",
+   "inspiration": "@esmipsicologa - 'Red flag:' colon-hook pattern (1,488 likes), softened to avoid categorical claims",
+   "why": "Uses the colon hook on a relationship theme without making diagnoses."
+  },
+  {
+   "date": "2026-12-03",
+   "time": "21:00",
+   "pillar": "Inés conversa",
+   "format": "Question",
+   "topic": "Small gestures that feel like care",
+   "hook": "¿Qué gesto pequeño te hace sentir cuidada?",
+   "draft": "¿Qué gesto pequeño te hace sentir cuidada?\n\nA mí me pasa con que alguien se acuerde de algo que le conté hace semanas. Cuéntame el tuyo, que me encanta leerlas 🩷",
+   "cta": "Invite readers to share their small gesture in the replies, and answer each with one personal line.",
+   "inspiration": "@esmipsicologa - one nostalgic prompt exists but no replies strategy; this adds an easy, warm question",
+   "why": "A low-barrier question to test conversational posts, where the competitor has almost no data."
+  },
+  {
+   "date": "2026-12-06",
+   "time": "11:00",
+   "pillar": "Autocuidado cotidiano",
+   "format": "List",
+   "topic": "A gentle Sunday",
+   "hook": "Un domingo bonito no necesita plan:",
+   "draft": "Un domingo bonito no necesita plan:\n\nUn té caliente.\nUna manta.\nUn mensaje a alguien que quieres.\nY cero ganas de demostrarle nada a nadie.",
+   "cta": "",
+   "inspiration": "@esmipsicologa - permission list ('Una pareja que te adore, unos amigos que te quieran...' got 1,930 likes)",
+   "why": "A Sunday list in the permission-list pattern, on a day that already produced a top post."
+  },
+  {
+   "date": "2026-12-07",
+   "time": "08:30",
+   "pillar": "Consuelo y permiso",
+   "format": "Statement",
+   "topic": "A hard year is not a personal failure",
+   "hook": "Que este año te haya costado tanto no dice nada malo de ti.",
+   "draft": "Que este año te haya costado tanto no dice nada malo de ti.\n\nDice cuánto has cargado, y que has seguido adelante igualmente. Tranquila, vas bien ♡",
+   "cta": "",
+   "inspiration": "@esmipsicologa - 'no en ti' reassurance pattern (125,694 views) and the closing 'Tranquila.'",
+   "why": "Reassurance at the start of the week, timed just before the end-of-year pressure."
+  },
+  {
+   "date": "2026-12-08",
+   "time": "13:00",
+   "pillar": "Relaciones y límites",
+   "format": "Statement",
+   "topic": "Having your feelings dismissed",
+   "hook": "Si cada vez que te duele algo te dicen que \"exageras\"...",
+   "draft": "Si cada vez que te duele algo te dicen que \"exageras\", fíjate en que el dolor sigue ahí igualmente.\n\nTu sentir no necesita el permiso de nadie para ser real.",
+   "cta": "",
+   "inspiration": "@esmipsicologa - ironic scare quotes ('la parte buena', 'bromas'), 24% of posts, median 978 vs 888",
+   "why": "Uses quotation marks the way the competitor does, around a phrase that hurts to hear."
+  },
+  {
+   "date": "2026-12-10",
+   "time": "21:00",
+   "pillar": "Autocuidado cotidiano",
+   "format": "Statement",
+   "topic": "Listening to your body before it shouts",
+   "hook": "Hoy tu cuerpo te pide calma.",
+   "draft": "Hoy tu cuerpo te pide calma.\n\nEscúchalo antes de que tenga que gritar. Un poco de pausa, un vaso de agua, una noche sin pantallas. Pequeñas cosas que suman ♡",
+   "cta": "",
+   "inspiration": "@esmipsicologa - 'sistema nervioso en calma' theme in the 1,930-like permission post",
+   "why": "A practical, non-clinical self-care nudge for Thursday evening."
+  },
+  {
+   "date": "2026-12-13",
+   "time": "11:00",
+   "pillar": "Inés conversa",
+   "format": "Personal story",
+   "topic": "Boundaries at Christmas gatherings",
+   "hook": "A mí me cuesta decir que no en Navidad.",
+   "draft": "A mí me cuesta decir que no en Navidad.\n\nMe pasa con planes, con comentarios, con la mesa llena. Este año voy a probar con un \"hoy prefiero descansar\", sin dar más explicaciones.\n\n¿Y a ti qué te cuesta más?",
+   "cta": "Ask what is hardest for them at Christmas and reply with a supportive line.",
+   "inspiration": "@esmipsicologa - 'Y puedes irte...' boundary theme, combined with the untested personal-story format",
+   "why": "Christmas boundaries are timely and relatable, and invite replies rather than just likes."
+  },
+  {
+   "date": "2026-12-15",
+   "time": "08:30",
+   "pillar": "Consuelo y permiso",
+   "format": "Statement",
+   "topic": "You are not late to your life",
+   "hook": "Una cosa que quizá hoy necesites oír:",
+   "draft": "Una cosa que quizá hoy necesites oír: no vas tarde a tu vida.\n\nTu ritmo es el tuyo, y todavía te quedan muchas cosas bonitas por vivir ✨",
+   "cta": "",
+   "inspiration": "@esmipsicologa - 'Tengo una buena noticia para ti:' (3,212 likes, 90,664 views)",
+   "why": "Adapts the best-performing hopeful statement in Inés's own words."
+  },
+  {
+   "date": "2026-12-16",
+   "time": "13:00",
+   "pillar": "Relaciones y límites",
+   "format": "List",
+   "topic": "Choosing who stays close",
+   "hook": "Elige a quien:",
+   "draft": "Elige a quien:\n\nTe escuche sin interrumpir.\nSe alegre de tus cosas buenas.\nSepa pedir perdón de verdad.\nY te haga sentir en casa cuando estás cerca.",
+   "cta": "",
+   "inspiration": "@esmipsicologa - 'Sé exigente porque:' reasons list (2,416 likes)",
+   "why": "A second parallel-structure list, written as a positive standard instead of a warning."
+  },
+  {
+   "date": "2026-12-17",
+   "time": "21:00",
+   "pillar": "Inés conversa",
+   "format": "Question",
+   "topic": "A letter to your past self",
+   "hook": "¿Qué le dirías hoy a la tú de hace un año?",
+   "draft": "¿Qué le dirías hoy a la tú de hace un año?\n\nYo le diría que respire, que no todo era tan urgente y que iba mejor de lo que pensaba 🫂\n\nCuéntame la tuya.",
+   "cta": "Ask readers to write their message to their past selves, and reply to the ones that feel vulnerable.",
+   "inspiration": "@esmipsicologa - 'tú' address plus a list-style question prompt (1,675 likes, n=1)",
+   "why": "An end-of-year reflection that is easy to answer and builds replies."
+  },
+  {
+   "date": "2026-12-20",
+   "time": "11:00",
+   "pillar": "Autocuidado cotidiano",
+   "format": "List",
+   "topic": "Closing the year kindly",
+   "hook": "Antes de cerrar el año, recuerda:",
+   "draft": "Antes de cerrar el año, recuerda:\n\nNo tienes que haberlo hecho todo.\nNo tienes que estar siempre bien.\nNo tienes que compararte con nadie.\nYa estás haciendo bastante. Gracias por seguir aquí ♡",
+   "cta": "",
+   "inspiration": "@esmipsicologa - repeated-opening permission lists and a short closing verdict",
+   "why": "A warm Sunday wrap-up in the list pattern that fits the end of the 4-week plan."
+  }
+ ],
+ "notionUrl": null
+}
