@@ -270,13 +270,14 @@ function runFormUI() {
   const pick = $("#runPick"), cur = pick.value;
   const extra = pick.dataset.extra && !list.some(a => a.handle === pick.dataset.extra) ? pick.dataset.extra : "";
   pick.innerHTML = list.map(a => `<option value="${esc(a.handle)}">@${esc(a.handle)}${a.fullName ? " - " + esc(a.fullName) : ""}</option>`).join("") +
-    (extra ? `<option value="${esc(extra)}">@${esc(extra)} (new - from Competitor search)</option>` : "");
+    (extra ? `<option value="${esc(extra)}">@${esc(extra)} (new - from Competitor search)</option>` : "") +
+    '<option value="__new">+ New competitor (paste a link)</option>';
   if ([...pick.options].some(o => o.value === cur)) pick.value = cur;
   const single = scope === "single";
-  $("#runOne").classList.toggle("hidden", !single || !pick.options.length);
-  $("#runUrl").classList.add("hidden");
-  const info = $("#runAllInfo"); info.classList.toggle("hidden", single && pick.options.length > 0);
-  if (!single || !pick.options.length) info.innerHTML = list.length
+  $("#runOne").classList.toggle("hidden", !single);
+  $("#runUrl").classList.toggle("hidden", !(single && pick.value === "__new"));
+  const info = $("#runAllInfo"); info.classList.toggle("hidden", single);
+  if (!single) info.innerHTML = list.length
     ? `${scope === "all" ? "One report comparing" : "A separate report for each of"} ${name}'s ${list.length} competitor${list.length > 1 ? "s" : ""}: ${list.map(a => "@" + esc(a.handle)).join(", ")}. ` +
       `New posts are collected first. About $${scope === "all" ? "0.15-0.30" : (0.12 * list.length).toFixed(2) + "-" + (0.25 * list.length).toFixed(2)}.`
     : `${esc(name)} has no competitors yet. Use <b>Competitor search</b> on their Threads account, then <b>Track and analyze</b> a few accounts with "For: ${esc(name)}" selected.`;
@@ -299,9 +300,9 @@ let running = false;
 async function runReport() {
   if (running) return;
   const st = $("#runStatus"), scope = $("#runScope").value;
-  const url = $("#runPick").value ? "@" + $("#runPick").value : "";
+  const url = $("#runPick").value === "__new" ? $("#runUrl").value.trim() : $("#runPick").value ? "@" + $("#runPick").value : "";
   if (scope === "single") {
-    if (!url) { st.innerHTML = $("#runAllInfo").innerHTML; return; }
+    if (!url) { st.textContent = "Paste the new competitor's Threads link."; return; }
     if (!/^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+|@?[A-Za-z0-9._]+)\/?(\?.*)?$/.test(url)) { st.textContent = "That doesn't look like a Threads profile link."; return; }
   } else if (!competitorsOf($("#runBrand").value).length) { st.innerHTML = $("#runAllInfo").innerHTML; return; }
   if (MODE === "token" && !memToken) { $("#tokBox").classList.remove("hidden"); st.textContent = "Connect GitHub first (one time only)."; return; }
@@ -358,6 +359,7 @@ $("#repAccount").onchange = renderReportList; $("#repBrand").onchange = renderRe
 const gh = repoUrl();
 if (gh) $("#ghRepo").href = gh;
 $("#ghReport").onclick = e => { e.preventDefault(); goto("reports"); $("#runCard").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#runBrand").focus(), 400); };
+$("#runPick").addEventListener("change", () => { if ($("#runPick").value === "__new") setTimeout(() => $("#runUrl").focus(), 50); });
 
 async function reloadData() {
   S.index = await getJSON("data/index.json"); S.accounts = {};
