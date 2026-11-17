@@ -1,5 +1,17 @@
 [
  {
+  "path": "reports/dr.dan.phd/2026-11-17-1605-full-jeff.md",
+  "title": "Full analysis",
+  "accounts": [
+   "dr.dan.phd"
+  ],
+  "brand": "jeff",
+  "focus": "full",
+  "scope": "single",
+  "created": "2026-11-17T16:05:54Z",
+  "requestedBy": "Vlada"
+ },
+ {
   "path": "reports/joshuatlindsey/2026-11-17-1602-full-jeff.md",
   "title": "Full analysis",
   "accounts": [

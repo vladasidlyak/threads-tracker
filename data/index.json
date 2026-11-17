@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T16:02:52Z",
+ "updated": "2026-11-17T16:05:54Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -127,9 +127,34 @@
    "posts": 20,
    "replies": 40,
    "commentThreads": 0
+  },
+  {
+   "handle": "dr.dan.phd",
+   "note": "",
+   "brands": [
+    "jeff"
+   ],
+   "fullName": "Dan Rosenfeld • Dating Coach & Psychologist",
+   "followers": 52938,
+   "lastFetched": "2026-11-17T16:04:57Z",
+   "posts": 8,
+   "replies": 52,
+   "commentThreads": 0
   }
  ],
  "reports": [
+  {
+   "path": "reports/dr.dan.phd/2026-11-17-1605-full-jeff.md",
+   "title": "Full analysis",
+   "accounts": [
+    "dr.dan.phd"
+   ],
+   "brand": "jeff",
+   "focus": "full",
+   "scope": "single",
+   "created": "2026-11-17T16:05:54Z",
+   "requestedBy": "Vlada"
+  },
   {
    "path": "reports/joshuatlindsey/2026-11-17-1602-full-jeff.md",
    "title": "Full analysis",
@@ -273,7 +298,7 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 2.04,
+  "spent": 2.22,
   "budget": 5
  }
 }
