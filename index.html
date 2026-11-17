@@ -173,8 +173,6 @@ a{color:var(--accent)}
     <button data-tab="replies"><span class="ico">↩</span>Replies &amp; comments</button>
     <button data-tab="voice"><span class="ico">Aa</span>Tone of voice</button>
     <button data-tab="compare"><span class="ico">⇄</span>Compare accounts</button>
-    <div class="nav-label">Discover</div>
-    <button data-tab="competitors"><span class="ico">⌕</span>Competitor search</button>
     <div class="nav-label">Create</div>
     <button data-tab="plan"><span class="ico">▤</span>Content plan</button>
     <button data-tab="reports"><span class="ico">✦</span>Reports</button>
@@ -242,21 +240,6 @@ a{color:var(--accent)}
     </div>
   </section>
 
-  <section id="tab-competitors" class="hidden">
-    <div class="card">
-      <h2>Competitor search</h2>
-      <p class="sub">Enter your own account and get your 10 closest direct competitors. The tracker reads your posts, searches Threads for similar accounts in the same language, checks their latest posts and ranks them by topic match, engagement and activity. About 3-6 minutes, roughly $0.35.</p>
-      <div class="row"><input id="coUrl" class="grow" placeholder="https://www.threads.com/@your_account"></div>
-      <div class="row" style="margin-top:8px">
-        <select id="coMin" style="width:auto" aria-label="Minimum followers"><option value="1000">1k+ followers</option><option value="5000" selected>5k+ followers</option><option value="10000">10k+ followers</option><option value="30000">30k+ followers</option></select>
-        <input id="coKw" class="grow" placeholder="Optional: your own search terms, comma-separated">
-        <button class="btn primary" id="coGo" type="button">Find competitors</button>
-      </div>
-      <div class="status" id="coStatus"></div>
-    </div>
-    <div class="row" style="margin-bottom:12px"><select id="coPick" class="hidden" style="width:auto" aria-label="Earlier searches"></select></div>
-    <div id="coBody"><div class="card empty">Loading...</div></div>
-  </section>
 
   <section id="tab-plan" class="hidden">
     <div class="card no-print">
@@ -348,7 +331,6 @@ a{color:var(--accent)}
 <div id="tip"></div>
 <script src="dashboard.js"></script>
 <script src="voice.js"></script>
-<script src="competitors.js"></script>
 <script src="plan.js"></script>
 </body>
 </html>

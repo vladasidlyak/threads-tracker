@@ -270,7 +270,7 @@ function runFormUI() {
   const pick = $("#runPick"), cur = pick.value;
   const extra = pick.dataset.extra && !list.some(a => a.handle === pick.dataset.extra) ? pick.dataset.extra : "";
   pick.innerHTML = list.map(a => `<option value="${esc(a.handle)}">@${esc(a.handle)}${a.fullName ? " - " + esc(a.fullName) : ""}</option>`).join("") +
-    (extra ? `<option value="${esc(extra)}">@${esc(extra)} (new - from Competitor search)</option>` : "");
+    (extra ? `<option value="${esc(extra)}">@${esc(extra)} (new)</option>` : "");
   if (!pick.options.length) pick.innerHTML = '<option value="">No competitors yet - paste a link</option>';
   if ([...pick.options].some(o => o.value === cur)) pick.value = cur;
   const single = scope === "single";
@@ -281,7 +281,7 @@ function runFormUI() {
   if (!single) info.innerHTML = list.length
     ? `${scope === "all" ? "One report comparing" : "A separate report for each of"} ${name}'s ${list.length} competitor${list.length > 1 ? "s" : ""}: ${list.map(a => "@" + esc(a.handle)).join(", ")}. ` +
       `New posts are collected first. About $${scope === "all" ? "0.15-0.30" : (0.12 * list.length).toFixed(2) + "-" + (0.25 * list.length).toFixed(2)}.`
-    : `${esc(name)} has no competitors yet. Use <b>Competitor search</b> on their Threads account, then <b>Track and analyze</b> a few accounts with "For: ${esc(name)}" selected.`;
+    : `${esc(name)} has no competitors yet. Choose "One competitor", paste a competitor's Threads link and press Run - it's saved as ${esc(name)}'s competitor.`;
   $("#runMax").classList.toggle("hidden", !single);
   $("#runComments").closest("label").classList.toggle("hidden", !single);
 }

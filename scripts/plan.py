@@ -322,8 +322,8 @@ def main(argv=None) -> int:
         slots = schedule(start, weeks, per_week, brands[a.brand])
         handles = [T.clean_handle(h) for h in a.accounts.split(",") if h.strip()] or T.accounts_for(paths, a.brand)
         if not handles:
-            raise T.TrackerError(f"No competitors tracked for {brands[a.brand]['name']} yet. Use Competitor search on their "
-                                 "Threads account, then 'Track and analyze' a few of the accounts it finds.")
+            raise T.TrackerError(f"No competitors tracked for {brands[a.brand]['name']} yet. In Reports, choose them, "
+                                 "paste a competitor's Threads link and press Run.")
         accs = [T.read_json(paths.account_file(h)) for h in handles]
         accs = [x for x in accs if x and x.get("posts")][:6]
         if not accs:

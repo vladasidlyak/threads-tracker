@@ -142,7 +142,6 @@ Reports have the same **Download** and **Print / PDF** buttons.
 | Report with fresh data | ~$0.10-0.25 |
 | Report from saved data / AI linguistic report | ~$0.10 |
 | + comments (5 posts × 20) | +~$0.15 |
-| Competitor search | ~$0.35 |
 | Content plan | ~$0.15-0.20 |
 | Monthly refresh | ~$0.05 per account + ~$0.15 summary |
 | Viewing anything, the Tone of voice stats, downloads, login | free |

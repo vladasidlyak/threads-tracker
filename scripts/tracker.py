@@ -750,8 +750,8 @@ def main(argv=None) -> int:
             else:
                 handles = accounts_for(paths, args.brand)
                 if not handles:
-                    raise TrackerError(f"No competitors tracked for '{args.brand}' yet. Track a few accounts for them first "
-                                       "(Competitor search, then 'Track and analyze').")
+                    raise TrackerError(f"No competitors tracked for '{args.brand}' yet. Add a few first: in Reports, "
+                                       "paste a competitor's Threads link and press Run.")
                 if scope == "all":
                     report(paths, settings, handles, args.brand, args.focus, args.dry_run, args.requested_by, combined=True)
                 else:
