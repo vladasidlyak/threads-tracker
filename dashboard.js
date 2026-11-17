@@ -270,12 +270,13 @@ function runFormUI() {
   const pick = $("#runPick"), cur = pick.value;
   const extra = pick.dataset.extra && !list.some(a => a.handle === pick.dataset.extra) ? pick.dataset.extra : "";
   pick.innerHTML = list.map(a => `<option value="${esc(a.handle)}">@${esc(a.handle)}${a.fullName ? " - " + esc(a.fullName) : ""}</option>`).join("") +
-    (extra ? `<option value="${esc(extra)}">@${esc(extra)} (new - from Competitor search)</option>` : "") +
-    '<option value="__new">+ New competitor (paste a link)</option>';
+    (extra ? `<option value="${esc(extra)}">@${esc(extra)} (new - from Competitor search)</option>` : "");
+  if (!pick.options.length) pick.innerHTML = '<option value="">No competitors yet - paste a link</option>';
   if ([...pick.options].some(o => o.value === cur)) pick.value = cur;
   const single = scope === "single";
   $("#runOne").classList.toggle("hidden", !single);
-  $("#runUrl").classList.toggle("hidden", !(single && pick.value === "__new"));
+  $("#runUrl").classList.toggle("hidden", !single);
+  pick.disabled = !!$("#runUrl").value.trim() || !list.length && !extra;
   const info = $("#runAllInfo"); info.classList.toggle("hidden", single);
   if (!single) info.innerHTML = list.length
     ? `${scope === "all" ? "One report comparing" : "A separate report for each of"} ${name}'s ${list.length} competitor${list.length > 1 ? "s" : ""}: ${list.map(a => "@" + esc(a.handle)).join(", ")}. ` +
@@ -290,7 +291,7 @@ window.addEventListener("tt-brands", runFormUI);
 function prefillRun(handle, focus, skip) {
   goto("reports");
   $("#runScope").value = "single"; runFormUI();
-  $("#runPick").dataset.extra = handle; runFormUI();
+  $("#runUrl").value = ""; $("#runPick").dataset.extra = handle; runFormUI();
   $("#runPick").value = handle;
   $("#runFocus").value = focus; $("#runSkip").checked = !!skip; runFormUI();
   $("#runCard").scrollIntoView({ behavior: "smooth" });
@@ -300,7 +301,7 @@ let running = false;
 async function runReport() {
   if (running) return;
   const st = $("#runStatus"), scope = $("#runScope").value;
-  const url = $("#runPick").value === "__new" ? $("#runUrl").value.trim() : $("#runPick").value ? "@" + $("#runPick").value : "";
+  const url = $("#runUrl").value.trim() || ($("#runPick").value ? "@" + $("#runPick").value : "");
   if (scope === "single") {
     if (!url) { st.textContent = "Paste the new competitor's Threads link."; return; }
     if (!/^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+|@?[A-Za-z0-9._]+)\/?(\?.*)?$/.test(url)) { st.textContent = "That doesn't look like a Threads profile link."; return; }
@@ -359,7 +360,7 @@ $("#repAccount").onchange = renderReportList; $("#repBrand").onchange = renderRe
 const gh = repoUrl();
 if (gh) $("#ghRepo").href = gh;
 $("#ghReport").onclick = e => { e.preventDefault(); goto("reports"); $("#runCard").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#runBrand").focus(), 400); };
-$("#runPick").addEventListener("change", () => { if ($("#runPick").value === "__new") setTimeout(() => $("#runUrl").focus(), 50); });
+$("#runUrl").addEventListener("input", runFormUI);
 
 async function reloadData() {
   S.index = await getJSON("data/index.json"); S.accounts = {};
