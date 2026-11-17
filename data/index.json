@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T15:41:28Z",
+ "updated": "2026-11-17T15:44:46Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -88,9 +88,34 @@
    "posts": 3,
    "replies": 0,
    "commentThreads": 3
+  },
+  {
+   "handle": "dr.rodrigoarteaga",
+   "note": "",
+   "brands": [
+    "ines"
+   ],
+   "fullName": "Dr. Rodrigo Arteaga",
+   "followers": 369615,
+   "lastFetched": "2026-11-17T15:43:18Z",
+   "posts": 23,
+   "replies": 37,
+   "commentThreads": 0
   }
  ],
  "reports": [
+  {
+   "path": "reports/dr.rodrigoarteaga/2026-11-17-1544-full-ines.md",
+   "title": "Full analysis",
+   "accounts": [
+    "dr.rodrigoarteaga"
+   ],
+   "brand": "ines",
+   "focus": "full",
+   "scope": "single",
+   "created": "2026-11-17T15:44:46Z",
+   "requestedBy": "Vlada"
+  },
   {
    "path": "reports/psicologiaconb/2026-11-17-1541-full-ines.md",
    "title": "Full analysis",
@@ -198,7 +223,7 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 1.43,
+  "spent": 1.67,
   "budget": 5
  }
 }

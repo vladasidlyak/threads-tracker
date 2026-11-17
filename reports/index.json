@@ -1,5 +1,17 @@
 [
  {
+  "path": "reports/dr.rodrigoarteaga/2026-11-17-1544-full-ines.md",
+  "title": "Full analysis",
+  "accounts": [
+   "dr.rodrigoarteaga"
+  ],
+  "brand": "ines",
+  "focus": "full",
+  "scope": "single",
+  "created": "2026-11-17T15:44:46Z",
+  "requestedBy": "Vlada"
+ },
+ {
   "path": "reports/psicologiaconb/2026-11-17-1541-full-ines.md",
   "title": "Full analysis",
   "accounts": [
