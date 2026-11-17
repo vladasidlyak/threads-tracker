@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T15:58:45Z",
+ "updated": "2026-11-17T16:02:52Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -114,9 +114,34 @@
    "posts": 26,
    "replies": 34,
    "commentThreads": 0
+  },
+  {
+   "handle": "joshuatlindsey",
+   "note": "",
+   "brands": [
+    "jeff"
+   ],
+   "fullName": "Joshua Lindsey | Burnout Recovery & Career Strategy",
+   "followers": 31195,
+   "lastFetched": "2026-11-17T16:01:50Z",
+   "posts": 20,
+   "replies": 40,
+   "commentThreads": 0
   }
  ],
  "reports": [
+  {
+   "path": "reports/joshuatlindsey/2026-11-17-1602-full-jeff.md",
+   "title": "Full analysis",
+   "accounts": [
+    "joshuatlindsey"
+   ],
+   "brand": "jeff",
+   "focus": "full",
+   "scope": "single",
+   "created": "2026-11-17T16:02:52Z",
+   "requestedBy": "Vlada"
+  },
   {
    "path": "reports/heyismail.co/2026-11-17-1558-full-jeff.md",
    "title": "Full analysis",
@@ -248,7 +273,7 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 1.85,
+  "spent": 2.04,
   "budget": 5
  }
 }
