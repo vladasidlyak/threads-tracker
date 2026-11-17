@@ -1,5 +1,17 @@
 [
  {
+  "path": "reports/ju_zeppa/2026-11-17-1539-full-ines.md",
+  "title": "Full analysis",
+  "accounts": [
+   "ju_zeppa"
+  ],
+  "brand": "ines",
+  "focus": "full",
+  "scope": "single",
+  "created": "2026-11-17T15:39:22Z",
+  "requestedBy": "Vlada"
+ },
+ {
   "path": "reports/enric_corbera/2026-11-16-1620-full-ines.md",
   "title": "Full analysis",
   "accounts": [

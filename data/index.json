@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T14:51:55Z",
+ "updated": "2026-11-17T15:39:22Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -62,9 +62,34 @@
    "posts": 30,
    "replies": 30,
    "commentThreads": 3
+  },
+  {
+   "handle": "ju_zeppa",
+   "note": "",
+   "brands": [
+    "ines"
+   ],
+   "fullName": "Yulia",
+   "followers": 6984,
+   "lastFetched": "2026-11-17T15:37:43Z",
+   "posts": 30,
+   "replies": 30,
+   "commentThreads": 5
   }
  ],
  "reports": [
+  {
+   "path": "reports/ju_zeppa/2026-11-17-1539-full-ines.md",
+   "title": "Full analysis",
+   "accounts": [
+    "ju_zeppa"
+   ],
+   "brand": "ines",
+   "focus": "full",
+   "scope": "single",
+   "created": "2026-11-17T15:39:22Z",
+   "requestedBy": "Vlada"
+  },
   {
    "path": "reports/enric_corbera/2026-11-16-1620-full-ines.md",
    "title": "Full analysis",
@@ -148,7 +173,7 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 0.91,
+  "spent": 1.32,
   "budget": 5
  }
 }
