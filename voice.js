@@ -148,7 +148,7 @@ async function loadAi(acc) {
   try {
     const t = await (await fetch(r.path + "?v=" + Date.now())).text();
     if (my !== aiToken) return;
-    body.innerHTML = `<p class="small muted">${r.accounts.map(a => "@" + esc(a)).join(", ")} · for ${esc(r.brand)} · ${new Date(r.created).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}${reps.length > 1 ? ` · ${reps.length - 1} older in AI reports` : ""}</p>` + TT.md(t.replace(/^# .*\n+.*\n+/, ""));
+    body.innerHTML = `<p class="small muted">${r.accounts.map(a => "@" + esc(a)).join(", ")} · for ${esc(r.brand)} · ${new Date(r.created).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })}${reps.length > 1 ? ` · ${reps.length - 1} older in Reports` : ""}</p>` + TT.md(t.replace(/^# .*\n+.*\n+/, ""));
   } catch (e) { body.innerHTML = '<p class="muted small">Couldn\'t load the report.</p>'; }
 }
 

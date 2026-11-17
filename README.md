@@ -77,7 +77,7 @@ Apify (collects posts) ──► GitHub Actions (runs the scripts) ──► dat
    - **Posts to collect:** 60 is a good default
    - **Also collect comments:** tick this to see conversations under their top 10 posts (costs more)
    - **Only write a new report:** tick this to reuse data you already have (no Apify cost)
-4. Press **Run workflow**. In 3-10 minutes the report appears on the dashboard under **AI reports**, and in the `reports/` folder.
+4. Press **Run workflow**. In 3-10 minutes the report appears on the dashboard under **Reports**, and in the `reports/` folder.
 
 You can do all of this in the **GitHub mobile app**: Repository → Actions → Get report → Run workflow.
 
@@ -100,7 +100,7 @@ On the dashboard, open **Content plan**, choose the brand, the number of weeks, 
 - **Markdown**
 - **Print / PDF:** use your browser's "Save as PDF".
 
-AI reports have the same **Download** and **Print / PDF** buttons.
+Reports have the same **Download** and **Print / PDF** buttons.
 
 **Optional: send every plan straight to Notion**
 1. Create an integration at **notion.so/profile/integrations** (Internal) and copy its secret.
@@ -133,7 +133,7 @@ AI reports have the same **Download** and **Print / PDF** buttons.
 | `only_new_posts_on_refresh` | `true` | collects only posts published since the last refresh |
 | `max_posts_per_account` | 25 | posts and replies per account per run |
 | Comments | off by default; when ticked, top **5** posts × **20** comments | comments are the most expensive part |
-| AI reports | 1 monthly summary automatically; others only when you click Run | |
+| Reports | 1 monthly summary automatically; others only when you click Run | |
 
 **What each action costs, roughly:**
 

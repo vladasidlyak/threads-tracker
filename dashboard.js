@@ -77,7 +77,7 @@ function fillSelects() {
   const accs = Object.keys(S.accounts).sort();
   ["#ovAccount", "#pAccount", "#rAccount", "#repAccount"].forEach(sel => {
     const el = $(sel), cur = el.value;
-    el.innerHTML = '<option value="">All accounts</option>' + accs.map(a => `<option value="${esc(a)}">@${esc(a)}</option>`).join("");
+    el.innerHTML = '<option value="">All competitors</option>' + accs.map(a => `<option value="${esc(a)}">@${esc(a)}</option>`).join("");
     if (accs.includes(cur)) el.value = cur;
   });
 }
@@ -166,8 +166,13 @@ function md(t) {
 }
 const brandName = k => ((S.index && S.index.brands || {})[k] || {}).name || k;
 function renderReportList() {
-  const acc = $("#repAccount").value, br = $("#repBrand").value, sc = $("#repScope").value;
-  const rb = $("#repBrand");
+  const rb = $("#repBrand"), ra = $("#repAccount");
+  if (rb.value && S.index && S.index.accounts) {
+    const mine = S.index.accounts.filter(a => (a.brands || []).includes(rb.value)).map(a => a.handle), cur = ra.value;
+    ra.innerHTML = `<option value="">All ${esc(brandName(rb.value).split(" (")[0])}'s competitors</option>` + mine.map(h => `<option value="${esc(h)}">@${esc(h)}</option>`).join("");
+    ra.value = mine.includes(cur) ? cur : "";
+  } else if (ra.options.length && ra.options[0].textContent !== "All competitors") fillSelects();
+  const acc = ra.value, br = rb.value, sc = $("#repScope").value;
   if (S.index && S.index.brands && rb.options.length < 2)
     rb.innerHTML = '<option value="">All ambassadors</option>' + Object.keys(S.index.brands).map(k => `<option value="${esc(k)}">${esc(brandName(k))}</option>`).join("");
   const scopeOf = r => r.scope || (r.accounts.length > 1 ? "all" : "single");
@@ -326,7 +331,7 @@ async function runReport() {
     const before = (S.index && S.index.reports || []).length;
     for (let i = 0; i < 24; i++) {
       await sleep(10000);
-      try { const idx = await getJSON("data/index.json"); if ((idx.reports || []).length > before) { await reloadData(); goto("reports"); const p = (S.index.reports[0] || {}).path; if (p) openReport(p); st.innerHTML = "Done. The new report is open in AI reports." + link; return; } } catch (e) {}
+      try { const idx = await getJSON("data/index.json"); if ((idx.reports || []).length > before) { await reloadData(); goto("reports"); const p = (S.index.reports[0] || {}).path; if (p) openReport(p); st.innerHTML = "Done. The new report is open in Reports." + link; return; } } catch (e) {}
     }
     st.innerHTML = "Done. The dashboard is still publishing - refresh this page in a minute." + link;
   } catch (e) { st.textContent = e.message || "Something went wrong."; }
