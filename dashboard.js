@@ -268,14 +268,15 @@ const competitorsOf = b => ((S.index && S.index.accounts) || []).filter(a => (a.
 function runFormUI() {
   const b = $("#runBrand").value, scope = $("#runScope").value, list = competitorsOf(b), name = brandName(b).split(" (")[0];
   const pick = $("#runPick"), cur = pick.value;
+  const extra = pick.dataset.extra && !list.some(a => a.handle === pick.dataset.extra) ? pick.dataset.extra : "";
   pick.innerHTML = list.map(a => `<option value="${esc(a.handle)}">@${esc(a.handle)}${a.fullName ? " - " + esc(a.fullName) : ""}</option>`).join("") +
-    '<option value="__new">+ Another account (paste a link)</option>';
+    (extra ? `<option value="${esc(extra)}">@${esc(extra)} (new - from Competitor search)</option>` : "");
   if ([...pick.options].some(o => o.value === cur)) pick.value = cur;
   const single = scope === "single";
-  $("#runOne").classList.toggle("hidden", !single);
-  $("#runUrl").classList.toggle("hidden", !(single && pick.value === "__new"));
-  const info = $("#runAllInfo"); info.classList.toggle("hidden", single);
-  if (!single) info.innerHTML = list.length
+  $("#runOne").classList.toggle("hidden", !single || !pick.options.length);
+  $("#runUrl").classList.add("hidden");
+  const info = $("#runAllInfo"); info.classList.toggle("hidden", single && pick.options.length > 0);
+  if (!single || !pick.options.length) info.innerHTML = list.length
     ? `${scope === "all" ? "One report comparing" : "A separate report for each of"} ${name}'s ${list.length} competitor${list.length > 1 ? "s" : ""}: ${list.map(a => "@" + esc(a.handle)).join(", ")}. ` +
       `New posts are collected first. About $${scope === "all" ? "0.15-0.30" : (0.12 * list.length).toFixed(2) + "-" + (0.25 * list.length).toFixed(2)}.`
     : `${esc(name)} has no competitors yet. Use <b>Competitor search</b> on their Threads account, then <b>Track and analyze</b> a few accounts with "For: ${esc(name)}" selected.`;
@@ -288,9 +289,8 @@ window.addEventListener("tt-brands", runFormUI);
 function prefillRun(handle, focus, skip) {
   goto("reports");
   $("#runScope").value = "single"; runFormUI();
-  const has = [...$("#runPick").options].some(o => o.value === handle);
-  $("#runPick").value = has ? handle : "__new";
-  $("#runUrl").value = "https://www.threads.com/@" + handle;
+  $("#runPick").dataset.extra = handle; runFormUI();
+  $("#runPick").value = handle;
   $("#runFocus").value = focus; $("#runSkip").checked = !!skip; runFormUI();
   $("#runCard").scrollIntoView({ behavior: "smooth" });
 }
@@ -299,9 +299,9 @@ let running = false;
 async function runReport() {
   if (running) return;
   const st = $("#runStatus"), scope = $("#runScope").value;
-  const url = $("#runPick").value && $("#runPick").value !== "__new" ? "@" + $("#runPick").value : $("#runUrl").value.trim();
+  const url = $("#runPick").value ? "@" + $("#runPick").value : "";
   if (scope === "single") {
-    if (!url) { st.textContent = "Choose a competitor or paste a Threads profile link."; return; }
+    if (!url) { st.innerHTML = $("#runAllInfo").innerHTML; return; }
     if (!/^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+|@?[A-Za-z0-9._]+)\/?(\?.*)?$/.test(url)) { st.textContent = "That doesn't look like a Threads profile link."; return; }
   } else if (!competitorsOf($("#runBrand").value).length) { st.innerHTML = $("#runAllInfo").innerHTML; return; }
   if (MODE === "token" && !memToken) { $("#tokBox").classList.remove("hidden"); st.textContent = "Connect GitHub first (one time only)."; return; }
@@ -339,7 +339,7 @@ async function runReport() {
 }
 $("#runGo").onclick = runReport;
 $("#runUrl").onkeydown = e => { if (e.key === "Enter") runReport(); };
-$("#ghReport").addEventListener("click", () => setTimeout(() => { $("#runScope").value = "single"; $("#runPick").value = "__new"; runFormUI(); $("#runUrl").focus(); }, 450));
+
 tokenUI();
 
 const dataHooks = [];
@@ -357,7 +357,7 @@ $("#repAccount").onchange = renderReportList; $("#repBrand").onchange = renderRe
 
 const gh = repoUrl();
 if (gh) $("#ghRepo").href = gh;
-$("#ghReport").onclick = e => { e.preventDefault(); goto("reports"); $("#runCard").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#runUrl").focus(), 400); };
+$("#ghReport").onclick = e => { e.preventDefault(); goto("reports"); $("#runCard").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#runBrand").focus(), 400); };
 
 async function reloadData() {
   S.index = await getJSON("data/index.json"); S.accounts = {};
@@ -371,7 +371,10 @@ async function reloadData() {
     try { brands = await getJSON("config/brands.json"); } catch (e) { brands = (await getJSON("data/index.json")).brands; }
     $$(".brand-select").forEach(sel => {
       const cur = sel.value;
-      sel.innerHTML = Object.entries(brands).map(([k, b]) => `<option value="${esc(k)}">For: ${esc(b.name)}</option>`).join("");
+      const opt = ([k, b]) => `<option value="${esc(k)}">For: ${esc(b.name)}</option>`;
+      const amb = Object.entries(brands).filter(([k, b]) => b.ambassador !== false && !["liven", "overwell"].includes(k));
+      const other = Object.entries(brands).filter(([k]) => !amb.some(([a]) => a === k));
+      sel.innerHTML = `<optgroup label="Ambassadors">${amb.map(opt).join("")}</optgroup>` + (other.length ? `<optgroup label="Other brands">${other.map(opt).join("")}</optgroup>` : "");
       if (brands[cur]) sel.value = cur;
     });
     window.dispatchEvent(new Event("tt-brands"));
