@@ -1,6 +1,6 @@
 {
  "2026-11": {
-  "total": 1.6707,
+  "total": 1.8517,
   "items": [
    {
     "t": "2026-11-16T15:48:20Z",
@@ -114,6 +114,18 @@
     "t": "2026-11-17T15:44:46Z",
     "kind": "claude",
     "usd": 0.1429,
+    "what": "You are a social media strategist analyzing competitors on Threads.  BRAND WE AR"
+   },
+   {
+    "t": "2026-11-17T15:57:51Z",
+    "kind": "apify",
+    "usd": 0.0976,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"heyismail.co\"], \"profileContent\":"
+   },
+   {
+    "t": "2026-11-17T15:58:45Z",
+    "kind": "claude",
+    "usd": 0.0834,
     "what": "You are a social media strategist analyzing competitors on Threads.  BRAND WE AR"
    }
   ]

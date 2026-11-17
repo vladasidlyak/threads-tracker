@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T15:44:46Z",
+ "updated": "2026-11-17T15:58:45Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -101,9 +101,34 @@
    "posts": 23,
    "replies": 37,
    "commentThreads": 0
+  },
+  {
+   "handle": "heyismail.co",
+   "note": "",
+   "brands": [
+    "jeff"
+   ],
+   "fullName": "heyismail.co",
+   "followers": 37180,
+   "lastFetched": "2026-11-17T15:57:51Z",
+   "posts": 26,
+   "replies": 34,
+   "commentThreads": 0
   }
  ],
  "reports": [
+  {
+   "path": "reports/heyismail.co/2026-11-17-1558-full-jeff.md",
+   "title": "Full analysis",
+   "accounts": [
+    "heyismail.co"
+   ],
+   "brand": "jeff",
+   "focus": "full",
+   "scope": "single",
+   "created": "2026-11-17T15:58:45Z",
+   "requestedBy": "Vlada"
+  },
   {
    "path": "reports/dr.rodrigoarteaga/2026-11-17-1544-full-ines.md",
    "title": "Full analysis",
@@ -223,7 +248,7 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 1.67,
+  "spent": 1.85,
   "budget": 5
  }
 }
