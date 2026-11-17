@@ -17,11 +17,11 @@ on:
         type: choice
         options: ["1", "2", "4", "6", "8"]
       per_week:
-        description: "Posts per week (7 = 1 a day, 14 = 2 a day, 21 = 3 a day)"
+        description: "Posts per week (7 = 1 a day, 14 = 2 a day ... 70 = 10 a day)"
         required: true
         default: "21"
         type: choice
-        options: ["2", "3", "4", "5", "7", "14", "21"]
+        options: ["2", "3", "4", "5", "7", "14", "21", "28", "35", "42", "49", "56", "63", "70"]
       start:
         description: "Start date YYYY-MM-DD (empty = next Monday)"
         required: false
@@ -48,7 +48,7 @@ concurrency:
 jobs:
   plan:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5

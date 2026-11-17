@@ -54,12 +54,32 @@ def account_brief(paths: T.Paths, acc: dict) -> str:
 
 # Fixed, consistent schedule: which weekdays (0=Mon) and which times of day.
 WEEKDAYS = {1: [2], 2: [1, 3], 3: [0, 2, 4], 4: [0, 1, 3, 4], 5: [0, 1, 2, 3, 4], 6: [0, 1, 2, 3, 4, 5]}
-DEFAULT_TIMES = {1: ["21:30"], 2: ["13:00", "21:30"], 3: ["09:00", "14:00", "21:30"]}
-SLOT_ROLE = {"09:00": "morning: short, soft, comforting (1-2 sentences)",
-             "13:00": "midday: practical - a list, signs, or a clear tip",
-             "14:00": "afternoon: practical - a list, signs, or a clear tip",
-             "21:30": "evening, the main post of the day: strongest idea, a story or a question that invites replies"}
-PER_WEEK_OPTIONS = [2, 3, 4, 5, 7, 14, 21]
+DEFAULT_TIMES = {
+    1: ["21:30"],
+    2: ["13:00", "21:30"],
+    3: ["09:00", "14:00", "21:30"],
+    4: ["09:00", "13:00", "18:00", "21:30"],
+    5: ["08:30", "11:30", "14:30", "18:00", "21:30"],
+    6: ["08:30", "11:00", "13:30", "16:00", "19:00", "21:30"],
+    7: ["08:00", "10:30", "12:30", "14:30", "17:00", "19:30", "22:00"],
+    8: ["08:00", "10:00", "12:00", "14:00", "16:00", "18:00", "20:00", "22:00"],
+    9: ["08:00", "09:30", "11:00", "12:30", "14:00", "16:00", "18:00", "20:00", "22:00"],
+    10: ["08:00", "09:30", "11:00", "12:30", "14:00", "15:30", "17:00", "18:30", "20:00", "21:30"],
+}
+PER_WEEK_OPTIONS = [2, 3, 4, 5] + [7 * n for n in range(1, 11)]   # 7 = 1 a day ... 70 = 10 a day
+MAX_POSTS_PER_PLAN = 140   # e.g. 10 a day for 2 weeks
+POSTS_PER_CALL = 28        # longer plans are written in parts
+
+
+def slot_role(t: str, last: bool) -> str:
+    h = int(t[:2])
+    if last:
+        return "last post of the day, the main one: strongest idea, a story or a question that invites replies"
+    if h < 12:
+        return "morning: short, soft, comforting (1-2 sentences)"
+    if h < 17:
+        return "daytime: practical - a list, signs, a clear tip or a quick opinion"
+    return "evening: relatable - a story, a confession-style line or a question"
 
 
 def schedule(start: dt.date, weeks: int, per_week: int, brand: dict) -> list[dict]:
@@ -81,9 +101,62 @@ def slot_name(t: str) -> str:
     return "Morning" if h < 12 else "Afternoon" if h < 18 else "Evening"
 
 
-def build_prompt(brand: dict, briefs: list[str], slots: list[dict]) -> str:
-    lines = "\n".join(f"{i + 1}. {dt.date.fromisoformat(x['date']).strftime('%a %d %b')} {x['time']} - "
-                      f"{SLOT_ROLE.get(x['time'], x['slot'].lower())}" for i, x in enumerate(slots))
+def slot_lines(slots: list[dict], first: int = 1) -> str:
+    last_time = {}
+    for x in slots:
+        last_time[x["date"]] = max(last_time.get(x["date"], ""), x["time"])
+    return "\n".join(f"{first + i}. {dt.date.fromisoformat(x['date']).strftime('%a %d %b')} {x['time']} - "
+                     f"{slot_role(x['time'], x['time'] == last_time[x['date']])}" for i, x in enumerate(slots))
+
+
+def common_rules(per_day: int) -> str:
+    many = per_day >= 4
+    return f"""- Within a day, posts must not repeat the same topic; across days, rotate pillars evenly.
+{"- With " + str(per_day) + " posts a day, vary the length and format a lot: mostly one-liners and short thoughts, at most 2 lists a day, at least 1 question a day. Never two posts in a row with the same format." if many else "- Mix formats according to what worked."}
+- Vary topics; never copy competitor text - adapt the pattern in the brand's voice.
+- Drafts: Threads length (mostly under 300 characters), no hashtags unless the research shows they help.
+- Wellbeing brand: no medical claims, no diagnoses, no promises of cure. Use hyphens, never em dashes.
+- Everything except hook and draft in English. When hook and draft are not in English, always fill hook_en and draft_en.
+- When "why" or an action quotes a non-English post, add the English translation in brackets right after the quote."""
+
+
+POST_SHAPE = """{{"slot": 1, "pillar": "one of the pillar names", "format": "Statement|Question|List|Personal story|Quote|Thread",
+             "topic": "short", "hook": "first line, in {lang}", "draft": "full ready-to-post text in {lang}",
+             "hook_en": "English translation of the hook (empty if already English)", "draft_en": "English translation of the draft (empty if already English)",
+             "cta": "how to invite replies, or empty", "inspiration": "@handle and the pattern it builds on", "why": "one sentence"}}"""
+
+
+def build_more_prompt(brand: dict, briefs: list[str], plan: dict, slots: list[dict], first: int, used: list[str], per_day: int) -> str:
+    """Prompt for the next part of a long plan: same strategy, new slots, no repeated topics."""
+    pillars = "; ".join(f"{p['name']} ({p.get('share', '')})" for p in plan.get("pillars", []))
+    return f"""You are a content strategist continuing a content plan that is already partly written.
+
+BRAND
+{brand['name']} - {brand['context']}
+Posts are written in: {brand['drafts_language']}
+
+STRATEGY (already decided)
+{plan.get('summary', '')}
+Pillars: {pillars}
+
+COMPETITOR RESEARCH
+{chr(10).join(briefs)}
+
+TOPICS ALREADY USED (do not repeat or closely rephrase any of them)
+{chr(10).join('- ' + t for t in used[-120:])}
+
+TASK
+Return ONLY valid JSON, no commentary: {{"posts": [{POST_SHAPE.format(lang=brand['drafts_language'])}]}}
+
+RULES
+- The posting schedule is FIXED. Write exactly {len(slots)} posts, one per slot, in this order (slot = the number):
+{slot_lines(slots, first)}
+- Use only the pillars above.
+{common_rules(per_day)}"""
+
+
+def build_prompt(brand: dict, briefs: list[str], slots: list[dict], per_day: int = 1, total: int = 0) -> str:
+    lines = slot_lines(slots)
     return f"""You are a content strategist. Using the competitor research below, create action steps and a content plan.
 
 BRAND
@@ -100,25 +173,19 @@ Return ONLY valid JSON, no commentary, in exactly this shape:
   "pillars": [{{"name": "short content pillar name", "share": "e.g. 40%", "why": "one sentence with evidence"}}],
   "actions": [{{"title": "imperative, max 10 words", "priority": "High|Medium|Low", "why": "evidence from the data, cite numbers or posts",
                "how": "1-2 concrete sentences", "effort": "Quick|Medium|Big"}}],
-  "posts": [{{"slot": 1, "pillar": "one of the pillar names", "format": "Statement|Question|List|Personal story|Quote|Thread",
-             "topic": "short", "hook": "first line, in {brand['drafts_language']}", "draft": "full ready-to-post text in {brand['drafts_language']}",
-             "hook_en": "English translation of the hook (empty if already English)", "draft_en": "English translation of the draft (empty if already English)",
-             "cta": "how to invite replies, or empty", "inspiration": "@handle and the pattern it builds on", "why": "one sentence"}}]
+  "posts": [{POST_SHAPE.format(lang=brand['drafts_language'])}]
 }}
 
 RULES
-- 3-4 pillars; 6-10 actions ordered by priority; each action must rest on something in the research.
-- The posting schedule is FIXED. Write exactly {len(slots)} posts, one per slot, in this order (slot = the number):
+- 3-5 pillars; 6-10 actions ordered by priority; each action must rest on something in the research.
+- The whole plan has {total or len(slots)} posts ({per_day} a day); the summary and pillars must fit that rhythm.
+- The posting schedule is FIXED. Here, write exactly {len(slots)} posts (the first part), one per slot, in this order (slot = the number):
 {lines}
-- Follow each slot's role. Within a day, the three posts must not repeat the same topic; across days, rotate pillars evenly.
-- Mix formats according to what worked; vary topics; never copy competitor text - adapt the pattern in the brand's voice.
-- Drafts: Threads length (mostly under 300 characters), no hashtags unless the research shows they help.
-- Wellbeing brand: no medical claims, no diagnoses, no promises of cure. Use hyphens, never em dashes.
-- Everything except hook and draft in English. When hook and draft are not in English, always fill hook_en and draft_en.
-- When "why" or an action quotes a non-English post, add the English translation in brackets right after the quote."""
+- Follow each slot's role.
+{common_rules(per_day)}"""
 
 
-def parse_plan(text: str) -> dict:
+def parse_plan(text: str, require_actions: bool = True) -> dict:
     start = text.find("{")
     if start < 0:
         raise T.TrackerError("Claude didn't return a plan in the expected format. Try again.")
@@ -126,7 +193,7 @@ def parse_plan(text: str) -> dict:
         plan = json.JSONDecoder().raw_decode(text[start:])[0]
     except json.JSONDecodeError:
         raise T.TrackerError("The plan came back incomplete (probably too long). Try fewer weeks or posts per week.")
-    for k in ("actions", "posts"):
+    for k in (("actions", "posts") if require_actions else ("posts",)):
         if not isinstance(plan.get(k), list) or not plan[k]:
             raise T.TrackerError(f"The plan is missing '{k}'. Try again.")
     return plan
@@ -248,7 +315,7 @@ def main(argv=None) -> int:
         if a.per_week not in PER_WEEK_OPTIONS:
             raise T.TrackerError(f"Posts per week must be one of {PER_WEEK_OPTIONS}.")
         per_week = a.per_week
-        weeks = max(1, min(a.weeks, 8, max(1, 42 // per_week)))  # keep one answer to at most ~42 posts
+        weeks = max(1, min(a.weeks, 8, max(1, MAX_POSTS_PER_PLAN // per_week)))
         if weeks < a.weeks:
             T.log(f"Note: {per_week} posts a week is a lot for one plan - making {weeks} weeks instead of {a.weeks}.")
         start = dt.date.fromisoformat(a.start) if a.start else next_monday()
@@ -266,9 +333,32 @@ def main(argv=None) -> int:
         if a.dry_run:
             plan = dry_plan(slots)
         else:
-            prompt = build_prompt(brands[a.brand], [account_brief(paths, x) for x in accs], slots)
-            plan = parse_plan(T.ask_claude(prompt, {**settings, "claude_max_tokens": 24000 if len(slots) > 20 else 16000}, False))
-        plan["posts"] = place_on_slots(plan["posts"], slots)
+            briefs = [account_brief(paths, x) for x in accs]
+            per_day = max(1, per_week // 7)
+            parts = [slots[i:i + POSTS_PER_CALL] for i in range(0, len(slots), POSTS_PER_CALL)]
+            cfg = {**settings, "claude_max_tokens": 16000}
+            if len(parts) > 1:
+                T.log(f"Writing {len(slots)} posts in {len(parts)} parts.")
+            plan = parse_plan(T.ask_claude(build_prompt(brands[a.brand], briefs, parts[0], per_day, len(slots)), cfg, False))
+            plan["posts"] = place_on_slots(plan["posts"], parts[0])
+            for n, part in enumerate(parts[1:], 2):
+                first = len(plan["posts"]) + 1
+                used = [p.get("topic", "") for p in plan["posts"]]
+                T.log(f"Part {n} of {len(parts)}...")
+                try:
+                    more = parse_plan(T.ask_claude(build_more_prompt(brands[a.brand], briefs, plan, part, first, used, per_day),
+                                                   cfg, False), require_actions=False)
+                except T.TrackerError as e:
+                    T.log(f"!! Part {n} failed ({e}). Keeping the {len(plan['posts'])} posts written so far.")
+                    break
+                for p in more["posts"]:
+                    try:
+                        p["slot"] = int(p.get("slot", 0)) - first + 1
+                    except (TypeError, ValueError):
+                        pass
+                plan["posts"] += place_on_slots(more["posts"], part)
+        if a.dry_run:
+            plan["posts"] = place_on_slots(plan["posts"], slots)
         pid = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d-%H%M") + f"-{a.brand}"
         title = f"Content plan - {brands[a.brand]['name']} - {start.isoformat()}"
         out = {"id": pid, "title": title, "brand": a.brand, "brandName": brands[a.brand]["name"], "start": start.isoformat(),

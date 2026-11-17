@@ -261,11 +261,11 @@ a{color:var(--accent)}
   <section id="tab-plan" class="hidden">
     <div class="card no-print">
       <h2>Create a content plan</h2>
-      <p class="sub">Claude reads everything collected about your tracked competitors (their stats, voice and the latest AI reports) and writes action steps plus dated posts with full drafts. About 1-3 minutes, roughly $0.10-0.20.</p>
+      <p class="sub">Claude reads everything collected about your tracked competitors (their stats, voice and the latest AI reports) and writes action steps plus dated posts with full drafts. About 1-3 minutes and $0.10-0.20 for up to 4 weeks of 1-3 posts a day. 10 posts a day for 2 weeks (140 posts) is written in parts: about 10 minutes and $0.50-0.70.</p>
       <div class="row">
         <select id="plBrand" class="brand-select" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option></select>
         <select id="plWeeks" style="width:auto" aria-label="Weeks"><option value="1">1 week</option><option value="2" selected>2 weeks</option><option value="4">4 weeks</option><option value="6">6 weeks</option><option value="8">8 weeks</option></select>
-        <select id="plPer" style="width:auto" aria-label="How often to post"><option value="2">2 a week (Tue, Thu)</option><option value="3">3 a week (Mon, Wed, Fri)</option><option value="5">5 a week (Mon-Fri)</option><option value="7">Every day, 1 post (21:30)</option><option value="14">Every day, 2 posts (13:00, 21:30)</option><option value="21" selected>Every day, 3 posts (09:00, 14:00, 21:30)</option></select>
+        <select id="plPer" style="width:auto" aria-label="How often to post"><option value="2">2 a week (Tue, Thu)</option><option value="3">3 a week (Mon, Wed, Fri)</option><option value="5">5 a week (Mon-Fri)</option><option value="7">Every day, 1 post (21:30)</option><option value="14">Every day, 2 posts (13:00, 21:30)</option><option value="21" selected>Every day, 3 posts (09:00, 14:00, 21:30)</option><option value="28">Every day, 4 posts (09:00-21:30)</option><option value="35">Every day, 5 posts (08:30-21:30)</option><option value="42">Every day, 6 posts (08:30-21:30)</option><option value="49">Every day, 7 posts (08:00-22:00)</option><option value="56">Every day, 8 posts (08:00-22:00)</option><option value="63">Every day, 9 posts (08:00-22:00)</option><option value="70">Every day, 10 posts (08:00-21:30)</option></select>
         <label class="small muted" style="display:flex;gap:6px;align-items:center">Start <input type="date" id="plStart" style="width:auto"></label>
         <button class="btn primary" id="plGo" type="button">Create plan</button>
       </div>

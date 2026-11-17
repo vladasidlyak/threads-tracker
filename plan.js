@@ -23,7 +23,7 @@ function actionsCSV(p) {
   return "﻿" + [cols, ...p.actions.map(a => [a.title, a.priority, a.effort, a.why, a.how, "No"])].map(r => r.map(csvCell).join(",")).join("\r\n");
 }
 function planMD(p) {
-  const L = [`# ${p.title}`, "", `Based on: ${p.basedOn.map(h => "@" + h).join(", ")} · ${p.weeks} weeks · ${p.perWeek} posts a week`, "", "## Strategy", p.summary || "", "",
+  const L = [`# ${p.title}`, "", `Based on: ${p.basedOn.map(h => "@" + h).join(", ")} · ${p.weeks} weeks · ${p.perWeek >= 7 ? p.perWeek / 7 + " posts a day" : p.perWeek + " posts a week"}`, "", "## Strategy", p.summary || "", "",
     "## Content pillars", ...(p.pillars || []).map(x => `- **${x.name}** (${x.share}): ${x.why}`), "",
     "## Action steps", ...p.actions.map(a => `- [ ] **${a.title}** (${a.priority}, ${a.effort})\n  - Why: ${a.why}\n  - How: ${a.how}`), "",
     "## Posts"];
