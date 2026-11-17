@@ -165,6 +165,38 @@ function md(t) {
   if (inList) out += "</ul>"; return out;
 }
 const brandName = k => ((S.index && S.index.brands || {})[k] || {}).name || k;
+let REP_SHOWN = [];
+const fileName = p => p.split("/").slice(-2).join("-");
+function saveFile(text, name) {
+  const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([text], { type: "text/markdown;charset=utf-8" }));
+  a.download = name; document.body.appendChild(a); a.click(); setTimeout(() => a.remove(), 500);
+}
+async function loadShown() {
+  return Promise.all(REP_SHOWN.map(async r => { try { return [r, await (await fetch(r.path + "?v=" + Date.now())).text()]; } catch (e) { return [r, "(couldn't load " + r.path + ")"]; } }));
+}
+function bulkName(ext) {
+  const br = $("#repBrand").value, acc = $("#repAccount").value;
+  return ["reports", br && brandName(br).split(" (")[0], acc && "@" + acc, new Date().toISOString().slice(0, 10)].filter(Boolean).join("-").replace(/[^\p{L}\p{N}@._-]+/gu, "_") + ext;
+}
+async function downloadAll() {
+  const btn = $("#repDlAll"), label = btn.textContent; btn.textContent = "Preparing..."; btn.disabled = true;
+  try {
+    const all = await loadShown();
+    const toc = all.map(([r], i) => `${i + 1}. ${r.title} - ${r.accounts.map(a => "@" + a).join(", ")} (${r.created.slice(0, 10)})`).join("\n");
+    saveFile(`# ${$("#repCount").textContent}\n\n${toc}\n\n` + all.map(([, t]) => t.trim()).join("\n\n---\n\n") + "\n", bulkName(".md"));
+  } finally { btn.textContent = label; btn.disabled = false; }
+}
+async function pdfAll() {
+  const btn = $("#repPdfAll"), label = btn.textContent; btn.textContent = "Preparing..."; btn.disabled = true;
+  try {
+    const all = await loadShown();
+    $("#repOut").innerHTML = `<h1>${esc($("#repCount").textContent)}</h1>` + all.map(([, t], i) => `<div class="${i ? "rep-sep" : ""}">${md(t)}</div>`).join("");
+    $("#repOutCard").classList.remove("hidden");
+    document.title = bulkName("");
+    document.body.classList.add("printing-report"); window.print();
+    setTimeout(() => { document.body.classList.remove("printing-report"); document.title = "Threads Competitor Tracker"; }, 500);
+  } finally { btn.textContent = label; btn.disabled = false; }
+}
 function renderReportList() {
   const rb = $("#repBrand"), ra = $("#repAccount");
   if (rb.value && S.index && S.index.accounts) {
@@ -177,7 +209,12 @@ function renderReportList() {
     rb.innerHTML = '<option value="">All ambassadors</option>' + Object.keys(S.index.brands).map(k => `<option value="${esc(k)}">${esc(brandName(k))}</option>`).join("");
   const scopeOf = r => r.scope || (r.accounts.length > 1 ? "all" : "single");
   const list = (S.index.reports || []).filter(r => (!acc || r.accounts.includes(acc)) && (!br || r.brand === br) && (!sc || scopeOf(r) === sc));
-  $("#repList").innerHTML = list.length ? list.map((r, i) => `<div class="ins-item" data-path="${esc(r.path)}"><b>${esc(r.title)}</b> · ${r.accounts.map(a => "@" + esc(a)).join(", ")}<div class="small muted">${new Date(r.created).toLocaleString("en-GB", {day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})} · for ${esc(brandName(r.brand))}${scopeOf(r) === "all" ? ' · <span class="tag">combined</span>' : ""}${r.requestedBy ? " · by " + esc(r.requestedBy) : ""}</div></div>`).join("") : '<p class="muted small">No reports match. Change the filters above or get a new report.</p>';
+  REP_SHOWN = list;
+  const who = br ? brandName(br).split(" (")[0] : "";
+  $("#repCount").textContent = list.length ? `${list.length} report${list.length > 1 ? "s" : ""}${who ? " for " + who : ""}${acc ? " on @" + acc : ""}` : "";
+  $("#repBulk").classList.toggle("hidden", !list.length);
+  $("#repList").innerHTML = list.length ? list.map(r => `<div class="ins-item rep-row" data-path="${esc(r.path)}"><div><b>${esc(r.title)}</b> · ${r.accounts.map(a => "@" + esc(a)).join(", ")}<div class="small muted">${new Date(r.created).toLocaleString("en-GB", {day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})} · for ${esc(brandName(r.brand))}${scopeOf(r) === "all" ? ' · <span class="tag">combined</span>' : ""}${r.requestedBy ? " · by " + esc(r.requestedBy) : ""}</div></div><button class="btn rep-dl" type="button" data-dl="${esc(r.path)}" title="Download this report">Download</button></div>`).join("") : '<p class="muted small">No reports match. Change the filters above or get a new report.</p>';
+  $$("#repList .rep-dl").forEach(btn => btn.onclick = async e => { e.stopPropagation(); const t = await (await fetch(btn.dataset.dl + "?v=" + Date.now())).text(); saveFile(t, fileName(btn.dataset.dl)); });
   $$("#repList .ins-item").forEach(d => d.onclick = () => openReport(d.dataset.path));
 }
 async function openReport(path) {
@@ -355,6 +392,7 @@ $("#pSearch").oninput = () => { S.pLimit = 30; renderPosts(); }; $("#pAccount").
 $("#pMore").onclick = () => { S.pLimit += 30; renderPosts(); };
 $("#rSearch").oninput = () => { S.rLimit = 30; renderReplies(); }; $("#rAccount").onchange = () => { S.rLimit = 30; renderReplies(); };
 $("#rMore").onclick = () => { S.rLimit += 30; renderReplies(); };
+$("#repDlAll").onclick = downloadAll; $("#repPdfAll").onclick = pdfAll;
 $("#repAccount").onchange = renderReportList; $("#repBrand").onchange = renderReportList; $("#repScope").onchange = renderReportList;
 
 const gh = repoUrl();

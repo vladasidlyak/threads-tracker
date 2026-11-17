@@ -93,6 +93,8 @@ td.n{text-align:right;font-variant-numeric:tabular-nums}
 .status{font-size:13px;color:var(--ink-2);margin-top:8px}
 .ins-item{border-top:1px solid var(--line-2);padding:10px 0;cursor:pointer}
 .ins-item:first-child{border-top:0}
+.rep-row{display:flex;gap:10px;align-items:flex-start;justify-content:space-between}.rep-row .rep-dl{flex:none;padding:4px 10px;font-size:13px}
+.rep-sep{page-break-before:always;break-before:page}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:30;padding:20px}
 .modal .box{background:var(--card);border-radius:var(--r);padding:18px;max-width:380px;width:100%}
 
@@ -320,6 +322,7 @@ a{color:var(--accent)}
     <p class="small muted" style="margin:-6px 0 16px"><a id="ghRepo" target="_blank" rel="noopener" href="#">Open the repository on GitHub</a></p>
     <div class="card">
       <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0">Reports</h2><div class="row" style="gap:8px"><select id="repBrand" style="width:auto" aria-label="Ambassador"><option value="">All ambassadors</option></select><select id="repScope" style="width:auto" aria-label="Kind"><option value="">All reports</option><option value="all">Combined (all competitors)</option><option value="single">Single competitor</option></select><select id="repAccount" style="width:auto"></select></div></div>
+      <div class="row no-print" id="repBulk" style="gap:8px;margin:0 0 10px;align-items:center"><span class="small muted" id="repCount"></span><button class="btn" type="button" id="repDlAll">Download all (.md)</button><button class="btn" type="button" id="repPdfAll">Download all as PDF</button></div>
       <div id="repList"></div>
     </div>
     <div class="card hidden" id="repOutCard">
