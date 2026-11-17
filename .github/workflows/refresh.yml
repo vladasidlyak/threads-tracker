@@ -1,4 +1,5 @@
-# Monthly refresh of every account in config/accounts.json (only posts since the last refresh), plus a summary report.
+# Monthly refresh of every account in config/accounts.json (only posts since the last refresh),
+# then one summary report per ambassador/brand, built only from that brand's own competitors.
 # Runs on the 1st of each month around 06:40 Kyiv time (04:40 UTC), and on demand from the Actions tab.
 name: Monthly refresh
 
@@ -6,11 +7,6 @@ on:
   schedule:
     - cron: "40 4 1 * *"
   workflow_dispatch:
-    inputs:
-      brand:
-        description: "Monthly summary written for"
-        default: ines
-        type: string
 
 permissions:
   contents: write
@@ -38,11 +34,10 @@ jobs:
           APIFY_TOKEN: ${{ secrets.APIFY_TOKEN }}
         run: python scripts/tracker.py refresh
 
-      - name: Monthly summary across all accounts
+      - name: Monthly report for each ambassador
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          BRAND: ${{ inputs.brand || 'ines' }}
-        run: python scripts/tracker.py report --all --brand "$BRAND" --focus full
+        run: python scripts/tracker.py monthly
 
       - name: Save to the repository
         if: always()

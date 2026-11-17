@@ -6,6 +6,7 @@ Commands (run from the repository root):
 
   python scripts/tracker.py collect  --handle esmipsicologa [--max-posts 60] [--no-replies] [--comments]
   python scripts/tracker.py refresh  [--comments]            # every account in config/accounts.json
+  python scripts/tracker.py monthly                          # one summary report per brand (its own competitors)
   python scripts/tracker.py report   --handle esmipsicologa --brand ines --focus full
   python scripts/tracker.py report   --all --brand ines --focus full
   python scripts/tracker.py add      --handle https://www.threads.com/@someone
@@ -636,15 +637,53 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
     return out
 
 
-def add_account(paths: Paths, handle: str, note: str = "", comments: bool = False) -> bool:
-    cfg_path = paths.config / "accounts.json" if paths.root == ROOT else paths.data / "accounts-config.json"
-    cfg = read_json(cfg_path) or read_json(paths.config / "accounts.json", {"accounts": []})
-    if any(a["handle"] == handle for a in cfg["accounts"]):
+def accounts_cfg_path(paths: Paths) -> Path:
+    return paths.config / "accounts.json" if paths.root == ROOT else paths.data / "accounts-config.json"
+
+
+def read_accounts(paths: Paths) -> list[dict]:
+    cfg = read_json(accounts_cfg_path(paths)) or read_json(paths.config / "accounts.json", {"accounts": []})
+    return cfg["accounts"]
+
+
+def add_account(paths: Paths, handle: str, note: str = "", comments: bool = False, brand: str = "") -> bool:
+    """Track an account; when a brand is given, also mark the account as that brand's competitor."""
+    accounts = read_accounts(paths)
+    existing = next((a for a in accounts if a["handle"] == handle), None)
+    if existing:
+        if brand and brand not in existing.setdefault("brands", []):
+            existing["brands"].append(brand)
+            write_json(accounts_cfg_path(paths), {"accounts": accounts})
+            log(f"@{handle} is now also a competitor for '{brand}'.")
         return False
-    cfg["accounts"].append({"handle": handle, "note": note, "comments": comments})
-    write_json(cfg_path, cfg)
-    log(f"Added @{handle} to the tracked accounts.")
+    accounts.append({"handle": handle, "note": note, "comments": comments, "brands": [brand] if brand else []})
+    write_json(accounts_cfg_path(paths), {"accounts": accounts})
+    log(f"Added @{handle} to the tracked accounts" + (f" (competitor for '{brand}')." if brand else "."))
     return True
+
+
+def accounts_for(paths: Paths, brand: str) -> list[str]:
+    """Handles tracked as competitors for this brand (that already have data)."""
+    return [a["handle"] for a in read_accounts(paths)
+            if brand in a.get("brands", []) and paths.account_file(a["handle"]).exists()]
+
+
+def monthly(paths: Paths, settings: dict, dry_run: bool) -> None:
+    """One summary report per brand, each built only from that brand's own competitors."""
+    brands = read_json(paths.config / "brands.json", {})
+    done = 0
+    for key, b in brands.items():
+        handles = accounts_for(paths, key)
+        if not handles:
+            log(f"- {b.get('name', key)}: no competitors tracked yet, skipped.")
+            continue
+        try:
+            report(paths, settings, handles, key, "full", dry_run, "monthly schedule")
+            done += 1
+        except TrackerError as e:
+            log(f"!! {b.get('name', key)}: {e}")
+    if not done:
+        raise TrackerError("No monthly reports were written - no brand has tracked competitors yet.")
 
 
 # ---------------------------------------------------------------- main
@@ -652,7 +691,7 @@ def add_account(paths: Paths, handle: str, note: str = "", comments: bool = Fals
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Threads Competitor Tracker")
     sub = ap.add_subparsers(dest="cmd", required=True)
-    for name in ("collect", "refresh", "report", "add", "index"):
+    for name in ("collect", "refresh", "report", "add", "index", "monthly"):
         p = sub.add_parser(name)
         p.add_argument("--dry-run", action="store_true", help="use sample data, call nothing, write to a temp folder")
         if name in ("collect", "report", "add"):
@@ -689,12 +728,18 @@ def main(argv=None) -> int:
             add_account(paths, clean_handle(args.handle), args.note)
             update_index(paths)
             return 0
+        if args.cmd == "monthly":
+            monthly(paths, settings, args.dry_run)
+            update_index(paths)
+            return 0
         if args.cmd == "report":
             if args.all:
-                cfg = read_json(paths.config / "accounts.json")["accounts"]
-                handles = [a["handle"] for a in cfg if paths.account_file(a["handle"]).exists()]
+                handles = accounts_for(paths, args.brand)
+                if not handles:
+                    raise TrackerError(f"No competitors tracked for '{args.brand}' yet.")
             else:
                 handles = [clean_handle(args.handle)]
+                add_account(paths, handles[0], brand=args.brand)
             report(paths, settings, handles, args.brand, args.focus, args.dry_run, args.requested_by)
             update_index(paths)
             return 0

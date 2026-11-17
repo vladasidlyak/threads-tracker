@@ -3,17 +3,29 @@
   {
    "handle": "esmipsicologa",
    "note": "Spanish psychologist, author, 225k followers",
-   "comments": false
+   "comments": false,
+   "brands": [
+    "ines",
+    "pablo"
+   ]
   },
   {
    "handle": "psico.maxi",
    "note": "",
-   "comments": true
+   "comments": true,
+   "brands": [
+    "ines",
+    "pablo"
+   ]
   },
   {
    "handle": "enric_corbera",
    "note": "",
-   "comments": false
+   "comments": false,
+   "brands": [
+    "ines",
+    "pablo"
+   ]
   }
  ]
 }

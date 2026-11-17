@@ -253,8 +253,10 @@ def main(argv=None) -> int:
             T.log(f"Note: {per_week} posts a week is a lot for one plan - making {weeks} weeks instead of {a.weeks}.")
         start = dt.date.fromisoformat(a.start) if a.start else next_monday()
         slots = schedule(start, weeks, per_week, brands[a.brand])
-        handles = [T.clean_handle(h) for h in a.accounts.split(",") if h.strip()] or \
-                  [x["handle"] for x in T.read_json(paths.config / "accounts.json")["accounts"]]
+        handles = [T.clean_handle(h) for h in a.accounts.split(",") if h.strip()] or T.accounts_for(paths, a.brand)
+        if not handles:
+            raise T.TrackerError(f"No competitors tracked for {brands[a.brand]['name']} yet. Use Competitor search on their "
+                                 "Threads account, then 'Track and analyze' a few of the accounts it finds.")
         accs = [T.read_json(paths.account_file(h)) for h in handles]
         accs = [x for x in accs if x and x.get("posts")][:6]
         if not accs:
