@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T16:45:08Z",
+ "updated": "2026-11-17T14:51:55Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -24,6 +24,10 @@
   {
    "handle": "esmipsicologa",
    "note": "Spanish psychologist, author, 225k followers",
+   "brands": [
+    "ines",
+    "pablo"
+   ],
    "fullName": "",
    "followers": 225242,
    "lastFetched": "2026-11-16T11:59:54Z",
@@ -34,6 +38,10 @@
   {
    "handle": "psico.maxi",
    "note": "",
+   "brands": [
+    "ines",
+    "pablo"
+   ],
    "fullName": "Maxi McCoubrey | Psicólogo Clínico",
    "followers": 181179,
    "lastFetched": "2026-11-16T16:09:03Z",
@@ -44,6 +52,10 @@
   {
    "handle": "enric_corbera",
    "note": "",
+   "brands": [
+    "ines",
+    "pablo"
+   ],
    "fullName": "Enric Corbera - Bioneuroemoción®",
    "followers": 315580,
    "lastFetched": "2026-11-16T16:18:36Z",

@@ -164,10 +164,15 @@ function md(t) {
   flushQuote();
   if (inList) out += "</ul>"; return out;
 }
+const brandName = k => ((S.index && S.index.brands || {})[k] || {}).name || k;
 function renderReportList() {
-  const acc = $("#repAccount").value;
-  const list = (S.index.reports || []).filter(r => !acc || r.accounts.includes(acc));
-  $("#repList").innerHTML = list.length ? list.map((r, i) => `<div class="ins-item" data-path="${esc(r.path)}"><b>${esc(r.title)}</b> · ${r.accounts.map(a => "@" + esc(a)).join(", ")}<div class="small muted">${new Date(r.created).toLocaleString("en-GB", {day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})} · ${esc(r.brand)}${r.requestedBy ? " · by " + esc(r.requestedBy) : ""}</div></div>`).join("") : '<p class="muted small">No reports yet. Run "Get report" in GitHub Actions.</p>';
+  const acc = $("#repAccount").value, br = $("#repBrand").value, sc = $("#repScope").value;
+  const rb = $("#repBrand");
+  if (S.index && S.index.brands && rb.options.length < 2)
+    rb.innerHTML = '<option value="">All ambassadors</option>' + Object.keys(S.index.brands).map(k => `<option value="${esc(k)}">${esc(brandName(k))}</option>`).join("");
+  const scopeOf = r => r.scope || (r.accounts.length > 1 ? "all" : "single");
+  const list = (S.index.reports || []).filter(r => (!acc || r.accounts.includes(acc)) && (!br || r.brand === br) && (!sc || scopeOf(r) === sc));
+  $("#repList").innerHTML = list.length ? list.map((r, i) => `<div class="ins-item" data-path="${esc(r.path)}"><b>${esc(r.title)}</b> · ${r.accounts.map(a => "@" + esc(a)).join(", ")}<div class="small muted">${new Date(r.created).toLocaleString("en-GB", {day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})} · for ${esc(brandName(r.brand))}${scopeOf(r) === "all" ? ' · <span class="tag">combined</span>' : ""}${r.requestedBy ? " · by " + esc(r.requestedBy) : ""}</div></div>`).join("") : '<p class="muted small">No reports match. Change the filters above or get a new report.</p>';
   $$("#repList .ins-item").forEach(d => d.onclick = () => openReport(d.dataset.path));
 }
 async function openReport(path) {
@@ -222,7 +227,7 @@ const B = {
     if (MODE === "worker") {
       const r = await fetch("api/run", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.assign({ workflow: wf }, inputs)) });
       if (!r.ok) { let m = "Couldn't start the run (" + r.status + ")."; try { m = (await r.json()).error || m; } catch (e) {}
-        if (/bad form values|unknown brand/i.test(m)) m = "The sign-in server (Cloudflare Worker) runs old code that doesn't know this option yet. Paste the latest cloudflare/worker.js into Cloudflare (Edit code, select all, paste, Deploy) and try again.";
+        if (/bad form values|unknown brand/i.test(m) || (inputs.scope && inputs.scope !== "single" && /profile link/i.test(m))) m = "The sign-in server (Cloudflare Worker) runs old code that doesn't know this option yet. Paste the latest cloudflare/worker.js into Cloudflare (Edit code, select all, paste, Deploy) and try again.";
         throw new Error(m); }
       return;
     }
@@ -253,18 +258,53 @@ const B = {
   } catch (e) {}
 })();
 
+/* who are this ambassador's competitors */
+const competitorsOf = b => ((S.index && S.index.accounts) || []).filter(a => (a.brands || []).includes(b));
+function runFormUI() {
+  const b = $("#runBrand").value, scope = $("#runScope").value, list = competitorsOf(b), name = brandName(b).split(" (")[0];
+  const pick = $("#runPick"), cur = pick.value;
+  pick.innerHTML = list.map(a => `<option value="${esc(a.handle)}">@${esc(a.handle)}${a.fullName ? " - " + esc(a.fullName) : ""}</option>`).join("") +
+    '<option value="__new">+ Another account (paste a link)</option>';
+  if ([...pick.options].some(o => o.value === cur)) pick.value = cur;
+  const single = scope === "single";
+  $("#runOne").classList.toggle("hidden", !single);
+  $("#runUrl").classList.toggle("hidden", !(single && pick.value === "__new"));
+  const info = $("#runAllInfo"); info.classList.toggle("hidden", single);
+  if (!single) info.innerHTML = list.length
+    ? `${scope === "all" ? "One report comparing" : "A separate report for each of"} ${name}'s ${list.length} competitor${list.length > 1 ? "s" : ""}: ${list.map(a => "@" + esc(a.handle)).join(", ")}. ` +
+      `New posts are collected first. About $${scope === "all" ? "0.15-0.30" : (0.12 * list.length).toFixed(2) + "-" + (0.25 * list.length).toFixed(2)}.`
+    : `${esc(name)} has no competitors yet. Use <b>Competitor search</b> on their Threads account, then <b>Track and analyze</b> a few accounts with "For: ${esc(name)}" selected.`;
+  $("#runMax").classList.toggle("hidden", !single);
+  $("#runComments").closest("label").classList.toggle("hidden", !single);
+}
+["#runBrand", "#runScope", "#runPick"].forEach(id => $(id).addEventListener("change", runFormUI));
+window.addEventListener("tt-brands", runFormUI);
+
+function prefillRun(handle, focus, skip) {
+  goto("reports");
+  $("#runScope").value = "single"; runFormUI();
+  const has = [...$("#runPick").options].some(o => o.value === handle);
+  $("#runPick").value = has ? handle : "__new";
+  $("#runUrl").value = "https://www.threads.com/@" + handle;
+  $("#runFocus").value = focus; $("#runSkip").checked = !!skip; runFormUI();
+  $("#runCard").scrollIntoView({ behavior: "smooth" });
+}
+
 let running = false;
 async function runReport() {
   if (running) return;
-  const st = $("#runStatus"), url = $("#runUrl").value.trim();
-  if (!url) { st.textContent = "Paste a Threads profile link or @handle."; return; }
-  if (!/^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+|@?[A-Za-z0-9._]+)\/?(\?.*)?$/.test(url)) { st.textContent = "That doesn't look like a Threads profile link."; return; }
+  const st = $("#runStatus"), scope = $("#runScope").value;
+  const url = $("#runPick").value && $("#runPick").value !== "__new" ? "@" + $("#runPick").value : $("#runUrl").value.trim();
+  if (scope === "single") {
+    if (!url) { st.textContent = "Choose a competitor or paste a Threads profile link."; return; }
+    if (!/^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+|@?[A-Za-z0-9._]+)\/?(\?.*)?$/.test(url)) { st.textContent = "That doesn't look like a Threads profile link."; return; }
+  } else if (!competitorsOf($("#runBrand").value).length) { st.innerHTML = $("#runAllInfo").innerHTML; return; }
   if (MODE === "token" && !memToken) { $("#tokBox").classList.remove("hidden"); st.textContent = "Connect GitHub first (one time only)."; return; }
   running = true; $("#runGo").disabled = true;
   const started = new Date(Date.now() - 30000).toISOString();
   try {
     st.textContent = "Starting...";
-    await B.dispatch({ profile_url: url, brand: $("#runBrand").value, focus: $("#runFocus").value, max_posts: $("#runMax").value,
+    await B.dispatch({ scope, profile_url: scope === "single" ? url : "", brand: $("#runBrand").value, focus: $("#runFocus").value, max_posts: $("#runMax").value,
       include_comments: $("#runComments").checked, skip_collect: $("#runSkip").checked });
     let run = null;
     for (let i = 0; i < 12 && !run; i++) {
@@ -276,7 +316,7 @@ async function runReport() {
     const t0 = Date.now();
     while (run.status !== "completed") {
       if (Date.now() - t0 > 30 * 60e3) throw new Error("This is taking over 30 minutes. Check the run on GitHub.");
-      const label = $("#runSkip").checked ? "Writing the report" : (Date.now() - t0 < 90e3 ? "Collecting posts from Threads" : "Collecting posts and writing the report");
+      const label = scope !== "single" ? ($("#runSkip").checked ? "Writing the reports" : "Collecting new posts and writing the report" + (scope === "each" ? "s" : "")) : $("#runSkip").checked ? "Writing the report" : (Date.now() - t0 < 90e3 ? "Collecting posts from Threads" : "Collecting posts and writing the report");
       st.innerHTML = `${label}... ${Math.round((Date.now() - t0) / 1000)}s.` + link;
       await sleep(10000);
       const nr = await B.status(run.id); if (nr) run = nr;
@@ -294,10 +334,11 @@ async function runReport() {
 }
 $("#runGo").onclick = runReport;
 $("#runUrl").onkeydown = e => { if (e.key === "Enter") runReport(); };
+$("#ghReport").addEventListener("click", () => setTimeout(() => { $("#runScope").value = "single"; $("#runPick").value = "__new"; runFormUI(); $("#runUrl").focus(); }, 450));
 tokenUI();
 
 const dataHooks = [];
-window.TT = { $, esc, fmt, eng, median, allPosts, S, goto: t => goto(t), onData: fn => dataHooks.push(fn),
+window.TT = { prefillRun, $, esc, fmt, eng, median, allPosts, S, goto: t => goto(t), onData: fn => dataHooks.push(fn),
   md: t => md(t), B: () => B, mode: () => MODE, hasToken: () => !!memToken, sleep, getJSON, reloadData: () => reloadData() };
 /* ---------- wiring ---------- */
 function goto(tab) { $$("#nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab)); $$("main > section").forEach(s => s.classList.toggle("hidden", s.id !== "tab-" + tab)); hideTip(); }
@@ -307,7 +348,7 @@ $("#pSearch").oninput = () => { S.pLimit = 30; renderPosts(); }; $("#pAccount").
 $("#pMore").onclick = () => { S.pLimit += 30; renderPosts(); };
 $("#rSearch").oninput = () => { S.rLimit = 30; renderReplies(); }; $("#rAccount").onchange = () => { S.rLimit = 30; renderReplies(); };
 $("#rMore").onclick = () => { S.rLimit += 30; renderReplies(); };
-$("#repAccount").onchange = renderReportList;
+$("#repAccount").onchange = renderReportList; $("#repBrand").onchange = renderReportList; $("#repScope").onchange = renderReportList;
 
 const gh = repoUrl();
 if (gh) $("#ghRepo").href = gh;
@@ -316,7 +357,7 @@ $("#ghReport").onclick = e => { e.preventDefault(); goto("reports"); $("#runCard
 async function reloadData() {
   S.index = await getJSON("data/index.json"); S.accounts = {};
   await Promise.all(S.index.accounts.filter(a => a.posts || a.replies).map(async a => { try { S.accounts[a.handle] = await getJSON(`data/accounts/${a.handle}.json`); } catch (e) {} }));
-  fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList();
+  fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList(); runFormUI();
   dataHooks.forEach(f => { try { f(); } catch (e) { console.error(e); } });
 }
 (async function loadBrands() {
@@ -328,6 +369,7 @@ async function reloadData() {
       sel.innerHTML = Object.entries(brands).map(([k, b]) => `<option value="${esc(k)}">For: ${esc(b.name)}</option>`).join("");
       if (brands[cur]) sel.value = cur;
     });
+    window.dispatchEvent(new Event("tt-brands"));
   } catch (e) {}
 })();
 (async function load() {
@@ -337,7 +379,7 @@ async function reloadData() {
     $("#updated").textContent = "Data updated " + new Date(S.index.updated).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
     const u = S.index.usage;
     if (u && u.budget) $("#updated").textContent += ` · Spent this month $${Number(u.spent || 0).toFixed(2)} of $${u.budget}`;
-    fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList();
+    fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList(); runFormUI();
     dataHooks.forEach(f => { try { f(); } catch (e) { console.error(e); } });
     if (!Object.keys(S.accounts).length) $("#loadMsg").textContent = "No data yet. Run \"Get report\" in GitHub Actions to collect the first account.";
     else $("#loadMsg").classList.add("hidden");

@@ -294,7 +294,7 @@ a{color:var(--accent)}
   <section id="tab-reports" class="hidden">
     <div class="card" id="runCard">
     <div class="row" style="justify-content:space-between;align-items:flex-start">
-      <div style="flex:1 1 200px;min-width:0"><h2>Get a new report</h2><p class="sub">Paste a Threads profile link. New accounts are added to the monthly refresh.</p></div>
+      <div style="flex:1 1 200px;min-width:0"><h2>Get a new report</h2><p class="sub">Choose the ambassador, then one competitor, or all of their competitors at once.</p></div>
       <button class="btn" id="tokBtn" type="button">Connect GitHub</button>
       <span class="small muted hidden" id="whoami"></span>
     </div>
@@ -312,10 +312,19 @@ a{color:var(--accent)}
       <div class="status" id="tokStatus"></div>
     </div>
     <div class="row">
-      <input id="runUrl" class="grow" placeholder="https://www.threads.com/@username">
+      <select id="runBrand" class="brand-select" style="width:auto" aria-label="Ambassador"><option value="ines">For: Inés</option></select>
+      <select id="runScope" style="width:auto" aria-label="What to analyze">
+        <option value="single">One competitor</option>
+        <option value="all">All competitors - one combined report</option>
+        <option value="each">All competitors - a separate report for each</option>
+      </select>
     </div>
+    <div class="row" id="runOne" style="margin-top:8px">
+      <select id="runPick" style="width:auto;max-width:100%" aria-label="Competitor"></select>
+      <input id="runUrl" class="grow hidden" placeholder="https://www.threads.com/@username">
+    </div>
+    <p class="small muted hidden" id="runAllInfo" style="margin:8px 0 0"></p>
     <div class="row" style="margin-top:8px">
-      <select id="runBrand" class="brand-select" style="width:auto" aria-label="Brand"><option value="ines">For: Inés</option></select>
       <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">Full analysis</option><option value="ideas">Post ideas</option><option value="replies">Replies &amp; tone</option><option value="voice">AI linguistic report</option></select>
       <select id="runMax" style="width:auto" aria-label="Posts"><option value="30">30 posts</option><option value="60" selected>60 posts</option><option value="100">100 posts</option></select>
       <button class="btn primary" id="runGo" type="button">Run</button>
@@ -327,7 +336,7 @@ a{color:var(--accent)}
 
     <p class="small muted" style="margin:-6px 0 16px"><a id="ghRepo" target="_blank" rel="noopener" href="#">Open the repository on GitHub</a></p>
     <div class="card">
-      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0">Reports</h2><select id="repAccount" style="width:auto"></select></div>
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0">Reports</h2><div class="row" style="gap:8px"><select id="repBrand" style="width:auto" aria-label="Ambassador"><option value="">All ambassadors</option></select><select id="repScope" style="width:auto" aria-label="Kind"><option value="">All reports</option><option value="all">Combined (all competitors)</option><option value="single">Single competitor</option></select><select id="repAccount" style="width:auto"></select></div></div>
       <div id="repList"></div>
     </div>
     <div class="card hidden" id="repOutCard">

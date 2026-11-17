@@ -193,11 +193,13 @@ async function startRun(request, env, email) {
   if (!WORKFLOWS[wf]) return json({ error: "Unknown action." }, 400);
   let inputs;
   if (wf === "report") {
-    const url = String(b.profile_url || "").trim();
-    if (!PROFILE_RE.test(url)) return json({ error: "That doesn't look like a Threads profile link." }, 400);
+    const scope = String(b.scope || "single");
+    if (!["single", "all", "each"].includes(scope)) return json({ error: "Bad form values." }, 400);
+    const url = scope === "single" ? String(b.profile_url || "").trim() : "";
+    if (scope === "single" && !PROFILE_RE.test(url)) return json({ error: "That doesn't look like a Threads profile link." }, 400);
     if (!BRAND_RE.test(String(b.brand)) || !FOCUS.includes(b.focus) || !["30", "60", "100"].includes(String(b.max_posts)))
       return json({ error: "Bad form values." }, 400);
-    inputs = { profile_url: url, brand: b.brand, focus: b.focus, max_posts: String(b.max_posts),
+    inputs = { scope, profile_url: url, brand: b.brand, focus: b.focus, max_posts: String(b.max_posts),
                include_comments: !!b.include_comments, skip_collect: !!b.skip_collect, requested_by: email };
   } else if (wf === "plan") {
     if (!BRAND_RE.test(String(b.brand)) || !["1", "2", "4", "6", "8"].includes(String(b.weeks)) || !["2", "3", "4", "5", "7", "14", "21"].includes(String(b.per_week)))

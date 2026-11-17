@@ -408,7 +408,7 @@ def update_index(paths: Paths) -> None:
             continue
         posts = [p for p in acc["posts"].values() if p["type"] == "post"]
         out.append({
-            "handle": a["handle"], "note": a.get("note", ""),
+            "handle": a["handle"], "note": a.get("note", ""), "brands": a.get("brands", []),
             "fullName": acc["profile"].get("fullName", ""),
             "followers": acc["profile"].get("followers", 0),
             "lastFetched": acc["profile"].get("lastFetched"),
@@ -608,7 +608,7 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str)
 
 
 def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: str, dry_run: bool,
-           requested_by: str = "") -> Path:
+           requested_by: str = "", combined: bool = False) -> Path:
     accounts = []
     for h in handles:
         acc = read_json(paths.account_file(h))
@@ -619,16 +619,21 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
     prompt = build_prompt(paths, accounts, brand, focus)
     text = ask_claude(prompt, settings, dry_run)
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d-%H%M")
-    slug = handles[0] if len(handles) == 1 else "all-accounts"
+    combined = combined or len(handles) > 1
+    slug = f"all-{brand}" if combined else handles[0]
     rel = f"reports/{slug}/{stamp}-{focus}-{brand}.md"
     title = {"full": "Full analysis", "ideas": "Post ideas", "replies": "Reply analysis", "voice": "AI linguistic report"}[focus]
+    brand_name = read_json(paths.config / 'brands.json')[brand]['name']
+    if combined:
+        title += f" - all {brand_name.split(' (')[0]}'s competitors"
     header = (f"# {title}: {', '.join('@' + h for h in handles)}\n\n"
               f"Brand: {read_json(paths.config / 'brands.json')[brand]['name']} · Generated {now_iso()[:16].replace('T', ' ')} UTC\n\n")
     out = paths.root / rel
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(header + text.strip() + "\n", encoding="utf-8")
     idx = read_json(paths.reports / "index.json", [])
-    entry = {"path": rel, "title": title, "accounts": handles, "brand": brand, "focus": focus, "created": now_iso()}
+    entry = {"path": rel, "title": title, "accounts": handles, "brand": brand, "focus": focus,
+             "scope": "all" if combined else "single", "created": now_iso()}
     if requested_by:
         entry["requestedBy"] = requested_by[:120]
     idx.insert(0, entry)
@@ -678,7 +683,7 @@ def monthly(paths: Paths, settings: dict, dry_run: bool) -> None:
             log(f"- {b.get('name', key)}: no competitors tracked yet, skipped.")
             continue
         try:
-            report(paths, settings, handles, key, "full", dry_run, "monthly schedule")
+            report(paths, settings, handles, key, "full", dry_run, "monthly schedule", combined=True)
             done += 1
         except TrackerError as e:
             log(f"!! {b.get('name', key)}: {e}")
@@ -696,12 +701,16 @@ def main(argv=None) -> int:
         p.add_argument("--dry-run", action="store_true", help="use sample data, call nothing, write to a temp folder")
         if name in ("collect", "report", "add"):
             p.add_argument("--handle", help="profile link or @handle")
+        if name == "refresh":
+            p.add_argument("--brand", default="", help="only this brand's competitors")
         if name in ("collect", "refresh"):
             p.add_argument("--max-posts", type=int)
             p.add_argument("--no-replies", action="store_true")
             p.add_argument("--comments", action="store_true", help="also collect comments under the top posts")
         if name == "report":
-            p.add_argument("--all", action="store_true", help="one report across every tracked account")
+            p.add_argument("--all", action="store_true", help="same as --scope all")
+            p.add_argument("--scope", default="single", choices=["single", "all", "each"],
+                           help="single = --handle; all = one combined report on the brand's competitors; each = one report per competitor")
             p.add_argument("--brand", default="ines")
             p.add_argument("--focus", default="full", choices=["full", "ideas", "replies", "voice"])
             p.add_argument("--requested-by", default="")
@@ -733,14 +742,30 @@ def main(argv=None) -> int:
             update_index(paths)
             return 0
         if args.cmd == "report":
-            if args.all:
-                handles = accounts_for(paths, args.brand)
-                if not handles:
-                    raise TrackerError(f"No competitors tracked for '{args.brand}' yet.")
-            else:
+            scope = "all" if args.all else args.scope
+            if scope == "single":
                 handles = [clean_handle(args.handle)]
                 add_account(paths, handles[0], brand=args.brand)
-            report(paths, settings, handles, args.brand, args.focus, args.dry_run, args.requested_by)
+                report(paths, settings, handles, args.brand, args.focus, args.dry_run, args.requested_by)
+            else:
+                handles = accounts_for(paths, args.brand)
+                if not handles:
+                    raise TrackerError(f"No competitors tracked for '{args.brand}' yet. Track a few accounts for them first "
+                                       "(Competitor search, then 'Track and analyze').")
+                if scope == "all":
+                    report(paths, settings, handles, args.brand, args.focus, args.dry_run, args.requested_by, combined=True)
+                else:
+                    failed = []
+                    for h in handles:
+                        try:
+                            report(paths, settings, [h], args.brand, args.focus, args.dry_run, args.requested_by)
+                        except TrackerError as e:
+                            log(f"!! @{h}: {e}")
+                            failed.append(h)
+                            if "budget" in str(e).lower():
+                                break
+                    if len(failed) == len(handles):
+                        raise TrackerError("Every report failed - see the messages above.")
             update_index(paths)
             return 0
         apify = Apify(os.environ.get("APIFY_TOKEN"), args.dry_run)
@@ -752,6 +777,10 @@ def main(argv=None) -> int:
             collect(paths, settings, apify, handle, max_posts, replies, args.comments)
         else:  # refresh
             cfg = read_json(paths.config / "accounts.json")["accounts"]
+            if args.brand:
+                cfg = [a for a in cfg if args.brand in a.get("brands", [])]
+                if not cfg:
+                    raise TrackerError(f"No competitors tracked for '{args.brand}' yet.")
             failed = []
             for a in cfg:
                 try:
