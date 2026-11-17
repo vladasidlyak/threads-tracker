@@ -1,6 +1,6 @@
 {
  "2026-11": {
-  "total": 1.3152,
+  "total": 1.4302,
   "items": [
    {
     "t": "2026-11-16T15:48:20Z",
@@ -84,6 +84,24 @@
     "t": "2026-11-17T15:39:22Z",
     "kind": "claude",
     "usd": 0.1364,
+    "what": "You are a social media strategist analyzing competitors on Threads.  BRAND WE AR"
+   },
+   {
+    "t": "2026-11-17T15:40:31Z",
+    "kind": "apify",
+    "usd": 0.0064,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"psicologiaconb\"], \"profileContent"
+   },
+   {
+    "t": "2026-11-17T15:40:39Z",
+    "kind": "apify",
+    "usd": 0.0416,
+    "what": "deepmine/threads-scraper {\"postUrls\": [\"https://www.threads.com/@psicologiaconb/"
+   },
+   {
+    "t": "2026-11-17T15:41:28Z",
+    "kind": "claude",
+    "usd": 0.067,
     "what": "You are a social media strategist analyzing competitors on Threads.  BRAND WE AR"
    }
   ]

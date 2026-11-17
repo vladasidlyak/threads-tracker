@@ -1,5 +1,17 @@
 [
  {
+  "path": "reports/psicologiaconb/2026-11-17-1541-full-ines.md",
+  "title": "Full analysis",
+  "accounts": [
+   "psicologiaconb"
+  ],
+  "brand": "ines",
+  "focus": "full",
+  "scope": "single",
+  "created": "2026-11-17T15:41:28Z",
+  "requestedBy": "Vlada"
+ },
+ {
   "path": "reports/ju_zeppa/2026-11-17-1539-full-ines.md",
   "title": "Full analysis",
   "accounts": [

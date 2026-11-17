@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T15:39:22Z",
+ "updated": "2026-11-17T15:41:28Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -75,9 +75,34 @@
    "posts": 30,
    "replies": 30,
    "commentThreads": 5
+  },
+  {
+   "handle": "psicologiaconb",
+   "note": "",
+   "brands": [
+    "ines"
+   ],
+   "fullName": "Psicóloga Brenda Benavides",
+   "followers": 184600,
+   "lastFetched": "2026-11-17T15:40:31Z",
+   "posts": 3,
+   "replies": 0,
+   "commentThreads": 3
   }
  ],
  "reports": [
+  {
+   "path": "reports/psicologiaconb/2026-11-17-1541-full-ines.md",
+   "title": "Full analysis",
+   "accounts": [
+    "psicologiaconb"
+   ],
+   "brand": "ines",
+   "focus": "full",
+   "scope": "single",
+   "created": "2026-11-17T15:41:28Z",
+   "requestedBy": "Vlada"
+  },
   {
    "path": "reports/ju_zeppa/2026-11-17-1539-full-ines.md",
    "title": "Full analysis",
@@ -173,7 +198,7 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 1.32,
+  "spent": 1.43,
   "budget": 5
  }
 }
