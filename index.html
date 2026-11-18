@@ -311,7 +311,7 @@ a{color:var(--accent)}
     <p class="small muted hidden" id="runAllInfo" style="margin:8px 0 0"></p>
     <div class="row" style="margin-top:8px">
       <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">Full analysis</option><option value="ideas">Post ideas</option><option value="replies">Replies &amp; tone</option><option value="voice">AI linguistic report</option></select>
-      <select id="runMax" style="width:auto" aria-label="Top posts to analyze" title="The tracker collects more posts, ranks them by engagement rate, then likes, then views, and analyzes only the best ones. Posts with no likes are left out."><option value="30">Top 30 posts</option><option value="60" selected>Top 60 posts</option><option value="100">Top 100 posts</option></select>
+      <select id="runMax" style="width:auto" aria-label="Top posts to analyze" title="The tracker collects about 1.7x more posts (max 100), ranks them by engagement rate, then likes, then views, and analyzes only the best ones. Posts with no likes are left out."><option value="30" selected>Top 30 posts (recommended)</option><option value="60">Top 60 posts</option><option value="100">Top 100 posts</option></select>
       <button class="btn primary" id="runGo" type="button">Run</button>
     </div>
     <label class="small muted" style="display:flex;gap:6px;align-items:center;margin-top:8px"><input type="checkbox" id="runComments" style="width:auto"> Also collect comments under the top 5 posts (about $0.15 more)</label>

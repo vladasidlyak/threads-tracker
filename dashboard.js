@@ -427,7 +427,8 @@ async function reloadData() {
     await Promise.all(S.index.accounts.filter(a => a.posts || a.replies).map(async a => { try { S.accounts[a.handle] = await getJSON(`data/accounts/${a.handle}.json`); } catch (e) {} }));
     $("#updated").textContent = "Data updated " + new Date(S.index.updated).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
     const u = S.index.usage;
-    if (u && u.budget) $("#updated").textContent += ` · Spent this month $${Number(u.spent || 0).toFixed(2)} of $${u.budget}`;
+    if (u && u.apifyBudget) $("#updated").textContent += ` · This month: Apify $${Number(u.apify || 0).toFixed(2)} of $${u.apifyBudget} (free credit), Claude $${Number(u.claude || 0).toFixed(2)} of $${u.claudeBudget}`;
+    else if (u && u.budget) $("#updated").textContent += ` · Spent this month $${Number(u.spent || 0).toFixed(2)} of $${u.budget}`;
     fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList(); runFormUI();
     dataHooks.forEach(f => { try { f(); } catch (e) { console.error(e); } });
     if (!Object.keys(S.accounts).length) $("#loadMsg").textContent = "No data yet. Run \"Get report\" in GitHub Actions to collect the first account.";

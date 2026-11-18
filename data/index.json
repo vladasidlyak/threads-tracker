@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T16:05:54Z",
+ "updated": "2026-11-18T15:29:24Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -299,6 +299,10 @@
  "usage": {
   "month": "2026-11",
   "spent": 2.22,
-  "budget": 5
+  "budget": 5,
+  "apify": 1.34,
+  "claude": 0.88,
+  "apifyBudget": 4.8,
+  "claudeBudget": 5
  }
 }

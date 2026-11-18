@@ -28,9 +28,9 @@ on:
         type: choice
         options: [full, ideas, replies, voice]
       max_posts:
-        description: "Top posts to analyze per account (the tracker collects about 3x more and keeps the best)"
+        description: "Top posts to analyze per account (the tracker collects about 1.7x more, max 100, and keeps the best)"
         required: true
-        default: "60"
+        default: "30"
         type: choice
         options: ["30", "60", "100"]
       include_comments:

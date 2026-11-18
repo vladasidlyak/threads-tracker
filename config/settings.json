@@ -1,7 +1,7 @@
 {
  "apify_profile_actor": "deepmine/threads-posts-scraper",
  "apify_comments_actor": "deepmine/threads-scraper",
- "max_posts_per_account": 25,
+ "max_posts_per_account": 30,
  "include_replies": true,
  "max_cost_usd_per_run": 0.5,
  "comments_top_posts": 5,
@@ -14,5 +14,8 @@
  "apify_price_per_item_usd": 0.0016,
  "claude_price_input_per_mtok": 2,
  "claude_price_output_per_mtok": 10,
- "top_posts_to_analyze": 60
+ "top_posts_to_analyze": 30,
+ "monthly_budget_apify_usd": 4.8,
+ "monthly_budget_claude_usd": 5,
+ "replies_per_account": 15
 }

@@ -59,21 +59,33 @@ def month_key() -> str:
     return dt.datetime.now(dt.timezone.utc).strftime("%Y-%m")
 
 
-def spent_this_month() -> float:
-    return float(_usage().get(month_key(), {}).get("total", 0))
+def spent_this_month(kind: str = "") -> float:
+    m = _usage().get(month_key(), {})
+    if not kind:
+        return float(m.get("total", 0))
+    return round(sum(i["usd"] for i in m.get("items", []) if i.get("kind") == kind), 4)
 
 
-def budget_left() -> float:
-    limit = float(BUDGET["settings"].get("monthly_budget_usd", 0) or 0)
-    return 9999.0 if not limit or not BUDGET["path"] else round(limit - spent_this_month(), 4)
+LIMIT_KEYS = {"apify": "monthly_budget_apify_usd", "claude": "monthly_budget_claude_usd"}
+SERVICE = {"apify": "Apify (collecting posts)", "claude": "Claude (AI reports and plans)"}
 
 
-def check_budget(minimum: float = 0.02) -> float:
-    left = budget_left()
+def budget_left(kind: str = "") -> float:
+    s = BUDGET["settings"]
+    limit = float(s.get(LIMIT_KEYS.get(kind, ""), 0) or 0) if kind else 0
+    spent = spent_this_month(kind) if limit else spent_this_month()
+    limit = limit or float(s.get("monthly_budget_usd", 0) or 0)
+    return 9999.0 if not limit or not BUDGET["path"] else round(limit - spent, 4)
+
+
+def check_budget(minimum: float = 0.02, kind: str = "") -> float:
+    left = budget_left(kind)
     if left < minimum:
-        limit = BUDGET["settings"].get("monthly_budget_usd")
-        raise TrackerError(f"This month's budget of ${limit} is used up (spent ${spent_this_month():.2f}). "
-                           "Paid actions start again on the 1st, or raise monthly_budget_usd in config/settings.json.")
+        key = LIMIT_KEYS.get(kind, "monthly_budget_usd")
+        limit = BUDGET["settings"].get(key) or BUDGET["settings"].get("monthly_budget_usd")
+        raise TrackerError(f"This month's {SERVICE.get(kind, '')} budget of ${limit} is used up "
+                           f"(spent ${spent_this_month(kind if BUDGET['settings'].get(key) else ''):.2f}). "
+                           f"It starts again on the 1st, or raise {key} in config/settings.json.")
     return left
 
 
@@ -313,7 +325,7 @@ class Apify:
         if self.dry_run:
             log(f"[dry run] would run {actor} with {json.dumps(actor_input)[:200]}")
             return read_json(FIXTURES / fixture, [])
-        max_cost = round(min(max_cost, check_budget()), 2)
+        max_cost = round(min(max_cost, check_budget(0.02, "apify")), 2)
         actor_id = actor.replace("/", "~")
         run = self._req("POST", f"{APIFY_API}/acts/{actor_id}/runs",
                         params={"maxTotalChargeUsd": max_cost}, json=actor_input)["data"]
@@ -349,7 +361,7 @@ def ask_claude(prompt: str, settings: dict, dry_run: bool) -> str:
         log("[dry run] would send the report prompt to Claude "
             f"({len(prompt)} characters, model {settings['claude_model']})")
         return "### What's working\n- (dry run) This is where Claude's analysis would appear.\n"
-    check_budget(0.02)
+    check_budget(0.02, "claude")
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
         raise TrackerError("ANTHROPIC_API_KEY is missing. Add it in GitHub: Settings → Secrets and variables → Actions.")
@@ -465,7 +477,11 @@ def update_index(paths: Paths) -> None:
                                            "competitors": competitors[:100],
                                            "plans": read_json(paths.data / "plans" / "index.json", [])[:100],
                                            "usage": {"month": month_key(), "spent": round(month.get("total", 0), 2),
-                                                     "budget": settings.get("monthly_budget_usd")}})
+                                                     "budget": settings.get("monthly_budget_usd"),
+                                                     "apify": round(sum(i["usd"] for i in month.get("items", []) if i.get("kind") == "apify"), 2),
+                                                     "claude": round(sum(i["usd"] for i in month.get("items", []) if i.get("kind") == "claude"), 2),
+                                                     "apifyBudget": settings.get("monthly_budget_apify_usd"),
+                                                     "claudeBudget": settings.get("monthly_budget_claude_usd")}})
 
 
 # ---------------------------------------------------------------- commands
@@ -473,18 +489,26 @@ def update_index(paths: Paths) -> None:
 def collect(paths: Paths, settings: dict, apify: Apify, handle: str, max_posts: int,
             replies: bool, comments: bool) -> dict:
     log(f"\n=== Collecting @{handle} ===")
-    content = ["profile", "posts"] + (["replies"] if replies else [])
-    pool = min(150, max(max_posts * 3, 60))  # collect more, then keep the best max_posts for analysis
-    actor_input = {"usernames": [handle], "profileContent": content, "maxItemsPerInput": pool,
-                   "includeViewCounts": True, "includeAuthorDetails": True,
-                   "proxyConfiguration": {"useApifyProxy": True}}
+    # Posts and replies are collected separately: the Apify item limit counts both together,
+    # and accounts that reply a lot would otherwise leave almost no posts to pick the best from.
+    pool = min(100, max(int(max_posts * 1.7), 35))  # collect a bit more, then keep the best max_posts
+    base = {"usernames": [handle], "includeViewCounts": True, "includeAuthorDetails": True,
+            "proxyConfiguration": {"useApifyProxy": True}}
     existing = load_account(paths, handle)
     last = existing["profile"].get("lastFetched")
     if settings.get("only_new_posts_on_refresh") and last and existing["posts"]:
         days = max(2, int((dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(last.replace("Z", "+00:00"))).days) + 2)
-        actor_input["postedAfter"] = f"{days} days"
+        base["postedAfter"] = f"{days} days"
         log(f"Only posts from the last {days} days (older ones are already saved)")
-    rows = apify.run(settings["apify_profile_actor"], actor_input, settings["max_cost_usd_per_run"], "profile_run.json")
+    rows = apify.run(settings["apify_profile_actor"], {**base, "profileContent": ["profile", "posts"], "maxItemsPerInput": pool},
+                     settings["max_cost_usd_per_run"], "profile_run.json")
+    n_replies = int(settings.get("replies_per_account", 15))
+    if replies and n_replies:
+        try:
+            rows += apify.run(settings["apify_profile_actor"], {**base, "profileContent": ["replies"], "maxItemsPerInput": n_replies},
+                              settings["max_cost_usd_per_run"], "profile_run.json") or []
+        except TrackerError as e:
+            log(f"!! Replies not collected: {e}")
     if not rows:
         raise TrackerError(f"Apify returned no data for @{handle}. Is the profile public and spelled right?")
     account = load_account(paths, handle)
