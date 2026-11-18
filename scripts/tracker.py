@@ -165,6 +165,47 @@ def engagement(p: dict) -> int:
     return p.get("likes", 0) + p.get("replies", 0) + p.get("reposts", 0) + p.get("quotes", 0)
 
 
+def _pct_ranks(values: list[float]) -> list[float]:
+    """0..1 percentile rank of each value (ties share a rank)."""
+    order = sorted(values)
+    n = len(values)
+    return [(order.index(v) + order.count(v) / 2) / n if n else 0 for v in values]
+
+
+def rank_posts(posts: list[dict], followers: dict) -> list[dict]:
+    """Best posts first: engagement rate (per follower) counts most, then likes, then views.
+    Posts with no likes and no interaction at all are dropped."""
+    posts = [p for p in posts if p.get("likes", 0) > 0 or engagement(p) > 0]
+    if not posts:
+        return []
+    er = [engagement(p) / max(1, followers.get(p.get("account"), 0) or 1) for p in posts]
+    likes = [p.get("likes", 0) for p in posts]
+    views = [p.get("views") or 0 for p in posts]
+    has_views = any(views)
+    w = (0.5, 0.3, 0.2) if has_views else (0.6, 0.4, 0.0)
+    r_er, r_l, r_v = _pct_ranks(er), _pct_ranks(likes), _pct_ranks(views)
+    for p, a, b, c, e in zip(posts, r_er, r_l, r_v, er):
+        p["_score"] = w[0] * a + w[1] * b + w[2] * c
+        p["_er"] = e
+    return sorted(posts, key=lambda p: (p["_score"], p["_er"], p.get("likes", 0), p.get("views") or 0), reverse=True)
+
+
+def select_top(accounts: list[dict], top_n: int) -> tuple[list[dict], str]:
+    """Top N posts per account by the ranking above; returns the posts and a note on how they were chosen."""
+    chosen, notes = [], []
+    for a in accounts:
+        posts = [p for p in a["posts"].values() if p["type"] == "post"]
+        ranked = rank_posts(posts, {a["handle"]: a["profile"].get("followers", 0)})
+        pick = ranked[:top_n]
+        chosen += pick
+        notes.append(f"@{a['handle']}: top {len(pick)} of {len(posts)} collected posts "
+                     f"({len(posts) - len(ranked)} with no likes or interaction left out)")
+    rule = ("Posts are ranked by engagement rate (likes + replies + reposts + quotes per follower) first, "
+            "then likes, then views. Only the top posts are analyzed; weaker and empty posts are left out on purpose, "
+            "so treat every post below as a strong performer and compare them with each other.")
+    return chosen, rule + "\n" + "\n".join("- " + n for n in notes)
+
+
 def format_of(text: str) -> str:
     t = (text or "").strip()
     if re.match(r'^\s*["“«]', t) or re.search(r"\n\s*[-–—]\s*[A-ZÁÉÍÓÚÑ][^\n]{1,40}$", t):
@@ -433,7 +474,8 @@ def collect(paths: Paths, settings: dict, apify: Apify, handle: str, max_posts: 
             replies: bool, comments: bool) -> dict:
     log(f"\n=== Collecting @{handle} ===")
     content = ["profile", "posts"] + (["replies"] if replies else [])
-    actor_input = {"usernames": [handle], "profileContent": content, "maxItemsPerInput": max_posts,
+    pool = min(150, max(max_posts * 3, 60))  # collect more, then keep the best max_posts for analysis
+    actor_input = {"usernames": [handle], "profileContent": content, "maxItemsPerInput": pool,
                    "includeViewCounts": True, "includeAuthorDetails": True,
                    "proxyConfiguration": {"useApifyProxy": True}}
     existing = load_account(paths, handle)
@@ -456,8 +498,8 @@ def collect(paths: Paths, settings: dict, apify: Apify, handle: str, max_posts: 
 
 
 def collect_comments(settings: dict, apify: Apify, account: dict) -> None:
-    posts = sorted((p for p in account["posts"].values() if p["type"] == "post" and p["url"]),
-                   key=engagement, reverse=True)[:settings["comments_top_posts"]]
+    posts = [p for p in rank_posts([p for p in account["posts"].values() if p["type"] == "post" and p["url"]],
+                                   {account["handle"]: account["profile"].get("followers", 0)})][:settings["comments_top_posts"]]
     if not posts:
         return
     log(f"Collecting comments under the top {len(posts)} posts...")
@@ -541,12 +583,12 @@ def voice_stats(items: list[dict]) -> str:
     return "\n".join(lines)
 
 
-def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str) -> str:
+def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str, top_n: int = 60) -> str:
     brands = read_json(paths.config / "brands.json")
     if brand_key not in brands:
         raise TrackerError(f"Unknown brand '{brand_key}'. Options: {', '.join(brands)}")
     brand = brands[brand_key]
-    posts = [p for a in accounts for p in a["posts"].values() if p["type"] == "post"]
+    posts, selection = select_top(accounts, top_n)
     replies = [p for a in accounts for p in a["posts"].values() if p["type"] == "reply"]
     if not posts and not replies:
         raise TrackerError("No data to analyze yet. Collect the account first.")
@@ -558,9 +600,8 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str)
                 f"replies {p['replies']}, reposts {p['reposts']}, quotes {p['quotes']}{views} | "
                 f"format {format_of(p['text'])} | {len(p['text'])} chars\n  \"{txt}\"")
 
-    ranked = sorted(posts, key=engagement, reverse=True)
-    top = "\n".join(line(p) for p in ranked[:60 if focus == "voice" else 25]) or "(none)"
-    weak = "\n".join(line(p) for p in ranked[-8:]) if len(ranked) > 30 else "(not enough posts to compare)"
+    ranked = posts  # already best-first
+    top = "\n".join(line(p) for p in ranked[:60 if focus == "voice" else 30]) or "(none)"
     rep = "\n".join(
         f"- @{p['account']} replied to @{p['parentAuthor'] or 'someone'}: "
         f"\"{squash(p['parentText'])[:250]}\"\n  Reply: \"{squash(p['text'])[:400]}\" (likes {p['likes']})"
@@ -598,7 +639,7 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str)
         "BY_FORMAT": agg(lambda p: format_of(p["text"])), "BY_LENGTH": agg(lambda p: length_of(p["text"])),
         "BY_WEEKDAY": agg(lambda p: weekday_of(p["date"])),
         "VOICE_POSTS": voice_stats(posts), "VOICE_REPLIES": voice_stats(replies),
-        "TOP_POSTS": top, "WEAK_POSTS": weak, "REPLIES": rep, "CONVERSATIONS": convo_txt,
+        "TOP_POSTS": top, "SELECTION": selection, "REPLIES": rep, "CONVERSATIONS": convo_txt,
     }
     task = task.replace("{{BRAND_NAME}}", brand["name"]).replace("{{DRAFTS_LANGUAGE}}", brand["drafts_language"])
     values["TASK"] = task
@@ -608,7 +649,8 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str)
 
 
 def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: str, dry_run: bool,
-           requested_by: str = "", combined: bool = False) -> Path:
+           requested_by: str = "", combined: bool = False, top_n: int = 0) -> Path:
+    top_n = top_n or settings.get("top_posts_to_analyze", 60)
     accounts = []
     for h in handles:
         acc = read_json(paths.account_file(h))
@@ -616,7 +658,7 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
             raise TrackerError(f"No data for @{h} yet. Run collect first.")
         accounts.append(acc)
     log(f"\n=== Writing {focus} report for {', '.join('@' + h for h in handles)} (brand: {brand}) ===")
-    prompt = build_prompt(paths, accounts, brand, focus)
+    prompt = build_prompt(paths, accounts, brand, focus, top_n)
     text = ask_claude(prompt, settings, dry_run)
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d-%H%M")
     combined = combined or len(handles) > 1
@@ -709,6 +751,7 @@ def main(argv=None) -> int:
             p.add_argument("--comments", action="store_true", help="also collect comments under the top posts")
         if name == "report":
             p.add_argument("--all", action="store_true", help="same as --scope all")
+            p.add_argument("--top", type=int, default=0, help="how many best posts per account to analyze (default 60)")
             p.add_argument("--scope", default="single", choices=["single", "all", "each"],
                            help="single = --handle; all = one combined report on the brand's competitors; each = one report per competitor")
             p.add_argument("--brand", default="ines")
@@ -746,19 +789,19 @@ def main(argv=None) -> int:
             if scope == "single":
                 handles = [clean_handle(args.handle)]
                 add_account(paths, handles[0], brand=args.brand)
-                report(paths, settings, handles, args.brand, args.focus, args.dry_run, args.requested_by)
+                report(paths, settings, handles, args.brand, args.focus, args.dry_run, args.requested_by, top_n=args.top)
             else:
                 handles = accounts_for(paths, args.brand)
                 if not handles:
                     raise TrackerError(f"No competitors tracked for '{args.brand}' yet. Add a few first: in Reports, "
                                        "paste a competitor's Threads link and press Run.")
                 if scope == "all":
-                    report(paths, settings, handles, args.brand, args.focus, args.dry_run, args.requested_by, combined=True)
+                    report(paths, settings, handles, args.brand, args.focus, args.dry_run, args.requested_by, combined=True, top_n=args.top)
                 else:
                     failed = []
                     for h in handles:
                         try:
-                            report(paths, settings, [h], args.brand, args.focus, args.dry_run, args.requested_by)
+                            report(paths, settings, [h], args.brand, args.focus, args.dry_run, args.requested_by, top_n=args.top)
                         except TrackerError as e:
                             log(f"!! @{h}: {e}")
                             failed.append(h)

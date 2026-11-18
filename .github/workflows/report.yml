@@ -28,7 +28,7 @@ on:
         type: choice
         options: [full, ideas, replies, voice]
       max_posts:
-        description: "Posts to collect"
+        description: "Top posts to analyze per account (the tracker collects about 3x more and keeps the best)"
         required: true
         default: "60"
         type: choice
@@ -96,9 +96,9 @@ jobs:
           SCOPE: ${{ inputs.scope || 'single' }}
         run: |
           if [ "$SCOPE" = "single" ]; then
-            python scripts/tracker.py report --handle "$PROFILE_URL" --brand "$BRAND" --focus ${{ inputs.focus }} --requested-by "$REQUESTED_BY"
+            python scripts/tracker.py report --handle "$PROFILE_URL" --brand "$BRAND" --focus ${{ inputs.focus }} --top ${{ inputs.max_posts }} --requested-by "$REQUESTED_BY"
           else
-            python scripts/tracker.py report --scope "$SCOPE" --brand "$BRAND" --focus ${{ inputs.focus }} --requested-by "$REQUESTED_BY"
+            python scripts/tracker.py report --scope "$SCOPE" --brand "$BRAND" --focus ${{ inputs.focus }} --top ${{ inputs.max_posts }} --requested-by "$REQUESTED_BY"
           fi
 
       - name: Save to the repository

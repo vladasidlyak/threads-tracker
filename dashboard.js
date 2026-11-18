@@ -319,7 +319,7 @@ function runFormUI() {
     ? `${scope === "all" ? "One report comparing" : "A separate report for each of"} ${name}'s ${list.length} competitor${list.length > 1 ? "s" : ""}: ${list.map(a => "@" + esc(a.handle)).join(", ")}. ` +
       `New posts are collected first. About $${scope === "all" ? "0.15-0.30" : (0.12 * list.length).toFixed(2) + "-" + (0.25 * list.length).toFixed(2)}.`
     : `${esc(name)} has no competitors yet. Choose "One competitor", paste a competitor's Threads link and press Run - it's saved as ${esc(name)}'s competitor.`;
-  $("#runMax").classList.toggle("hidden", !single);
+  
   $("#runComments").closest("label").classList.toggle("hidden", !single);
 }
 ["#runBrand", "#runScope", "#runPick"].forEach(id => $(id).addEventListener("change", runFormUI));
