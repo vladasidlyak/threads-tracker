@@ -32,6 +32,12 @@ on:
         required: false
         default: ""
         type: string
+      model:
+        description: "AI model: standard (Sonnet, best quality) or economy (Haiku, ~20x cheaper)"
+        required: false
+        default: standard
+        type: choice
+        options: [standard, economy]
       requested_by:
         description: "Who asked for it (filled in by the dashboard)"
         required: false
@@ -58,6 +64,7 @@ jobs:
       - name: Create the plan
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TRACKER_MODEL: ${{ inputs.model }}
           NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           NOTION_PARENT_PAGE: ${{ secrets.NOTION_PARENT_PAGE }}
           START: ${{ inputs.start }}

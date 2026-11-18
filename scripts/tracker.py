@@ -356,16 +356,27 @@ class Apify:
 
 # ---------------------------------------------------------------- Claude
 
+def claude_model(settings: dict) -> dict:
+    """Model chosen for this run: TRACKER_MODEL=standard|economy (from the website form), else the default."""
+    models = settings.get("claude_models") or {}
+    mode = (os.environ.get("TRACKER_MODEL") or settings.get("claude_default_mode") or "standard").strip().lower()
+    m = models.get(mode) or {"id": settings["claude_model"], "in": settings.get("claude_price_input_per_mtok", 2),
+                             "out": settings.get("claude_price_output_per_mtok", 10)}
+    return {**m, "mode": mode}
+
+
 def ask_claude(prompt: str, settings: dict, dry_run: bool) -> str:
+    model = claude_model(settings)
     if dry_run:
         log("[dry run] would send the report prompt to Claude "
-            f"({len(prompt)} characters, model {settings['claude_model']})")
+            f"({len(prompt)} characters, model {model['id']} - {model['mode']})")
         return "### What's working\n- (dry run) This is where Claude's analysis would appear.\n"
     check_budget(0.02, "claude")
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
         raise TrackerError("ANTHROPIC_API_KEY is missing. Add it in GitHub: Settings → Secrets and variables → Actions.")
-    body = {"model": settings["claude_model"], "max_tokens": settings["claude_max_tokens"],
+    log(f"Model: {model['id']} ({model['mode']})")
+    body = {"model": model["id"], "max_tokens": settings["claude_max_tokens"],
             "messages": [{"role": "user", "content": prompt}]}
     headers = {"x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"}
     for attempt in range(3):
@@ -392,9 +403,10 @@ def ask_claude(prompt: str, settings: dict, dry_run: bool) -> str:
             text += "\n\n*(Report cut off at the length limit. Raise claude_max_tokens in config/settings.json.)*\n"
         usage = data.get("usage", {})
         log(f"Claude answered: {usage.get('input_tokens')} input tokens, {usage.get('output_tokens')} output tokens")
-        cost = ((usage.get("input_tokens") or 0) * float(settings.get("claude_price_input_per_mtok", 2)) +
-                (usage.get("output_tokens") or 0) * float(settings.get("claude_price_output_per_mtok", 10))) / 1e6
-        record_cost("claude", cost, prompt[:80].replace("\n", " "))
+        tin, tout = usage.get("input_tokens") or 0, usage.get("output_tokens") or 0
+        long_mult = float(model.get("long_mult", 1)) if tin > int(model.get("long_from", 10 ** 9)) else 1
+        cost = (tin * float(model["in"]) + tout * float(model["out"])) * long_mult / 1e6
+        record_cost("claude", cost, f"[{model['mode']}] " + prompt[:70].replace("\n", " "))
         return text.replace("—", " - ")
     raise TrackerError("The Claude API didn't answer after 3 tries.")
 

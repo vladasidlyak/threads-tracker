@@ -38,6 +38,12 @@ on:
         required: false
         default: false
         type: boolean
+      model:
+        description: "AI model: standard (Sonnet, best quality) or economy (Haiku, ~20x cheaper)"
+        required: false
+        default: standard
+        type: choice
+        options: [standard, economy]
       requested_by:
         description: "Who asked for it (filled in by the dashboard)"
         required: false
@@ -90,6 +96,7 @@ jobs:
       - name: Write the AI report
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          TRACKER_MODEL: ${{ inputs.model }}
           PROFILE_URL: ${{ inputs.profile_url }}
           REQUESTED_BY: ${{ inputs.requested_by }}
           BRAND: ${{ inputs.brand }}

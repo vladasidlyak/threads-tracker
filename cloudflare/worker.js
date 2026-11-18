@@ -200,13 +200,13 @@ async function startRun(request, env, email) {
     if (!BRAND_RE.test(String(b.brand)) || !FOCUS.includes(b.focus) || !["30", "60", "100"].includes(String(b.max_posts)))
       return json({ error: "Bad form values." }, 400);
     inputs = { scope, profile_url: url, brand: b.brand, focus: b.focus, max_posts: String(b.max_posts),
-               include_comments: !!b.include_comments, skip_collect: !!b.skip_collect, requested_by: email };
+               include_comments: !!b.include_comments, skip_collect: !!b.skip_collect, model: b.model === "economy" ? "economy" : "standard", requested_by: email };
   } else if (wf === "plan") {
     if (!BRAND_RE.test(String(b.brand)) || !["1", "2", "4", "6", "8"].includes(String(b.weeks)) || !["2", "3", "4", "5", "7", "14", "21", "28", "35", "42", "49", "56", "63", "70"].includes(String(b.per_week)))
       return json({ error: "Bad form values." }, 400);
     const start = String(b.start || "");
     if (start && !/^\d{4}-\d{2}-\d{2}$/.test(start)) return json({ error: "Bad start date." }, 400);
-    inputs = { brand: b.brand, weeks: String(b.weeks), per_week: String(b.per_week), start, accounts: String(b.accounts || "").slice(0, 300), requested_by: email };
+    inputs = { brand: b.brand, weeks: String(b.weeks), per_week: String(b.per_week), start, accounts: String(b.accounts || "").slice(0, 300), model: b.model === "economy" ? "economy" : "standard", requested_by: email };
   } else {
     const url = String(b.target_url || "").trim();
     if (!PROFILE_RE.test(url)) return json({ error: "That doesn't look like a Threads profile link." }, 400);

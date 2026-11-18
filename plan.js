@@ -130,7 +130,7 @@ async function create() {
   const B = TT.B(), started = new Date(Date.now() - 30000).toISOString();
   try {
     st.textContent = "Starting...";
-    await B.dispatch({ brand: $("#plBrand").value, weeks: $("#plWeeks").value, per_week: $("#plPer").value, start: $("#plStart").value || "", accounts: "" }, "plan");
+    await B.dispatch({ model: $("#plModel").value, brand: $("#plBrand").value, weeks: $("#plWeeks").value, per_week: $("#plPer").value, start: $("#plStart").value || "", accounts: "" }, "plan");
     let run = null;
     for (let i = 0; i < 12 && !run; i++) { await TT.sleep(5000); run = await B.find(started, "plan"); }
     if (!run) throw new Error("The plan started but I couldn't find it. Check the Actions tab on GitHub.");

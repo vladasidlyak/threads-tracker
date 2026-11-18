@@ -348,7 +348,7 @@ async function runReport() {
   const started = new Date(Date.now() - 30000).toISOString();
   try {
     st.textContent = "Starting...";
-    await B.dispatch({ scope, profile_url: scope === "single" ? url : "", brand: $("#runBrand").value, focus: $("#runFocus").value, max_posts: $("#runMax").value,
+    await B.dispatch({ model: $("#runModel").value, scope, profile_url: scope === "single" ? url : "", brand: $("#runBrand").value, focus: $("#runFocus").value, max_posts: $("#runMax").value,
       include_comments: $("#runComments").checked, skip_collect: $("#runSkip").checked });
     let run = null;
     for (let i = 0; i < 12 && !run; i++) {
