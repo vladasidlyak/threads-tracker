@@ -1,6 +1,6 @@
 {
  "2026-11": {
-  "total": 2.5303,
+  "total": 2.5436,
   "items": [
    {
     "t": "2026-11-16T15:48:20Z",
@@ -265,6 +265,24 @@
     "kind": "claude",
     "usd": 0.0044,
     "what": "[economy] You are a content strategist continuing a content plan that is already"
+   },
+   {
+    "t": "2026-11-20T13:25:54Z",
+    "kind": "claude",
+    "usd": 0.0075,
+    "what": "[economy] You are a content strategist. Using the competitor research below, cre"
+   },
+   {
+    "t": "2026-11-20T13:26:15Z",
+    "kind": "claude",
+    "usd": 0.0048,
+    "what": "[economy] You are a content strategist continuing a content plan that is already"
+   },
+   {
+    "t": "2026-11-20T13:26:23Z",
+    "kind": "claude",
+    "usd": 0.001,
+    "what": "[economy] You are editing a content plan for Inés (Spanish, psychologist). Posts"
    }
   ]
  }
