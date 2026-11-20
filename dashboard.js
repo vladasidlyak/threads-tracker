@@ -52,14 +52,14 @@ function followersOf(acc) {
 const tip = $("#tip");
 function showTip(e, html) { tip.innerHTML = html; tip.style.opacity = 1; tip.style.left = Math.min(e.clientX + 12, innerWidth - 250) + "px"; tip.style.top = (e.clientY + 14) + "px"; }
 function hideTip() { tip.style.opacity = 0; }
-function barChart(el, groups, order) {
+function barChart(el, groups, order, val = eng, vf = n => fmt(Math.round(n))) {
   const keys = order.filter(k => groups[k] && groups[k].length);
   if (!keys.length) { el.innerHTML = '<p class="muted small">Not enough data.</p>'; return; }
-  const rows = keys.map(k => { const a = groups[k].map(eng); return { k, avg: Math.round(a.reduce((x, y) => x + y, 0) / a.length), n: a.length, med: Math.round(median(a)) }; });
+  const rows = keys.map(k => { const a = groups[k].map(val); return { k, avg: a.reduce((x, y) => x + y, 0) / a.length, n: a.length, med: median(a) }; });
   const max = Math.max(...rows.map(r => r.avg), 1);
   el.innerHTML = '<div class="bars" role="img" aria-label="Average engagement by group">' + rows.map(r =>
-    `<div class="bar-row" data-t="<b>${esc(r.k)}</b><br>Avg ${fmt(r.avg)} · median ${fmt(r.med)}<br>${r.n} post${r.n > 1 ? "s" : ""}"><span class="lab">${esc(r.k)}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(1, r.avg / max * 100)}%"></div></div><span class="val">${fmt(r.avg)}</span></div>`).join("") + "</div>" +
-    `<details class="tbl"><summary>Show as table</summary><table><tr><th>Group</th><th class="n">Posts</th><th class="n">Avg</th><th class="n">Median</th></tr>${rows.map(r => `<tr><td>${esc(r.k)}</td><td class="n">${r.n}</td><td class="n">${fmt(r.avg)}</td><td class="n">${fmt(r.med)}</td></tr>`).join("")}</table></details>`;
+    `<div class="bar-row" data-t="<b>${esc(r.k)}</b><br>Avg ${vf(r.avg)} · median ${vf(r.med)}<br>${r.n} post${r.n > 1 ? "s" : ""}"><span class="lab">${esc(r.k)}</span><div class="bar-track"><div class="bar-fill" style="width:${Math.max(1, r.avg / max * 100)}%"></div></div><span class="val">${vf(r.avg)}</span></div>`).join("") + "</div>" +
+    `<details class="tbl"><summary>Show as table</summary><table><tr><th>Group</th><th class="n">Posts</th><th class="n">Avg</th><th class="n">Median</th></tr>${rows.map(r => `<tr><td>${esc(r.k)}</td><td class="n">${r.n}</td><td class="n">${vf(r.avg)}</td><td class="n">${vf(r.med)}</td></tr>`).join("")}</table></details>`;
   el.querySelectorAll(".bar-row").forEach(b => { b.addEventListener("mousemove", e => showTip(e, b.dataset.t)); b.addEventListener("mouseleave", hideTip); });
 }
 
@@ -73,42 +73,132 @@ function postHTML(p, showParent) {
     <div class="stats"><span>♥ ${fmt(p.likes)}</span><span>💬 ${fmt(p.replies)}</span><span>↻ ${fmt(p.reposts)}</span>${p.quotes ? `<span>❝ ${fmt(p.quotes)}</span>` : ""}${p.views ? `<span>👁 ${fmt(p.views)}</span>` : ""}${p.shares ? `<span>➤ ${fmt(p.shares)}</span>` : ""}<span><b>${fmt(eng(p))}</b> total</span></div>
   </div>`;
 }
+function fillOvAccounts() {
+  const br = $("#ovBrand").value, el = $("#ovAccount"), cur = el.value;
+  const meta = h => (S.index.accounts || []).find(a => a.handle === h) || {};
+  const comp = Object.keys(S.accounts).filter(h => !isOwn(h) && (!br || (meta(h).brands || []).includes(br))).sort();
+  const own = Object.keys(S.accounts).filter(h => isOwn(h) && (!br || meta(h).own === br || (S.brands && S.brands[br] && S.brands[br].own_account === h)));
+  el.innerHTML = `<option value="">${br ? "All their competitors" : "All competitors"}</option>` + comp.map(a => `<option value="${esc(a)}">@${esc(a)}</option>`).join("") + (own.length ? `<optgroup label="Own account">${own.map(a => `<option value="${esc(a)}">👤 @${esc(a)}</option>`).join("")}</optgroup>` : "");
+  if ([...comp, ...own].includes(cur)) el.value = cur;
+}
 function fillSelects() {
   const accs = Object.keys(S.accounts).sort();
-  ["#ovAccount", "#pAccount", "#rAccount", "#repAccount"].forEach(sel => {
+  fillOvAccounts();
+  ["#pAccount", "#rAccount", "#repAccount"].forEach(sel => {
     const el = $(sel), cur = el.value;
     el.innerHTML = '<option value="">All competitors</option>' + accs.map(a => `<option value="${esc(a)}">@${esc(a)}</option>`).join("");
     if (accs.includes(cur)) el.value = cur;
   });
 }
+/* ---------- overview ---------- */
+const engB = p => (p.likes || 0) + (p.replies || 0) + (p.reposts || 0) + (p.shares || 0); // brand team's formula
+const medCache = {};
+function authorMedian(h) {
+  if (h in medCache) return medCache[h];
+  const a = S.accounts[h]; if (!a) return (medCache[h] = 0);
+  const base = Object.values(a.posts || {}).filter(p => p.type === "post" && p.date).sort((x, y) => y.date.localeCompare(x.date)).slice(0, 40);
+  return (medCache[h] = base.length >= 5 ? Math.max(1, median(base.map(engB))) : 0);
+}
+const xOf = p => { const m = authorMedian(p.account); return m ? engB(p) / m : 0; };
+const xFmt = x => (x >= 10 ? Math.round(x) : x.toFixed(1)) + "x";
+const firstLine = t => { t = (t || "").trim(); const m = t.match(/^[^\n]*?[.!?¿¡…](?=\s|$)|^[^\n]+/); return (m ? m[0] : t).slice(0, 160); };
+function isOwn(h) {
+  const a = (S.index.accounts || []).find(x => x.handle === h);
+  return !!((a && a.own) || Object.values(S.brands || {}).some(b => b.own_account === h));
+}
+function ovHandles() {
+  const acc = $("#ovAccount").value, br = $("#ovBrand").value;
+  if (acc) return [acc];
+  return Object.keys(S.accounts).filter(h => !isOwn(h) && (!br || ((S.index.accounts.find(a => a.handle === h) || {}).brands || []).includes(br)));
+}
+const STOP = new Set(("a al algo algunos ante antes como con contra cual cuando de del desde donde dos el ella ellas ellos en entre era es esa ese eso esta este esto estos ha hay la las le les lo los más me mi mis muy nada ni no nos o os otra otro para pero poco por porque que qué quien se sea ser si sí sin sobre su sus también te tu tus un una uno unos y ya yo tú él va ver vas has son está están estás puede hace hacer cada todo toda todos todas solo sólo bien tan tanto así mismo misma vez veces eres fue será tiene tienes tener " +
+  "the a an and or but if of to in on at for with from by is are was were be been being it its this that these those i you he she we they me my your our their his her them us not no so do does did done have has had will would can could should just than then there here what when where who why how all any more most some such only own same too very also into about up out over again once really get got make made one like dont don't it's i'm you're").split(" "));
+function topWords(posts) {
+  if (posts.length < 8) return [];
+  const sorted = [...posts].sort((a, b) => xOf(b) - xOf(a)), q = Math.max(3, Math.round(sorted.length / 4));
+  const tok = t => [...new Set((t || "").toLowerCase().replace(/https?:\S+|@\w+/g, " ").match(/[a-záéíóúñü']{4,}/g) || [])].filter(w => !STOP.has(w));
+  const cnt = list => { const c = {}; list.forEach(p => tok(p.text).forEach(w => c[w] = (c[w] || 0) + 1)); return c; };
+  const top = cnt(sorted.slice(0, q)), rest = cnt(sorted.slice(q)), nr = sorted.length - q;
+  return Object.entries(top).filter(([, n]) => n >= 2).map(([w, n]) => ({ w, n, lift: (n / q) / (((rest[w] || 0) + 0.5) / nr) }))
+    .filter(r => r.lift > 1.5).sort((a, b) => b.lift * b.n - a.lift * a.n).slice(0, 18);
+}
+function goView(focus) { goto("reports", "r-" + focus); openReportView(focus); }
 function renderOverview() {
-  const acc = $("#ovAccount").value, range = $("#ovRange").value;
-  const posts = filtered(acc, range, "post"), reps = filtered(acc, range, "reply");
+  const range = $("#ovRange").value, hs = ovHandles(), hset = new Set(hs);
+  const inScope = p => hset.has(p.account);
+  const posts = filtered("", range, "post").filter(inScope), reps = filtered("", range, "reply").filter(inScope);
+  $("#ovScope").textContent = hs.length ? (hs.length === 1 ? (isOwn(hs[0]) ? "Own account" : "") : `${hs.length} competitors`) : "No competitors for this ambassador yet";
   $("#kPosts").textContent = fmt(posts.length);
-  const accs = new Set(posts.map(p => p.account));
-  $("#kPostsH").textContent = accs.size ? `across ${accs.size} account${accs.size > 1 ? "s" : ""}` : "none in range";
-  $("#kReplies").textContent = fmt(reps.length);
-  $("#kRepliesH").textContent = reps.length ? `median ${fmt(median(reps.map(eng)))} engagement` : "none in range";
-  $("#kMed").textContent = fmt(Math.round(median(posts.map(eng))));
-  const byDay = groupBy(posts.filter(p => p.date), p => dayOf(p.date));
-  let best = null; Object.entries(byDay).forEach(([k, v]) => { if (v.length < 2) return; const a = v.reduce((s, p) => s + eng(p), 0) / v.length; if (!best || a > best.a) best = { k, a, n: v.length }; });
-  $("#kDay").textContent = best ? best.k : "-"; $("#kDayH").textContent = best ? `avg ${fmt(Math.round(best.a))} over ${best.n} posts` : "needs 2+ posts per day";
+  $("#kPostsH").textContent = posts.length ? `across ${new Set(posts.map(p => p.account)).size} account(s)` : "none in range";
+  const xs = posts.map(p => ({ p, x: xOf(p) })).sort((a, b) => b.x - a.x);
+  const hot = xs.filter(o => o.x >= 5), warm = xs.filter(o => o.x >= 3 && o.x < 5);
+  $("#kOut").textContent = hot.length; $("#kOutH").textContent = `✅ 5x+ · plus ${warm.length} 🟡 at 3-5x`;
+  $("#kMed").textContent = fmt(Math.round(median(posts.map(engB))));
+  const ers = posts.map(p => { const f = p.followers || (S.accounts[p.account] && S.accounts[p.account].profile.followers); return f ? engB(p) / f * 100 : null; }).filter(x => x != null);
+  const er = median(ers); $("#kER").textContent = ers.length ? (er < 1 ? er.toFixed(2) : er.toFixed(1)) + "%" : "-";
   const vw = posts.filter(p => p.views > 0);
   $("#kViews").textContent = vw.length ? fmt(Math.round(median(vw.map(p => p.views)))) : "-";
   $("#kViewsH").textContent = vw.length ? `${vw.length} of ${posts.length} posts show views` : "views not available";
-  const ers = posts.map(p => { const f = p.followers || (S.accounts[p.account] && S.accounts[p.account].profile.followers); return f ? eng(p) / f * 100 : null; }).filter(x => x != null);
-  const er = median(ers); $("#kER").textContent = ers.length ? (er < 1 ? er.toFixed(2) : er.toFixed(1)) + "%" : "-";
-  $("#kEPV").textContent = vw.length ? String(Math.round(median(vw.map(p => eng(p) / p.views * 1000)))) : "-";
-  const fol = followersOf(acc); $("#kFol").textContent = fol ? fmt(fol) : "-";
-  const hist = acc && S.accounts[acc] ? S.accounts[acc].followersHistory || [] : [];
-  $("#kFolH").textContent = hist.length > 1 ? `${hist[hist.length - 1].followers - hist[0].followers >= 0 ? "+" : ""}${fmt(hist[hist.length - 1].followers - hist[0].followers)} since ${hist[0].d}` : (acc ? "trend after the next refresh" : "all tracked accounts");
-  barChart($("#chFormat"), groupBy(posts, p => formatOf(p.text)), FMT_ORDER);
-  barChart($("#chLen"), groupBy(posts, p => lenOf(p.text)), LEN_ORDER);
-  barChart($("#chDay"), byDay, DAYS);
-  barChart($("#chHour"), groupBy(posts.filter(p => p.date), p => { const h = new Date(p.date).getHours(); return HOURS.find(x => h >= x[1] && h < x[2])[0]; }), HOURS.map(h => h[0]));
-  const ranked = [...posts].sort((a, b) => eng(b) - eng(a));
-  $("#topPosts").innerHTML = ranked.length ? ranked.slice(0, 5).map(p => postHTML(p, false)).join("") : '<p class="muted small">No posts in this range.</p>';
-  $("#weakPosts").innerHTML = ranked.length > 10 ? ranked.slice(-5).reverse().map(p => postHTML(p, false)).join("") : '<p class="muted small">Needs more than 10 posts.</p>';
+  const best = (groups, min) => { let b = null; Object.entries(groups).forEach(([k, v]) => { if (v.length < min) return; const a = median(v.map(xOf)); if (!b || a > b.a) b = { k, a, n: v.length }; }); return b; };
+  const bd = best(groupBy(posts.filter(p => p.date), p => dayOf(p.date)), 2);
+  $("#kDay").textContent = bd ? bd.k : "-"; $("#kDayH").textContent = bd ? `${xFmt(bd.a)} usual · ${bd.n} posts` : "needs more posts";
+  const slot = p => { const h = new Date(p.date).getHours(); return String(Math.floor(h / 3) * 3).padStart(2, "0") + "-" + String(Math.floor(h / 3) * 3 + 3).padStart(2, "0"); };
+  const bt = best(groupBy(posts.filter(p => p.date), slot), 3);
+  $("#kTime").textContent = bt ? bt.k : "-"; $("#kTimeH").textContent = bt ? `${xFmt(bt.a)} usual · ${bt.n} posts · your time` : "needs more posts";
+  $("#kReplies").textContent = fmt(reps.length);
+  $("#kRepliesH").textContent = posts.length ? `${(reps.length / Math.max(1, posts.length)).toFixed(1)} replies per post` : "";
+
+  // outliers
+  const outs = xs.filter(o => o.x >= 3).slice(0, 6);
+  $("#ovOutliers").innerHTML = outs.length ? outs.map(({ p, x }) => {
+    const h = firstLine(p.text), rest = (p.text || "").trim().slice(h.length).trim();
+    return `<div class="ol"><div class="meta"><span class="xb">${x >= 5 ? "✅" : "🟡"} ${xFmt(x)} usual</span><b>@${esc(p.account)}</b><span>${p.date ? new Date(p.date).toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : ""}</span><span class="tag">${esc(formatOf(p.text))}</span>${p.topicTag ? `<span class="tag">#${esc(p.topicTag)}</span>` : ""}<span>♥ ${fmt(p.likes)} 💬 ${fmt(p.replies)} ↻ ${fmt(p.reposts)}${p.views ? " 👁 " + fmt(p.views) : ""}</span>${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">open ↗</a>` : ""}</div><div class="hook">${esc(h) || '<span class="muted">(image or video)</span>'}</div>${rest ? `<div class="rest">${esc(rest)}</div>` : ""}</div>`;
+  }).join("") : '<p class="muted small">No post reached 3x its author\'s usual engagement in this range. Try "All time".</p>';
+
+  // hooks
+  barChart($("#chHook"), groupBy(posts, p => formatOf(p.text)), FMT_ORDER, xOf, xFmt);
+  const hookList = xs.filter(o => (o.p.text || "").trim().length > 10).slice(0, 6);
+  $("#ovHooks").innerHTML = hookList.map(({ p, x }) => `<div class="mini"><div class="meta"><span class="xb">${xFmt(x)}</span><span>@${esc(p.account)}</span><span class="tag">${esc(formatOf(p.text))}</span></div>“${esc(firstLine(p.text))}”</div>`).join("");
+
+  // topics & words
+  const tagG = {}; posts.forEach(p => { const tags = [p.topicTag, ...(p.hashtags || [])].filter(Boolean).map(t => String(t).replace(/^#/, "").toLowerCase()); [...new Set(tags)].forEach(t => (tagG[t] = tagG[t] || []).push(p)); });
+  const tagRows = Object.entries(tagG).map(([t, l]) => ({ t, n: l.length, x: median(l.map(xOf)) })).sort((a, b) => (b.n >= 2) - (a.n >= 2) || b.x - a.x).slice(0, 8);
+  const tagged = posts.filter(p => p.topicTag || (p.hashtags || []).length).length;
+  $("#ovTags").innerHTML = tagRows.length ? `<p class="small muted" style="margin:0 0 6px">${tagged} of ${posts.length} posts use a tag</p><table><tr><th>Tag</th><th class="n">Posts</th><th class="n">× usual</th></tr>${tagRows.map(r => `<tr><td>#${esc(r.t)}</td><td class="n">${r.n}</td><td class="n">${xFmt(r.x)}</td></tr>`).join("")}</table>` : '<p class="muted small">No topic tags in this range.</p>';
+  const ws = topWords(posts);
+  $("#ovWords").innerHTML = ws.length ? ws.map(r => `<span class="wchip" title="in ${r.n} top posts, ${r.lift.toFixed(1)}x more often than in the rest">${esc(r.w)} <small>${r.n}</small></span>`).join("") : '<span class="muted small">Needs at least 8 posts.</span>';
+
+  // communication
+  const rt = reps.map(r => (r.text || "").trim()).filter(Boolean);
+  const pct = f => rt.length ? Math.round(rt.filter(f).length / rt.length * 100) + "%" : "-";
+  const words = rt.map(t => t.split(/\s+/).length);
+  let cm = 0, ca = 0; hs.forEach(h => Object.values((S.accounts[h] || {}).comments || {}).forEach(l => l.forEach(c => { if (c.isAuthor) ca++; else cm++; })));
+  const topReps = [...reps].sort((a, b) => engB(b) - engB(a)).slice(0, 4);
+  $("#ovComm").innerHTML = reps.length ? `<div class="mstats">
+      <div><b>${median(words)}</b>words in a typical reply</div>
+      <div><b>${pct(t => /[?¿]/.test(t))}</b>of replies ask a question back</div>
+      <div><b>${pct(t => /\p{Extended_Pictographic}/u.test(t))}</b>use emoji${rt.length ? ` · ${pct(t => /^\p{Extended_Pictographic}+$/u.test(t.replace(/\s/g, "")))} are emoji-only` : ""}</div>
+      <div><b>${cm ? Math.round(ca / (cm + ca) * 100) + "%" : pct(t => /\b(gracias|thank|thanks)\b/i.test(t))}</b>${cm ? "of comment threads get an author answer" : "say thanks"}</div></div>
+      <h3 class="small muted" style="margin:0 0 4px">Their most liked replies</h3>${topReps.map(r => `<div class="mini">${r.parentText ? `<div class="par">↳ ${r.parentAuthor ? "@" + esc(r.parentAuthor) + ": " : ""}${esc(r.parentText.slice(0, 90))}${r.parentText.length > 90 ? "…" : ""}</div>` : ""}<div class="meta"><b>@${esc(r.account)}</b><span>♥ ${fmt(r.likes)}</span></div>${esc(r.text)}</div>`).join("")}`
+    : '<p class="muted small">No replies collected in this range.</p>';
+
+  // hypotheses & reports
+  const br = $("#ovBrand").value, bname = br && S.brands && S.brands[br] ? S.brands[br].name : "";
+  const hyps = (S.hyps || []).filter(h => !bname || bname.toLowerCase().startsWith(String(h.persona || "").toLowerCase().slice(0, 3))).slice(-4).reverse();
+  $("#ovHyp").innerHTML = hyps.length ? hyps.map(h => `<div class="hc"><div class="meta small muted">${esc(h.type || "")} · ${esc(h.persona || "")} · ${esc(h.verdict || "")}${h.x_median ? ` · ref ${esc(h.x_median)}x median` : ""}</div><b>${esc(h.name)}</b><div style="margin-top:4px">${esc(h.hook || "")}</div>${h.mechanic ? `<div class="small muted" style="margin-top:4px">Mechanic: ${esc(h.mechanic)}</div>` : ""}</div>`).join("")
+    : '<p class="muted small">No hypothesis cards yet. Run a "Hypothesis cards" report.</p>';
+  const reportsList = (S.index.reports || []).filter(r => !br || r.brand === br).slice(0, 4);
+  const FI = { full: "📋", replies: "💬", hooks: "🪝", topics: "🏷", hypotheses: "🧪", voice: "Aa", own: "👤", ideas: "✍️" };
+  $("#ovReps").innerHTML = reportsList.length ? '<h3 class="small muted" style="margin:0 0 4px">Latest reports</h3>' + reportsList.map(r => `<div class="mini"><a href="#" data-rep="${esc(r.path)}">${FI[r.focus] || "📄"} ${esc(r.title)}</a> <span class="muted small">· ${r.scope === "single" ? "@" + esc((r.accounts || [])[0] || "") : "all competitors"} · ${new Date(r.created).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span></div>`).join("") : "";
+  $$("#ovReps [data-rep]").forEach(a => a.onclick = e => { e.preventDefault(); goto("reports", "r-all"); openReportView(""); openReport(a.dataset.rep); });
+
+  // format & timing
+  barChart($("#chLen"), groupBy(posts, p => lenOf(p.text)), LEN_ORDER, xOf, xFmt);
+  barChart($("#chMedia"), groupBy(posts, p => ({ text: "Text only", image: "Image", video: "Video", carousel: "Carousel" })[p.media] || (p.media ? p.media[0].toUpperCase() + p.media.slice(1) : null)), ["Text only", "Image", "Carousel", "Video"], xOf, xFmt);
+  barChart($("#chDay"), groupBy(posts.filter(p => p.date), p => dayOf(p.date)), DAYS, xOf, xFmt);
+  barChart($("#chHour"), groupBy(posts.filter(p => p.date), p => { const h = new Date(p.date).getHours(); return HOURS.find(x => h >= x[1] && h < x[2])[0]; }), HOURS.map(h => h[0]), xOf, xFmt);
+  const weak = xs.filter(o => authorMedian(o.p.account)).slice(-5).reverse();
+  $("#weakPosts").innerHTML = posts.length > 10 ? weak.map(o => `<div class="mini"><div class="meta"><span class="xb">${xFmt(o.x)}</span><b>@${esc(o.p.account)}</b><span class="tag">${esc(formatOf(o.p.text))}</span></div>${esc((o.p.text || "").slice(0, 220))}</div>`).join("") : '<p class="muted small">Needs more than 10 posts.</p>';
 }
 function renderPosts() {
   const q = $("#pSearch").value.toLowerCase(), acc = $("#pAccount").value, sort = $("#pSort").value;
@@ -434,6 +524,8 @@ function openReportView(focus) {
 }
 $$("#nav button").forEach(b => b.onclick = () => { goto(b.dataset.tab, b.dataset.key); if (b.dataset.tab === "reports") openReportView(b.dataset.focus || ""); });
 ["#ovAccount", "#ovRange"].forEach(s => $(s).onchange = renderOverview);
+$("#ovBrand").onchange = () => { fillOvAccounts(); renderOverview(); };
+$$("#tab-overview [data-go]").forEach(a => a.onclick = e => { e.preventDefault(); goView(a.dataset.go); });
 $("#pSearch").oninput = () => { S.pLimit = 30; renderPosts(); }; $("#pAccount").onchange = $("#pSort").onchange = () => { S.pLimit = 30; renderPosts(); };
 $("#pMore").onclick = () => { S.pLimit += 30; renderPosts(); };
 $("#rSearch").oninput = () => { S.rLimit = 30; renderReplies(); }; $("#rAccount").onchange = () => { S.rLimit = 30; renderReplies(); };
@@ -448,7 +540,8 @@ $("#ghReport").onclick = e => { e.preventDefault(); goto("reports", "r-all"); op
 $("#runUrl").addEventListener("input", runFormUI);
 
 async function reloadData() {
-  S.index = await getJSON("data/index.json"); S.accounts = {};
+  S.index = await getJSON("data/index.json"); S.accounts = {}; Object.keys(medCache).forEach(k => delete medCache[k]);
+  try { S.hyps = await getJSON("data/hypotheses.json"); } catch (e) {}
   await Promise.all(S.index.accounts.filter(a => a.posts || a.replies).map(async a => { try { S.accounts[a.handle] = await getJSON(`data/accounts/${a.handle}.json`); } catch (e) {} }));
   fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList(); runFormUI();
   dataHooks.forEach(f => { try { f(); } catch (e) { console.error(e); } });
@@ -457,6 +550,9 @@ async function reloadData() {
   try {
     let brands;
     try { brands = await getJSON("config/brands.json"); } catch (e) { brands = (await getJSON("data/index.json")).brands; }
+    S.brands = brands;
+    $("#ovBrand").innerHTML = '<option value="">All ambassadors</option>' + Object.entries(brands).filter(([k]) => !["liven", "overwell"].includes(k)).map(([k, b]) => `<option value="${esc(k)}">${esc(b.name)}</option>`).join("");
+    if (S.index) { fillOvAccounts(); renderOverview(); }
     $$(".brand-select").forEach(sel => {
       const cur = sel.value;
       const opt = ([k, b]) => `<option value="${esc(k)}">For: ${esc(b.name)}</option>`;
@@ -471,6 +567,7 @@ async function reloadData() {
 (async function load() {
   try {
     S.index = await getJSON("data/index.json");
+    try { S.hyps = await getJSON("data/hypotheses.json"); } catch (e) { S.hyps = []; }
     await Promise.all(S.index.accounts.filter(a => a.posts || a.replies).map(async a => { try { S.accounts[a.handle] = await getJSON(`data/accounts/${a.handle}.json`); } catch (e) {} }));
     $("#updated").textContent = "Data updated " + new Date(S.index.updated).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" });
     const u = S.index.usage;

@@ -496,7 +496,7 @@ def update_index(paths: Paths) -> None:
             continue
         posts = [p for p in acc["posts"].values() if p["type"] == "post"]
         out.append({
-            "handle": a["handle"], "note": a.get("note", ""), "brands": a.get("brands", []),
+            "handle": a["handle"], "note": a.get("note", ""), "brands": a.get("brands", []), "own": a.get("own", ""),
             "fullName": acc["profile"].get("fullName", ""),
             "followers": acc["profile"].get("followers", 0),
             "lastFetched": acc["profile"].get("lastFetched"),

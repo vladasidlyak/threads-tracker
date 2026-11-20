@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T14:12:38Z",
+ "updated": "2026-11-20T14:28:14Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -28,6 +28,7 @@
     "ines",
     "pablo"
    ],
+   "own": "",
    "fullName": "Elizabeth Clapés",
    "followers": 225299,
    "lastFetched": "2026-11-20T13:11:13Z",
@@ -42,6 +43,7 @@
     "ines",
     "pablo"
    ],
+   "own": "",
    "fullName": "Maxi McCoubrey | Psicólogo Clínico",
    "followers": 181472,
    "lastFetched": "2026-11-20T13:11:40Z",
@@ -56,6 +58,7 @@
     "ines",
     "pablo"
    ],
+   "own": "",
    "fullName": "Enric Corbera - Bioneuroemoción®",
    "followers": 315814,
    "lastFetched": "2026-11-20T13:12:20Z",
@@ -69,6 +72,7 @@
    "brands": [
     "ines"
    ],
+   "own": "",
    "fullName": "Yulia",
    "followers": 6984,
    "lastFetched": "2026-11-20T14:09:45Z",
@@ -82,6 +86,7 @@
    "brands": [
     "ines"
    ],
+   "own": "",
    "fullName": "Psicóloga Brenda Benavides",
    "followers": 184610,
    "lastFetched": "2026-11-20T13:12:38Z",
@@ -95,6 +100,7 @@
    "brands": [
     "ines"
    ],
+   "own": "",
    "fullName": "Dr. Rodrigo Arteaga",
    "followers": 369869,
    "lastFetched": "2026-11-20T13:13:29Z",
@@ -108,6 +114,7 @@
    "brands": [
     "jeff"
    ],
+   "own": "",
    "fullName": "heyismail.co",
    "followers": 37180,
    "lastFetched": "2026-11-17T15:57:51Z",
@@ -121,6 +128,7 @@
    "brands": [
     "jeff"
    ],
+   "own": "",
    "fullName": "Joshua Lindsey | Burnout Recovery & Career Strategy",
    "followers": 31195,
    "lastFetched": "2026-11-17T16:01:50Z",
@@ -134,6 +142,7 @@
    "brands": [
     "jeff"
    ],
+   "own": "",
    "fullName": "Dan Rosenfeld • Dating Coach & Psychologist",
    "followers": 52938,
    "lastFetched": "2026-11-17T16:04:57Z",
@@ -143,16 +152,21 @@
   },
   {
    "handle": "quintanilla_iness",
-   "note": "",
-   "brands": [
-    "ines"
-   ],
+   "note": "Inés's own account",
+   "brands": [],
+   "own": "ines",
    "fullName": "Inés Quintanilla",
    "followers": 1541,
    "lastFetched": "2026-11-20T13:52:21Z",
    "posts": 49,
    "replies": 17,
    "commentThreads": 0
+  },
+  {
+   "handle": "jeff_navarroo",
+   "note": "Jeff's own account",
+   "posts": 0,
+   "replies": 0
   }
  ],
  "reports": [

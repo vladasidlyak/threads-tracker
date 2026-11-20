@@ -36,8 +36,8 @@ main{max-width:1080px;margin:0 auto;padding:18px;overflow-x:hidden}
 .card h2{font-size:15px;margin:0 0 4px}
 .card .sub{font-size:13px;color:var(--ink-3);margin:0 0 12px}
 .grid{display:grid;gap:16px}
-@media(min-width:760px){.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}}
 .g4{grid-template-columns:repeat(2,1fr)}
+@media(min-width:760px){.g2{grid-template-columns:1fr 1fr}.g4{grid-template-columns:repeat(4,1fr)}}
 .tile{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:14px}
 .tile .k{font-size:12px;color:var(--ink-3)}
 .tile .v{font-size:24px;font-weight:650;letter-spacing:-.02em;margin-top:2px}
@@ -73,6 +73,15 @@ details.tbl table{margin-top:6px}
 /* posts */
 .post{border-top:1px solid var(--line-2);padding:12px 0}
 .post:first-child{border-top:0}
+.xb{display:inline-block;font-size:12px;font-weight:650;border-radius:999px;padding:1px 8px;background:var(--accent-soft);color:var(--ink)}
+.ol{border-top:1px solid var(--line-2);padding:10px 0}.ol:first-child{border-top:0}
+.ol .hook{font-weight:600;margin:4px 0 2px}.ol .rest{color:var(--ink-2);font-size:13px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ol .meta,.mini .meta{font-size:12px;color:var(--ink-3);display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.mstats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px}.mstats div{background:var(--accent-soft);border-radius:10px;padding:8px 10px;font-size:12px;color:var(--ink-2)}.mstats b{display:block;font-size:18px;color:var(--ink)}
+.mini{border-top:1px solid var(--line-2);padding:8px 0;font-size:13px}.mini:first-child{border-top:0}
+.mini .par{color:var(--ink-3);font-size:12px;margin-bottom:2px}
+.hc{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin-bottom:8px;font-size:13px}.hc b{font-size:14px}
+.wchip{background:var(--accent-soft);border-radius:999px;padding:3px 10px;font-size:13px}.wchip small{color:var(--ink-3)}
 .post .meta{display:flex;gap:8px;flex-wrap:wrap;font-size:12px;color:var(--ink-3);margin-bottom:4px}
 .post .meta b{color:var(--ink);font-weight:600}
 .post .txt{white-space:pre-wrap;word-break:break-word}
@@ -217,32 +226,39 @@ a{color:var(--accent)}
   <div class="banner" id="loadMsg">Loading data...</div>
   <section id="tab-overview">
     <div class="row" style="margin-bottom:14px">
+      <select id="ovBrand" style="width:auto" aria-label="Ambassador"><option value="">All ambassadors</option></select>
       <select id="ovAccount" style="width:auto" aria-label="Account"></select>
       <select id="ovRange" style="width:auto" aria-label="Date range">
-        <option value="0" selected>All time</option><option value="7">Last 7 days</option>
-        <option value="30">Last 30 days</option><option value="90">Last 90 days</option>
+        <option value="0">All time</option><option value="7">Last 7 days</option>
+        <option value="30" selected>Last 30 days</option><option value="90">Last 90 days</option>
       </select>
+      <span class="muted small" id="ovScope"></span>
     </div>
     <div class="grid g4" style="margin-bottom:16px">
       <div class="tile"><div class="k">Posts tracked</div><div class="v" id="kPosts">0</div><div class="h" id="kPostsH"></div></div>
-      <div class="tile"><div class="k">Replies tracked</div><div class="v" id="kReplies">0</div><div class="h" id="kRepliesH"></div></div>
-      <div class="tile"><div class="k">Median engagement / post</div><div class="v" id="kMed">0</div><div class="h">likes + replies + reposts + quotes</div></div>
-      <div class="tile"><div class="k">Best day to post</div><div class="v" id="kDay">-</div><div class="h" id="kDayH"></div></div>
-      <div class="tile"><div class="k">Median views / post</div><div class="v" id="kViews">-</div><div class="h" id="kViewsH"></div></div>
+      <div class="tile"><div class="k">🔥 Outlier posts</div><div class="v" id="kOut">0</div><div class="h" id="kOutH">5x+ the author's usual</div></div>
+      <div class="tile"><div class="k">Median engagement / post</div><div class="v" id="kMed">0</div><div class="h">likes + replies + reposts + shares</div></div>
       <div class="tile"><div class="k">Engagement rate</div><div class="v" id="kER">-</div><div class="h">median engagement / followers</div></div>
-      <div class="tile"><div class="k">Engagement per 1k views</div><div class="v" id="kEPV">-</div><div class="h">how strongly viewers react</div></div>
-      <div class="tile"><div class="k">Followers</div><div class="v" id="kFol">-</div><div class="h" id="kFolH"></div></div>
+      <div class="tile"><div class="k">Median views / post</div><div class="v" id="kViews">-</div><div class="h" id="kViewsH"></div></div>
+      <div class="tile"><div class="k">Best day</div><div class="v" id="kDay">-</div><div class="h" id="kDayH"></div></div>
+      <div class="tile"><div class="k">Best time</div><div class="v" id="kTime">-</div><div class="h" id="kTimeH"></div></div>
+      <div class="tile"><div class="k">💬 Replies by them</div><div class="v" id="kReplies">0</div><div class="h" id="kRepliesH"></div></div>
     </div>
+    <div class="card"><div class="row" style="justify-content:space-between"><div><h2>🔥 What took off</h2><p class="sub">Posts that got 3x+ their author's usual engagement (median of their last 40 posts). ✅ 5x+ · 🟡 3-5x</p></div><a href="#" class="small" data-go="hooks">Hooks &amp; outliers reports →</a></div><div id="ovOutliers"></div></div>
     <div class="grid g2">
-      <div class="card"><h2>Avg engagement by format</h2><p class="sub">How the post opens and is structured</p><div id="chFormat"></div></div>
-      <div class="card"><h2>Avg engagement by length</h2><p class="sub">Characters per post</p><div id="chLen"></div></div>
-      <div class="card"><h2>Avg engagement by weekday</h2><p class="sub">Day the post was published</p><div id="chDay"></div></div>
-      <div class="card"><h2>Avg engagement by time of day</h2><p class="sub">Your local time</p><div id="chHour"></div></div>
+      <div class="card"><div class="row" style="justify-content:space-between"><h2>🪝 Hooks</h2><a href="#" class="small" data-go="hooks">Reports →</a></div><p class="sub">Which opening works best, and the first lines of the strongest posts</p><div id="chHook"></div><div id="ovHooks" style="margin-top:12px"></div></div>
+      <div class="card"><div class="row" style="justify-content:space-between"><h2>🏷 Topics &amp; words</h2><a href="#" class="small" data-go="topics">Reports →</a></div><p class="sub">Threads topic tags they use, and words that show up more in their best posts</p><div id="ovTags"></div><h3 class="small muted" style="margin:14px 0 6px">Words in the top 25% of posts</h3><div id="ovWords" class="chips"></div></div>
+      <div class="card"><div class="row" style="justify-content:space-between"><h2>💬 Communication</h2><a href="#" class="small" data-go="replies">Communication reports →</a></div><p class="sub">How they talk to people in replies</p><div id="ovComm"></div></div>
+      <div class="card"><div class="row" style="justify-content:space-between"><h2>🧪 Hypotheses &amp; latest reports</h2><a href="#" class="small" data-go="hypotheses">All cards →</a></div><p class="sub">Ideas to test next, from the latest reports</p><div id="ovHyp"></div><div id="ovReps" style="margin-top:10px"></div></div>
     </div>
+    <h2 style="margin:22px 0 4px">Format &amp; timing</h2><p class="sub" style="margin-bottom:10px">× usual = engagement compared with the author's typical post (1.0x = typical), so big and small accounts compare fairly.</p>
     <div class="grid g2">
-      <div class="card"><h2>Top posts</h2><p class="sub">Highest engagement in the range</p><div id="topPosts"></div></div>
-      <div class="card"><h2>Weakest posts</h2><p class="sub">Lowest engagement in the range</p><div id="weakPosts"></div></div>
+      <div class="card"><h2>By length</h2><p class="sub">Characters per post</p><div id="chLen"></div></div>
+      <div class="card"><h2>By media</h2><p class="sub">Text, image, video, carousel</p><div id="chMedia"></div></div>
+      <div class="card"><h2>By weekday</h2><p class="sub">Day the post was published</p><div id="chDay"></div></div>
+      <div class="card"><h2>By time of day</h2><p class="sub">Your local time</p><div id="chHour"></div></div>
     </div>
+    <details class="card" style="margin-top:16px"><summary><b>What flopped</b> <span class="muted small">- the weakest posts in this range, to avoid</span></summary><div id="weakPosts" style="margin-top:8px"></div></details>
   </section>
 
   <section id="tab-posts" class="hidden">
