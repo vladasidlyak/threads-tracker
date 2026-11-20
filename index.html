@@ -127,6 +127,26 @@ a{color:var(--accent)}
 .print-only{display:none}
 .en{margin-top:6px;padding-top:6px;border-top:1px dashed var(--line);font-style:italic;color:var(--ink-2);white-space:pre-wrap}
 .md em,.md i{color:var(--ink-2)}
+.md h4.h3{font-size:16px;margin:26px 0 8px;padding-top:14px;border-top:1px solid var(--line)}
+.md h4.h3:first-of-type{border-top:0;padding-top:0}
+.md h5.h4{font-size:14px;margin:14px 0 4px}
+.md h2.h1{font-size:20px}
+.md h3.h2{font-size:16px;margin:22px 0 8px}
+.md ol{margin:6px 0;padding-left:22px}.md ol li{margin:6px 0}
+.md a{color:var(--accent)}
+.md blockquote.post{background:var(--panel,#fff);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:10px;padding:10px 14px;margin:8px 0;font-size:14.5px}
+.md blockquote.post .en{display:block;margin-top:6px;color:var(--ink-2);font-size:13px}
+.md .tbl{overflow-x:auto;margin:8px 0 4px}
+.md table{border-collapse:collapse;width:100%;font-size:13.5px}
+.md th{text-align:left;font-weight:600;color:var(--ink-2);border-bottom:2px solid var(--line);padding:6px 8px;white-space:nowrap}
+.md td{border-bottom:1px solid var(--line);padding:6px 8px;vertical-align:top}
+.md tr:hover td{background:var(--accent-soft)}
+.md ul.todo{list-style:none;padding-left:0}
+.md ul.todo li{background:var(--accent-soft);border-radius:8px;padding:8px 10px;margin:6px 0}
+.md ul.todo label{display:flex;gap:10px;align-items:flex-start;cursor:pointer;font-weight:normal;margin:0}
+.md ul.todo input{margin:3px 0 0;flex:none;width:16px;height:16px}
+.md hr{border:0;border-top:1px dashed var(--line);margin:22px 0}
+.md .verdict{white-space:nowrap}
 @media print{
   header,nav,#runCard,#loadMsg,#dbBanner,.no-print,#tip{display:none!important}
   body{background:#fff;color:#000}

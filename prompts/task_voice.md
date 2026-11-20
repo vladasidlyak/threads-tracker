@@ -1,5 +1,7 @@
 Write a tone-of-voice guide based on these accounts' own words, so {{BRAND_NAME}} can adapt what works. Use the language stats above and quote short real examples for every point.
 
+### 🎯 The 30-second summary
+3 bullets: the voice in plain words, and the 2 things {{BRAND_NAME}} should copy.
 ### Voice in one paragraph
 How they sound: persona, warmth, authority, humour, who they speak to.
 ### Sentence and length patterns

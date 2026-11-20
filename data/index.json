@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-18T15:29:24Z",
+ "updated": "2026-11-20T12:54:48Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -143,6 +143,18 @@
   }
  ],
  "reports": [
+  {
+   "path": "reports/heyismail.co/2026-11-20-1300-full-jeff.md",
+   "title": "Full analysis (new format - sample)",
+   "accounts": [
+    "heyismail.co"
+   ],
+   "brand": "jeff",
+   "focus": "full",
+   "scope": "single",
+   "created": "2026-11-20T13:00:00Z",
+   "requestedBy": "Vlada (sample written by Claude)"
+  },
   {
    "path": "reports/dr.dan.phd/2026-11-17-1605-full-jeff.md",
    "title": "Full analysis",

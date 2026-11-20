@@ -684,6 +684,89 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str,
     return template
 
 
+# ---------------------------------------------------------------- facts block (computed, not AI)
+
+def _fmt_n(n) -> str:
+    if n is None:
+        return "-"
+    n = float(n)
+    return f"{n / 1e6:.1f}M" if n >= 1e6 else f"{n / 1e3:.1f}K" if n >= 1e4 else f"{int(round(n)):,}"
+
+
+def _cell(t: str, n: int = 70) -> str:
+    t = " ".join((t or "").split()).replace("|", "/")
+    return t if len(t) <= n else t[:n - 1].rstrip() + "…"
+
+
+def _rate(p) -> float | None:
+    return engagement(p) / p["views"] * 100 if p.get("views") else None
+
+
+def facts_markdown(accounts: list[dict], chosen: list[dict], tz_name: str) -> str:
+    """Reliable numbers for the top of every report: a scorecard, top posts and best posting times."""
+    try:
+        from zoneinfo import ZoneInfo
+        tz = ZoneInfo(tz_name)
+    except Exception:
+        tz, tz_name = dt.timezone.utc, "UTC"
+    now = dt.datetime.now(dt.timezone.utc)
+    out = ["## At a glance", ""]
+    out.append("| Account | Followers | Posts a week | Typical views | Typical likes | Reactions per 100 views | Best post |")
+    out.append("|---|---|---|---|---|---|---|")
+    every = []
+    for a in accounts:
+        posts = [p for p in a["posts"].values() if p["type"] == "post" and p.get("date")]
+        every += posts
+        dates = [dt.datetime.fromisoformat(p["date"].replace("Z", "+00:00")) for p in posts]
+        recent = [d for d in dates if (now - d).days <= 30]
+        span = max(7, (now - min(dates)).days) if dates else 0
+        per_week = len(recent) / 30 * 7 if len(recent) >= 3 else (len(dates) / span * 7 if span else 0)
+        views = [p["views"] for p in posts if p.get("views")]
+        rates = [r for r in map(_rate, posts) if r is not None]
+        best = max(posts, key=engagement) if posts else None
+        best_cell = (f"[{_fmt_n(best['likes'])} likes]({best['url']})" if best and best.get("url") else "-")
+        out.append(f"| @{a['handle']} | {_fmt_n(a['profile'].get('followers'))} | {per_week:.1f} | "
+                   f"{_fmt_n(statistics.median(views)) if views else '-'} | "
+                   f"{_fmt_n(statistics.median([p['likes'] for p in posts])) if posts else '-'} | "
+                   f"{statistics.median(rates):.1f} | {best_cell} |" if posts else f"| @{a['handle']} | - | - | - | - | - | - |")
+    out += ["", "*Typical = median, so one viral post doesn't distort it. Reactions = likes + replies + reposts + quotes.*", ""]
+
+    top = sorted(chosen, key=engagement, reverse=True)[:5]
+    if top:
+        out += ["## Top 5 posts", "", "| # | Post | Likes | Views | Reactions per 100 views |", "|---|---|---|---|---|"]
+        for i, p in enumerate(top, 1):
+            who = f"@{p['account']}: " if len(accounts) > 1 else ""
+            text = f"[{_cell(who + p['text'])}]({p['url']})" if p.get("url") else _cell(who + p["text"])
+            r = _rate(p)
+            out.append(f"| {i} | {text} | {_fmt_n(p['likes'])} | {_fmt_n(p.get('views'))} | {f'{r:.1f}' if r is not None else '-'} |")
+        out.append("")
+
+    def band(h):
+        return "Morning (6-12)" if 6 <= h < 12 else "Afternoon (12-17)" if h < 17 else "Evening (17-22)" if h < 22 else "Night (22-6)"
+    days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+    slots = {}
+    for p in every:
+        d = dt.datetime.fromisoformat(p["date"].replace("Z", "+00:00")).astimezone(tz)
+        slots.setdefault((days[d.weekday()], band(d.hour if d.hour >= 6 else 23)), []).append(engagement(p))
+    typical = statistics.median([engagement(p) for p in every]) if every else 0
+    ranked = sorted(((k, v) for k, v in slots.items() if len(v) >= 2), key=lambda kv: statistics.median(kv[1]), reverse=True)
+    by_band = {}
+    for (d, b), v in slots.items():
+        by_band.setdefault(b, []).extend(v)
+    if ranked:
+        out += [f"## Best time to post ({tz_name.split('/')[-1].replace('_', ' ')} time)", "",
+                "| When | Posts | Typical reactions | Compared with usual |", "|---|---|---|---|"]
+        for (d, b), v in ranked[:4]:
+            m = statistics.median(v)
+            ratio = m / typical if typical else 0
+            vs = f"{ratio:.1f}x usual" if ratio >= 2 else f"{(ratio - 1) * 100:+.0f}%"
+            out.append(f"| {d}, {b.lower()} | {len(v)} | {_fmt_n(m)} | {vs} |")
+        best_band = max(by_band.items(), key=lambda kv: statistics.median(kv[1]) if len(kv[1]) >= 3 else -1)
+        out += ["", f"*Across all days, {best_band[0].lower()} works best (typical {_fmt_n(statistics.median(best_band[1]))} reactions "
+                    f"vs {_fmt_n(typical)} overall). Small samples - treat as a starting point and test.*", ""]
+    return "\n".join(out)
+
+
 def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: str, dry_run: bool,
            requested_by: str = "", combined: bool = False, top_n: int = 0) -> Path:
     top_n = top_n or settings.get("top_posts_to_analyze", 60)
@@ -694,7 +777,10 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
             raise TrackerError(f"No data for @{h} yet. Run collect first.")
         accounts.append(acc)
     log(f"\n=== Writing {focus} report for {', '.join('@' + h for h in handles)} (brand: {brand}) ===")
-    prompt = build_prompt(paths, accounts, brand, focus, top_n)
+    brands_cfg = read_json(paths.config / "brands.json")
+    chosen, _ = select_top(accounts, top_n)
+    facts = facts_markdown(accounts, chosen, brands_cfg[brand].get("timezone", "Europe/Madrid"))
+    prompt = build_prompt(paths, accounts, brand, focus, top_n).replace("{{FACTS}}", facts)
     text = ask_claude(prompt, settings, dry_run)
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d-%H%M")
     combined = combined or len(handles) > 1
@@ -708,7 +794,10 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
               f"Brand: {read_json(paths.config / 'brands.json')[brand]['name']} · Generated {now_iso()[:16].replace('T', ' ')} UTC\n\n")
     out = paths.root / rel
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(header + text.strip() + "\n", encoding="utf-8")
+    glance, _, rest = facts.partition("## Top 5 posts")
+    rest = ("## Top 5 posts" + rest) if rest else ""
+    out.write_text(header + glance.strip() + "\n\n---\n\n" + text.strip() + ("\n\n---\n\n" + rest.strip() if rest else "") + "\n",
+                   encoding="utf-8")
     idx = read_json(paths.reports / "index.json", [])
     entry = {"path": rel, "title": title, "accounts": handles, "brand": brand, "focus": focus,
              "scope": "all" if combined else "single", "created": now_iso()}

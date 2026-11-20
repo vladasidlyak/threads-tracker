@@ -147,22 +147,47 @@ function renderCompare() {
 
 /* ---------- reports ---------- */
 function md(t) {
-  const lines = esc(t).split("\n"); let out = "", inList = false;
-  const inline = s => s.replace(/\*\*(.+?)\*\*/g, "<b>$1</b>").replace(/(^|\s)\*(.+?)\*(?=\s|$)/g, "$1<i>$2</i>");
-  let quote = [];
-  const flushQuote = () => { if (quote.length) { out += "<blockquote>" + quote.map(inline).join("\n") + "</blockquote>"; quote = []; } };
+  const lines = esc(t).split("\n"); let out = "", list = null, quote = [], table = [];
+  const inline = s => s
+    .replace(/\[([^\]]+)\]\((https?:\/\/[^)\s]+)\)/g, '<a href="$2" target="_blank" rel="noopener">$1</a>')
+    .replace(/\*\*(.+?)\*\*/g, "<b>$1</b>")
+    .replace(/(^|[\s(])\*(.+?)\*(?=[\s).,;:]|$)/g, "$1<i>$2</i>")
+    .replace(/(^|\s)(🟢|🟡|🔴)/g, "$1<span class=\"verdict\">$2</span>");
+  const closeList = () => { if (list) { out += `</${list}>`; list = null; } };
+  const flushQuote = () => {
+    if (!quote.length) return;
+    out += '<blockquote class="post">' + quote.map(q => /^<i>EN:|^\*EN:|^EN:/.test(q.trim()) ? `<span class="en">${inline(q)}</span>` : inline(q)).join("\n") + "</blockquote>";
+    quote = [];
+  };
+  const flushTable = () => {
+    if (!table.length) return;
+    const rows = table.filter(r => !/^\s*\|?\s*:?-{2,}/.test(r)).map(r => r.trim().replace(/^\||\|$/g, "").split("|").map(c => c.trim()));
+    const [head, ...body] = rows;
+    out += '<div class="tbl"><table><thead><tr>' + head.map(c => `<th>${inline(c)}</th>`).join("") + "</tr></thead><tbody>" +
+      body.map(r => "<tr>" + r.map(c => `<td>${inline(c)}</td>`).join("") + "</tr>").join("") + "</tbody></table></div>";
+    table = [];
+  };
   for (const l of lines) {
+    if (/^\s*\|.*\|\s*$/.test(l)) { closeList(); flushQuote(); table.push(l); continue; }
+    flushTable();
     const q = l.match(/^\s*&gt;\s?(.*)/);
-    if (q) { if (inList) { out += "</ul>"; inList = false; } quote.push(q[1]); continue; }
+    if (q) { closeList(); quote.push(q[1]); continue; }
+    if (/^\*?EN:/.test(l.trim()) && quote.length) { quote.push(l); continue; }
     flushQuote();
-    const h = l.match(/^(#{1,4})\s+(.*)/), li = l.match(/^\s*(?:[-*•]|\d+[.)])\s+(.*)/);
-    if (li) { if (!inList) { out += "<ul>"; inList = true; } out += "<li>" + inline(li[1]) + "</li>"; continue; }
-    if (inList) { out += "</ul>"; inList = false; }
-    if (h) out += (h[1].length === 1 ? "<h2>" : "<h3>") + inline(h[2]) + (h[1].length === 1 ? "</h2>" : "</h3>");
+    const h = l.match(/^(#{1,4})\s+(.*)/);
+    const task = l.match(/^\s*[-*]\s+\[( |x)\]\s+(.*)/i);
+    const ol = l.match(/^\s*\d+[.)]\s+(.*)/), li = l.match(/^\s*[-*•]\s+(.*)/);
+    if (task) { if (list !== "ul") { closeList(); out += '<ul class="todo">'; list = "ul"; }
+      out += `<li><label><input type="checkbox"${task[1].trim() ? " checked" : ""}> <span>${inline(task[2])}</span></label></li>`; continue; }
+    if (ol) { if (list !== "ol") { closeList(); out += "<ol>"; list = "ol"; } out += "<li>" + inline(ol[1]) + "</li>"; continue; }
+    if (li) { if (list !== "ul") { closeList(); out += "<ul>"; list = "ul"; } out += "<li>" + inline(li[1]) + "</li>"; continue; }
+    closeList();
+    if (/^\s*---+\s*$/.test(l)) { out += "<hr>"; continue; }
+    if (h) { const n = h[1].length; out += `<h${n + 1} class="h${n}">${inline(h[2])}</h${n + 1}>`; }
     else if (l.trim()) out += "<p>" + inline(l) + "</p>";
   }
-  flushQuote();
-  if (inList) out += "</ul>"; return out;
+  flushTable(); flushQuote(); closeList();
+  return out;
 }
 const brandName = k => ((S.index && S.index.brands || {})[k] || {}).name || k;
 let REP_SHOWN = [];

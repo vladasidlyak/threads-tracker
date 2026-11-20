@@ -30,17 +30,27 @@ TOP POSTS (best first)
 THEIR REPLIES TO OTHER PEOPLE (with the comment they answered)
 {{REPLIES}}
 
-CONVERSATIONS UNDER THEIR LANGUAGE STATS - POSTS
-{{VOICE_POSTS}}
-
-LANGUAGE STATS - REPLIES
-{{VOICE_REPLIES}}
-
-TOP POSTS
+CONVERSATIONS UNDER THEIR TOP POSTS
 {{CONVERSATIONS}}
+
+NUMBERS ALREADY SHOWN IN THE REPORT (computed by the tracker; readers see these tables under your text)
+{{FACTS}}
 
 TASK
 {{TASK}}
+
+WHO READS THIS
+The social media team and their manager. They are busy, not data analysts, and read it on a laptop or phone.
+They want to know: what to post next, how to get more reach and replies for {{BRAND_NAME}}, and what to stop doing.
+
+STYLE RULES (very important)
+- Plain, friendly business English. Short sentences (under 20 words). No jargon: say "reactions" not "engagement", "typical" not "median".
+- Every section starts with a one-line takeaway in bold, then at most 3-5 short bullets.
+- Always connect a finding to an action for {{BRAND_NAME}} ("So what: ...").
+- Use numbers to prove a point, but no more than 2 numbers per bullet. Round them (1.2K, 39K).
+- Don't repeat the tables the tracker shows (scorecard, top posts, best times) - refer to them in one line if useful.
+- Keep the whole text under about 900 words, not counting the post drafts.
+- Use the section headings exactly as given in the task, including the emoji.
 
 RULES
 - Base every claim on the data above and cite specific posts as evidence. Say clearly when the sample is too small to be sure.
