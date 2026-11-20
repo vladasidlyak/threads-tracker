@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T13:36:17Z",
+ "updated": "2026-11-20T13:36:57Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -143,6 +143,20 @@
   }
  ],
  "reports": [
+  {
+   "path": "reports/all-jeff/2026-11-20-1336-full-jeff.md",
+   "title": "Full analysis - all Jeff's competitors",
+   "accounts": [
+    "heyismail.co",
+    "joshuatlindsey",
+    "dr.dan.phd"
+   ],
+   "brand": "jeff",
+   "focus": "full",
+   "scope": "all",
+   "created": "2026-11-20T13:36:57Z",
+   "requestedBy": "Vlada (via Claude)"
+  },
   {
    "path": "reports/all-ines/2026-11-20-1336-full-ines.md",
    "title": "Full analysis - all Inés's competitors",
@@ -370,7 +384,7 @@
   "spent": 2.55,
   "budget": 5,
   "apify": 1.62,
-  "claude": 0.93,
+  "claude": 0.94,
   "apifyBudget": 4.8,
   "claudeBudget": 5
  }
