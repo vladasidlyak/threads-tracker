@@ -249,14 +249,15 @@ def find_copies(plan: dict, paths, limit: float = 0.25) -> list[tuple[dict, str,
     for f in (paths.data / "accounts").glob("*.json"):
         a = T.read_json(f, {})
         comp += [(a.get("handle", ""), p["text"], _grams(p["text"])) for p in a.get("posts", {}).values() if p.get("text")]
-    hits = []
-    for p in plan["posts"]:
+    hits, earlier = [], []
+    for i, p in enumerate(plan["posts"], 1):
         g = _grams(p.get("draft", ""))
         if not g:
             continue
-        share, handle, text = max(((len(g & c) / len(g), h, t) for h, t, c in comp), default=(0, "", ""))
+        share, handle, text = max(((len(g & c) / len(g), h, t) for h, t, c in comp + earlier), default=(0, "", ""))
         if share > limit:
             hits.append((p, handle, text))
+        earlier.append((f"this plan (post #{i})", p.get("draft", ""), g))
     return hits
 
 
