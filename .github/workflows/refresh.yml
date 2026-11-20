@@ -21,6 +21,8 @@ jobs:
     timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}   # latest commit when the run starts, not when it was queued
 
       - uses: actions/setup-python@v5
         with:
