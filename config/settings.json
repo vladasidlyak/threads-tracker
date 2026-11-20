@@ -22,14 +22,17 @@
   "standard": {
    "id": "claude-sonnet-5-5",
    "in": 2,
-   "out": 10
+   "out": 10,
+   "max_tokens": 24000
   },
   "economy": {
    "id": "claude-haiku-5-5",
    "in": 0.1,
    "out": 0.5,
    "long_from": 100000,
-   "long_mult": 5
+   "long_mult": 5,
+   "thinking": "disabled",
+   "max_tokens": 16000
   }
  },
  "claude_default_mode": "standard"

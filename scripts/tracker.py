@@ -388,8 +388,13 @@ def ask_claude(prompt: str, settings: dict, dry_run: bool) -> str:
     if not key:
         raise TrackerError("ANTHROPIC_API_KEY is missing. Add it in GitHub: Settings → Secrets and variables → Actions.")
     log(f"Model: {model['id']} ({model['mode']})")
-    body = {"model": model["id"], "max_tokens": settings["claude_max_tokens"],
+    body = {"model": model["id"], "max_tokens": int(model.get("max_tokens") or settings["claude_max_tokens"]),
             "messages": [{"role": "user", "content": prompt}]}
+    # Newer models think before answering by default, and thinking counts toward max_tokens.
+    if model.get("thinking"):
+        body["thinking"] = {"type": model["thinking"]}
+    if model.get("effort"):
+        body["output_config"] = {"effort": model["effort"]}
     headers = {"x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"}
     for attempt in range(3):
         try:
@@ -410,6 +415,12 @@ def ask_claude(prompt: str, settings: dict, dry_run: bool) -> str:
             raise TrackerError(f"Claude API error {r.status_code}: {r.text[:300]}")
         data = r.json()
         text = "".join(b.get("text", "") for b in data.get("content", []) if b.get("type") == "text")
+        if not text.strip():
+            usage = data.get("usage", {})
+            record_cost("claude", ((usage.get("input_tokens") or 0) * float(model["in"]) +
+                                   (usage.get("output_tokens") or 0) * float(model["out"])) / 1e6, "empty answer")
+            raise TrackerError("Claude used its whole answer length on thinking and wrote no text. "
+                               "Raise max_tokens for this model in config/settings.json (claude_models) and try again.")
         if data.get("stop_reason") == "max_tokens":
             log("WARNING: the report hit claude_max_tokens and was cut off. Raise it in config/settings.json.")
             text += "\n\n*(Report cut off at the length limit. Raise claude_max_tokens in config/settings.json.)*\n"

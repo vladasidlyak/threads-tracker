@@ -1,22 +1,5 @@
 [
  {
-  "path": "reports/all-ines/2026-11-20-1314-full-ines.md",
-  "title": "Full analysis - all Inés's competitors",
-  "accounts": [
-   "esmipsicologa",
-   "psico.maxi",
-   "enric_corbera",
-   "ju_zeppa",
-   "psicologiaconb",
-   "dr.rodrigoarteaga"
-  ],
-  "brand": "ines",
-  "focus": "full",
-  "scope": "all",
-  "created": "2026-11-20T13:14:45Z",
-  "requestedBy": "Vlada (via Claude)"
- },
- {
   "path": "reports/heyismail.co/2026-11-20-1300-full-jeff.md",
   "title": "Full analysis (new format - sample)",
   "accounts": [
