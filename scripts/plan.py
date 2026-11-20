@@ -55,10 +55,12 @@ def account_brief(paths: T.Paths, acc: dict) -> str:
 def report_core(txt: str) -> str:
     """The AI part of a report (drop the computed tables, which the plan already has as data)."""
     parts = txt.split("\n---\n")
-    return max(parts, key=len).strip() if len(parts) > 1 else txt
+    facts = ("## At a glance", "## Top 5 posts", "## Tags they use", "## Best time to post")
+    keep = [p for p in parts if not any(h in p for h in facts)]
+    return "\n\n".join(p.strip() for p in keep).strip() or txt
 
 
-def brand_report(paths, brand: str) -> str:
+def brand_report(paths, brand: str, limit: int = 22000) -> str:
     """Latest combined report on all of this brand's competitors - the main input for the plan."""
     idx = T.read_json(paths.reports / "index.json", [])
     combined = sorted((r for r in idx if r.get("brand") == brand and r.get("scope") == "all"),
@@ -67,7 +69,7 @@ def brand_report(paths, brand: str) -> str:
         f = paths.root / r["path"]
         if f.exists():
             return (f"LATEST COMBINED REPORT ON ALL COMPETITORS ({r['created'][:10]}) - follow its actions, hooks, words, "
-                    f"topic ideas, tags and hypotheses:\n{report_core(f.read_text(encoding='utf-8'))[:12000]}\n")
+                    f"topic ideas, tags and hypotheses:\n{report_core(f.read_text(encoding='utf-8'))[:limit]}\n")
     return ""
 
 
@@ -234,6 +236,93 @@ def dry_plan(slots: list[dict]) -> dict:
             "posts": posts}
 
 
+# ------------------------------------------------------------------ quality check: no copies, tags filled
+
+def _grams(text: str, n: int = 5) -> set:
+    w = re.findall(r"\w+", (text or "").lower())
+    return {" ".join(w[i:i + n]) for i in range(len(w) - n + 1)}
+
+
+def find_copies(plan: dict, paths, limit: float = 0.25) -> list[tuple[dict, str, str]]:
+    """Drafts whose wording overlaps a competitor post by more than `limit` (5-word sequences)."""
+    comp = []
+    for f in (paths.data / "accounts").glob("*.json"):
+        a = T.read_json(f, {})
+        comp += [(a.get("handle", ""), p["text"], _grams(p["text"])) for p in a.get("posts", {}).values() if p.get("text")]
+    hits = []
+    for p in plan["posts"]:
+        g = _grams(p.get("draft", ""))
+        if not g:
+            continue
+        share, handle, text = max(((len(g & c) / len(g), h, t) for h, t, c in comp), default=(0, "", ""))
+        if share > limit:
+            hits.append((p, handle, text))
+    return hits
+
+
+def report_tags(paths, brand: str) -> list[str]:
+    """Tags listed in the latest combined report's 'Tags to use' table."""
+    txt = brand_report(paths, brand, limit=10 ** 6)
+    sec = txt.split("Tags to use", 1)[1] if "Tags to use" in txt else ""
+    sec = sec.split("###", 1)[0]
+    tags = []
+    for line in sec.splitlines():
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) >= 2 and cells[0] and not set(cells[0]) <= set("-: ") and cells[0].lower() != "tag":
+            tags.append(re.sub(r"\s*\(.*?\)|[✅🧪]", "", cells[0]).strip())
+    return [t for t in tags if t]
+
+
+def quality_pass(plan: dict, paths, brand: dict, brand_key: str, settings: dict) -> None:
+    """Rewrite drafts that copy competitors; fill empty tags. One extra short AI call at most."""
+    copies = find_copies(plan, paths)
+    tags = report_tags(paths, brand_key)
+    no_tag = [p for p in plan["posts"] if not p.get("tag")]
+    if not copies and not (no_tag and tags):
+        return
+    items = []
+    for i, p in enumerate(plan["posts"], 1):
+        bad = next((c for c in copies if c[0] is p), None)
+        if bad or (not p.get("tag") and tags):
+            items.append(f"#{i} | pillar {p.get('pillar', '')} | topic {p.get('topic', '')}\n  draft: {T.squash(p.get('draft', ''))[:400]}"
+                         + (f"\n  TOO CLOSE to @{bad[1]}: {T.squash(bad[2])[:300]}" if bad else ""))
+    prompt = f"""You are editing a content plan for {brand['name']}. Posts are written in {brand['drafts_language']}.
+
+For every post marked TOO CLOSE: rewrite the draft so it keeps the idea but uses completely different wording, structure and examples
+from the competitor post (no shared phrases of 4+ words). Keep the length, voice and slot role. Also give hook (first line), hook_en and draft_en
+(English translations, empty if the post is in English).
+For every post: give "tag" - exactly one Threads topic tag, chosen from this list when it fits: {", ".join(tags) or "(no list - pick a short, common topic in the audience's language)"}.
+
+POSTS
+{chr(10).join(items)}
+
+Return ONLY JSON: {{"posts": [{{"n": 5, "tag": "...", "draft": "only if rewritten", "hook": "...", "hook_en": "...", "draft_en": "..."}}]}}
+Use hyphens, never em dashes."""
+    try:
+        fixed = parse_plan(T.ask_claude(prompt, {**settings, "claude_max_tokens": 8000}, False), require_actions=False)["posts"]
+    except T.TrackerError as e:
+        T.log(f"!! Quality pass skipped: {e}")
+        return
+    rewritten = 0
+    for f in fixed:
+        try:
+            p = plan["posts"][int(f.get("n")) - 1]
+        except (TypeError, ValueError, IndexError):
+            continue
+        if f.get("tag") and not p.get("tag"):
+            p["tag"] = f["tag"]
+        if f.get("draft") and any(c[0] is p for c in copies):
+            for k in ("draft", "hook", "hook_en", "draft_en"):
+                if f.get(k) is not None:
+                    p[k] = f[k]
+            p["why"] = (p.get("why", "") + " (rewritten: the first draft was too close to a competitor post)").strip()
+            rewritten += 1
+    still = find_copies(plan, paths)
+    for p, h, _ in still:
+        p["why"] = (p.get("why", "") + f" ⚠️ Still close to a @{h} post - rewrite before publishing.").strip()
+    T.log(f"Quality pass: {rewritten} draft(s) rewritten, {len(still)} still close, tags filled where empty.")
+
+
 def place_on_slots(posts: list[dict], slots: list[dict]) -> list[dict]:
     """Put the posts on the fixed schedule, whatever dates Claude wrote."""
     def key(ip):
@@ -380,6 +469,7 @@ def main(argv=None) -> int:
                     except (TypeError, ValueError):
                         pass
                 plan["posts"] += place_on_slots(more["posts"], part)
+            quality_pass(plan, paths, brands[a.brand], a.brand, settings)
         if a.dry_run:
             plan["posts"] = place_on_slots(plan["posts"], slots)
         pid = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d-%H%M") + f"-{a.brand}"
