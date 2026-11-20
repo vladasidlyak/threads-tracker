@@ -146,7 +146,7 @@ POST_SHAPE = """{{"slot": 1, "pillar": "one of the pillar names", "format": "Sta
              "topic": "short", "hook": "first line, in {lang}", "draft": "full ready-to-post text in {lang}",
              "hook_en": "English translation of the hook (empty if already English)", "draft_en": "English translation of the draft (empty if already English)",
              "cta": "how to invite replies, or empty", "tag": "one Threads topic tag for this post (from the report's tag list when there is one)",
-             "tests": "which hypothesis from the report this post tests, in a few words, or empty",
+             "tests": "which hypothesis from the report this post tests (with its type H1/H2/H3 when known), in a few words, or empty",
              "inspiration": "@handle and the pattern it builds on", "why": "one sentence"}}"""
 
 
@@ -158,6 +158,9 @@ def build_more_prompt(brand: dict, briefs: list[str], plan: dict, slots: list[di
 BRAND
 {brand['name']} - {brand['context']}
 Posts are written in: {brand['drafts_language']}
+
+PERSONA AND BRAND-TEAM RULES (follow these over anything the competitors do)
+{brand.get('_persona', '')}
 
 STRATEGY (already decided)
 {plan.get('summary', '')}
@@ -186,6 +189,9 @@ def build_prompt(brand: dict, briefs: list[str], slots: list[dict], per_day: int
 BRAND
 {brand['name']} - {brand['context']}
 Posts are written in: {brand['drafts_language']}
+
+PERSONA AND BRAND-TEAM RULES (follow these over anything the competitors do)
+{brand.get('_persona', '')}
 
 COMPETITOR RESEARCH
 {chr(10).join(briefs)}
@@ -433,6 +439,7 @@ def main(argv=None) -> int:
             T.log(f"Note: {per_week} posts a week is a lot for one plan - making {weeks} weeks instead of {a.weeks}.")
         start = dt.date.fromisoformat(a.start) if a.start else next_monday()
         slots = schedule(start, weeks, per_week, brands[a.brand])
+        brands[a.brand]["_persona"] = T.persona_text(brands[a.brand], a.brand, T.read_json(paths.config / "strategy.json", {}))
         handles = [T.clean_handle(h) for h in a.accounts.split(",") if h.strip()] or T.accounts_for(paths, a.brand)
         if not handles:
             raise T.TrackerError(f"No competitors tracked for {brands[a.brand]['name']} yet. In Reports, choose them, "

@@ -8,10 +8,10 @@ How they reply to comments and talk with followers, and which techniques {{BRAND
 If no replies or comments were collected, say so in one line and base this on how they write their posts.
 
 ### 🪝 Hooks that worked
-6-8 real first lines from their best posts. For each: the hook as a quote (with EN translation if not English) and its likes, then "→ **Template:**" a fill-in-the-blank version for {{BRAND_NAME}}. Best first.
+6-8 real first lines from their best posts. For each: the hook as a quote (with EN translation if not English) and its likes, then "→ **Template:**" a fill-in-the-blank version for {{BRAND_NAME}}, marked 🆕 new form or 📚 already in the persona's hook library. Prefer outliers. Best first.
 
 ### 🗂️ Topic ideas
-A markdown table with columns: Topic | Angle for {{BRAND_NAME}} | Based on | Priority. 8-10 rows. "Based on" names the competitor post, comment or gap that supports it. Priority is 🔥 High, ⭐ Medium or 💡 Try. Include at least 2 topics nobody covers yet.
+A markdown table with columns: Topic | Verdict | Angle for {{BRAND_NAME}} | Based on | Priority. Verdict: ✅ Core / 🧪 Test / 🔍 Gap / ❌ Skip from the persona profile. 8-10 rows. "Based on" names the competitor post, comment or gap that supports it. Priority is 🔥 High, ⭐ Medium or 💡 Try. Include at least 2 topics nobody covers yet.
 
 ### 🏷️ Tags to use
 Threads lets you add one topic tag per post, and it decides which topic feeds the post can appear in. Based on the tags data and topics above: a markdown table with columns: Tag | Use it for | Why. 5-8 tags for {{BRAND_NAME}}, in the language of the audience. Mark tags the competitors use successfully with ✅ and new ones to try with 🧪. If no tag data was collected, suggest tags from the topics and say they are untested. One line after the table on hashtags in the text (use or skip, based on the data).
@@ -32,7 +32,24 @@ From comments and replies: the questions, pains and wishes people express, each 
 2-4 bullets: what gets views but no reactions, or what flopped, with one example each.
 
 ### 🧪 Hypotheses to test
-3-5 hypotheses as a markdown table with columns: Hypothesis | How to test | What to measure | Success if. Write each hypothesis as "If {{BRAND_NAME}} ..., then ... because ...". Tests must be small: 4-6 posts over 2 weeks. Metrics: likes, replies, reposts, reactions per 100 views. "Success if" gives a clear threshold compared with {{BRAND_NAME}}'s usual posts.
+3 hypothesis cards built from the outliers (mix H1, H2, H3).
+For each card use this exact shape:
+#### H? · <short hypothesis name> · {{BRAND_NAME_SHORT}}
+**Topic:** <topic> (✅ Core / 🧪 Test / 🔍 Gap) · **Guardrails:** <one line from the persona's "never do">
+- **Mechanic:** <text form taken from the reference: one-liner, contrast pair, "Signs..." checklist, "Repeat after me" affirmation...>
+- **Insight:** <the behaviour in plain words, not a term>
+- **Hook:** "<hook in English>" (🆕 new form / 📚 from the persona's hook library)
+- **Type:** H1 / H2 / H3 (H3 always framed as permission to leave, never fear or guilt)
+- **Reach because:** <with what caption people would forward it to a friend>
+- **Quiz because:** <which "why do I do this?" question the post leaves open> · quiz: *chosen by the operator*
+
+| Ref | Account | Format | Date | ❤ · 💬 · 🔁 · ↗ | Median (n) | × median | Hook | Verdict |
+|---|---|---|---|---|---|---|---|---|
+Use only real posts from the OUTLIER POSTS and TOP POSTS data above (exact numbers, never guess). Verdict: ✅ / 🟡 / ❌, plus "translates ✅/❌" when the drafts language is not English (reject puns, rhymes and US-only realities).
+
+**Posts to test:**
+1. <ready post in {{DRAFTS_LANGUAGE}}> (with EN translation if not English)
+2. <a second variant with a different hook>
 
 ### 🎯 The 30-second summary
 Exactly 3 numbered takeaways. Each one: a bold one-line finding, then one sentence on what it means for {{BRAND_NAME}}.

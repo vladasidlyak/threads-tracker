@@ -30,7 +30,7 @@
 const ALLOWED_FILES = /^(config\/brands\.json|index\.html|dashboard\.js|voice\.js|competitors\.js|plan\.js|data\/[\w.\-\/]+\.json|reports\/[\w.\-\/]+\.(md|json))$/;
 const TYPES = { html: "text/html", js: "application/javascript", json: "application/json", md: "text/markdown" };
 const BRAND_RE = /^[a-z0-9_-]{1,30}$/; // brands live in config/brands.json; the scripts check the name
-const FOCUS = ["full", "ideas", "replies", "voice"];
+const FOCUS = ["full", "replies", "hooks", "topics", "hypotheses", "voice", "ideas"];
 const WORKFLOWS = { report: "report.yml", competitors: "competitors.yml", plan: "plan.yml" };
 const PROFILE_RE = /^(https?:\/\/(www\.)?threads\.(com|net)\/@[A-Za-z0-9._]+\/?(\?.*)?|@?[A-Za-z0-9._]{1,40})$/;
 const runsToday = new Map(); // best-effort, per Worker instance

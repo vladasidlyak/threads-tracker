@@ -1,0 +1,205 @@
+{
+  "_about": "Shared rules from the brand team (Threads Growth Experiment + hustle-threads-hypothesis skill). Used in every report and plan.",
+  "hypothesis_types": {
+    "H1": "Strong Expert POV - a clear claim that can differ from common opinion",
+    "H2": "Pattern Recognition - she recognises her own behaviour or his",
+    "H3": "Cost of Inaction - framed as permission to leave, never fear or guilt"
+  },
+  "content_principles": [
+    "Strong POV",
+    "Problem Recognition",
+    "Product Relevance (topic matches a quiz)",
+    "Conversion Intent (a clear reason to tap the link)"
+  ],
+  "avoid": [
+    "engagement bait",
+    "generic audience questions",
+    "long discussions with no conversion intent",
+    "content unrelated to the product funnel",
+    "follow-for-follow CTAs"
+  ],
+  "outlier_rule": "engagement = likes + replies + reposts + shares; multiple = post / median of the author's last 40 posts; ✅ 5x or more, 🟡 3-5x, ❌ below; reposts are the main reach signal",
+  "pain_clusters": [
+    {
+      "n": 1,
+      "name": "Waiting for his text, chasing him",
+      "pablo": "✅ Anxious attachment",
+      "adeline": "✅ His Effort = His Interest",
+      "words": [
+        "texting",
+        "left on read",
+        "dry texter",
+        "mixed signals",
+        "breadcrumbing",
+        "situationship",
+        "overthinking",
+        "chasing"
+      ],
+      "phrases": [
+        "waiting for his text",
+        "stop chasing him",
+        "if he wanted to",
+        "overthinking his texts"
+      ],
+      "angle": "her worth and his effort, not 'you're too needy'"
+    },
+    {
+      "n": 2,
+      "name": "Missing an ex, no contact",
+      "pablo": "✅ Anxious attachment & breakup",
+      "adeline": "✅ Silent Power",
+      "words": [
+        "no contact",
+        "closure",
+        "moving on",
+        "miss him",
+        "let go",
+        "block him",
+        "detach"
+      ],
+      "phrases": [
+        "you don't miss him",
+        "stop checking his socials",
+        "can't stop missing my ex"
+      ],
+      "angle": "not going back is strength, not defeat"
+    },
+    {
+      "n": 3,
+      "name": "Wants to break up after every fight",
+      "pablo": "✅ flipped belief",
+      "adeline": "🧪 Decoding",
+      "words": [
+        "argument",
+        "dramatic",
+        "overreacting",
+        "too sensitive",
+        "silent treatment",
+        "walking on eggshells"
+      ],
+      "phrases": [
+        "break up after every fight",
+        "not dramatic"
+      ],
+      "angle": "'this isn't drama' - protect her from the label"
+    },
+    {
+      "n": 4,
+      "name": "Can't leave, keeps going back",
+      "pablo": "✅ Anxious attachment / 🧪 Narcissism",
+      "adeline": "🧪 Toxic men & healing",
+      "words": [
+        "go back",
+        "hot and cold",
+        "red flags",
+        "gaslighting",
+        "love bombing",
+        "hoovering",
+        "second chance"
+      ],
+      "phrases": [
+        "keep going back to him",
+        "can't leave him",
+        "why do I stay"
+      ],
+      "angle": "describe the pattern without the word 'trauma bond'"
+    },
+    {
+      "n": 5,
+      "name": "Settling for the bare minimum",
+      "pablo": "✅ Self-worth & boundaries",
+      "adeline": "✅ His Effort = His Interest",
+      "words": [
+        "bare minimum",
+        "settle",
+        "standards",
+        "effort",
+        "worth",
+        "overgiving",
+        "one-sided"
+      ],
+      "phrases": [
+        "bare minimum",
+        "stop settling",
+        "always the one who tries harder"
+      ],
+      "angle": "permission verdict: the minimum is the answer"
+    },
+    {
+      "n": 6,
+      "name": "Childhood shapes who she picks",
+      "pablo": "🧪 Childhood wounds",
+      "adeline": "🧪 Childhood roots",
+      "words": [
+        "absent father",
+        "emotionally unavailable",
+        "abandonment",
+        "people pleaser",
+        "lonely marriage"
+      ],
+      "phrases": [
+        "if you grew up",
+        "attracted to emotionally unavailable men"
+      ],
+      "angle": "'If you grew up...' form; no 'inner child' in the post"
+    },
+    {
+      "n": 7,
+      "name": "He cheated, she stayed - glow-up",
+      "pablo": "✅ Self-worth",
+      "adeline": "✅ Silent Power / 🧪 Cheating",
+      "words": [
+        "cheated",
+        "betrayal",
+        "divorce",
+        "starting over",
+        "glow up",
+        "new chapter"
+      ],
+      "phrases": [
+        "he cheated and I stayed",
+        "why did I stay so long",
+        "glow up after breakup"
+      ],
+      "angle": "staying was the mistake, leaving is the win"
+    },
+    {
+      "n": 8,
+      "name": "Heartbreak after 40-50",
+      "pablo": "🔍 Gap",
+      "adeline": "🔍 Gap",
+      "words": [
+        "over 40",
+        "over 50",
+        "dating again",
+        "midlife",
+        "gray divorce",
+        "second chapter"
+      ],
+      "phrases": [
+        "heartbreak at 50",
+        "dating after 50"
+      ],
+      "angle": "no shame about age"
+    },
+    {
+      "n": 9,
+      "name": "Faith and pain",
+      "pablo": "🧪 God & letting go",
+      "adeline": "❌",
+      "words": [
+        "God",
+        "prayer",
+        "God's plan",
+        "divine timing",
+        "rejection is protection"
+      ],
+      "phrases": [
+        "gave it to God",
+        "God removed him",
+        "unanswered prayer"
+      ],
+      "angle": "God as protection and comfort, not 'prayer didn't work'"
+    }
+  ]
+}

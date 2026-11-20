@@ -4,6 +4,9 @@ BRAND WE ARE CREATING CONTENT FOR
 {{BRAND_NAME}} - {{BRAND_CONTEXT}}
 Post drafts must be written in: {{DRAFTS_LANGUAGE}}
 
+PERSONA AND BRAND-TEAM RULES (follow these over anything the competitors do)
+{{PERSONA}}
+
 ACCOUNTS ANALYZED
 {{ACCOUNTS}}
 Followers: {{FOLLOWERS}}
@@ -34,6 +37,9 @@ THEIR REPLIES TO OTHER PEOPLE (with the comment they answered)
 CONVERSATIONS UNDER THEIR TOP POSTS
 {{CONVERSATIONS}}
 
+OUTLIER POSTS (each post vs the median of its author's last 40 posts; brand formula: likes + replies + reposts + shares)
+{{OUTLIERS}}
+
 NUMBERS ALREADY SHOWN IN THE REPORT (computed by the tracker; readers see these tables under your text)
 {{FACTS}}
 
@@ -56,6 +62,9 @@ STYLE RULES (very important)
 RULES
 - Base every claim on the data above and cite specific posts as evidence. Say clearly when the sample is too small to be sure.
 - Note when a top post is a quote from someone else rather than original writing.
+- Treat a post as a usable reference only if it works without the author's personal fame or a one-off event
+  (e.g. "my account was suspended" is not transferable). Say so when an outlier is not transferable.
+- Describe insights as behaviour in plain words, not psychology terms ("he shows up only when you pull away", not "hoovering").
 - The brand works in wellbeing: no medical claims, no diagnoses, no promises of cure.
 - Use hyphens, never em dashes.
 - Write everything in English except the post drafts and reply templates.

@@ -642,6 +642,34 @@ def voice_stats(items: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def persona_text(brand: dict, brand_key: str, strategy: dict) -> str:
+    """The persona profile and the brand team's rules, as plain text for the AI."""
+    L = []
+    if brand.get("voice"):
+        L.append(f"Voice: {brand['voice']}")
+    if brand.get("core_topics"):
+        L.append("Core topics (✅): " + "; ".join(brand["core_topics"]))
+    if brand.get("test_topics"):
+        L.append("Test topics (🧪): " + "; ".join(brand["test_topics"]))
+    if brand.get("dont"):
+        L.append("Never do (❌): " + "; ".join(brand["dont"]))
+    if brand.get("hook_library"):
+        L.append("Hook library (📚 already used - prefer NEW hook forms 🆕, use these only as a fallback): " + "; ".join(brand["hook_library"]))
+    if brand.get("research_language"):
+        L.append(f"Research language: {brand['research_language']} (references are found in English; only the final post is translated).")
+    if strategy:
+        L.append("Hypothesis types: " + "; ".join(f"{k} {v}" for k, v in strategy.get("hypothesis_types", {}).items()))
+        L.append("Hypothesis = Mechanic (text form) x Insight (behaviour in plain words) x Reach reason (why people share it) "
+                 "or Quiz reason (which 'why do I do this?' question it leaves open for the quiz).")
+        L.append("Content principles: " + "; ".join(strategy.get("content_principles", [])))
+        L.append("Not prioritised: " + "; ".join(strategy.get("avoid", [])))
+        rows = [c for c in strategy.get("pain_clusters", []) if brand_key in c]
+        if rows:
+            L.append("Pain clusters (from winning paid scripts) with this persona's verdict:")
+            L += [f"  {c['n']}. {c['name']} - {c[brand_key]} - angle: {c['angle']}" for c in rows]
+    return "\n".join(L) or "(no persona profile)"
+
+
 def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str, top_n: int = 60) -> str:
     brands = read_json(paths.config / "brands.json")
     if brand_key not in brands:
@@ -700,16 +728,25 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str,
         "BY_WEEKDAY": agg(lambda p: weekday_of(p["date"])),
         "VOICE_POSTS": voice_stats(posts), "VOICE_REPLIES": voice_stats(replies),
         "TOP_POSTS": top, "SELECTION": selection,
+        "PERSONA": persona_text(brand, brand_key, read_json(paths.config / "strategy.json", {})),
+        "OUTLIERS": "\n".join(f"- {p['_verdict']} {p['_x']:.1f}x | @{p['account']} | {(p['date'] or '')[:10]} | likes {p['likes']}, "
+                              f"replies {p['replies']}, reposts {p['reposts']}, shares {p.get('shares') or 0} | median {round(p['_median'])} "
+                              f"(n={p['_n']}){' LOW-CONFIDENCE' if p['_low_conf'] else ''}\n  \"{squash(p['text'])[:500]}\""
+                              for p in outliers(accounts)[:15]) or "(no outliers yet)",
         "TAGS": "; ".join(f"{t}: {len(v)} posts, median reactions {round(statistics.median(v))}" for t, v in sorted(
             ((t, [engagement(p) for p in posts if t in tags_of(p)]) for t in {t for p in posts for t in tags_of(p)}),
             key=lambda kv: -len(kv[1]))[:25]) or "no tags found in these posts", "REPLIES": rep, "CONVERSATIONS": convo_txt,
     }
-    task = task.replace("{{BRAND_NAME}}", brand["name"]).replace("{{DRAFTS_LANGUAGE}}", brand["drafts_language"])
+    task = (task.replace("{{BRAND_NAME_SHORT}}", brand["name"].split(" (")[0])
+                .replace("{{BRAND_NAME}}", brand["name"]).replace("{{DRAFTS_LANGUAGE}}", brand["drafts_language"]))
     values["TASK"] = task
     for k, v in values.items():
         template = template.replace("{{" + k + "}}", v)
     return template
 
+
+FOCUS_TITLES = {"full": "Full analysis", "replies": "Communication & replies", "hooks": "Hooks & outliers",
+                "topics": "Topics & tags", "hypotheses": "Hypothesis cards", "voice": "AI linguistic report", "ideas": "Post ideas"}
 
 # ---------------------------------------------------------------- facts block (computed, not AI)
 
@@ -727,6 +764,61 @@ def _cell(t: str, n: int = 70) -> str:
 
 def _rate(p) -> float | None:
     return engagement(p) / p["views"] * 100 if p.get("views") else None
+
+
+def brand_engagement(p: dict) -> int:
+    """The brand team's formula: likes + replies + reposts + shares."""
+    return (p.get("likes") or 0) + (p.get("replies") or 0) + (p.get("reposts") or 0) + (p.get("shares") or 0)
+
+
+def outliers(accounts: list[dict], n_median: int = 40) -> list[dict]:
+    """Each post vs the median of the author's last 40 posts. ✅ 5x+, 🟡 3-5x."""
+    out = []
+    for a in accounts:
+        posts = sorted((p for p in a["posts"].values() if p["type"] == "post" and p.get("date")),
+                       key=lambda p: p["date"], reverse=True)
+        base = posts[:n_median]
+        if len(base) < 5:
+            continue
+        med = statistics.median(brand_engagement(p) for p in base) or 1
+        for p in posts:
+            x = brand_engagement(p) / med
+            if x >= 3:
+                out.append({**p, "_x": x, "_median": med, "_n": len(base),
+                            "_verdict": "✅" if x >= 5 else "🟡", "_low_conf": med < 50})
+    return sorted(out, key=lambda p: p["_x"], reverse=True)
+
+
+def outliers_markdown(outs: list[dict], limit: int = 12) -> str:
+    if not outs:
+        return ("## Outlier posts\n\n*No post reached 3x its author's median yet. Outlier = a post that gets at least 5x "
+                "the author's typical engagement.*\n")
+    lines = ["## Outlier posts (vs the author's median)", "",
+             "| Post | Date | ❤ · 💬 · 🔁 · ↗ | Median (n) | × median | Verdict |", "|---|---|---|---|---|---|"]
+    for p in outs[:limit]:
+        text = f"[@{p['account']}: {_cell(p['text'], 60)}]({p['url']})" if p.get("url") else f"@{p['account']}: {_cell(p['text'], 60)}"
+        stats = f"{_fmt_n(p['likes'])} · {_fmt_n(p['replies'])} · {_fmt_n(p['reposts'])} · {_fmt_n(p.get('shares') or 0)}"
+        lines.append(f"| {text} | {(p['date'] or '')[:10]} | {stats} | {_fmt_n(p['_median'])} ({p['_n']}) | "
+                     f"{p['_x']:.1f}× | {p['_verdict']}{' (low median - medium confidence)' if p['_low_conf'] else ''} |")
+    lines += ["", "*Engagement = likes + replies + reposts + shares (the brand team's formula). Median of the author's last "
+                  "40 posts. ✅ 5x or more = outlier, 🟡 3-5x = close. Reposts are the main reach signal.*", ""]
+    return "\n".join(lines)
+
+
+def seeds_markdown(brand_key: str, strategy: dict) -> str:
+    """Search seeds for Threads (from the brand team's pain clusters), as ready search links."""
+    rows = [c for c in strategy.get("pain_clusters", []) if brand_key in c and not str(c[brand_key]).startswith("❌")]
+    if not rows:
+        return ""
+    link = lambda q: f"[{q}](https://www.threads.com/search?q={requests.utils.quote(q)}&serp_type=default)"
+    out = ["## Search seeds for new references", "",
+           "*Research in English. Search these in Threads, open the best posts and paste their authors' links into Reports "
+           "as new competitors - the tracker will measure them.*", "",
+           "| # | Pain cluster | Verdict | Words | Phrases |", "|---|---|---|---|---|"]
+    for c in rows:
+        out.append(f"| {c['n']} | {c['name']} | {c[brand_key]} | {' · '.join(link(w) for w in c['words'])} | "
+                   f"{' · '.join(link(w) for w in c['phrases'])} |")
+    return "\n".join(out) + "\n"
 
 
 def facts_markdown(accounts: list[dict], chosen: list[dict], tz_name: str) -> str:
@@ -825,13 +917,17 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
     brands_cfg = read_json(paths.config / "brands.json")
     chosen, _ = select_top(accounts, top_n)
     facts = facts_markdown(accounts, chosen, brands_cfg[brand].get("timezone", "Europe/Madrid"))
+    g, sep, rest = facts.partition("## Top 5 posts")
+    facts = g + outliers_markdown(outliers(accounts)) + "\n" + sep + rest
+    if focus in ("full", "topics", "hypotheses"):
+        facts += "\n" + seeds_markdown(brand, read_json(paths.config / "strategy.json", {}))
     prompt = build_prompt(paths, accounts, brand, focus, top_n).replace("{{FACTS}}", facts)
     text = ask_claude(prompt, settings, dry_run)
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d-%H%M")
     combined = combined or len(handles) > 1
     slug = f"all-{brand}" if combined else handles[0]
     rel = f"reports/{slug}/{stamp}-{focus}-{brand}.md"
-    title = {"full": "Full analysis", "ideas": "Post ideas", "replies": "Reply analysis", "voice": "AI linguistic report"}[focus]
+    title = FOCUS_TITLES[focus]
     brand_name = read_json(paths.config / 'brands.json')[brand]['name']
     if combined:
         title += f" - all {brand_name.split(' (')[0]}'s competitors"
@@ -922,7 +1018,7 @@ def main(argv=None) -> int:
             p.add_argument("--scope", default="single", choices=["single", "all", "each"],
                            help="single = --handle; all = one combined report on the brand's competitors; each = one report per competitor")
             p.add_argument("--brand", default="ines")
-            p.add_argument("--focus", default="full", choices=["full", "ideas", "replies", "voice"])
+            p.add_argument("--focus", default="full", choices=list(FOCUS_TITLES))
             p.add_argument("--requested-by", default="")
         if name == "add":
             p.add_argument("--note", default="")

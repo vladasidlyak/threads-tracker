@@ -1,14 +1,19 @@
-Analyze how these accounts talk to their audience, with these sections (### headings, bullet points, short quoted examples):
+Write the report with exactly these sections, in this order (### headings). Base it on their replies to other people and the conversations under their posts.
 
-### 🎯 The 30-second summary
-3 bullets: how they reply and what {{BRAND_NAME}} should copy.
-### ✅ Do this next
-3-4 checklist items ("- [ ] ...") for how {{BRAND_NAME}} should handle replies starting this week.
+### 💬 How they talk to their audience
+A bold one-line takeaway, then 4-6 bullets: how often they reply, to whom, tone, length, emojis, and how they handle questions, praise, personal stories and criticism. Quote short real replies (with EN translation if not English) and their likes.
 
-### Tone and voice patterns
-### How often and to whom they reply
-### How they handle questions, praise and criticism
-### Reply structures that get the most likes
-### Reply guidelines for {{BRAND_NAME}}
-### 6 reply templates for {{BRAND_NAME}} in {{DRAFTS_LANGUAGE}}
-Cover: a thank-you, a personal story shared by a follower, a question about getting help, disagreement, a negative comment, and an off-topic joke.
+### 🏆 Replies that worked best
+The 5 replies with the most likes: each as a quote, its likes and the comment it answered, then one line on why it worked.
+
+### ✅ Techniques to adopt
+A checklist ("- [ ] ...") of 6-8 reply techniques for {{BRAND_NAME}}, each with why it works and a one-line example in {{DRAFTS_LANGUAGE}} (with EN translation if not English). Follow the persona's voice.
+
+### 🚫 What not to do in replies
+3-4 bullets: promo-link drops, copy-paste answers, anything that breaks the persona's rules - with a real example each.
+
+### 💬 Reply templates
+8 ready replies for {{BRAND_NAME}} in {{DRAFTS_LANGUAGE}} (with EN translation if not English) for: a thank-you, a follower sharing a personal story, a question asking for advice, "is this normal?", disagreement, a negative or rude comment, someone in distress (gently point to professional help, no diagnosis), and an off-topic joke.
+
+### 🧪 Reply hypotheses to test
+2-3 short hypotheses in the form "If {{BRAND_NAME}} replies ..., then ... because ...", with what to measure (replies per post, likes on replies, follows).

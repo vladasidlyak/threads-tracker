@@ -337,7 +337,7 @@ a{color:var(--accent)}
     </div>
     <p class="small muted hidden" id="runAllInfo" style="margin:8px 0 0"></p>
     <div class="row" style="margin-top:8px">
-      <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">Full analysis</option><option value="ideas">Post ideas</option><option value="replies">Replies &amp; tone</option><option value="voice">AI linguistic report</option></select>
+      <select id="runFocus" style="width:auto" aria-label="Report type"><option value="full">📋 Full analysis (all below)</option><option value="replies">💬 Communication &amp; replies</option><option value="hooks">🪝 Hooks &amp; outliers</option><option value="topics">🗂️ Topics &amp; tags</option><option value="hypotheses">🧪 Hypothesis cards</option><option value="voice">🔤 AI linguistic report</option><option value="ideas">✍️ Post ideas</option></select>
       <select id="runMax" style="width:auto" aria-label="Top posts to analyze" title="The tracker collects about 1.7x more posts (max 100), ranks them by engagement rate, then likes, then views, and analyzes only the best ones. Posts with no likes are left out."><option value="30" selected>Top 30 posts (recommended)</option><option value="60">Top 60 posts</option><option value="100">Top 100 posts</option></select>
       <select id="runModel" style="width:auto" aria-label="AI model" title="Standard = Claude Sonnet, deeper analysis. Economy = Claude Haiku, about 20x cheaper, a bit simpler."><option value="standard">AI: Standard</option><option value="economy">AI: Economy (~20x cheaper)</option></select>
       <button class="btn primary" id="runGo" type="button">Run</button>

@@ -4,28 +4,155 @@
     "context": "Inés (@quintanilla_iness) - Spanish-speaking psychologist and expert ambassador. Talks about ex-boyfriends and breakups, relationships, friendship, setting boundaries and recognising manipulation. Warm, personal, relatable but expert voice. Audience: Spanish-speaking women interested in emotional wellbeing and healthier relationships.",
     "drafts_language": "Spanish (Spain)",
     "notion_page": "https://app.notion.com/p/41a6bfce6459809fb03cc49eb97b32d1",
-    "timezone": "Europe/Madrid"
+    "timezone": "Europe/Madrid",
+    "strategy": "growth",
+    "voice": "Warm, expert psychologist friend. Speaks to her with 'tú' (Spain). Validates first, then names the pattern. She is not to blame.",
+    "core_topics": [
+      "Exes & breakups",
+      "Setting boundaries",
+      "Recognising manipulation",
+      "Self-worth after a toxic relationship"
+    ],
+    "test_topics": [
+      "Friendship",
+      "Family boundaries",
+      "Quotes with her own reflection"
+    ],
+    "dont": [
+      "diagnoses or clinical labels about specific people",
+      "promises of cure",
+      "copying competitor posts",
+      "engagement bait with no point of view"
+    ]
   },
   "jeff": {
     "name": "Jeff (English, productivity)",
     "context": "Jeff - English-speaking expert ambassador. Main topic is productivity (focus, habits, routines, getting things done). Expanding into relationships and finding love, so plans can mix productivity posts with relationship and dating topics. Confident, practical, expert voice. Audience: English-speaking adults who want to organise their life and relationships better.",
     "drafts_language": "English",
     "notion_page": "https://app.notion.com/p/41a6bfce6459800ab12bd136f93fafda",
-    "timezone": "America/New_York"
+    "timezone": "America/New_York",
+    "strategy": "growth",
+    "voice": "Confident, practical expert. Named systems and rules, short lines, no fluff.",
+    "core_topics": [
+      "Productivity systems & routines",
+      "Habits",
+      "Focus"
+    ],
+    "test_topics": [
+      "Dating as a routine",
+      "Relationships & productivity",
+      "Friendship"
+    ],
+    "dont": [
+      "celebrity lesson lists",
+      "headline-only teasers",
+      "promo-link replies",
+      "medical or mental-health claims"
+    ]
   },
   "pablo": {
     "name": "Pablo (Spanish, relationships)",
     "context": "Pablo - Spanish-speaking relationship expert ambassador, similar niche to Inés. Helps women recognise and get out of abusive relationships. Supportive, direct, protective voice from a male expert. Audience: Spanish-speaking women in or leaving toxic or abusive relationships.",
-    "drafts_language": "Spanish (Spain)",
+    "drafts_language": "Spanish (neutral Latin American: tú, no Spain slang such as 'joder', no Spain-only words)",
     "notion_page": "",
-    "timezone": "Europe/Madrid"
+    "timezone": "America/Mexico_City",
+    "strategy": "hustle",
+    "research_language": "English",
+    "voice": "A man explaining men to her. Speaks to her with 'tú'. She is the winner, not a victim and not to blame. No emojis.",
+    "core_topics": [
+      "Self-worth & boundaries",
+      "God, karma & letting go",
+      "Anxious attachment & breakup"
+    ],
+    "test_topics": [
+      "Narcissism & manipulation",
+      "Childhood wounds & partner choice"
+    ],
+    "dont": [
+      "news, true crime, celebrities",
+      "doctrinal religion (God = comfort and justice, never a sermon)",
+      "lecturing men",
+      "swearing",
+      "gender-history takes",
+      "personal life off-topic",
+      "blaming her"
+    ],
+    "hook_library": [
+      "Contrast pair (\"I want you to come\" / \"come if you want\")",
+      "Permission verdict (\"STILL LEAVE\", \"Let him go\")",
+      "Flipped belief (\"If he argues with you, he cares\")",
+      "\"As a man, I'm telling you...\"",
+      "\"God removed him...\"",
+      "CAPS on 1-2 words",
+      "\"This is how...\"",
+      "\"Things I thought were normal, but...\"",
+      "\"Maturing is realizing...\""
+    ],
+    "voice_words": [
+      "as a man",
+      "men",
+      "a real man",
+      "a man who",
+      "king",
+      "queen",
+      "brother",
+      "my daughter",
+      "listen",
+      "dear woman"
+    ]
   },
   "adeline": {
     "name": "Adeline (English, relationships)",
     "context": "Adeline - English-speaking relationship expert ambassador. Helps women find out whether their relationship is toxic, spot red flags and toxic men, and recover after an abusive relationship. Empathetic, validating, clear voice. Audience: English-speaking women questioning or healing from toxic relationships.",
-    "drafts_language": "English",
+    "drafts_language": "English (US)",
     "notion_page": "",
-    "timezone": "America/New_York"
+    "timezone": "America/New_York",
+    "strategy": "hustle",
+    "research_language": "English",
+    "voice": "A girlfriend's voice, girl to girl. The main character is HIS behaviour, not her feelings. Leaving is strength. 0-1 emoji.",
+    "core_topics": [
+      "His Effort = His Interest",
+      "Silent Power / Glow-up",
+      "Healthy Relationship Basics",
+      "Inner Peace & Boundaries"
+    ],
+    "test_topics": [
+      "Decoding His Signals",
+      "Toxic men & healing",
+      "Childhood roots of adult patterns"
+    ],
+    "dont": [
+      "parody of self-help",
+      "generic questions without conflict",
+      "jargon instead of human words",
+      "introspective posts about peace with no 'him' in them"
+    ],
+    "hook_library": [
+      "\"Girl to girl:\"",
+      "\"Hot take...\"",
+      "\"If he's ..., that's your answer\"",
+      "\"Signs he doesn't care:\"",
+      "\"Trust the pattern, not...\"",
+      "\"A boy says... But a man says...\"",
+      "\"Marry the person who...\"",
+      "\"No man is too busy for...\"",
+      "\"One of the bravest things you can do is...\"",
+      "\"We don't talk enough about...\"",
+      "\"If you grew up...\"",
+      "\"Repeat after me:\""
+    ],
+    "voice_words": [
+      "girl to girl",
+      "ladies",
+      "sis",
+      "hot take",
+      "reminder",
+      "pov",
+      "repeat after me",
+      "signs",
+      "unpopular opinion",
+      "normalize"
+    ]
   },
   "liven": {
     "name": "Liven",
