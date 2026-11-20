@@ -235,6 +235,142 @@ def format_of(text: str) -> str:
     return "Statement"
 
 
+# ------------------------------------------------------------------ content funnel: mechanic, funnel stage, CTA
+MECHANICS = ["Transformation story", "Story", "Situation + question", "Personal confession", "List / signs", "Named rule",
+             "Contrast pair", "Hot take", "Myth reframe", "Advice / tip", "Fill in the blank", "Question to audience",
+             "Quote", "One-liner", "Statement"]
+STAGES = ["Reach", "Warm-up", "Conversion"]
+_CTA_RULES = [
+    ("Quiz / test", r"\b(quiz|test|cuestionario)\b"),
+    ("Link in bio / link", r"(link in (my )?bio|in my bio|en mi bio|enlace|link (below|is below)|https?://|\bbio\b)"),
+    ("DM / keyword", r"(comment ['\"“«]?\w+['\"”»]? (and|&) i('ll)? send|comenta ['\"“«]?\w+|\bdm me\b|send me a dm|escr[ií]beme|m[aá]ndame un mensaje|te lo env[ií]o)"),
+    ("Newsletter / sign-up", r"(newsletter|subscribe|suscr[ií]bete|sign up|reg[ií]strate)"),
+    ("Follow", r"\b(follow (me|for)|s[ií]gueme)\b"),
+    ("Save / share", r"(save this|guarda(lo|te esto)|gu[aá]rdalo|share this|send (this|it) to|m[aá]ndaselo|env[ií]aselo|comp[aá]rtelo|etiqueta a)"),
+]
+
+
+def cta_of(text: str) -> str:
+    t = (text or "").lower()
+    for name, rx in _CTA_RULES:
+        if re.search(rx, t):
+            return name
+    tail = t.strip()[-120:]
+    if "?" in tail or "👇" in tail:
+        return "Question / comments"
+    return "None"
+
+
+def mechanic_of(text: str) -> str:
+    t = (text or "").strip()
+    low = t.lower()
+    first = re.split(r"[.!?\n]", low)[0] if low else ""
+    lines = [l for l in t.split("\n") if l.strip()]
+    if not t:
+        return "Statement"
+    if re.search(r"\b(the [\w-]+ (rule|theory|method|principle)|rule of \d|\d+-\d+-\d+ rule|la regla (de|del)|la teor[ií]a de|el m[eé]todo)\b", low):
+        return "Named rule"
+    if re.search(r"(completa la frase|termina la frase|finish the sentence|fill in the blank)", low):
+        return "Fill in the blank"
+    if re.search(r"(plan:[\s\S]{0,120}reali|expectation[\s\S]{0,80}reality|expectativa[\s\S]{0,80}realidad|\bme:[\s\S]{0,120}also me|"
+                 r"\byo:[\s\S]{0,120}tambi[eé]n yo|antes:[\s\S]{0,120}ahora|then:[\s\S]{0,120}now|a boy[\s\S]{0,120}a man|"
+                 r"un ni[nñ]o[\s\S]{0,120}un hombre)", low):
+        return "Contrast pair"
+    if re.search(r"(hot take|unpopular opinion|hill i'?ll die on|opini[oó]n impopular|lo voy a decir|i'?ll say it)", low):
+        return "Hot take"
+    if len(t) > 260 and re.search(r"(months? later|weeks? later|a year later|years later|now (she|he|i)|today (she|he|i)|"
+                                   r"meses despu[eé]s|semanas despu[eé]s|un a[nñ]o despu[eé]s|a[nñ]os despu[eé]s|ahora (ella|[eé]l|yo)|hoy (ella|[eé]l))", low):
+        return "Transformation story"
+    if sum(1 for l in lines if re.match(r"^\s*(\d+[.)/]|[-•*–❌✅✔️👉])\s*", l)) >= 2 or re.match(r"^(signs|señales|\d+ (things|signs|habits|cosas|señales))", low):
+        return "List / signs"
+    third = re.search(r"\b(mi amiga|mi prima|mi hermana|mi vecina|mi compañera|my friend|my cousin|my sister|my buddy|a follower|"
+                      r"una seguidora|she |he |ella |él |situation i see|situaci[oó]n que veo)", low)
+    ends_q = bool(re.search(r"[?¿][^\w]*$", t)) or "👇" in t[-20:]
+    if third and ends_q:
+        return "Situation + question"
+    if re.match(r"^(i |i'm |i've |i was |yo |me |mi |my |hoy |today |esta semana |this week |anoche |last night |confes|ok,? confes)", low) \
+            or re.search(r"\b(confesi[oó]n|confession|peque[nñ]a victoria|small win)\b", low):
+        return "Personal confession"
+    if re.search(r"\b(isn'?t|is not|no es|no son)\b[^.\n]{0,60}\b(it'?s|es|son)\b", first + " " + low[:200]):
+        return "Myth reframe"
+    if re.search(r"(try this|prueba esto|prueba:|haz esto|try:|tip:|consejo:|here'?s how|as[ií] es como|c[oó]mo (hacer|poner|decir))", low):
+        return "Advice / tip"
+    if ("?" in first or "¿" in first) and len(t) < 220:
+        return "Question to audience"
+    if format_of(t) == "Quote":
+        return "Quote"
+    if len(t) < 140:
+        return "One-liner"
+    if len(t) > 300:
+        return "Story"
+    return "Statement"
+
+
+def stage_of(mechanic: str, cta: str) -> str:
+    if cta in ("Quiz / test", "Link in bio / link", "DM / keyword", "Newsletter / sign-up"):
+        return "Conversion"
+    if cta in ("Question / comments", "Follow") or mechanic in ("Situation + question", "Question to audience"):
+        return "Warm-up"
+    return "Reach"
+
+
+def classify_posts(account: dict) -> bool:
+    """Tag every post and reply with its mechanic, funnel stage and CTA type. Returns True if anything changed."""
+    changed = False
+    for p in account.get("posts", {}).values():
+        mech = mechanic_of(p.get("text", "")) if p.get("type") == "post" else "Reply"
+        cta = cta_of(p.get("text", ""))
+        stage = stage_of(mech, cta)
+        if (p.get("mech"), p.get("cta"), p.get("stage")) != (mech, cta, stage):
+            p["mech"], p["cta"], p["stage"] = mech, cta, stage
+            changed = True
+    return changed
+
+
+def funnel_text(accounts: list[dict]) -> str:
+    """Short funnel summary for the AI prompt."""
+    md = funnel_markdown(accounts)
+    return "\n".join(l for l in md.split("\n") if l.startswith("|") or l.startswith("CTAs")) or "(not enough posts)"
+
+
+def funnel_markdown(accounts: list[dict]) -> str:
+    """Facts block: which mechanics and CTAs competitors use, and how each funnel stage performs (x the author's median)."""
+    rows = []
+    for a in accounts:
+        classify_posts(a)
+        posts = sorted((p for p in a["posts"].values() if p["type"] == "post" and p.get("date")), key=lambda p: p["date"], reverse=True)
+        base = posts[:40]
+        if len(base) < 5:
+            continue
+        med = statistics.median(brand_engagement(p) for p in base) or 1
+        rows += [(p, brand_engagement(p) / med) for p in posts]
+    if not rows:
+        return ""
+    def table(key, order, title):
+        g = {}
+        for p, x in rows:
+            g.setdefault(p.get(key) or "-", []).append(x)
+        lines = [f"| {title} | Posts | Share | × usual (median) |", "|---|---|---|---|"]
+        for k in sorted(g, key=lambda k: (order.index(k) if k in order else 99, -len(g[k]))):
+            lines.append(f"| {k} | {len(g[k])} | {round(len(g[k]) / len(rows) * 100)}% | {statistics.median(g[k]):.1f}× |")
+        return "\n".join(lines)
+    reps = [p for a in accounts for p in a["posts"].values() if p["type"] == "reply"]
+    rep_cta = {}
+    for p in reps:
+        rep_cta[p.get("cta", "None")] = rep_cta.get(p.get("cta", "None"), 0) + 1
+    out = ["## Content funnel", "",
+           "*Every post is tagged automatically: mechanic (how the post is built), funnel stage (Reach = made to be shared, "
+           "Warm-up = invites comments, Conversion = sends people to a quiz, link or DM) and CTA type. × usual = engagement "
+           "compared with the author's typical post.*", "",
+           table("stage", STAGES, "Funnel stage"), "", table("mech", MECHANICS, "Mechanic"), "",
+           table("cta", ["None", "Question / comments", "Save / share", "Follow", "DM / keyword", "Quiz / test",
+                         "Link in bio / link", "Newsletter / sign-up"], "CTA type"), ""]
+    if reps:
+        out.append("CTAs inside their replies: " + ", ".join(f"{k} {v}" for k, v in sorted(rep_cta.items(), key=lambda kv: -kv[1])) + ".")
+        out.append("")
+    return "\n".join(out)
+
+
 def length_of(text: str) -> str:
     n = len(text or "")
     return "< 100" if n < 100 else "100-250" if n < 250 else "250-500" if n < 500 else "500+"
@@ -494,6 +630,8 @@ def update_index(paths: Paths) -> None:
         if not acc:
             out.append({"handle": a["handle"], "note": a.get("note", ""), "posts": 0, "replies": 0})
             continue
+        if classify_posts(acc):   # older posts get their mechanic / funnel stage / CTA tags
+            write_json(paths.account_file(a["handle"]), acc)
         posts = [p for p in acc["posts"].values() if p["type"] == "post"]
         out.append({
             "handle": a["handle"], "note": a.get("note", ""), "brands": a.get("brands", []), "own": a.get("own", ""),
@@ -550,6 +688,7 @@ def collect(paths: Paths, settings: dict, apify: Apify, handle: str, max_posts: 
             existing["profile"]["lastFetched"] = now_iso()
             if comments:
                 collect_comments(settings, apify, existing)
+            classify_posts(existing)
             write_json(paths.account_file(handle), existing)
             return existing
         raise TrackerError(f"Apify returned no data for @{handle}. Is the profile public and spelled right?")
@@ -559,6 +698,7 @@ def collect(paths: Paths, settings: dict, apify: Apify, handle: str, max_posts: 
     log(f"Posts and replies: {new} new, {updated} updated. Followers: {account['profile'].get('followers', 'unknown')}")
     if comments:
         collect_comments(settings, apify, account)
+    classify_posts(account)
     write_json(paths.account_file(handle), account)
     return account
 
@@ -742,7 +882,7 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str,
         txt = re.sub(r"\s+", " ", p["text"])[:600] or "(image or video without text)"
         return (f"- @{p['account']} | {(p['date'] or '')[:10]} {weekday_of(p['date']) or ''} | likes {p['likes']}, "
                 f"replies {p['replies']}, reposts {p['reposts']}, quotes {p['quotes']}{views} | "
-                f"format {format_of(p['text'])} | {len(p['text'])} chars"
+                f"format {format_of(p['text'])} | mechanic {mechanic_of(p['text'])} | CTA {cta_of(p['text'])} | {len(p['text'])} chars"
                 + (f" | tags {', '.join(tags_of(p))}" if tags_of(p) else "") + f"\n  \"{txt}\"")
 
     ranked = posts  # already best-first
@@ -792,6 +932,7 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str,
                               f"| reposts {p.get('_xr', 0):.1f}x usual, replies {p.get('_xc', 0):.1f}x usual{' | FRESH (last 3 months)' if p.get('_fresh') else ''} "
                               f"(n={p['_n']}){' LOW-CONFIDENCE' if p['_low_conf'] else ''}\n  \"{squash(p['text'])[:500]}\""
                               for p in outliers(accounts)[:15]) or "(no outliers yet)",
+        "FUNNEL": funnel_text(accounts),
         "TAGS": "; ".join(f"{t}: {len(v)} posts, median reactions {round(statistics.median(v))}" for t, v in sorted(
             ((t, [engagement(p) for p in posts if t in tags_of(p)]) for t in {t for p in posts for t in tags_of(p)}),
             key=lambda kv: -len(kv[1]))[:25]) or "no tags found in these posts", "REPLIES": rep, "CONVERSATIONS": convo_txt,
@@ -1048,7 +1189,7 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
     chosen, _ = select_top(accounts, top_n)
     facts = facts_markdown(accounts, chosen, brands_cfg[brand].get("timezone", "Europe/Madrid"))
     g, sep, rest = facts.partition("## Top 5 posts")
-    facts = g + outliers_markdown(outliers(accounts)) + "\n" + sep + rest
+    facts = g + outliers_markdown(outliers(accounts)) + "\n" + funnel_markdown(accounts) + "\n" + sep + rest
     if focus in ("full", "topics", "hypotheses"):
         facts += "\n" + seeds_markdown(brand, read_json(paths.config / "strategy.json", {}), read_json(paths.config / "brands.json", {}).get(brand))
     prompt = build_prompt(paths, accounts, brand, focus, top_n).replace("{{FACTS}}", facts)

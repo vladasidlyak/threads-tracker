@@ -42,7 +42,10 @@
      "quotes": 0,
      "views": 0
     }
-   ]
+   ],
+   "mech": "Personal confession",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4034138802028827670": {
    "id": "4034138802028827670",
@@ -72,7 +75,10 @@
      "quotes": 0,
      "views": 180
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4034118531209349366": {
    "id": "4034118531209349366",
@@ -102,7 +108,10 @@
      "quotes": 0,
      "views": 56
     }
-   ]
+   ],
+   "mech": "Question to audience",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4034099710142618294": {
    "id": "4034099710142618294",
@@ -132,7 +141,10 @@
      "quotes": 0,
      "views": 80
     }
-   ]
+   ],
+   "mech": "Advice / tip",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4034060570818511876": {
    "id": "4034060570818511876",
@@ -162,7 +174,10 @@
      "quotes": 0,
      "views": 488
     }
-   ]
+   ],
+   "mech": "Situation + question",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4034026325618295586": {
    "id": "4034026325618295586",
@@ -192,7 +207,10 @@
      "quotes": 0,
      "views": 134
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4034000212518945595": {
    "id": "4034000212518945595",
@@ -222,7 +240,10 @@
      "quotes": 0,
      "views": 200
     }
-   ]
+   ],
+   "mech": "Situation + question",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4033971622381398614": {
    "id": "4033971622381398614",
@@ -252,7 +273,10 @@
      "quotes": 0,
      "views": 118
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033941124639891123": {
    "id": "4033941124639891123",
@@ -282,7 +306,10 @@
      "quotes": 0,
      "views": 668
     }
-   ]
+   ],
+   "mech": "Contrast pair",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033843528496323435": {
    "id": "4033843528496323435",
@@ -312,7 +339,10 @@
      "quotes": 0,
      "views": 449
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4033724000329001823": {
    "id": "4033724000329001823",
@@ -342,7 +372,10 @@
      "quotes": 0,
      "views": 13
     }
-   ]
+   ],
+   "mech": "Fill in the blank",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4033724080733750849": {
    "id": "4033724080733750849",
@@ -372,7 +405,10 @@
      "quotes": 0,
      "views": 12
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033412249623351618": {
    "id": "4033412249623351618",
@@ -402,7 +438,10 @@
      "quotes": 0,
      "views": 357
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033375377496892971": {
    "id": "4033375377496892971",
@@ -432,7 +471,10 @@
      "quotes": 0,
      "views": 981
     }
-   ]
+   ],
+   "mech": "Situation + question",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4033358993514772803": {
    "id": "4033358993514772803",
@@ -462,7 +504,10 @@
      "quotes": 0,
      "views": 44
     }
-   ]
+   ],
+   "mech": "Myth reframe",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033342369565826367": {
    "id": "4033342369565826367",
@@ -492,7 +537,10 @@
      "quotes": 0,
      "views": 512
     }
-   ]
+   ],
+   "mech": "Situation + question",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4033220079374289955": {
    "id": "4033220079374289955",
@@ -522,7 +570,10 @@
      "quotes": 0,
      "views": 33
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033220153957404136": {
    "id": "4033220153957404136",
@@ -552,7 +603,10 @@
      "quotes": 0,
      "views": 7
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Save / share",
+   "stage": "Reach"
   },
   "4033184151912901473": {
    "id": "4033184151912901473",
@@ -582,7 +636,10 @@
      "quotes": 0,
      "views": 214
     }
-   ]
+   ],
+   "mech": "List / signs",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4032996109546510800": {
    "id": "4032996109546510800",
@@ -612,7 +669,10 @@
      "quotes": 0,
      "views": 161
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4032671262353510115": {
    "id": "4032671262353510115",
@@ -642,7 +702,10 @@
      "quotes": 0,
      "views": 162
     }
-   ]
+   ],
+   "mech": "Personal confession",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4032641248568807507": {
    "id": "4032641248568807507",
@@ -672,7 +735,10 @@
      "quotes": 0,
      "views": 277
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4032616038352974154": {
    "id": "4032616038352974154",
@@ -702,7 +768,10 @@
      "quotes": 0,
      "views": 371
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4032596105250391490": {
    "id": "4032596105250391490",
@@ -732,7 +801,10 @@
      "quotes": 0,
      "views": 77
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4032576251285712681": {
    "id": "4032576251285712681",
@@ -762,7 +834,10 @@
      "quotes": 0,
      "views": 67
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4032553197687947116": {
    "id": "4032553197687947116",
@@ -792,7 +867,10 @@
      "quotes": 0,
      "views": 331
     }
-   ]
+   ],
+   "mech": "Question to audience",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4032519545427095621": {
    "id": "4032519545427095621",
@@ -822,7 +900,10 @@
      "quotes": 0,
      "views": 726
     }
-   ]
+   ],
+   "mech": "Situation + question",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4032271278157212358": {
    "id": "4032271278157212358",
@@ -852,7 +933,10 @@
      "quotes": 0,
      "views": 167
     }
-   ]
+   ],
+   "mech": "Personal confession",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031952536704989473": {
    "id": "4031952536704989473",
@@ -882,7 +966,10 @@
      "quotes": 0,
      "views": 162
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4031925272579749763": {
    "id": "4031925272579749763",
@@ -912,7 +999,10 @@
      "quotes": 0,
      "views": 35
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4031890372144848500": {
    "id": "4031890372144848500",
@@ -942,7 +1032,10 @@
      "quotes": 0,
      "views": 215
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4031851716173247511": {
    "id": "4031851716173247511",
@@ -972,7 +1065,10 @@
      "quotes": 0,
      "views": 133
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031824803950196994": {
    "id": "4031824803950196994",
@@ -1002,7 +1098,10 @@
      "quotes": 0,
      "views": 422
     }
-   ]
+   ],
+   "mech": "Situation + question",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031798447228093272": {
    "id": "4031798447228093272",
@@ -1032,7 +1131,10 @@
      "quotes": 0,
      "views": 44
     }
-   ]
+   ],
+   "mech": "Personal confession",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031765037784811064": {
    "id": "4031765037784811064",
@@ -1062,7 +1164,10 @@
      "quotes": 0,
      "views": 90
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031516542579088940": {
    "id": "4031516542579088940",
@@ -1092,7 +1197,10 @@
      "quotes": 0,
      "views": 27
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4031131319186705937": {
    "id": "4031131319186705937",
@@ -1122,7 +1230,10 @@
      "quotes": 0,
      "views": 125
     }
-   ]
+   ],
+   "mech": "Question to audience",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031090857473795551": {
    "id": "4031090857473795551",
@@ -1152,7 +1263,10 @@
      "quotes": 0,
      "views": 65
     }
-   ]
+   ],
+   "mech": "Question to audience",
+   "cta": "None",
+   "stage": "Warm-up"
   },
   "4031056296542774822": {
    "id": "4031056296542774822",
@@ -1182,7 +1296,10 @@
      "quotes": 0,
      "views": 623
     }
-   ]
+   ],
+   "mech": "Personal confession",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030975574813054451": {
    "id": "4030975574813054451",
@@ -1212,7 +1329,10 @@
      "quotes": 0,
      "views": 103
     }
-   ]
+   ],
+   "mech": "Quote",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4030498090423386488": {
    "id": "4030498090423386488",
@@ -1242,7 +1362,10 @@
      "quotes": 0,
      "views": 76
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4030330703845500757": {
    "id": "4030330703845500757",
@@ -1272,7 +1395,10 @@
      "quotes": 0,
      "views": 39
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4030279039985418716": {
    "id": "4030279039985418716",
@@ -1302,7 +1428,10 @@
      "quotes": 0,
      "views": 134
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4030255643696353061": {
    "id": "4030255643696353061",
@@ -1332,7 +1461,10 @@
      "quotes": 0,
      "views": 148
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030191977014078944": {
    "id": "4030191977014078944",
@@ -1362,7 +1494,10 @@
      "quotes": 0,
      "views": 192
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030134732842755517": {
    "id": "4030134732842755517",
@@ -1392,7 +1527,10 @@
      "quotes": 0,
      "views": 114
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4029797643937017334": {
    "id": "4029797643937017334",
@@ -1422,7 +1560,10 @@
      "quotes": 0,
      "views": 181
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4029769932975825311": {
    "id": "4029769932975825311",
@@ -1452,7 +1593,10 @@
      "quotes": 1,
      "views": 3818
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4029742277933080864": {
    "id": "4029742277933080864",
@@ -1482,7 +1626,10 @@
      "quotes": 0,
      "views": 206
     }
-   ]
+   ],
+   "mech": "Situation + question",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4029720667905555179": {
    "id": "4029720667905555179",
@@ -1512,7 +1659,10 @@
      "quotes": 0,
      "views": 155
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4029691035164576601": {
    "id": "4029691035164576601",
@@ -1542,7 +1692,10 @@
      "quotes": 0,
      "views": 231
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4034408085748468663": {
    "id": "4034408085748468663",
@@ -1572,7 +1725,10 @@
      "quotes": 0,
      "views": 2
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4034407221772184411": {
    "id": "4034407221772184411",
@@ -1602,7 +1758,10 @@
      "quotes": 0,
      "views": 2
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033968504989303431": {
    "id": "4033968504989303431",
@@ -1632,7 +1791,10 @@
      "quotes": 0,
      "views": 4
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033833657528483879": {
    "id": "4033833657528483879",
@@ -1662,7 +1824,10 @@
      "quotes": 0,
      "views": 22
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033822531759666099": {
    "id": "4033822531759666099",
@@ -1692,7 +1857,10 @@
      "quotes": 0,
      "views": 625
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033789573229207827": {
    "id": "4033789573229207827",
@@ -1722,7 +1890,10 @@
      "quotes": 0,
      "views": 6
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033698101683325067": {
    "id": "4033698101683325067",
@@ -1752,7 +1923,10 @@
      "quotes": 0,
      "views": 445
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033689615960436989": {
    "id": "4033689615960436989",
@@ -1782,7 +1956,10 @@
      "quotes": 0,
      "views": 3
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033689237827096038": {
    "id": "4033689237827096038",
@@ -1812,7 +1989,10 @@
      "quotes": 0,
      "views": 6
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033688072213286775": {
    "id": "4033688072213286775",
@@ -1842,7 +2022,10 @@
      "quotes": 0,
      "views": 13
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033687746978522536": {
    "id": "4033687746978522536",
@@ -1872,7 +2055,10 @@
      "quotes": 0,
      "views": 9
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033687098539132268": {
    "id": "4033687098539132268",
@@ -1902,7 +2088,10 @@
      "quotes": 0,
      "views": 8
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033686657147386743": {
    "id": "4033686657147386743",
@@ -1932,7 +2121,10 @@
      "quotes": 0,
      "views": 7
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033685502262570327": {
    "id": "4033685502262570327",
@@ -1962,7 +2154,10 @@
      "quotes": 0,
      "views": 15
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033684882654812556": {
    "id": "4033684882654812556",
@@ -1992,7 +2187,10 @@
      "quotes": 0,
      "views": 17
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   }
  },
  "comments": {}

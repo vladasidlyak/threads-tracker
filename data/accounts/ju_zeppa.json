@@ -40,7 +40,10 @@
      "quotes": 1,
      "views": 16405
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031838667492529724": {
    "id": "4031838667492529724",
@@ -68,7 +71,10 @@
      "quotes": 0,
      "views": 539
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031838126150465545": {
    "id": "4031838126150465545",
@@ -96,7 +102,10 @@
      "quotes": 0,
      "views": 2313
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4031837788584480729": {
    "id": "4031837788584480729",
@@ -124,7 +133,10 @@
      "quotes": 2,
      "views": 10689
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031836475347932912": {
    "id": "4031836475347932912",
@@ -152,7 +164,10 @@
      "quotes": 0,
      "views": 1174
     }
-   ]
+   ],
+   "mech": "Question to audience",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031836087005699575": {
    "id": "4031836087005699575",
@@ -180,7 +195,10 @@
      "quotes": 0,
      "views": 192
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4031835212149420734": {
    "id": "4031835212149420734",
@@ -208,7 +226,10 @@
      "quotes": 0,
      "views": 711
     }
-   ]
+   ],
+   "mech": "Question to audience",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030286774358212341": {
    "id": "4030286774358212341",
@@ -236,7 +257,10 @@
      "quotes": 0,
      "views": 1296
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030286166301544072": {
    "id": "4030286166301544072",
@@ -264,7 +288,10 @@
      "quotes": 0,
      "views": 1274
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030285770015324892": {
    "id": "4030285770015324892",
@@ -292,7 +319,10 @@
      "quotes": 0,
      "views": 1565
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030285398945245500": {
    "id": "4030285398945245500",
@@ -320,7 +350,10 @@
      "quotes": 0,
      "views": 3586
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030285160062873124": {
    "id": "4030285160062873124",
@@ -348,7 +381,10 @@
      "quotes": 0,
      "views": 2229
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030284878406989371": {
    "id": "4030284878406989371",
@@ -376,7 +412,10 @@
      "quotes": 0,
      "views": 1406
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030284618880215065": {
    "id": "4030284618880215065",
@@ -404,7 +443,10 @@
      "quotes": 0,
      "views": 4254
     }
-   ]
+   ],
+   "mech": "Situation + question",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4028841887632969209": {
    "id": "4028841887632969209",
@@ -432,7 +474,10 @@
      "quotes": 0,
      "views": 1111
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4028839438419448250": {
    "id": "4028839438419448250",
@@ -460,7 +505,10 @@
      "quotes": 0,
      "views": 700
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4028248956836456812": {
    "id": "4028248956836456812",
@@ -488,7 +536,10 @@
      "quotes": 0,
      "views": 11818
     }
-   ]
+   ],
+   "mech": "Question to audience",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4028248215761713161": {
    "id": "4028248215761713161",
@@ -516,7 +567,10 @@
      "quotes": 0,
      "views": 1309
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4028247412913208911": {
    "id": "4028247412913208911",
@@ -544,7 +598,10 @@
      "quotes": 1,
      "views": 3625
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4027362494863618224": {
    "id": "4027362494863618224",
@@ -572,7 +629,10 @@
      "quotes": 0,
      "views": 1869
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4026644524692667736": {
    "id": "4026644524692667736",
@@ -600,7 +660,10 @@
      "quotes": 0,
      "views": 4107
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4026628067795624192": {
    "id": "4026628067795624192",
@@ -628,7 +691,10 @@
      "quotes": 0,
      "views": 6151
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4026623634466662899": {
    "id": "4026623634466662899",
@@ -656,7 +722,10 @@
      "quotes": 0,
      "views": 10236
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "DM / keyword",
+   "stage": "Conversion"
   },
   "4025958776549139571": {
    "id": "4025958776549139571",
@@ -684,7 +753,10 @@
      "quotes": 0,
      "views": 1929
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4025958220568933444": {
    "id": "4025958220568933444",
@@ -712,7 +784,10 @@
      "quotes": 1,
      "views": 3588
     }
-   ]
+   ],
+   "mech": "Personal confession",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4025910555139312915": {
    "id": "4025910555139312915",
@@ -740,7 +815,10 @@
      "quotes": 0,
      "views": 2385
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4024401546146166544": {
    "id": "4024401546146166544",
@@ -768,7 +846,10 @@
      "quotes": 0,
      "views": 2051
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4024401238653399328": {
    "id": "4024401238653399328",
@@ -796,7 +877,10 @@
      "quotes": 0,
      "views": 2316
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4024400430100630186": {
    "id": "4024400430100630186",
@@ -824,7 +908,10 @@
      "quotes": 0,
      "views": 2251
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4024400228362983524": {
    "id": "4024400228362983524",
@@ -852,7 +939,10 @@
      "quotes": 1,
      "views": 2000
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031851752781482586": {
    "id": "4031851752781482586",
@@ -880,7 +970,10 @@
      "quotes": 0,
      "views": 35
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4031851132141909517": {
    "id": "4031851132141909517",
@@ -908,7 +1001,10 @@
      "quotes": 0,
      "views": 27
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4031850764385337075": {
    "id": "4031850764385337075",
@@ -936,7 +1032,10 @@
      "quotes": 0,
      "views": 79
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4031850482226167278": {
    "id": "4031850482226167278",
@@ -964,7 +1063,10 @@
      "quotes": 0,
      "views": 24
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "DM / keyword",
+   "stage": "Conversion"
   },
   "4031005038189177597": {
    "id": "4031005038189177597",
@@ -992,7 +1094,10 @@
      "quotes": 0,
      "views": 58
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4030449653191523398": {
    "id": "4030449653191523398",
@@ -1020,7 +1125,10 @@
      "quotes": 0,
      "views": 102
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4030354830111523474": {
    "id": "4030354830111523474",
@@ -1048,7 +1156,10 @@
      "quotes": 0,
      "views": 77
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "DM / keyword",
+   "stage": "Conversion"
   },
   "4030302215260549500": {
    "id": "4030302215260549500",
@@ -1076,7 +1187,10 @@
      "quotes": 0,
      "views": 82
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4030301477977455829": {
    "id": "4030301477977455829",
@@ -1104,7 +1218,10 @@
      "quotes": 0,
      "views": 181
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4030287716264679019": {
    "id": "4030287716264679019",
@@ -1132,7 +1249,10 @@
      "quotes": 0,
      "views": 200
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4030247094120050093": {
    "id": "4030247094120050093",
@@ -1160,7 +1280,10 @@
      "quotes": 0,
      "views": 19
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030075203195474978": {
    "id": "4030075203195474978",
@@ -1188,7 +1311,10 @@
      "quotes": 0,
      "views": 19
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4030075089529852746": {
    "id": "4030075089529852746",
@@ -1216,7 +1342,10 @@
      "quotes": 0,
      "views": 15
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4029469875529555977": {
    "id": "4029469875529555977",
@@ -1244,7 +1373,10 @@
      "quotes": 0,
      "views": 29
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028864400198964441": {
    "id": "4028864400198964441",
@@ -1272,7 +1404,10 @@
      "quotes": 0,
      "views": 110
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028782227492131785": {
    "id": "4028782227492131785",
@@ -1300,7 +1435,10 @@
      "quotes": 0,
      "views": 31
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028581066759723743": {
    "id": "4028581066759723743",
@@ -1328,7 +1466,10 @@
      "quotes": 0,
      "views": 30
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028567922792441230": {
    "id": "4028567922792441230",
@@ -1356,7 +1497,10 @@
      "quotes": 0,
      "views": 21
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028531292668929594": {
    "id": "4028531292668929594",
@@ -1384,7 +1528,10 @@
      "quotes": 0,
      "views": 23
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028525627045003369": {
    "id": "4028525627045003369",
@@ -1412,7 +1559,10 @@
      "quotes": 0,
      "views": 20
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028525360127904632": {
    "id": "4028525360127904632",
@@ -1440,7 +1590,10 @@
      "quotes": 0,
      "views": 9
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028523747610962693": {
    "id": "4028523747610962693",
@@ -1468,7 +1621,10 @@
      "quotes": 0,
      "views": 20
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028523637988592321": {
    "id": "4028523637988592321",
@@ -1496,7 +1652,10 @@
      "quotes": 0,
      "views": 9
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028523454152310490": {
    "id": "4028523454152310490",
@@ -1524,7 +1683,10 @@
      "quotes": 0,
      "views": 11
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028523355351273072": {
    "id": "4028523355351273072",
@@ -1552,7 +1714,10 @@
      "quotes": 0,
      "views": 11
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028523260383846317": {
    "id": "4028523260383846317",
@@ -1580,7 +1745,10 @@
      "quotes": 0,
      "views": 11
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028523142649741198": {
    "id": "4028523142649741198",
@@ -1608,7 +1776,10 @@
      "quotes": 0,
      "views": 17
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4028289867918319505": {
    "id": "4028289867918319505",
@@ -1636,7 +1807,10 @@
      "quotes": 0,
      "views": 35
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4028287004987036453": {
    "id": "4028287004987036453",
@@ -1664,7 +1838,10 @@
      "quotes": 0,
      "views": 40
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4028285674369294197": {
    "id": "4028285674369294197",
@@ -1692,7 +1869,10 @@
      "quotes": 0,
      "views": 38
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   }
  },
  "comments": {

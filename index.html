@@ -245,6 +245,9 @@ a{color:var(--accent)}
       <div class="tile"><div class="k">💬 Replies by them</div><div class="v" id="kReplies">0</div><div class="h" id="kRepliesH"></div></div>
     </div>
     <div class="card"><div class="row" style="justify-content:space-between"><div><h2>🔥 What took off</h2><p class="sub">Posts that got 3x+ their author's usual engagement (median of their last 40 posts). ✅ 5x+ · 🟡 3-5x</p></div><a href="#" class="small" data-go="hooks">Hooks &amp; outliers reports →</a></div><div id="ovOutliers"></div></div>
+    <div class="card"><div class="row" style="justify-content:space-between;align-items:flex-start"><div style="flex:1 1 300px;min-width:0"><h2>🧭 Content funnel</h2><p class="sub">How they move people from a post to an action. Every post is tagged automatically: <b>Reach</b> = made to be shared, <b>Warm-up</b> = invites comments, <b>Conversion</b> = sends to a quiz, link or DM. Bars = × the author's usual engagement.</p></div><a href="#" class="small" data-go="replies">Communication reports →</a></div>
+      <div class="grid g2" style="margin:0"><div><h3 class="small muted" style="margin:4px 0">Funnel stage</h3><div id="chStage"></div><h3 class="small muted" style="margin:14px 0 4px">CTA type</h3><div id="chCta"></div><p class="small muted" id="ovRepCta" style="margin-top:8px"></p></div>
+      <div><h3 class="small muted" style="margin:4px 0">Mechanic (how the post is built)</h3><div id="chMech"></div></div></div></div>
     <div class="grid g2">
       <div class="card"><div class="row" style="justify-content:space-between"><h2>🪝 Hooks</h2><a href="#" class="small" data-go="hooks">Reports →</a></div><p class="sub">Which opening works best, and the first lines of the strongest posts</p><div id="chHook"></div><div id="ovHooks" style="margin-top:12px"></div></div>
       <div class="card"><div class="row" style="justify-content:space-between"><h2>🏷 Topics &amp; words</h2><a href="#" class="small" data-go="topics">Reports →</a></div><p class="sub">Threads topic tags they use, and words that show up more in their best posts</p><div id="ovTags"></div><h3 class="small muted" style="margin:14px 0 6px">Words in the top 25% of posts</h3><div id="ovWords" class="chips"></div></div>
@@ -266,7 +269,7 @@ a{color:var(--accent)}
       <div class="row" style="margin-bottom:10px">
         <input id="pSearch" class="grow" placeholder="Search text">
         <select id="pAccount" style="width:auto"></select>
-        <select id="pSort" style="width:auto"><option value="eng">Top engagement</option><option value="views">Most views</option><option value="date">Newest</option></select>
+        <select id="pMech" style="width:auto" aria-label="Mechanic"><option value="">All mechanics</option></select><select id="pStage" style="width:auto" aria-label="Funnel stage"><option value="">All funnel stages</option><option>Reach</option><option>Warm-up</option><option>Conversion</option></select><select id="pSort" style="width:auto"><option value="eng">Top engagement</option><option value="views">Most views</option><option value="date">Newest</option></select>
       </div>
       <div id="pList"></div>
       <div class="row" style="justify-content:center;margin-top:8px"><button class="btn hidden" id="pMore">Show more</button></div>

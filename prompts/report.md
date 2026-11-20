@@ -18,6 +18,8 @@ By format: {{BY_FORMAT}}
 By length: {{BY_LENGTH}}
 By weekday: {{BY_WEEKDAY}}
 Tags (Threads topic tags and #hashtags): {{TAGS}}
+Content funnel (each post auto-tagged with its mechanic, funnel stage Reach / Warm-up / Conversion, and CTA type; × usual = vs the author's median):
+{{FUNNEL}}
 
 LANGUAGE STATS - POSTS
 {{VOICE_POSTS}}

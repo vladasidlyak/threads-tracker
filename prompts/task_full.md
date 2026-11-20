@@ -7,6 +7,13 @@ How they reply to comments and talk with followers, and which techniques {{BRAND
 - Then "#### Reply templates": 4 ready replies for {{BRAND_NAME}} in {{DRAFTS_LANGUAGE}} (with EN translation if not English) for: a thank-you, a follower sharing a personal story, a question, and a negative comment.
 If no replies or comments were collected, say so in one line and base this on how they write their posts.
 
+### 🧭 Content funnel
+How they move people from a post to an action. Use the CONTENT FUNNEL data.
+- A bold one-line takeaway: which funnel stage they invest in most and which one performs best.
+- 3-4 bullets: the mechanics that work at each stage (Reach = shared, Warm-up = comments, Conversion = quiz, link, DM), with one real example each (EN translation if needed) and its × usual.
+- One bullet on CTAs: how often they use one, which type, where (post, first reply, reply to followers), and whether CTA posts lose reach.
+- "**So what for {{BRAND_NAME}}:**" one sentence: which mechanic to add for the stage we're missing.
+
 ### 🪝 Hooks that worked
 6-8 real first lines from their best posts. For each: the hook as a quote (with EN translation if not English) and its likes, then "→ **Template:**" a fill-in-the-blank version for {{BRAND_NAME}}, marked 🆕 new form or 📚 already in the persona's hook library. Prefer outliers. Best first.
 

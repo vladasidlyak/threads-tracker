@@ -44,7 +44,10 @@
      "quotes": 0,
      "views": 4527
     }
-   ]
+   ],
+   "mech": "Named rule",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4031747281845414835": {
    "id": "4031747281845414835",
@@ -82,7 +85,10 @@
      "quotes": 0,
      "views": 327
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4031200577513131968": {
    "id": "4031200577513131968",
@@ -120,7 +126,10 @@
      "quotes": 1,
      "views": 1146
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4030476239809954775": {
    "id": "4030476239809954775",
@@ -148,7 +157,10 @@
      "quotes": 0,
      "views": 758
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4029750549933806636": {
    "id": "4029750549933806636",
@@ -176,7 +188,10 @@
      "quotes": 1,
      "views": 1633
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4029390459628976456": {
    "id": "4029390459628976456",
@@ -204,7 +219,10 @@
      "quotes": 0,
      "views": 305
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4029027247742856829": {
    "id": "4029027247742856829",
@@ -232,7 +250,10 @@
      "quotes": 0,
      "views": 895
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4028935380651917695": {
    "id": "4028935380651917695",
@@ -260,7 +281,10 @@
      "quotes": 0,
      "views": 433
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4028300720252250432": {
    "id": "4028300720252250432",
@@ -288,7 +312,10 @@
      "quotes": 0,
      "views": 5600
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4027577054955945046": {
    "id": "4027577054955945046",
@@ -316,7 +343,10 @@
      "quotes": 0,
      "views": 1782
     }
-   ]
+   ],
+   "mech": "Situation + question",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4026852157361265848": {
    "id": "4026852157361265848",
@@ -344,7 +374,10 @@
      "quotes": 0,
      "views": 565
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4026550692172317633": {
    "id": "4026550692172317633",
@@ -372,7 +405,10 @@
      "quotes": 0,
      "views": 248
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4026126833912550532": {
    "id": "4026126833912550532",
@@ -400,7 +436,10 @@
      "quotes": 0,
      "views": 955
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4025342266048244988": {
    "id": "4025342266048244988",
@@ -428,7 +467,10 @@
      "quotes": 0,
      "views": 890
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4024668280970627887": {
    "id": "4024668280970627887",
@@ -456,7 +498,10 @@
      "quotes": 0,
      "views": 768
     }
-   ]
+   ],
+   "mech": "Statement",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4023952436760943454": {
    "id": "4023952436760943454",
@@ -484,7 +529,10 @@
      "quotes": 0,
      "views": 1117
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4023228454232772079": {
    "id": "4023228454232772079",
@@ -512,7 +560,10 @@
      "quotes": 0,
      "views": 312
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4022503691990246785": {
    "id": "4022503691990246785",
@@ -540,7 +591,10 @@
      "quotes": 1,
      "views": 663
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4021779054868709382": {
    "id": "4021779054868709382",
@@ -568,7 +622,10 @@
      "quotes": 0,
      "views": 1484
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4021537921462488693": {
    "id": "4021537921462488693",
@@ -596,7 +653,10 @@
      "quotes": 0,
      "views": 352
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4021053344051300613": {
    "id": "4021053344051300613",
@@ -624,7 +684,10 @@
      "quotes": 0,
      "views": 3218
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4020269024419126899": {
    "id": "4020269024419126899",
@@ -652,7 +715,10 @@
      "quotes": 1,
      "views": 721
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4019604367410052766": {
    "id": "4019604367410052766",
@@ -680,7 +746,10 @@
      "quotes": 0,
      "views": 1155
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4018879614612756897": {
    "id": "4018879614612756897",
@@ -708,7 +777,10 @@
      "quotes": 0,
      "views": 1190
     }
-   ]
+   ],
+   "mech": "Personal confession",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4018154323426542699": {
    "id": "4018154323426542699",
@@ -736,7 +808,10 @@
      "quotes": 1,
      "views": 4381
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4017429610442378008": {
    "id": "4017429610442378008",
@@ -764,7 +839,10 @@
      "quotes": 0,
      "views": 806
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4016705265197692729": {
    "id": "4016705265197692729",
@@ -792,7 +870,10 @@
      "quotes": 0,
      "views": 1020
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4015979759414455326": {
    "id": "4015979759414455326",
@@ -820,7 +901,10 @@
      "quotes": 0,
      "views": 1175
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4015830393470625975": {
    "id": "4015830393470625975",
@@ -848,7 +932,10 @@
      "quotes": 0,
      "views": 318
     }
-   ]
+   ],
+   "mech": "One-liner",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "4015224866777042696": {
    "id": "4015224866777042696",
@@ -876,7 +963,10 @@
      "quotes": 0,
      "views": 721
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3995509214097628252": {
    "id": "3995509214097628252",
@@ -904,7 +994,10 @@
      "quotes": 0,
      "views": 63
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3994841110165451613": {
    "id": "3994841110165451613",
@@ -932,7 +1025,10 @@
      "quotes": 0,
      "views": 23
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3965054230977718559": {
    "id": "3965054230977718559",
@@ -960,7 +1056,10 @@
      "quotes": 0,
      "views": 77
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3884659254687570970": {
    "id": "3884659254687570970",
@@ -988,7 +1087,10 @@
      "quotes": 0,
      "views": 111
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "3884658134103761831": {
    "id": "3884658134103761831",
@@ -1016,7 +1118,10 @@
      "quotes": 0,
      "views": 82
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3875226594713925770": {
    "id": "3875226594713925770",
@@ -1044,7 +1149,10 @@
      "quotes": 0,
      "views": 50
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "3839014003637050434": {
    "id": "3839014003637050434",
@@ -1072,7 +1180,10 @@
      "quotes": 0,
      "views": 80
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3839013904718561308": {
    "id": "3839013904718561308",
@@ -1100,7 +1211,10 @@
      "quotes": 0,
      "views": 32
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3836665764007289879": {
    "id": "3836665764007289879",
@@ -1128,7 +1242,10 @@
      "quotes": 0,
      "views": 45
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "3836664114379148947": {
    "id": "3836664114379148947",
@@ -1156,7 +1273,10 @@
      "quotes": 0,
      "views": 30
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "3789621587566750414": {
    "id": "3789621587566750414",
@@ -1184,7 +1304,10 @@
      "quotes": 0,
      "views": 109
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "3772972084516435497": {
    "id": "3772972084516435497",
@@ -1212,7 +1335,10 @@
      "quotes": 0,
      "views": 71
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3772972008758963001": {
    "id": "3772972008758963001",
@@ -1240,7 +1366,10 @@
      "quotes": 0,
      "views": 25
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3772971929478194056": {
    "id": "3772971929478194056",
@@ -1268,7 +1397,10 @@
      "quotes": 0,
      "views": 20
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3762792744680010042": {
    "id": "3762792744680010042",
@@ -1296,7 +1428,10 @@
      "quotes": 0,
      "views": 38
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3762792580431063645": {
    "id": "3762792580431063645",
@@ -1324,7 +1459,10 @@
      "quotes": 0,
      "views": 24
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3760046702846400146": {
    "id": "3760046702846400146",
@@ -1352,7 +1490,10 @@
      "quotes": 0,
      "views": 26
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "3731113913975669359": {
    "id": "3731113913975669359",
@@ -1380,7 +1521,10 @@
      "quotes": 0,
      "views": 32
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3731113851740595914": {
    "id": "3731113851740595914",
@@ -1408,7 +1552,10 @@
      "quotes": 0,
      "views": 16
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3731113783885152838": {
    "id": "3731113783885152838",
@@ -1436,7 +1583,10 @@
      "quotes": 0,
      "views": 12
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3731113730583888529": {
    "id": "3731113730583888529",
@@ -1464,7 +1614,10 @@
      "quotes": 0,
      "views": 15
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3727904511542336249": {
    "id": "3727904511542336249",
@@ -1492,7 +1645,10 @@
      "quotes": 0,
      "views": 14
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3725953886344305686": {
    "id": "3725953886344305686",
@@ -1520,7 +1676,10 @@
      "quotes": 0,
      "views": 20
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3725953835844842747": {
    "id": "3725953835844842747",
@@ -1548,7 +1707,10 @@
      "quotes": 0,
      "views": 21
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3725953782174577397": {
    "id": "3725953782174577397",
@@ -1576,7 +1738,10 @@
      "quotes": 0,
      "views": 22
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3725953724762911928": {
    "id": "3725953724762911928",
@@ -1604,7 +1769,10 @@
      "quotes": 0,
      "views": 18
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3720295624101925694": {
    "id": "3720295624101925694",
@@ -1632,7 +1800,10 @@
      "quotes": 0,
      "views": 33
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "3709165021881583427": {
    "id": "3709165021881583427",
@@ -1660,7 +1831,10 @@
      "quotes": 0,
      "views": 96
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "3705895654477967929": {
    "id": "3705895654477967929",
@@ -1688,7 +1862,10 @@
      "quotes": 0,
      "views": 44
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "Link in bio / link",
+   "stage": "Conversion"
   },
   "3694626756086530198": {
    "id": "3694626756086530198",
@@ -1716,7 +1893,10 @@
      "quotes": 0,
      "views": 61
     }
-   ]
+   ],
+   "mech": "Reply",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4034100540375468470": {
    "id": "4034100540375468470",
@@ -1746,7 +1926,10 @@
      "quotes": 1,
      "views": 1111
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "None",
+   "stage": "Reach"
   },
   "4033375056255272850": {
    "id": "4033375056255272850",
@@ -1776,7 +1959,10 @@
      "quotes": 0,
      "views": 1651
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4032650756070501786": {
    "id": "4032650756070501786",
@@ -1806,7 +1992,10 @@
      "quotes": 0,
      "views": 909
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   },
   "4031925405031347011": {
    "id": "4031925405031347011",
@@ -1836,7 +2025,10 @@
      "quotes": 0,
      "views": 839
     }
-   ]
+   ],
+   "mech": "Story",
+   "cta": "Question / comments",
+   "stage": "Warm-up"
   }
  },
  "comments": {

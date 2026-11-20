@@ -67,7 +67,7 @@ function barChart(el, groups, order, val = eng, vf = n => fmt(Math.round(n))) {
 function postHTML(p, showParent) {
   const d = p.date ? new Date(p.date) : null;
   return `<div class="post">
-    <div class="meta"><b>@${esc(p.account)}</b><span>${d ? d.toLocaleDateString("en-GB", {day:"numeric",month:"short",year:"numeric"}) + " " + d.toLocaleTimeString("en-GB", {hour:"2-digit",minute:"2-digit"}) : "no date"}</span><span class="tag">${esc(p.type === "reply" ? "reply" : formatOf(p.text))}</span>${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">open</a>` : ""}</div>
+    <div class="meta"><b>@${esc(p.account)}</b><span>${d ? d.toLocaleDateString("en-GB", {day:"numeric",month:"short",year:"numeric"}) + " " + d.toLocaleTimeString("en-GB", {hour:"2-digit",minute:"2-digit"}) : "no date"}</span><span class="tag">${esc(p.type === "reply" ? "reply" : (p.mech || formatOf(p.text)))}</span>${p.stage && p.type !== "reply" ? `<span class="tag">${esc(p.stage)}</span>` : ""}${p.cta && p.cta !== "None" ? `<span class="tag">CTA: ${esc(p.cta)}</span>` : ""}${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">open</a>` : ""}</div>
     ${showParent && (p.parentText || p.parentAuthor) ? `<div class="parent">${p.parentAuthor ? "<b>@" + esc(p.parentAuthor) + "</b>: " : ""}${esc(p.parentText || "(original text not available)")}</div>` : ""}
     <div class="txt">${esc(p.text) || '<span class="muted">(image or video without text)</span>'}</div>
     <div class="stats"><span>♥ ${fmt(p.likes)}</span><span>💬 ${fmt(p.replies)}</span><span>↻ ${fmt(p.reposts)}</span>${p.quotes ? `<span>❝ ${fmt(p.quotes)}</span>` : ""}${p.views ? `<span>👁 ${fmt(p.views)}</span>` : ""}${p.shares ? `<span>➤ ${fmt(p.shares)}</span>` : ""}<span><b>${fmt(eng(p))}</b> total</span></div>
@@ -152,7 +152,7 @@ function renderOverview() {
   const outs = xs.filter(o => o.x >= 3).slice(0, 6);
   $("#ovOutliers").innerHTML = outs.length ? outs.map(({ p, x }) => {
     const h = firstLine(p.text), rest = (p.text || "").trim().slice(h.length).trim();
-    return `<div class="ol"><div class="meta"><span class="xb">${x >= 5 ? "✅" : "🟡"} ${xFmt(x)} usual</span><b>@${esc(p.account)}</b><span>${p.date ? new Date(p.date).toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : ""}</span><span class="tag">${esc(formatOf(p.text))}</span>${p.topicTag ? `<span class="tag">#${esc(p.topicTag)}</span>` : ""}<span>♥ ${fmt(p.likes)} 💬 ${fmt(p.replies)} ↻ ${fmt(p.reposts)}${p.views ? " 👁 " + fmt(p.views) : ""}</span>${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">open ↗</a>` : ""}</div><div class="hook">${esc(h) || '<span class="muted">(image or video)</span>'}</div>${rest ? `<div class="rest">${esc(rest)}</div>` : ""}</div>`;
+    return `<div class="ol"><div class="meta"><span class="xb">${x >= 5 ? "✅" : "🟡"} ${xFmt(x)} usual</span><b>@${esc(p.account)}</b><span>${p.date ? new Date(p.date).toLocaleDateString("en-GB", { day: "numeric", month: "short" }) : ""}</span><span class="tag">${esc(p.mech || formatOf(p.text))}</span>${p.stage ? `<span class="tag">${esc(p.stage)}</span>` : ""}${p.topicTag ? `<span class="tag">#${esc(p.topicTag)}</span>` : ""}<span>♥ ${fmt(p.likes)} 💬 ${fmt(p.replies)} ↻ ${fmt(p.reposts)}${p.views ? " 👁 " + fmt(p.views) : ""}</span>${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">open ↗</a>` : ""}</div><div class="hook">${esc(h) || '<span class="muted">(image or video)</span>'}</div>${rest ? `<div class="rest">${esc(rest)}</div>` : ""}</div>`;
   }).join("") : '<p class="muted small">No post reached 3x its author\'s usual engagement in this range. Try "All time".</p>';
 
   // hooks
@@ -192,6 +192,16 @@ function renderOverview() {
   $("#ovReps").innerHTML = reportsList.length ? '<h3 class="small muted" style="margin:0 0 4px">Latest reports</h3>' + reportsList.map(r => `<div class="mini"><a href="#" data-rep="${esc(r.path)}">${FI[r.focus] || "📄"} ${esc(r.title)}</a> <span class="muted small">· ${r.scope === "single" ? "@" + esc((r.accounts || [])[0] || "") : "all competitors"} · ${new Date(r.created).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span></div>`).join("") : "";
   $$("#ovReps [data-rep]").forEach(a => a.onclick = e => { e.preventDefault(); goto("reports", "r-all"); openReportView(""); openReport(a.dataset.rep); });
 
+  // content funnel
+  const MECH_ORDER = ["Transformation story", "Story", "Situation + question", "Personal confession", "List / signs", "Named rule", "Contrast pair",
+    "Hot take", "Myth reframe", "Advice / tip", "Fill in the blank", "Question to audience", "Quote", "One-liner", "Statement"];
+  const CTA_ORDER = ["None", "Question / comments", "Save / share", "Follow", "DM / keyword", "Quiz / test", "Link in bio / link", "Newsletter / sign-up"];
+  barChart($("#chStage"), groupBy(posts, p => p.stage), ["Reach", "Warm-up", "Conversion"], xOf, xFmt);
+  barChart($("#chMech"), groupBy(posts, p => p.mech), MECH_ORDER, xOf, xFmt);
+  barChart($("#chCta"), groupBy(posts, p => p.cta), CTA_ORDER, xOf, xFmt);
+  const rc = {}; reps.forEach(r => { if (r.cta && r.cta !== "None") rc[r.cta] = (rc[r.cta] || 0) + 1; });
+  $("#ovRepCta").textContent = reps.length ? ("CTAs inside their replies: " + (Object.keys(rc).length ? Object.entries(rc).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${k} ${v}`).join(", ") : "none") + ` (of ${reps.length} replies).`) : "";
+
   // format & timing
   barChart($("#chLen"), groupBy(posts, p => lenOf(p.text)), LEN_ORDER, xOf, xFmt);
   barChart($("#chMedia"), groupBy(posts, p => ({ text: "Text only", image: "Image", video: "Video", carousel: "Carousel" })[p.media] || (p.media ? p.media[0].toUpperCase() + p.media.slice(1) : null)), ["Text only", "Image", "Carousel", "Video"], xOf, xFmt);
@@ -201,8 +211,11 @@ function renderOverview() {
   $("#weakPosts").innerHTML = posts.length > 10 ? weak.map(o => `<div class="mini"><div class="meta"><span class="xb">${xFmt(o.x)}</span><b>@${esc(o.p.account)}</b><span class="tag">${esc(formatOf(o.p.text))}</span></div>${esc((o.p.text || "").slice(0, 220))}</div>`).join("") : '<p class="muted small">Needs more than 10 posts.</p>';
 }
 function renderPosts() {
-  const q = $("#pSearch").value.toLowerCase(), acc = $("#pAccount").value, sort = $("#pSort").value;
-  const l = filtered(acc, 0, "post").filter(p => !q || p.text.toLowerCase().includes(q));
+  const q = $("#pSearch").value.toLowerCase(), acc = $("#pAccount").value, sort = $("#pSort").value, mech = $("#pMech").value, stage = $("#pStage").value;
+  const all = filtered(acc, 0, "post");
+  const mechs = [...new Set(allPosts().filter(p => p.type === "post").map(p => p.mech).filter(Boolean))].sort();
+  if ($("#pMech").options.length - 1 !== mechs.length) { const cur = $("#pMech").value; $("#pMech").innerHTML = '<option value="">All mechanics</option>' + mechs.map(m => `<option>${esc(m)}</option>`).join(""); $("#pMech").value = cur; }
+  const l = all.filter(p => (!q || p.text.toLowerCase().includes(q)) && (!mech || p.mech === mech) && (!stage || p.stage === stage));
   l.sort(sort === "eng" ? (a, b) => eng(b) - eng(a) : sort === "views" ? (a, b) => (b.views || 0) - (a.views || 0) : (a, b) => (b.date || "").localeCompare(a.date || ""));
   $("#pList").innerHTML = l.length ? l.slice(0, S.pLimit).map(p => postHTML(p, false)).join("") : '<p class="empty">No posts match.</p>';
   $("#pMore").classList.toggle("hidden", l.length <= S.pLimit);
@@ -526,7 +539,7 @@ $$("#nav button").forEach(b => b.onclick = () => { goto(b.dataset.tab, b.dataset
 ["#ovAccount", "#ovRange"].forEach(s => $(s).onchange = renderOverview);
 $("#ovBrand").onchange = () => { fillOvAccounts(); renderOverview(); };
 $$("#tab-overview [data-go]").forEach(a => a.onclick = e => { e.preventDefault(); goView(a.dataset.go); });
-$("#pSearch").oninput = () => { S.pLimit = 30; renderPosts(); }; $("#pAccount").onchange = $("#pSort").onchange = () => { S.pLimit = 30; renderPosts(); };
+$("#pSearch").oninput = () => { S.pLimit = 30; renderPosts(); }; $("#pAccount").onchange = $("#pMech").onchange = $("#pStage").onchange = $("#pSort").onchange = () => { S.pLimit = 30; renderPosts(); };
 $("#pMore").onclick = () => { S.pLimit += 30; renderPosts(); };
 $("#rSearch").oninput = () => { S.rLimit = 30; renderReplies(); }; $("#rAccount").onchange = () => { S.rLimit = 30; renderReplies(); };
 $("#rMore").onclick = () => { S.rLimit += 30; renderReplies(); };
