@@ -1,5 +1,17 @@
 [
  {
+  "path": "reports/stephanspeaks/2026-11-20-2134-hooks-jeff.md",
+  "title": "Hooks & outliers",
+  "accounts": [
+   "stephanspeaks"
+  ],
+  "brand": "jeff",
+  "focus": "hooks",
+  "scope": "single",
+  "created": "2026-11-20T21:34:59Z",
+  "requestedBy": "claude"
+ },
+ {
   "path": "reports/ju_zeppa/2026-11-20-1412-full-ines.md",
   "title": "Full analysis",
   "accounts": [

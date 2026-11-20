@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T17:54:40Z",
+ "updated": "2026-11-20T21:34:59Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -167,9 +167,35 @@
    "note": "Jeff's own account",
    "posts": 0,
    "replies": 0
+  },
+  {
+   "handle": "stephanspeaks",
+   "note": "",
+   "brands": [
+    "jeff"
+   ],
+   "own": "",
+   "fullName": "Self Love. Dating. Relationships. God.",
+   "followers": 521472,
+   "lastFetched": "2026-11-20T21:34:44Z",
+   "posts": 51,
+   "replies": 1,
+   "commentThreads": 0
   }
  ],
  "reports": [
+  {
+   "path": "reports/stephanspeaks/2026-11-20-2134-hooks-jeff.md",
+   "title": "Hooks & outliers",
+   "accounts": [
+    "stephanspeaks"
+   ],
+   "brand": "jeff",
+   "focus": "hooks",
+   "scope": "single",
+   "created": "2026-11-20T21:34:59Z",
+   "requestedBy": "claude"
+  },
   {
    "path": "reports/ju_zeppa/2026-11-20-1412-full-ines.md",
    "title": "Full analysis",
@@ -406,9 +432,9 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 3.22,
+  "spent": 3.3,
   "budget": 5,
-  "apify": 1.72,
+  "apify": 1.81,
   "claude": 1.49,
   "apifyBudget": 4.8,
   "claudeBudget": 5
