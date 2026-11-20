@@ -193,9 +193,6 @@ function renderOverview() {
   $$("#ovReps [data-rep]").forEach(a => a.onclick = e => { e.preventDefault(); goto("reports", "r-all"); openReportView(""); openReport(a.dataset.rep); });
 
   // content funnel
-  const MECH_ORDER = ["Transformation story", "Story", "Situation + question", "Personal confession", "List / signs", "Named rule", "Contrast pair",
-    "Hot take", "Myth reframe", "Advice / tip", "Fill in the blank", "Question to audience", "Quote", "One-liner", "Statement"];
-  const CTA_ORDER = ["None", "Question / comments", "Save / share", "Follow", "DM / keyword", "Quiz / test", "Link in bio / link", "Newsletter / sign-up"];
   barChart($("#chStage"), groupBy(posts, p => p.stage), ["Reach", "Warm-up", "Conversion"], xOf, xFmt);
   barChart($("#chMech"), groupBy(posts, p => p.mech), MECH_ORDER, xOf, xFmt);
   barChart($("#chCta"), groupBy(posts, p => p.cta), CTA_ORDER, xOf, xFmt);
@@ -552,11 +549,79 @@ if (gh) $("#ghRepo").href = gh;
 $("#ghReport").onclick = e => { e.preventDefault(); goto("reports", "r-all"); openReportView(""); $("#runCard").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#runBrand").focus(), 400); };
 $("#runUrl").addEventListener("input", runFormUI);
 
+
+/* ---------- ORM: CTA & funnels, audience questions ---------- */
+function fillScope(p) {
+  const bs = $("#" + p + "Brand"), el = $("#" + p + "Account");
+  if (S.brands && bs.options.length < 2) bs.innerHTML = '<option value="">All ambassadors</option>' + Object.entries(S.brands).filter(([k]) => !["liven", "overwell"].includes(k)).map(([k, b]) => `<option value="${esc(k)}">${esc(b.name)}</option>`).join("");
+  const br = bs.value, cur = el.value, meta = h => (S.index.accounts || []).find(a => a.handle === h) || {};
+  const comp = Object.keys(S.accounts).filter(h => !isOwn(h) && (!br || (meta(h).brands || []).includes(br))).sort();
+  el.innerHTML = `<option value="">${br ? "All their competitors" : "All competitors"}</option>` + comp.map(a => `<option value="${esc(a)}">@${esc(a)}</option>`).join("");
+  if (comp.includes(cur)) el.value = cur;
+  return el.value ? [el.value] : comp;
+}
+const MECH_ORDER = ["Transformation story", "Story", "Situation + question", "Personal confession", "List / signs", "Named rule", "Contrast pair",
+  "Hot take", "Myth reframe", "Advice / tip", "Fill in the blank", "Question to audience", "Quote", "One-liner", "Statement"];
+const CTA_ORDER = ["None", "Question / comments", "Save / share", "Follow", "DM / keyword", "Quiz / test", "Link in bio / link", "Newsletter / sign-up"];
+const HARD_CTA = new Set(["Quiz / test", "Link in bio / link", "DM / keyword", "Newsletter / sign-up"]);
+function renderCta() {
+  if (!S.index) return;
+  const hs = new Set(fillScope("cta")), range = $("#ctaRange").value;
+  const posts = filtered("", range, "post").filter(p => hs.has(p.account)), reps = filtered("", range, "reply").filter(p => hs.has(p.account));
+  barChart($("#ctaStage"), groupBy(posts, p => p.stage), ["Reach", "Warm-up", "Conversion"], xOf, xFmt);
+  barChart($("#ctaType"), groupBy(posts, p => p.cta), CTA_ORDER, xOf, xFmt);
+  barChart($("#ctaMech"), groupBy(posts, p => p.mech), MECH_ORDER, xOf, xFmt);
+  const rows = [...hs].map(h => {
+    const ps = posts.filter(p => p.account === h), rs = reps.filter(p => p.account === h);
+    if (!ps.length && !rs.length) return null;
+    const withC = ps.filter(p => HARD_CTA.has(p.cta)), without = ps.filter(p => !HARD_CTA.has(p.cta));
+    const types = {}; [...ps, ...rs].forEach(p => { if (HARD_CTA.has(p.cta)) types[p.cta] = (types[p.cta] || 0) + 1; });
+    const main = Object.entries(types).sort((a, b) => b[1] - a[1])[0];
+    return { h, n: ps.length, pct: ps.length ? Math.round(withC.length / ps.length * 100) : 0, main: main ? main[0] : "-",
+      xc: withC.length ? median(withC.map(xOf)) : null, xn: without.length ? median(without.map(xOf)) : null,
+      rc: rs.filter(p => HARD_CTA.has(p.cta)).length, rn: rs.length };
+  }).filter(Boolean).sort((a, b) => b.pct - a.pct);
+  $("#ctaTable").innerHTML = rows.length ? `<table><tr><th>Account</th><th class="n">Posts</th><th class="n">With CTA</th><th>Main CTA</th><th class="n">CTA posts</th><th class="n">Other posts</th><th class="n">CTA in replies</th></tr>${rows.map(r => `<tr><td>@${esc(r.h)}</td><td class="n">${r.n}</td><td class="n">${r.pct}%</td><td>${esc(r.main)}</td><td class="n">${r.xc == null ? "-" : xFmt(r.xc)}</td><td class="n">${r.xn == null ? "-" : xFmt(r.xn)}</td><td class="n">${r.rc} of ${r.rn}</td></tr>`).join("")}</table><p class="small muted">CTA posts / Other posts = × the author's usual engagement. If CTA posts are far below 1.0x, the CTA costs them reach.</p>` : '<p class="muted small">No data in this range.</p>';
+  const cp = posts.filter(p => HARD_CTA.has(p.cta)).sort((a, b) => xOf(b) - xOf(a)).slice(0, 8);
+  $("#ctaPosts").innerHTML = cp.length ? cp.map(p => `<div class="mini"><div class="meta"><span class="xb">${xFmt(xOf(p))}</span><b>@${esc(p.account)}</b><span class="tag">${esc(p.cta)}</span><span class="tag">${esc(p.mech || "")}</span>${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">open ↗</a>` : ""}</div>${esc((p.text || "").slice(0, 280))}${(p.text || "").length > 280 ? "…" : ""}</div>`).join("") : '<p class="muted small">No posts with a CTA in this range.</p>';
+  const cr = reps.filter(p => HARD_CTA.has(p.cta)).sort((a, b) => (b.likes || 0) - (a.likes || 0)).slice(0, 8);
+  $("#ctaReplies").innerHTML = cr.length ? cr.map(r => `<div class="mini">${r.parentText ? `<div class="par">↳ ${r.parentAuthor ? "@" + esc(r.parentAuthor) + ": " : ""}${esc(r.parentText.slice(0, 100))}${r.parentText.length > 100 ? "…" : ""}</div>` : ""}<div class="meta"><b>@${esc(r.account)}</b><span class="tag">${esc(r.cta)}</span><span>♥ ${fmt(r.likes)}</span></div>${esc((r.text || "").slice(0, 240))}</div>`).join("") : '<p class="muted small">No CTAs in their replies in this range.</p>';
+}
+S.qLimit = 30;
+function renderQuestions() {
+  if (!S.index) return;
+  const hs = new Set(fillScope("q")), range = +$("#qRange").value, now = Date.now();
+  const inRange = d => !range || (d && now - new Date(d) < range * 864e5);
+  const isQ = t => /[?¿]/.test(t || "");
+  const items = [];
+  // follower messages the competitor replied to
+  allPosts().filter(p => p.type === "reply" && hs.has(p.account) && inRange(p.date) && p.parentAuthor && p.parentAuthor !== p.account && isQ(p.parentText))
+    .forEach(p => items.push({ q: p.parentText, who: p.parentAuthor, acc: p.account, ans: p.text, likes: p.likes || 0, date: p.date, url: p.url }));
+  // questions in comment threads under their posts
+  Object.values(S.accounts).forEach(a => { if (!hs.has(a.handle)) return; Object.entries(a.comments || {}).forEach(([pid, list]) => {
+    list.forEach((c, i) => { if (c.isAuthor || !isQ(c.text)) return; const ans = list.slice(i + 1).find(x => x.isAuthor && x.depth > c.depth);
+      items.push({ q: c.text, who: c.username, acc: a.handle, ans: ans ? ans.text : "", likes: c.likes || 0, date: (a.posts[pid] || {}).date, url: (a.posts[pid] || {}).url }); }); }); });
+  const s = $("#qSearch").value.toLowerCase(), f = $("#qFilter").value;
+  const list = items.filter(i => (!s || (i.q + " " + i.ans).toLowerCase().includes(s)) && (!f || (f === "answered") === !!i.ans)).sort((a, b) => (b.date || "").localeCompare(a.date || ""));
+  const answered = items.filter(i => i.ans).length;
+  $("#qSummary").textContent = items.length ? `${items.length} questions found · ${answered} answered by the author.` : "";
+  $("#qList").innerHTML = list.length ? list.slice(0, S.qLimit).map(i => `<div class="mini"><div class="meta"><b>@${esc(i.who)}</b><span>to @${esc(i.acc)}</span>${i.date ? `<span>${new Date(i.date).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span>` : ""}${i.url ? `<a href="${esc(i.url)}" target="_blank" rel="noopener">open ↗</a>` : ""}</div><div>❓ ${esc(i.q.slice(0, 300))}</div>${i.ans ? `<div class="par" style="margin-top:4px">↳ <b>@${esc(i.acc)}:</b> ${esc(i.ans.slice(0, 300))}</div>` : '<div class="par" style="margin-top:4px">↳ no answer from the author</div>'}</div>`).join("")
+    : '<p class="muted small">No follower questions collected in this range. Tick "Also collect comments" when you run a report to get more.</p>';
+  $("#qMore").classList.toggle("hidden", list.length <= S.qLimit);
+}
+["cta", "q"].forEach(p => {
+  const fn = () => p === "cta" ? renderCta() : renderQuestions();
+  $("#" + p + "Brand").onchange = () => { $("#" + p + "Account").value = ""; fn(); };
+  $("#" + p + "Account").onchange = $("#" + p + "Range").onchange = fn;
+});
+$("#qSearch").oninput = $("#qFilter").onchange = () => { S.qLimit = 30; renderQuestions(); };
+$("#qMore").onclick = () => { S.qLimit += 30; renderQuestions(); };
+
 async function reloadData() {
   S.index = await getJSON("data/index.json"); S.accounts = {}; Object.keys(medCache).forEach(k => delete medCache[k]);
   try { S.hyps = await getJSON("data/hypotheses.json"); } catch (e) {}
   await Promise.all(S.index.accounts.filter(a => a.posts || a.replies).map(async a => { try { S.accounts[a.handle] = await getJSON(`data/accounts/${a.handle}.json`); } catch (e) {} }));
-  fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList(); runFormUI();
+  fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCta(); renderQuestions(); renderCompare(); renderReportList(); runFormUI();
   dataHooks.forEach(f => { try { f(); } catch (e) { console.error(e); } });
 }
 (async function loadBrands() {
@@ -565,7 +630,7 @@ async function reloadData() {
     try { brands = await getJSON("config/brands.json"); } catch (e) { brands = (await getJSON("data/index.json")).brands; }
     S.brands = brands;
     $("#ovBrand").innerHTML = '<option value="">All ambassadors</option>' + Object.entries(brands).filter(([k]) => !["liven", "overwell"].includes(k)).map(([k, b]) => `<option value="${esc(k)}">${esc(b.name)}</option>`).join("");
-    if (S.index) { fillOvAccounts(); renderOverview(); }
+    if (S.index) { fillOvAccounts(); renderOverview(); renderCta(); renderQuestions(); }
     $$(".brand-select").forEach(sel => {
       const cur = sel.value;
       const opt = ([k, b]) => `<option value="${esc(k)}">For: ${esc(b.name)}</option>`;
@@ -586,7 +651,7 @@ async function reloadData() {
     const u = S.index.usage;
     if (u && u.apifyBudget) $("#updated").textContent += ` · This month: Apify $${Number(u.apify || 0).toFixed(2)} of $${u.apifyBudget} (free credit), Claude $${Number(u.claude || 0).toFixed(2)} of $${u.claudeBudget}`;
     else if (u && u.budget) $("#updated").textContent += ` · Spent this month $${Number(u.spent || 0).toFixed(2)} of $${u.budget}`;
-    fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCompare(); renderReportList(); runFormUI();
+    fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCta(); renderQuestions(); renderCompare(); renderReportList(); runFormUI();
     dataHooks.forEach(f => { try { f(); } catch (e) { console.error(e); } });
     if (!Object.keys(S.accounts).length) $("#loadMsg").textContent = "No data yet. Run \"Get report\" in GitHub Actions to collect the first account.";
     else $("#loadMsg").classList.add("hidden");

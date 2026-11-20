@@ -208,10 +208,12 @@ a{color:var(--accent)}
     <button data-tab="overview" data-key="overview" class="on"><span class="ico">▦</span>Overview</button>
     <button data-tab="compare" data-key="compare"><span class="ico">⇄</span>Compare accounts</button>
     <button data-tab="posts" data-key="posts"><span class="ico">≡</span>All posts</button>
-    <div class="nav-label">ORM · Communication</div>
+    <div class="nav-label">ORM · Competitor communication</div>
     <button data-tab="replies" data-key="replies"><span class="ico">↩</span>Replies &amp; comments</button>
-    <button data-tab="reports" data-key="r-replies" data-focus="replies"><span class="ico">💬</span>Communication reports</button>
+    <button data-tab="questions" data-key="questions"><span class="ico">❓</span>Audience questions</button>
+    <button data-tab="cta" data-key="cta"><span class="ico">🧭</span>CTA &amp; funnels</button>
     <button data-tab="voice" data-key="voice"><span class="ico">Aa</span>Tone of voice</button>
+    <button data-tab="reports" data-key="r-replies" data-focus="replies"><span class="ico">💬</span>Communication reports</button>
     <div class="nav-label">Brand · Content</div>
     <button data-tab="reports" data-key="r-hooks" data-focus="hooks"><span class="ico">🪝</span>Hooks &amp; outliers</button>
     <button data-tab="reports" data-key="r-topics" data-focus="topics"><span class="ico">🏷</span>Topics &amp; tags</button>
@@ -276,6 +278,31 @@ a{color:var(--accent)}
     </div>
   </section>
 
+  <section id="tab-cta" class="hidden">
+    <div class="row" style="margin-bottom:14px">
+      <select id="ctaBrand" class="scope-brand" style="width:auto" aria-label="Ambassador"><option value="">All ambassadors</option></select>
+      <select id="ctaAccount" style="width:auto" aria-label="Competitor"></select>
+      <select id="ctaRange" style="width:auto" aria-label="Date range"><option value="0">All time</option><option value="30">Last 30 days</option><option value="90" selected>Last 90 days</option></select>
+    </div>
+    <div class="card"><h2>🧭 How competitors move people to action</h2><p class="sub">Every post is tagged automatically. <b>Reach</b> = made to be shared · <b>Warm-up</b> = invites comments · <b>Conversion</b> = sends to a quiz, link, DM or newsletter. Bars = × the author's usual engagement (1.0x = a typical post).</p>
+      <div class="grid g2" style="margin:0"><div><h3 class="small muted" style="margin:4px 0">Funnel stage</h3><div id="ctaStage"></div><h3 class="small muted" style="margin:14px 0 4px">CTA type</h3><div id="ctaType"></div></div>
+      <div><h3 class="small muted" style="margin:4px 0">Mechanic (how the post is built)</h3><div id="ctaMech"></div></div></div></div>
+    <div class="card"><h2>By competitor</h2><p class="sub">How often each one uses a CTA, which kind, and whether CTA posts lose engagement.</p><div id="ctaTable"></div></div>
+    <div class="grid g2">
+      <div class="card"><h2>CTA examples in posts</h2><p class="sub">Conversion posts, strongest first</p><div id="ctaPosts"></div></div>
+      <div class="card"><h2>CTAs inside their replies</h2><p class="sub">Where they push a link, quiz, DM or newsletter in comments - check if it reads as spam</p><div id="ctaReplies"></div></div>
+    </div>
+  </section>
+  <section id="tab-questions" class="hidden">
+    <div class="row" style="margin-bottom:14px">
+      <select id="qBrand" class="scope-brand" style="width:auto" aria-label="Ambassador"><option value="">All ambassadors</option></select>
+      <select id="qAccount" style="width:auto" aria-label="Competitor"></select>
+      <select id="qRange" style="width:auto" aria-label="Date range"><option value="0">All time</option><option value="30">Last 30 days</option><option value="90" selected>Last 90 days</option></select>
+    </div>
+    <div class="card"><h2>❓ What their audience asks - and how they answer</h2><p class="sub">Questions from followers under competitors' posts and in the threads they replied to. Use them for macros, FAQ, training and content ideas. <span id="qSummary"></span></p>
+      <div class="row" style="margin:8px 0"><input id="qSearch" class="grow" placeholder="Search questions"><select id="qFilter" style="width:auto"><option value="">All</option><option value="answered">Answered by the author</option><option value="unanswered">Not answered</option></select></div>
+      <div id="qList"></div><div class="row" style="justify-content:center;margin-top:8px"><button class="btn hidden" id="qMore">Show more</button></div></div>
+  </section>
   <section id="tab-replies" class="hidden">
     <div class="row" style="margin-bottom:14px">
       <input id="rSearch" class="grow" placeholder="Search replies">
