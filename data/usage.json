@@ -1,6 +1,6 @@
 {
  "2026-11": {
-  "total": 2.5183,
+  "total": 2.5303,
   "items": [
    {
     "t": "2026-11-16T15:48:20Z",
@@ -253,6 +253,18 @@
     "kind": "claude",
     "usd": 0.0034,
     "what": "[economy] You are a social media strategist analyzing competitors on Threads.  B"
+   },
+   {
+    "t": "2026-11-20T13:22:59Z",
+    "kind": "claude",
+    "usd": 0.0076,
+    "what": "[economy] You are a content strategist. Using the competitor research below, cre"
+   },
+   {
+    "t": "2026-11-20T13:23:20Z",
+    "kind": "claude",
+    "usd": 0.0044,
+    "what": "[economy] You are a content strategist continuing a content plan that is already"
    }
   ]
  }

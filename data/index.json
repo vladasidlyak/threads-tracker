@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T13:21:47Z",
+ "updated": "2026-11-20T13:23:20Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -321,6 +321,15 @@
  ],
  "plans": [
   {
+   "id": "2026-11-20-1323-ines",
+   "path": "data/plans/2026-11-20-1323-ines.json",
+   "title": "Content plan - Inés (Spanish, psychologist) - 2026-11-23",
+   "brand": "ines",
+   "created": "2026-11-20T13:23:20Z",
+   "posts": 42,
+   "requestedBy": "Vlada (via Claude)"
+  },
+  {
    "id": "2026-11-16-1700-ines",
    "path": "data/plans/2026-11-16-1700-ines.json",
    "title": "Content plan - Inés - 17-30 Nov 2026 (3 posts a day)",
@@ -341,10 +350,10 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 2.52,
+  "spent": 2.53,
   "budget": 5,
   "apify": 1.62,
-  "claude": 0.9,
+  "claude": 0.91,
   "apifyBudget": 4.8,
   "claudeBudget": 5
  }
