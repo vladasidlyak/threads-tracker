@@ -342,10 +342,96 @@ function renderReportList() {
   $$("#repList .rep-dl").forEach(btn => btn.onclick = async e => { e.stopPropagation(); const t = await (await fetch(btn.dataset.dl + "?v=" + Date.now())).text(); saveFile(t, fileName(btn.dataset.dl)); });
   $$("#repList .ins-item").forEach(d => d.onclick = () => openReport(d.dataset.path));
 }
+
+/* ---------- visual report: data cards + sectioned AI text ---------- */
+function rankBars(groups, val, vf, unit = "post") {
+  const rows = Object.entries(groups).map(([k, l]) => ({ k, n: l.length, v: median(l.map(val)) })).sort((a, b) => b.v - a.v);
+  if (!rows.length) return '<p class="muted small">Not enough data.</p>';
+  const max = Math.max(...rows.map(r => r.v), 0.01);
+  const hi = new Set(rows.filter(r => r.n >= 3).slice(0, 2).map(r => r.k));
+  return '<div class="rbars">' + rows.map(r => `<div class="rbar"><span class="lab">${esc(r.k)}</span><div class="track"><div class="fill${hi.has(r.k) ? " hi" : ""}" style="width:${Math.max(2, r.v / max * 100)}%"></div></div><span class="val">${vf(r.v)}</span><span class="cnt">${r.n} ${unit}${r.n > 1 ? "s" : ""}</span></div>`).join("") + "</div>";
+}
+const cut = (t, n) => { const a = Array.from(t || ""); return a.length > n ? a.slice(0, n).join("") + "…" : a.join(""); };
+function bestOf(groups, val, minN = 3) {
+  const rows = Object.entries(groups).filter(([, l]) => l.length >= minN).map(([k, l]) => ({ k, n: l.length, v: median(l.map(val)) })).sort((a, b) => b.v - a.v);
+  return rows;
+}
+function replyShape(t) {
+  t = (t || "").trim(); const w = t.split(/\s+/).filter(Boolean).length, tags = [];
+  if (/^[\p{Extended_Pictographic}\s‍️]+$/u.test(t)) return "Emoji only";
+  if (/https?:\/\/|www\.|\.com\b|perfil|bio\b|suscr|subscribe|newsletter/i.test(t)) tags.push("Link / CTA");
+  if (/(gracias|thank|te entiendo|lo siento|i hear you|so sorry|abrazo|hug|me alegra|glad)/i.test(t)) tags.push("Warm validation");
+  if (/[?¿]/.test(t)) tags.push("Question back");
+  tags.push(w <= 6 ? "One-liner" : w <= 25 ? "Short answer" : "Long answer");
+  if (/\p{Extended_Pictographic}/u.test(t)) tags.push("emoji");
+  return tags.join(" + ");
+}
+function reportDash(entry) {
+  const accs = (entry.accounts || []).map(h => S.accounts[h]).filter(Boolean);
+  if (!accs.length) return "";
+  const hs = new Set(accs.map(a => a.handle));
+  const posts = allPosts().filter(p => p.type === "post" && hs.has(p.account));
+  const reps = allPosts().filter(p => p.type === "reply" && hs.has(p.account));
+  if (posts.length < 3) return "";
+  const xs = posts.map(xOf), hot = xs.filter(x => x >= 5).length;
+  const card = (label, title, sub, body, take) => `<section class="rcard"><div class="rlabel">${esc(label)}</div><h3 class="rtitle">${esc(title)}</h3>${sub ? `<p class="rsub">${esc(sub)}</p>` : ""}${body}${take ? `<div class="rtake">${esc(take)}</div>` : ""}</section>`;
+  const who = accs.length === 1 ? "@" + accs[0].handle : accs.map(a => "@" + a.handle).join(", ");
+  let html = `<div class="rkpis"><div><b>${posts.length}</b>posts analysed</div><div><b>${hot}</b>outliers (5x+ usual)</div><div><b>${fmt(Math.round(median(posts.map(engB))))}</b>typical reactions</div><div><b>${reps.length}</b>replies collected</div></div>`;
+  // mechanics
+  const gm = groupBy(posts, p => p.mech || "Statement"), bm = bestOf(gm, xOf), most = Object.entries(gm).sort((a, b) => b[1].length - a[1].length)[0];
+  const mTitle = bm.length && bm[0].v >= 1.3 ? `${bm[0].k} works best${most && most[0] !== bm[0].k ? `, ${most[0].toLowerCase()} dominates` : ""}` : `No mechanic clearly wins yet${most ? `; ${most[0].toLowerCase()} dominates` : ""}`;
+  html += card("Post mechanics", mTitle, `${who}. × usual = reactions vs the author's typical post (1.0x = typical). Label = posts.`, rankBars(gm, xOf, xFmt),
+    (bm.length ? `${bm[0].k}: ${xFmt(bm[0].v)} usual over ${bm[0].n} posts. ` : "") + `Most of their posts are ${most[0].toLowerCase()} (${most[1].length} of ${posts.length}) at ${xFmt(median(most[1].map(xOf)))}. Groups with 1-2 posts are anecdotes, not patterns.`);
+  // funnel & cta
+  const gs = groupBy(posts, p => p.stage || "Reach"), gc = groupBy(posts, p => p.cta || "None");
+  const hard = posts.filter(p => HARD_CTA.has(p.cta)), soft = posts.filter(p => !HARD_CTA.has(p.cta));
+  html += card("Content funnel", hard.length ? `${Math.round(hard.length / posts.length * 100)}% of posts carry a CTA` : "They almost never put a CTA in posts",
+    "Reach = made to be shared · Warm-up = invites comments · Conversion = quiz, link, DM or newsletter.",
+    `<div class="rgrid"><div><div class="rmini">Funnel stage</div>${rankBars(gs, xOf, xFmt)}</div><div><div class="rmini">CTA type</div>${rankBars(gc, xOf, xFmt)}</div></div>`,
+    hard.length >= 2 && soft.length >= 2 ? `Posts with a CTA: ${xFmt(median(hard.map(xOf)))} usual vs ${xFmt(median(soft.map(xOf)))} without (${hard.length} vs ${soft.length} posts) - a signal to check, not proof.` : "");
+  // reply patterns
+  if (reps.length >= 4) {
+    const sorted = [...reps].filter(r => (r.text || "").trim()).sort((a, b) => (b.likes || 0) - (a.likes || 0));
+    const pick = [...sorted.slice(0, 6), ...sorted.slice(-2)].filter((r, i, a) => a.indexOf(r) === i);
+    const repMed = {}; hs.forEach(h => { const l = reps.filter(r => r.account === h).map(r => r.likes || 0); repMed[h] = Math.max(1, median(l)); });
+    const rx = r => (r.likes || 0) / repMed[r.account];
+    const gr = groupBy(reps, r => replyShape(r.text).split(" + ")[0]);
+    const br = bestOf(gr, rx);
+    const clear = br.length > 1 && br[0].v >= 1.5 * Math.max(0.01, br[br.length - 1].v);
+    html += card("Reply patterns", clear ? `${br[0].k} replies get the most likes, ${br[br.length - 1].k.toLowerCase()} the fewest` : "No reply style clearly wins on likes",
+      `${who}, ${reps.length} replies. Structure is tagged automatically. Their most and least liked replies:`,
+      `<div class="tbl"><table><thead><tr><th class="n">Likes</th><th>Reply</th><th>Structure</th></tr></thead><tbody>${pick.map(r => `<tr><td class="n">${fmt(r.likes)}</td><td>${esc(cut(r.text, 160))}</td><td class="small">${esc(replyShape(r.text))}</td></tr>`).join("")}</tbody></table></div>`,
+      br.length ? "Likes vs each account's typical reply (1.0x = typical): " + br.map(b => `${b.k} ${xFmt(b.v)} (${b.n})`).join(" · ") + ". Big accounts get more likes on everything, so compare styles, not raw numbers." : "");
+  }
+  return `<div class="rdash">${html}</div>`;
+}
+function cardify(root) {
+  // turn each "### section" of the AI text into a card: label, bold headline, body, takeaway callout
+  const kids = [...root.children]; let cur = null;
+  kids.forEach(el => {
+    if (el.matches("h4.h3") || el.matches("h3.h2") && /At a glance|Outlier|Content funnel|Top 5|Tags they use|Best time|Search seeds/.test(el.textContent)) {
+      cur = document.createElement("section"); cur.className = "rcard"; root.insertBefore(cur, el);
+      const lab = document.createElement("div"); lab.className = "rlabel"; lab.textContent = el.textContent.replace(/^[^\p{L}\p{N}]+/u, ""); cur.appendChild(lab); el.remove(); return;
+    }
+    if (el.matches("hr") || el.matches("h2.h1")) { cur = null; return; }
+    if (!cur) return;
+    if (cur.children.length === 1 && el.matches("p") && el.firstElementChild && el.firstElementChild.tagName === "B" && el.textContent.trim() === el.firstElementChild.textContent.trim()) {
+      const t = document.createElement("h3"); t.className = "rtitle"; t.innerHTML = el.firstElementChild.innerHTML; cur.appendChild(t); el.remove(); return;
+    }
+    if (el.matches("p") && /^(So what|Takeaway|Bottom line|Biggest surprise)/i.test(el.textContent.trim())) el.classList.add("rtake");
+    cur.appendChild(el);
+  });
+}
+
 async function openReport(path) {
   $("#repOut").innerHTML = '<p class="muted">Loading...</p>'; $("#repOutCard").classList.remove("hidden");
   try {
-    const r = await fetch(path + "?v=" + Date.now()); const t = await r.text(); $("#repOut").innerHTML = md(t); $("#repRaw").href = path; $("#repOutCard").scrollIntoView({ behavior: "smooth" });
+    const r = await fetch(path + "?v=" + Date.now()); const t = await r.text(); const entry = ((S.index && S.index.reports) || []).find(x => x.path === path) || {};
+    $("#repOut").innerHTML = '<div class="rbody">' + md(t) + "</div>";
+    const body = $("#repOut .rbody"), dash = reportDash(entry);
+    if (dash) { const h = body.querySelector("h2.h1"); let anchor = h; while (anchor && anchor.nextElementSibling && anchor.nextElementSibling.matches("p")) anchor = anchor.nextElementSibling;
+      const d = document.createElement("div"); d.innerHTML = dash; anchor ? anchor.after(d.firstElementChild) : body.prepend(d.firstElementChild); }
+    cardify(body); $("#repRaw").href = path; $("#repOutCard").scrollIntoView({ behavior: "smooth" });
     $("#repDl").onclick = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([t], { type: "text/markdown;charset=utf-8" })); a.download = path.split("/").slice(-2).join("-"); document.body.appendChild(a); a.click(); setTimeout(() => a.remove(), 500); };
     $("#repPrint").onclick = () => { document.body.classList.add("printing-report"); window.print(); setTimeout(() => document.body.classList.remove("printing-report"), 500); };
   }

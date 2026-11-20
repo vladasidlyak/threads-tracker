@@ -57,7 +57,8 @@ They want to know: what to post next, how to get more reach and replies for {{BR
 
 STYLE RULES (very important)
 - Plain, friendly business English. Short sentences (under 20 words). No jargon: say "reactions" not "engagement", "typical" not "median".
-- Every section starts with a one-line takeaway in bold, then at most 3-5 short bullets.
+- Every section starts with a one-line headline in bold on its own line (the main insight, max 12 words, e.g. "**Personal confessions win, one-liners dominate**"), then at most 3-5 short bullets or a table.
+- End every section with one line starting "**So what for {{BRAND_NAME}}:**" - the action in one sentence.
 - Always connect a finding to an action for {{BRAND_NAME}} ("So what: ...").
 - Use numbers to prove a point, but no more than 2 numbers per bullet. Round them (1.2K, 39K).
 - Don't repeat the tables the tracker shows (scorecard, top posts, best times) - refer to them in one line if useful.
