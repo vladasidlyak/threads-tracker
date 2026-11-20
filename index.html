@@ -195,15 +195,22 @@ a{color:var(--accent)}
     <a class="btn primary" id="ghReport" href="#runCard" style="text-decoration:none">New report</a>
   </div>
   <nav id="nav" aria-label="Sections">
-    <div class="nav-label">Analyze</div>
-    <button data-tab="overview" class="on"><span class="ico">▦</span>Overview</button>
-    <button data-tab="posts"><span class="ico">≡</span>Posts</button>
-    <button data-tab="replies"><span class="ico">↩</span>Replies &amp; comments</button>
-    <button data-tab="voice"><span class="ico">Aa</span>Tone of voice</button>
-    <button data-tab="compare"><span class="ico">⇄</span>Compare accounts</button>
-    <div class="nav-label">Create</div>
-    <button data-tab="plan"><span class="ico">▤</span>Content plan</button>
-    <button data-tab="reports"><span class="ico">✦</span>Reports</button>
+    <div class="nav-label">Dashboard</div>
+    <button data-tab="overview" data-key="overview" class="on"><span class="ico">▦</span>Overview</button>
+    <button data-tab="compare" data-key="compare"><span class="ico">⇄</span>Compare accounts</button>
+    <button data-tab="posts" data-key="posts"><span class="ico">≡</span>All posts</button>
+    <div class="nav-label">ORM · Communication</div>
+    <button data-tab="replies" data-key="replies"><span class="ico">↩</span>Replies &amp; comments</button>
+    <button data-tab="reports" data-key="r-replies" data-focus="replies"><span class="ico">💬</span>Communication reports</button>
+    <button data-tab="voice" data-key="voice"><span class="ico">Aa</span>Tone of voice</button>
+    <div class="nav-label">Brand · Content</div>
+    <button data-tab="reports" data-key="r-hooks" data-focus="hooks"><span class="ico">🪝</span>Hooks &amp; outliers</button>
+    <button data-tab="reports" data-key="r-topics" data-focus="topics"><span class="ico">🏷</span>Topics &amp; tags</button>
+    <button data-tab="reports" data-key="r-hypotheses" data-focus="hypotheses"><span class="ico">🧪</span>Hypothesis cards</button>
+    <button data-tab="plan" data-key="plan"><span class="ico">▤</span>Content plan</button>
+    <div class="nav-label">Reports</div>
+    <button data-tab="reports" data-key="r-own" data-focus="own"><span class="ico">👤</span>Ambassador accounts</button>
+    <button data-tab="reports" data-key="r-all" data-focus=""><span class="ico">✦</span>All reports</button>
   </nav>
 </header>
 <main>
@@ -306,7 +313,7 @@ a{color:var(--accent)}
   <section id="tab-reports" class="hidden">
     <div class="card" id="runCard">
     <div class="row" style="justify-content:space-between;align-items:flex-start">
-      <div style="flex:1 1 200px;min-width:0"><h2>Get a new report</h2><p class="sub">Choose the ambassador, then one competitor, or all of their competitors at once.</p></div>
+      <div style="flex:1 1 200px;min-width:0"><h2 id="runHead">Get a new report</h2><p class="sub" id="runSub">Choose the ambassador, then one competitor, or all of their competitors at once.</p></div>
       <button class="btn" id="tokBtn" type="button">Connect GitHub</button>
       <span class="small muted hidden" id="whoami"></span>
     </div>
@@ -349,7 +356,7 @@ a{color:var(--accent)}
 
     <p class="small muted" style="margin:-6px 0 16px"><a id="ghRepo" target="_blank" rel="noopener" href="#">Open the repository on GitHub</a></p>
     <div class="card">
-      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0">Reports</h2><div class="row" style="gap:8px"><select id="repBrand" style="width:auto" aria-label="Ambassador"><option value="">All ambassadors</option></select><select id="repScope" style="width:auto" aria-label="Kind"><option value="">All reports</option><option value="all">Combined (all competitors)</option><option value="single">Single competitor</option></select><select id="repAccount" style="width:auto"></select></div></div>
+      <div class="row" style="justify-content:space-between;margin-bottom:8px"><h2 style="margin:0" id="repHead">Reports</h2><div class="row" style="gap:8px"><select id="repFocus" style="width:auto" aria-label="Report type"><option value="">All types</option><option value="full">📋 Full analysis</option><option value="replies">💬 Communication</option><option value="hooks">🪝 Hooks &amp; outliers</option><option value="topics">🏷 Topics &amp; tags</option><option value="hypotheses">🧪 Hypothesis cards</option><option value="voice">Aa Linguistic</option><option value="own">👤 Ambassador accounts</option><option value="ideas">✍️ Post ideas</option></select><select id="repBrand" style="width:auto" aria-label="Ambassador"><option value="">All ambassadors</option></select><select id="repScope" style="width:auto" aria-label="Kind"><option value="">All reports</option><option value="all">Combined (all competitors)</option><option value="single">Single competitor</option></select><select id="repAccount" style="width:auto"></select></div></div>
       <div class="row no-print" id="repBulk" style="gap:8px;margin:0 0 10px;align-items:center"><span class="small muted" id="repCount"></span><button class="btn" type="button" id="repDlAll">Download all (.md)</button><button class="btn" type="button" id="repPdfAll">Download all as PDF</button></div>
       <div id="repList"></div>
     </div>

@@ -229,16 +229,16 @@ function renderReportList() {
     ra.innerHTML = `<option value="">All ${esc(brandName(rb.value).split(" (")[0])}'s competitors</option>` + mine.map(h => `<option value="${esc(h)}">@${esc(h)}</option>`).join("");
     ra.value = mine.includes(cur) ? cur : "";
   } else if (ra.options.length && ra.options[0].textContent !== "All competitors") fillSelects();
-  const acc = ra.value, br = rb.value, sc = $("#repScope").value;
+  const acc = ra.value, br = rb.value, sc = $("#repScope").value, fo = $("#repFocus").value;
   if (S.index && S.index.brands && rb.options.length < 2)
     rb.innerHTML = '<option value="">All ambassadors</option>' + Object.keys(S.index.brands).map(k => `<option value="${esc(k)}">${esc(brandName(k))}</option>`).join("");
   const scopeOf = r => r.scope || (r.accounts.length > 1 ? "all" : "single");
-  const list = (S.index.reports || []).filter(r => (!acc || r.accounts.includes(acc)) && (!br || r.brand === br) && (!sc || scopeOf(r) === sc));
+  const list = (S.index.reports || []).filter(r => (!acc || r.accounts.includes(acc)) && (!br || r.brand === br) && (!sc || scopeOf(r) === sc) && (!fo || r.focus === fo));
   REP_SHOWN = list;
   const who = br ? brandName(br).split(" (")[0] : "";
   $("#repCount").textContent = list.length ? `${list.length} report${list.length > 1 ? "s" : ""}${who ? " for " + who : ""}${acc ? " on @" + acc : ""}` : "";
   $("#repBulk").classList.toggle("hidden", !list.length);
-  $("#repList").innerHTML = list.length ? list.map(r => `<div class="ins-item rep-row" data-path="${esc(r.path)}"><div><b>${esc(r.title)}</b> · ${r.accounts.map(a => "@" + esc(a)).join(", ")}<div class="small muted">${new Date(r.created).toLocaleString("en-GB", {day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})} · for ${esc(brandName(r.brand))}${scopeOf(r) === "all" ? ' · <span class="tag">combined</span>' : ""}${r.requestedBy ? " · by " + esc(r.requestedBy) : ""}</div></div><button class="btn rep-dl" type="button" data-dl="${esc(r.path)}" title="Download this report">Download</button></div>`).join("") : '<p class="muted small">No reports match. Change the filters above or get a new report.</p>';
+  $("#repList").innerHTML = list.length ? list.map(r => `<div class="ins-item rep-row" data-path="${esc(r.path)}"><div><b>${esc(r.title)}</b> · ${r.accounts.map(a => "@" + esc(a)).join(", ")}<div class="small muted">${new Date(r.created).toLocaleString("en-GB", {day:"numeric",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"})} · for ${esc(brandName(r.brand))}${scopeOf(r) === "all" ? ' · <span class="tag">combined</span>' : ""}${r.requestedBy ? " · by " + esc(r.requestedBy) : ""}</div></div><button class="btn rep-dl" type="button" data-dl="${esc(r.path)}" title="Download this report">Download</button></div>`).join("") : `<p class="muted small">${$("#repFocus").value === "own" ? "The first ambassador account reviews arrive with the monthly digest on the 1st." : "No reports of this kind yet. Choose the ambassador above and press Run, or change the filters."}</p>`;
   $$("#repList .rep-dl").forEach(btn => btn.onclick = async e => { e.stopPropagation(); const t = await (await fetch(btn.dataset.dl + "?v=" + Date.now())).text(); saveFile(t, fileName(btn.dataset.dl)); });
   $$("#repList .ins-item").forEach(d => d.onclick = () => openReport(d.dataset.path));
 }
@@ -351,7 +351,7 @@ function runFormUI() {
 window.addEventListener("tt-brands", runFormUI);
 
 function prefillRun(handle, focus, skip) {
-  goto("reports");
+  goto("reports", "r-all"); openReportView($("#repFocus").value || "");
   $("#runScope").value = "single"; runFormUI();
   $("#runUrl").value = ""; $("#runPick").dataset.extra = handle; runFormUI();
   $("#runPick").value = handle;
@@ -407,22 +407,44 @@ $("#runUrl").onkeydown = e => { if (e.key === "Enter") runReport(); };
 tokenUI();
 
 const dataHooks = [];
-window.TT = { prefillRun, $, esc, fmt, eng, median, allPosts, S, goto: t => goto(t), onData: fn => dataHooks.push(fn),
+window.TT = { openReportView, prefillRun, $, esc, fmt, eng, median, allPosts, S, goto: t => goto(t), onData: fn => dataHooks.push(fn),
   md: t => md(t), B: () => B, mode: () => MODE, hasToken: () => !!memToken, sleep, getJSON, reloadData: () => reloadData() };
 /* ---------- wiring ---------- */
-function goto(tab) { $$("#nav button").forEach(b => b.classList.toggle("on", b.dataset.tab === tab)); $$("main > section").forEach(s => s.classList.toggle("hidden", s.id !== "tab-" + tab)); hideTip(); }
-$$("#nav button").forEach(b => b.onclick = () => goto(b.dataset.tab));
+const REPORT_VIEWS = {
+  "": ["All reports", "Every report, newest first. Use the filters to narrow down."],
+  replies: ["💬 Communication reports", "ORM: how competitors talk to their audience - tone, best replies, techniques to adopt and reply templates."],
+  hooks: ["🪝 Hooks & outliers", "Posts that got 5x+ their author's usual engagement, why they worked, and hooks to borrow (🆕 new / 📚 library)."],
+  topics: ["🏷 Topics & tags", "What to post about (✅ Core / 🧪 Test / 🔍 Gap / ❌ Skip), pain clusters, tags, words, and search seeds."],
+  hypotheses: ["🧪 Hypothesis cards", "Cards in the brand team's format: Mechanic × Insight × Reach/Quiz reason, H1-H3, references with × median."],
+  own: ["👤 Ambassador accounts", "How Inés's and Jeff's own accounts are doing compared with their competitors. Written automatically every month."],
+};
+function goto(tab, key) {
+  key = key || tab;
+  $$("#nav button").forEach(b => b.classList.toggle("on", (b.dataset.key || b.dataset.tab) === key));
+  $$("main > section").forEach(s => s.classList.toggle("hidden", s.id !== "tab-" + tab)); hideTip();
+}
+function openReportView(focus) {
+  const [head, sub] = REPORT_VIEWS[focus] || REPORT_VIEWS[""];
+  $("#repHead").textContent = head;
+  $("#repFocus").value = focus;
+  if (focus !== "own") $("#runFocus").value = [...$("#runFocus").options].some(o => o.value === focus) ? focus : "full";
+  $("#runSub").textContent = focus ? sub : "Choose the ambassador, then one competitor, or all of their competitors at once.";
+  $("#runCard").classList.toggle("hidden", focus === "own");
+  renderReportList();
+}
+$$("#nav button").forEach(b => b.onclick = () => { goto(b.dataset.tab, b.dataset.key); if (b.dataset.tab === "reports") openReportView(b.dataset.focus || ""); });
 ["#ovAccount", "#ovRange"].forEach(s => $(s).onchange = renderOverview);
 $("#pSearch").oninput = () => { S.pLimit = 30; renderPosts(); }; $("#pAccount").onchange = $("#pSort").onchange = () => { S.pLimit = 30; renderPosts(); };
 $("#pMore").onclick = () => { S.pLimit += 30; renderPosts(); };
 $("#rSearch").oninput = () => { S.rLimit = 30; renderReplies(); }; $("#rAccount").onchange = () => { S.rLimit = 30; renderReplies(); };
 $("#rMore").onclick = () => { S.rLimit += 30; renderReplies(); };
+$("#repFocus").onchange = () => { $("#repHead").textContent = (REPORT_VIEWS[$("#repFocus").value] || ["Reports"])[0]; renderReportList(); };
 $("#repDlAll").onclick = downloadAll; $("#repPdfAll").onclick = pdfAll;
 $("#repAccount").onchange = renderReportList; $("#repBrand").onchange = renderReportList; $("#repScope").onchange = renderReportList;
 
 const gh = repoUrl();
 if (gh) $("#ghRepo").href = gh;
-$("#ghReport").onclick = e => { e.preventDefault(); goto("reports"); $("#runCard").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#runBrand").focus(), 400); };
+$("#ghReport").onclick = e => { e.preventDefault(); goto("reports", "r-all"); openReportView(""); $("#runCard").scrollIntoView({ behavior: "smooth" }); setTimeout(() => $("#runBrand").focus(), 400); };
 $("#runUrl").addEventListener("input", runFormUI);
 
 async function reloadData() {
