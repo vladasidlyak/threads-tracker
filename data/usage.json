@@ -331,6 +331,18 @@
     "kind": "apify",
     "usd": 0.0,
     "what": "deepmine/threads-posts-scraper {\"usernames\": [\"ju_zeppa\"], \"includeViewCounts\": "
+   },
+   {
+    "t": "2026-11-20T14:03:49Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"ju_zeppa\"], \"includeViewCounts\": "
+   },
+   {
+    "t": "2026-11-20T14:03:55Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"ju_zeppa\"], \"includeViewCounts\": "
    }
   ]
  }
