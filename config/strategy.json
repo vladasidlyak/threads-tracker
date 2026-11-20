@@ -1,5 +1,5 @@
 {
-  "_about": "Shared rules from the brand team (Threads Growth Experiment + hustle-threads-hypothesis skill). Used in every report and plan.",
+  "_about": "Shared rules from the brand team (Threads Growth Experiment Part II, Launch Strategy for AI Ambassadors, Script Library, skills hustle-threads-hypothesis and threads-hustle-adapter; snapshot 18-20 Nov 2026). Used in every report and plan.",
   "hypothesis_types": {
     "H1": "Strong Expert POV - a clear claim that can differ from common opinion",
     "H2": "Pattern Recognition - she recognises her own behaviour or his",
@@ -27,21 +27,31 @@
       "adeline": "✅ His Effort = His Interest",
       "words": [
         "texting",
+        "text back",
         "left on read",
         "dry texter",
+        "double text",
+        "reassurance",
         "mixed signals",
         "breadcrumbing",
+        "effort",
+        "consistency",
         "situationship",
         "overthinking",
-        "chasing"
+        "needy",
+        "chasing",
+        "his phone"
       ],
       "phrases": [
         "waiting for his text",
         "stop chasing him",
         "if he wanted to",
-        "overthinking his texts"
+        "only feel okay when he texts",
+        "overthinking his texts",
+        "panic when he needs space"
       ],
-      "angle": "her worth and his effort, not 'you're too needy'"
+      "angle": "her worth and his effort, not 'you're too needy'",
+      "scripts": "186340, 64014, 182426, 58763"
     },
     {
       "n": 2,
@@ -49,20 +59,31 @@
       "pablo": "✅ Anxious attachment & breakup",
       "adeline": "✅ Silent Power",
       "words": [
+        "ex",
         "no contact",
+        "breakup",
         "closure",
         "moving on",
+        "heartbreak",
         "miss him",
         "let go",
+        "unfollow",
         "block him",
-        "detach"
+        "rebound",
+        "his new girlfriend",
+        "healing",
+        "detach",
+        "stalking his page"
       ],
       "phrases": [
         "you don't miss him",
+        "no contact",
         "stop checking his socials",
-        "can't stop missing my ex"
+        "can't stop missing my ex",
+        "let him go"
       ],
-      "angle": "not going back is strength, not defeat"
+      "angle": "not going back is strength, not defeat",
+      "scripts": "186340, 67504"
     },
     {
       "n": 3,
@@ -71,17 +92,27 @@
       "adeline": "🧪 Decoding",
       "words": [
         "argument",
+        "fight",
         "dramatic",
+        "too much",
         "overreacting",
         "too sensitive",
         "silent treatment",
-        "walking on eggshells"
+        "walking on eggshells",
+        "conflict",
+        "apology",
+        "make up",
+        "cold",
+        "space",
+        "triggered"
       ],
       "phrases": [
         "break up after every fight",
+        "every argument",
         "not dramatic"
       ],
-      "angle": "'this isn't drama' - protect her from the label"
+      "angle": "'this isn't drama' - protect her from the label",
+      "scripts": "169314, 58763"
     },
     {
       "n": 4,
@@ -89,20 +120,30 @@
       "pablo": "✅ Anxious attachment / 🧪 Narcissism",
       "adeline": "🧪 Toxic men & healing",
       "words": [
+        "leave",
+        "stay",
         "go back",
         "hot and cold",
         "red flags",
         "gaslighting",
+        "manipulation",
+        "toxic",
+        "narcissist",
         "love bombing",
         "hoovering",
-        "second chance"
+        "trauma bond",
+        "he changed",
+        "second chance",
+        "excuses"
       ],
       "phrases": [
         "keep going back to him",
         "can't leave him",
-        "why do I stay"
+        "why do I stay",
+        "loyal to people who hurt me"
       ],
-      "angle": "describe the pattern without the word 'trauma bond'"
+      "angle": "describe the pattern without the word 'trauma bond'",
+      "scripts": "139455, 40"
     },
     {
       "n": 5,
@@ -115,15 +156,25 @@
         "standards",
         "effort",
         "worth",
+        "deserve",
+        "fixer",
         "overgiving",
-        "one-sided"
+        "one-sided",
+        "unappreciated",
+        "low effort",
+        "pick me",
+        "high value",
+        "peace",
+        "boundaries"
       ],
       "phrases": [
         "bare minimum",
         "stop settling",
-        "always the one who tries harder"
+        "always the one who tries harder",
+        "the fixer"
       ],
-      "angle": "permission verdict: the minimum is the answer"
+      "angle": "permission verdict: the minimum is the answer",
+      "scripts": "139471, 40"
     },
     {
       "n": 6,
@@ -131,17 +182,27 @@
       "pablo": "🧪 Childhood wounds",
       "adeline": "🧪 Childhood roots",
       "words": [
+        "daddy issues",
         "absent father",
+        "father wound",
         "emotionally unavailable",
+        "childhood",
+        "parents",
         "abandonment",
         "people pleaser",
-        "lonely marriage"
+        "lonely marriage",
+        "roommate husband",
+        "familiar",
+        "chaos"
       ],
       "phrases": [
         "if you grew up",
-        "attracted to emotionally unavailable men"
+        "emotionally absent husband",
+        "attracted to emotionally unavailable men",
+        "lonely in my marriage"
       ],
-      "angle": "'If you grew up...' form; no 'inner child' in the post"
+      "angle": "'If you grew up...' form; no 'inner child' in the post",
+      "scripts": "32894, 40"
     },
     {
       "n": 7,
@@ -150,18 +211,27 @@
       "adeline": "✅ Silent Power / 🧪 Cheating",
       "words": [
         "cheated",
+        "cheating",
+        "affair",
         "betrayal",
         "divorce",
         "starting over",
         "glow up",
-        "new chapter"
+        "single mom",
+        "forgive",
+        "the other woman",
+        "new chapter",
+        "revenge",
+        "regret"
       ],
       "phrases": [
         "he cheated and I stayed",
         "why did I stay so long",
+        "starting over after divorce",
         "glow up after breakup"
       ],
-      "angle": "staying was the mistake, leaving is the win"
+      "angle": "staying was the mistake, leaving is the win",
+      "scripts": "312193, 325966, 340948"
     },
     {
       "n": 8,
@@ -171,16 +241,22 @@
       "words": [
         "over 40",
         "over 50",
+        "divorced at",
         "dating again",
         "midlife",
+        "empty nest",
         "gray divorce",
-        "second chapter"
+        "second chapter",
+        "late bloomer",
+        "starting over at"
       ],
       "phrases": [
         "heartbreak at 50",
-        "dating after 50"
+        "dating after 50",
+        "still doing this at 52"
       ],
-      "angle": "no shame about age"
+      "angle": "no shame about age",
+      "scripts": "205403"
     },
     {
       "n": 9,
@@ -190,8 +266,14 @@
       "words": [
         "God",
         "prayer",
+        "faith",
         "God's plan",
         "divine timing",
+        "redirection",
+        "protection",
+        "blessing",
+        "trust God",
+        "Psalm",
         "rejection is protection"
       ],
       "phrases": [
@@ -199,7 +281,91 @@
         "God removed him",
         "unanswered prayer"
       ],
-      "angle": "God as protection and comfort, not 'prayer didn't work'"
+      "angle": "God as protection and comfort, not 'prayer didn't work'",
+      "scripts": "222233"
     }
-  ]
+  ],
+  "north_star": "Attributed payers, not likes. Content = Strong POV + Problem Recognition + Product Relevance + Conversion Intent.",
+  "skip_topics_hustle": [
+    "ADHD",
+    "Procrastination / dopamine",
+    "Menopause",
+    "Weight",
+    "Cortisol",
+    "Burnout",
+    "Parenting / reactive parent",
+    "Male Mental Health",
+    "news, true crime, celebrities"
+  ],
+  "gap_topics": [
+    "secure love & standards",
+    "ghosting",
+    "hoovering",
+    "money to leave",
+    "emotional safety",
+    "envy / fake friends",
+    "love after 40"
+  ],
+  "verdicts": {
+    "✅ Core": "topic from the persona's core list",
+    "🧪 Test": "from the test list or next to a core topic",
+    "🔍 Gap": "references cover it, we don't yet - the operator decides",
+    "❌ Skip": "on the don't list, outside relationships, or can't be said in the persona's voice"
+  },
+  "angle_checks": {
+    "pablo": "Can a man say this to her so that she comes out as the winner (not the one at fault)? Lecturing men = ❌.",
+    "adeline": "Is there a 'him' and his action in the post? A post only about her calm with no 'him' is weak - reframe it."
+  },
+  "research_rules": [
+    "Research in English for every persona (also Pablo); only the finished post is translated.",
+    "References from the last ~12 months, priority to the last 3 months; the author's own post; it must not rest only on the author's personality.",
+    "Skip rage-bait, pseudo-diagnoses and posts that rest on terms (love bombing, codependency - such posts got only 8-52 likes in the reference accounts). A term is fine as a search seed, not as a post.",
+    "Pablo: reject references that rest on wordplay, rhyme or US-only realities (e.g. PRAYING / PREYING) - mark every reference 'translates ✅/❌'.",
+    "Reposts are the main reach signal: on hits reposts beat comments. Record 🔁 separately; also give the multiple for 💬 alone.",
+    "Median engagement below ~50 = medium confidence. Never guess numbers.",
+    "Reference row types: Clone (same text form), Same topic (same pain cluster), New mechanic (same insight, another form), Persona voice.",
+    "Prefer fresh references (≤3 months) and clones: they prove the mechanic doesn't depend on one author.",
+    "No Russian sources or references."
+  ],
+  "hook_rules": [
+    "Goal of research = NEW hooks. For every reference write the hook formula (text form without the author's words) and mark 🆕 new or 📚 from the persona's library.",
+    "The library is for checking, not a template; use at most one 📚 option.",
+    "If the same hook form is already in 2+ of the persona's cards from the last month, say so and find another."
+  ],
+  "seed_forms": {
+    "all": [
+      "if he",
+      "signs he",
+      "nobody talks about",
+      "we don't talk enough about",
+      "stay with the one who",
+      "marry the person who",
+      "hot take",
+      "girl to girl"
+    ],
+    "pablo": [
+      "as a man",
+      "men will",
+      "a man who"
+    ]
+  },
+  "writing_rules": [
+    "Length: match the reference; hard ceiling about 40 words and 3-4 short lines; a CTA may add 10-20 words. Never an explanatory paragraph.",
+    "Keep the reference's mechanic (shape and rhythm), never its words; a word-for-word translation is also a copy.",
+    "The reframe is the punchline, in plain everyday words: 'he only shows up after you pull away', never clinical labels (reassurance-seeking, love bombing, codependency, anxious attachment, trauma bond, inner child).",
+    "Make it obvious who is speaking: 'X: quote' reads as X saying it - use a verb ('all I heard was', 'was told').",
+    "Must read naturally out loud, as in a conversation.",
+    "No engagement bait, no generic open questions, no follow-me CTAs, no product pitch, no shame. Community questions are separate interactive posts.",
+    "H3 Cost of Inaction = permission to leave, never fear or blame."
+  ],
+  "cta_rules": [
+    "Plan both kinds: posts WITH a CTA (to the quiz) and WITHOUT (made to be reposted to a friend or to him).",
+    "A CTA is earned: the post leaves an open 'why me?' / 'what now?', then bridge ('If that's you...', 'That fear has a source.') + personal payoff ('shows what's behind yours', 'which pattern keeps you stuck') + the quiz in bio.",
+    "Never a bare 'Quiz in bio.' / 'Link in bio.' Test: if the last line would fit under any post, rewrite it.",
+    "Never invent a quiz name or what it shows - write 'the quiz in my bio'. Default path: link in bio (Funnel A); a CTA in a self-reply or pinned post is a separate labelled test."
+  ],
+  "posting_slots_kyiv": {
+    "es": "09:00-11:00 Kyiv",
+    "us": "15:00-17:00 or 20:00-22:00 Kyiv"
+  }
 }

@@ -95,12 +95,12 @@ POSTS_PER_CALL = 28        # longer plans are written in parts
 def slot_role(t: str, last: bool) -> str:
     h = int(t[:2])
     if last:
-        return "last post of the day, the main one: strongest idea, a story or a question that invites replies"
+        return "last post of the day, the main one: strongest idea or a pattern she recognises - made to be reposted"
     if h < 12:
         return "morning: short, soft, comforting (1-2 sentences)"
     if h < 17:
         return "daytime: practical - a list, signs, a clear tip or a quick opinion"
-    return "evening: relatable - a story, a confession-style line or a question"
+    return "evening: relatable - a story, a confession-style line or a clear point of view"
 
 
 def schedule(start: dt.date, weeks: int, per_week: int, brand: dict) -> list[dict]:
@@ -108,11 +108,22 @@ def schedule(start: dt.date, weeks: int, per_week: int, brand: dict) -> list[dic
     per_day = max(1, per_week // 7) if per_week >= 7 else 1
     days = list(range(7)) if per_week >= 7 else WEEKDAYS[per_week]
     times = (brand.get("post_times") or {}).get(str(per_day)) or DEFAULT_TIMES[per_day]
+    kyiv = brand.get("slots_kyiv") or []   # the Launch Strategy's posting slots (Kyiv time) win for 1-2 posts a day
     slots = []
     for i in range(weeks * 7):
         d = start + dt.timedelta(days=i)
         if d.weekday() in days:
-            for t in times:
+            day_times = times
+            if kyiv and per_day <= len(kyiv):
+                try:
+                    from zoneinfo import ZoneInfo
+                    tz = ZoneInfo(brand.get("timezone") or "Europe/Kyiv")
+                    pick = kyiv[-per_day:] if per_day == 1 else kyiv[:per_day]
+                    day_times = sorted(dt.datetime.combine(d, dt.time.fromisoformat(t), ZoneInfo("Europe/Kyiv")).astimezone(tz).strftime("%H:%M")
+                                       for t in pick)
+                except Exception:
+                    day_times = times
+            for t in day_times:
                 slots.append({"date": d.isoformat(), "time": t, "slot": slot_name(t)})
     return slots
 
@@ -130,8 +141,17 @@ def slot_lines(slots: list[dict], first: int = 1) -> str:
                      f"{slot_role(x['time'], x['time'] == last_time[x['date']])}" for i, x in enumerate(slots))
 
 
-def common_rules(per_day: int) -> str:
+def common_rules(per_day: int, brand: dict | None = None) -> str:
     many = per_day >= 4
+    hustle = (brand or {}).get("strategy") == "hustle"
+    extra = ""
+    if hustle:
+        extra = ("\n- Hustle persona: about 1 post in 3 WITH a CTA to the quiz in bio (earned: bridge + personal payoff + 'the quiz in my bio'), "
+                 "the rest WITHOUT a CTA, written to be reposted. Put 'With CTA' or 'Without CTA' at the start of the cta field."
+                 "\n- Every post: at most ~40 words and 3-4 short lines; the reframe is the punchline in plain words, no clinical terms; "
+                 "no generic questions or engagement bait; clear speaker in quotes.")
+        if "english" not in (brand or {}).get("drafts_language", "").lower():
+            extra += "\n- Write the post in English first (draft_en / hook_en - that's what the team reviews), then the natural translation in draft / hook."
     return f"""- Within a day, posts must not repeat the same topic; across days, rotate pillars evenly.
 {"- With " + str(per_day) + " posts a day, vary the length and format a lot: mostly one-liners and short thoughts, at most 2 lists a day, at least 1 question a day. Never two posts in a row with the same format." if many else "- Mix formats according to what worked."}
 - Vary topics; never copy competitor text - adapt the pattern in the brand's voice.
@@ -139,13 +159,13 @@ def common_rules(per_day: int) -> str:
 - When a combined report is given: build on its "Do this next" actions, hooks, words, topic ideas and tags, and spread its hypotheses across the plan so each one is tested by 2-4 posts (fill "tests").
 - Wellbeing brand: no medical claims, no diagnoses, no promises of cure. Use hyphens, never em dashes.
 - Everything except hook and draft in English. When hook and draft are not in English, always fill hook_en and draft_en.
-- When "why" or an action quotes a non-English post, add the English translation in brackets right after the quote."""
+- When "why" or an action quotes a non-English post, add the English translation in brackets right after the quote.{extra}"""
 
 
 POST_SHAPE = """{{"slot": 1, "pillar": "one of the pillar names", "format": "Statement|Question|List|Personal story|Quote|Thread",
              "topic": "short", "hook": "first line, in {lang}", "draft": "full ready-to-post text in {lang}",
              "hook_en": "English translation of the hook (empty if already English)", "draft_en": "English translation of the draft (empty if already English)",
-             "cta": "how to invite replies, or empty", "tag": "one Threads topic tag for this post (from the report's tag list when there is one)",
+             "cta": "for hustle personas: With CTA / Without CTA (+ the CTA idea); otherwise how to invite replies, or empty", "tag": "one Threads topic tag for this post (from the report's tag list when there is one)",
              "tests": "which hypothesis from the report this post tests (with its type H1/H2/H3 when known), in a few words, or empty",
              "inspiration": "@handle and the pattern it builds on", "why": "one sentence"}}"""
 
@@ -179,7 +199,7 @@ RULES
 - The posting schedule is FIXED. Write exactly {len(slots)} posts, one per slot, in this order (slot = the number):
 {slot_lines(slots, first)}
 - Use only the pillars above.
-{common_rules(per_day)}"""
+{common_rules(per_day, brand)}"""
 
 
 def build_prompt(brand: dict, briefs: list[str], slots: list[dict], per_day: int = 1, total: int = 0) -> str:
@@ -212,7 +232,7 @@ RULES
 - The posting schedule is FIXED. Here, write exactly {len(slots)} posts (the first part), one per slot, in this order (slot = the number):
 {lines}
 - Follow each slot's role.
-{common_rules(per_day)}"""
+{common_rules(per_day, brand)}"""
 
 
 def parse_plan(text: str, require_actions: bool = True) -> dict:

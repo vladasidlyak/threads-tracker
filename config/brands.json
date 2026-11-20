@@ -77,7 +77,8 @@
       "swearing",
       "gender-history takes",
       "personal life off-topic",
-      "blaming her"
+      "blaming her",
+      "Liven topics neither persona takes: ADHD, procrastination/dopamine, menopause, weight, cortisol, burnout, parenting, male mental health"
     ],
     "hook_library": [
       "Contrast pair (\"I want you to come\" / \"come if you want\")",
@@ -127,7 +128,8 @@
       "parody of self-help",
       "generic questions without conflict",
       "jargon instead of human words",
-      "introspective posts about peace with no 'him' in them"
+      "introspective posts about peace with no 'him' in them",
+      "Liven topics neither persona takes: ADHD, procrastination/dopamine, menopause, weight, cortisol, burnout, parenting, male mental health"
     ],
     "hook_library": [
       "\"Girl to girl:\"",
@@ -154,6 +156,10 @@
       "signs",
       "unpopular opinion",
       "normalize"
+    ],
+    "slots_kyiv": [
+      "16:00",
+      "21:00"
     ]
   },
   "liven": {
