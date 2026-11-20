@@ -1,6 +1,6 @@
 {
  "2026-11": {
-  "total": 2.9405,
+  "total": 3.2155,
   "items": [
    {
     "t": "2026-11-16T15:48:20Z",
@@ -343,6 +343,24 @@
     "kind": "apify",
     "usd": 0.0,
     "what": "deepmine/threads-posts-scraper {\"usernames\": [\"ju_zeppa\"], \"includeViewCounts\": "
+   },
+   {
+    "t": "2026-11-20T14:09:40Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"ju_zeppa\"], \"includeViewCounts\": "
+   },
+   {
+    "t": "2026-11-20T14:09:45Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"ju_zeppa\"], \"includeViewCounts\": "
+   },
+   {
+    "t": "2026-11-20T14:12:38Z",
+    "kind": "claude",
+    "usd": 0.275,
+    "what": "[standard] You are a social media strategist analyzing competitors on Threads.  "
    }
   ]
  }
