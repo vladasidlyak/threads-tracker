@@ -205,3 +205,22 @@ python scripts/tracker.py report --handle esmipsicologa --brand ines --focus ful
 - Each post keeps up to 26 weekly metric snapshots in `history` for growth tracking.
 
 > Scraping public Threads data goes against Meta's terms of service. Use it for internal research only, and check with your company before using it at work.
+
+## Report types and the brand team's logic
+
+| Report type | What's inside |
+|---|---|
+| 📋 Full analysis | Everything below in one report: communication → hooks → topics → tags → words → what works → hypotheses → summary, actions, drafts |
+| 💬 Communication & replies | How competitors reply, best replies, techniques to adopt, what not to do, 8 reply templates, reply hypotheses |
+| 🪝 Hooks & outliers | Outlier posts (≥5× the author's median) and why they worked, hooks marked 🆕 new / 📚 already in the persona's library, new hooks to test |
+| 🗂️ Topics & tags | Topics with ✅ Core / 🧪 Test / 🔍 Gap / ❌ Skip, pain clusters, tags, words, topic ideas, and search-seed links for Threads |
+| 🧪 Hypothesis cards | Cards in the brand team's format: Mechanic × Insight × Reach/Quiz reason, type H1/H2/H3, references with × median, posts to test |
+| 🔤 AI linguistic report | Tone of voice guide |
+
+**Where the rules live**
+- `config/brands.json` - each persona: voice, core/test topics, "never do", hook library, drafts language.
+- `config/strategy.json` - shared rules from the brand team: hypothesis types H1-H3, content principles, what not to prioritise, the outlier rule, and the 9 pain clusters with search seeds (from the Script Library).
+
+**Outliers** use the brand formula: engagement = likes + replies + reposts + shares, divided by the median of the author's last 40 posts. ✅ = 5× or more, 🟡 = 3-5×.
+
+**Copy check**: drafts in reports and plans are compared with every competitor post. Too-close lines are rewritten (plans) or marked ⚠️ (reports).

@@ -64,6 +64,8 @@ RULES
 - Note when a top post is a quote from someone else rather than original writing.
 - Treat a post as a usable reference only if it works without the author's personal fame or a one-off event
   (e.g. "my account was suspended" is not transferable). Say so when an outlier is not transferable.
+- Every post you write for {{BRAND_NAME}} (drafts, "Posts to test", examples) must be ORIGINAL: never copy a competitor's post
+  and never translate it word for word - keep only the mechanic and the insight. Quoting a competitor is allowed only when you cite it as a reference.
 - Describe insights as behaviour in plain words, not psychology terms ("he shows up only when you pull away", not "hoovering").
 - The brand works in wellbeing: no medical claims, no diagnoses, no promises of cure.
 - Use hyphens, never em dashes.

@@ -748,6 +748,35 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str,
 FOCUS_TITLES = {"full": "Full analysis", "replies": "Communication & replies", "hooks": "Hooks & outliers",
                 "topics": "Topics & tags", "hypotheses": "Hypothesis cards", "voice": "AI linguistic report", "ideas": "Post ideas"}
 
+def _grams5(text: str) -> set:
+    w = re.findall(r"\w+", (text or "").lower())
+    return {" ".join(w[i:i + 5]) for i in range(len(w) - 4)}
+
+
+def flag_copies(text: str, accounts: list[dict], limit: float = 0.4) -> tuple[str, int]:
+    """In the parts of a report that are meant to be OUR posts, mark drafts that copy a competitor post."""
+    comp = [(a["handle"], _grams5(p["text"])) for a in accounts for p in a["posts"].values() if p.get("text")]
+    out, ours, section, flagged = [], False, False, 0
+    for line in text.split("\n"):
+        low = line.lower()
+        if line.startswith("### "):
+            section = any(k in low for k in ("draft", "ready-to-post", "new hooks", "templates", "topic ideas"))
+            ours = section
+        elif line.startswith("#### ") or line.strip() == "---":
+            ours = section
+        if "posts to test" in low:
+            ours = True
+        if ours and re.sub(r"^\s*(\d+[.)]|[-*])?\s*", "", line).startswith(">"):
+            g = _grams5(line)
+            if len(g) >= 3:
+                hit = max(((len(g & c) / len(g), h) for h, c in comp), default=(0, ""))
+                if hit[0] > limit:
+                    line += f"  \n  ⚠️ *Too close to a @{hit[1]} post - rewrite before publishing.*"
+                    flagged += 1
+        out.append(line)
+    return "\n".join(out), flagged
+
+
 # ---------------------------------------------------------------- facts block (computed, not AI)
 
 def _fmt_n(n) -> str:
@@ -923,6 +952,9 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
         facts += "\n" + seeds_markdown(brand, read_json(paths.config / "strategy.json", {}))
     prompt = build_prompt(paths, accounts, brand, focus, top_n).replace("{{FACTS}}", facts)
     text = ask_claude(prompt, settings, dry_run)
+    text, flagged = flag_copies(text, accounts)
+    if flagged:
+        log(f"Copy check: {flagged} draft line(s) too close to competitor posts were marked in the report.")
     stamp = dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%d-%H%M")
     combined = combined or len(handles) > 1
     slug = f"all-{brand}" if combined else handles[0]

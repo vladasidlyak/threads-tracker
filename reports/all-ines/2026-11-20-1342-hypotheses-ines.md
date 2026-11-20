@@ -30,7 +30,8 @@ Brand: Inés (Spanish, psychologist) · Generated 2026-11-20 13:42 UTC
 | [@esmipsicologa: Te pasó porque había algo malo en esa persona…](https://www.threads.com/@esmipsicologa/post/DNjZhwXMj6F) | 2025-08-19 | 1,813 · 16 · 249 · 8 | 728 (40) | ~2.5× (below outlier) | "It happened because…" | 🟡 Translates ✅ |
 
 **Posts to test:**
-1. > Te pasó porque había algo malo en esa persona, no en ti.
+1. > Te pasó porque había algo malo en esa persona, no en ti.  
+  ⚠️ *Too close to a @esmipsicologa post - rewrite before publishing.*
    *EN: It happened because something was wrong with that person, not with you.*
 2. > Dejar a alguien que te hacía dudar de ti no te convierte en una persona difícil. Te convierte en alguien que se eligió. 💛
    *EN: Leaving someone who made you doubt yourself does not make you difficult. It makes you someone who chose yourself.*
@@ -51,7 +52,8 @@ Brand: Inés (Spanish, psychologist) · Generated 2026-11-20 13:42 UTC
 | [@esmipsicologa: Cómo te comportaste cuando estabas en modo supervivencia…](https://www.threads.com/@esmipsicologa/post/DZa9pZSEO6C) | 2026-05-04 | 1,620 · 12 · 247 · 31 | 728 (40) | ~2.2× | "How you acted…" | 🟡 Translates ✅ |
 
 **Posts to test:**
-1. > Cómo te comportaste cuando estabas en modo supervivencia no define cómo eres en realidad. Tranquila.
+1. > Cómo te comportaste cuando estabas en modo supervivencia no define cómo eres en realidad. Tranquila.  
+  ⚠️ *Too close to a @esmipsicologa post - rewrite before publishing.*
    *EN: How you behaved in survival mode does not define who you really are. Relax.*
 2. > Si te cuesta reconocerte en lo que hiciste para sobrevivir, no eres mala persona. Estabas agotada. 🍀
    *EN: If it is hard to recognise yourself in what you did to survive, you are not a bad person. You were exhausted.*
