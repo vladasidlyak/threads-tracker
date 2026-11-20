@@ -1,101 +1,109 @@
 {
-  "accounts": [
-    {
-      "handle": "esmipsicologa",
-      "note": "Spanish psychologist, author, 225k followers",
-      "comments": false,
-      "brands": [
-        "ines",
-        "pablo"
-      ]
-    },
-    {
-      "handle": "psico.maxi",
-      "note": "",
-      "comments": true,
-      "brands": [
-        "ines",
-        "pablo"
-      ]
-    },
-    {
-      "handle": "enric_corbera",
-      "note": "",
-      "comments": false,
-      "brands": [
-        "ines",
-        "pablo"
-      ]
-    },
-    {
-      "handle": "ju_zeppa",
-      "note": "",
-      "comments": true,
-      "brands": [
-        "ines"
-      ]
-    },
-    {
-      "handle": "psicologiaconb",
-      "note": "",
-      "comments": true,
-      "brands": [
-        "ines"
-      ]
-    },
-    {
-      "handle": "dr.rodrigoarteaga",
-      "note": "",
-      "comments": false,
-      "brands": [
-        "ines"
-      ]
-    },
-    {
-      "handle": "heyismail.co",
-      "note": "",
-      "comments": false,
-      "brands": [
-        "jeff"
-      ]
-    },
-    {
-      "handle": "joshuatlindsey",
-      "note": "",
-      "comments": false,
-      "brands": [
-        "jeff"
-      ]
-    },
-    {
-      "handle": "dr.dan.phd",
-      "note": "",
-      "comments": false,
-      "brands": [
-        "jeff"
-      ]
-    },
-    {
-      "handle": "quintanilla_iness",
-      "note": "Inés's own account",
-      "comments": false,
-      "brands": [],
-      "own": "ines"
-    },
-    {
-      "handle": "jeff_navarroo",
-      "note": "Jeff's own account",
-      "comments": false,
-      "brands": [],
-      "own": "jeff"
-    },
-    {
-      "handle": "stephanspeaks",
-      "note": "",
-      "comments": false,
-      "brands": [
-        "jeff"
-      ]
-    }
-  ]
+ "accounts": [
+  {
+   "handle": "esmipsicologa",
+   "note": "Spanish psychologist, author, 225k followers",
+   "comments": false,
+   "brands": [
+    "ines",
+    "pablo"
+   ]
+  },
+  {
+   "handle": "psico.maxi",
+   "note": "",
+   "comments": true,
+   "brands": [
+    "ines",
+    "pablo"
+   ]
+  },
+  {
+   "handle": "enric_corbera",
+   "note": "",
+   "comments": false,
+   "brands": [
+    "ines",
+    "pablo"
+   ]
+  },
+  {
+   "handle": "ju_zeppa",
+   "note": "",
+   "comments": true,
+   "brands": [
+    "ines"
+   ]
+  },
+  {
+   "handle": "psicologiaconb",
+   "note": "",
+   "comments": true,
+   "brands": [
+    "ines"
+   ]
+  },
+  {
+   "handle": "dr.rodrigoarteaga",
+   "note": "",
+   "comments": false,
+   "brands": [
+    "ines"
+   ]
+  },
+  {
+   "handle": "heyismail.co",
+   "note": "",
+   "comments": false,
+   "brands": [
+    "jeff"
+   ]
+  },
+  {
+   "handle": "joshuatlindsey",
+   "note": "",
+   "comments": false,
+   "brands": [
+    "jeff"
+   ]
+  },
+  {
+   "handle": "dr.dan.phd",
+   "note": "",
+   "comments": false,
+   "brands": [
+    "jeff"
+   ]
+  },
+  {
+   "handle": "quintanilla_iness",
+   "note": "Inés's own account",
+   "comments": false,
+   "brands": [],
+   "own": "ines"
+  },
+  {
+   "handle": "jeff_navarroo",
+   "note": "Jeff's own account",
+   "comments": false,
+   "brands": [],
+   "own": "jeff"
+  },
+  {
+   "handle": "stephanspeaks",
+   "note": "",
+   "comments": false,
+   "brands": [
+    "jeff"
+   ]
+  },
+  {
+   "handle": "narcabusecoach",
+   "note": "",
+   "comments": false,
+   "brands": [
+    "jeff"
+   ]
+  }
+ ]
 }

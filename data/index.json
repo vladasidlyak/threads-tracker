@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T21:34:59Z",
+ "updated": "2026-11-20T21:36:59Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -181,9 +181,35 @@
    "posts": 51,
    "replies": 1,
    "commentThreads": 0
+  },
+  {
+   "handle": "narcabusecoach",
+   "note": "",
+   "brands": [
+    "jeff"
+   ],
+   "own": "",
+   "fullName": "Danish Bashir",
+   "followers": 146530,
+   "lastFetched": "2026-11-20T21:36:48Z",
+   "posts": 51,
+   "replies": 6,
+   "commentThreads": 0
   }
  ],
  "reports": [
+  {
+   "path": "reports/narcabusecoach/2026-11-20-2136-hooks-jeff.md",
+   "title": "Hooks & outliers",
+   "accounts": [
+    "narcabusecoach"
+   ],
+   "brand": "jeff",
+   "focus": "hooks",
+   "scope": "single",
+   "created": "2026-11-20T21:36:59Z",
+   "requestedBy": "claude"
+  },
   {
    "path": "reports/stephanspeaks/2026-11-20-2134-hooks-jeff.md",
    "title": "Hooks & outliers",
@@ -432,10 +458,10 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 3.3,
+  "spent": 3.4,
   "budget": 5,
-  "apify": 1.81,
-  "claude": 1.49,
+  "apify": 1.9,
+  "claude": 1.5,
   "apifyBudget": 4.8,
   "claudeBudget": 5
  }
