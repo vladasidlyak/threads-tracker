@@ -545,6 +545,13 @@ def collect(paths: Paths, settings: dict, apify: Apify, handle: str, max_posts: 
         except TrackerError as e:
             log(f"!! Replies not collected: {e}")
     if not rows:
+        if existing["posts"]:
+            log(f"No new posts from @{handle} since the last update - using the saved posts.")
+            existing["profile"]["lastFetched"] = now_iso()
+            if comments:
+                collect_comments(settings, apify, existing)
+            write_json(paths.account_file(handle), existing)
+            return existing
         raise TrackerError(f"Apify returned no data for @{handle}. Is the profile public and spelled right?")
     account = load_account(paths, handle)
     apply_profile(account, rows)
