@@ -99,6 +99,7 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           TRACKER_MODEL: ${{ inputs.model }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
           PROFILE_URL: ${{ inputs.profile_url }}
           REQUESTED_BY: ${{ inputs.requested_by }}
           BRAND: ${{ inputs.brand }}

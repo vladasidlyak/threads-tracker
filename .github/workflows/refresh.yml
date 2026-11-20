@@ -39,6 +39,7 @@ jobs:
       - name: Monthly report for each ambassador
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
         run: python scripts/tracker.py monthly
 
       - name: Save to the repository

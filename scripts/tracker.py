@@ -777,6 +777,24 @@ def flag_copies(text: str, accounts: list[dict], limit: float = 0.4) -> tuple[st
     return "\n".join(out), flagged
 
 
+def save_cards(paths: Paths, settings: dict, text: str, brand: str, brand_short: str, rel: str, dry_run: bool) -> None:
+    """Keep every hypothesis card in data/hypotheses.json and send new ones to Notion."""
+    import cards as C
+    found = C.parse_cards(text)
+    if not found:
+        return
+    store = read_json(paths.data / "hypotheses.json", [])
+    created = now_iso()
+    for c in found:
+        store.append({**c, "brand": brand, "report": rel, "created": created})
+    write_json(paths.data / "hypotheses.json", store[-500:])
+    log(f"Saved {len(found)} hypothesis card(s).")
+    if not dry_run:
+        repo = os.environ.get("GITHUB_REPOSITORY", "")
+        url = f"https://github.com/{repo}/blob/main/{rel}" if repo else ""
+        C.push_cards(found, brand_short, url, created, settings, log)
+
+
 # ---------------------------------------------------------------- facts block (computed, not AI)
 
 def _fmt_n(n) -> str:
@@ -968,6 +986,8 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
     out = paths.root / rel
     out.parent.mkdir(parents=True, exist_ok=True)
     out.write_text(header + text.strip() + "\n\n---\n\n" + facts.strip() + "\n", encoding="utf-8")
+    if focus in ("full", "hypotheses"):
+        save_cards(paths, settings, text, brand, read_json(paths.config / "brands.json")[brand]["name"].split(" (")[0], rel, dry_run)
     idx = read_json(paths.reports / "index.json", [])
     entry = {"path": rel, "title": title, "accounts": handles, "brand": brand, "focus": focus,
              "scope": "all" if combined else "single", "created": now_iso()}

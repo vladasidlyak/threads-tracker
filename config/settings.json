@@ -35,5 +35,7 @@
    "max_tokens": 16000
   }
  },
- "claude_default_mode": "standard"
+ "claude_default_mode": "standard",
+ "notion_hypotheses_db": "41e6bfce645981008588e15983d1ceac",
+ "notion_owner_id": "391d872b-594c-8162-aca1-0002bc16aa09"
 }
