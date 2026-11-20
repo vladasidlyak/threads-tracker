@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T13:20:08Z",
+ "updated": "2026-11-20T13:21:05Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -143,6 +143,23 @@
   }
  ],
  "reports": [
+  {
+   "path": "reports/all-ines/2026-11-20-1321-full-ines.md",
+   "title": "Full analysis - all Inés's competitors",
+   "accounts": [
+    "esmipsicologa",
+    "psico.maxi",
+    "enric_corbera",
+    "ju_zeppa",
+    "psicologiaconb",
+    "dr.rodrigoarteaga"
+   ],
+   "brand": "ines",
+   "focus": "full",
+   "scope": "all",
+   "created": "2026-11-20T13:21:05Z",
+   "requestedBy": "Vlada (via Claude)"
+  },
   {
    "path": "reports/heyismail.co/2026-11-20-1300-full-jeff.md",
    "title": "Full analysis (new format - sample)",
@@ -313,7 +330,7 @@
   "spent": 2.51,
   "budget": 5,
   "apify": 1.62,
-  "claude": 0.89,
+  "claude": 0.9,
   "apifyBudget": 4.8,
   "claudeBudget": 5
  }
