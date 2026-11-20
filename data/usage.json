@@ -379,6 +379,18 @@
     "kind": "claude",
     "usd": 0.0025,
     "what": "[economy] You are a social media strategist analyzing competitors on Threads.  B"
+   },
+   {
+    "t": "2026-11-20T21:35:12Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"matthewhussey\"], \"includeViewCoun"
+   },
+   {
+    "t": "2026-11-20T21:35:15Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"matthewhussey\"], \"includeViewCoun"
    }
   ]
  }
