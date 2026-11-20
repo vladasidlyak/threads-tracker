@@ -10,3 +10,9 @@ For each idea use a #### heading under a section "### ✍️ 8 post ideas" with 
 
 ### ✅ How to use them
 3 short tips on order, timing (use the best-time table) and how to invite replies.
+
+### 🪝 Hooks that worked
+5 real first lines from their best posts (with EN translation if not English) and likes, each followed by "→ **Template:**" a fill-in-the-blank version for {{BRAND_NAME}}.
+
+### 🧪 Hypotheses to test
+3 hypotheses as a table: Hypothesis ("If {{BRAND_NAME}} ..., then ... because ...") | How to test (4-6 posts, 2 weeks) | What to measure | Success if.

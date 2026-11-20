@@ -269,7 +269,19 @@ def normalize_post(row: dict) -> dict:
         "parentText": (row.get("parentPostText") or "")[:1500],
         "parentAuthor": (row.get("parentPostUsername") or "").lower(),
         "followers": num(row.get("authorFollowerCount")),
+        "topicTag": (row.get("topicTag") or "").strip(),
+        "hashtags": sorted({("#" + str(h).lstrip("#")) for h in (row.get("hashtags") or []) if h}
+                           | set(re.findall(r"#[^\s#.,!?;:]+", row.get("text") or ""))),
     }
+
+
+def tags_of(p: dict) -> list[str]:
+    """Threads topic tag (shown above the post) and #hashtags, as one list."""
+    tags = [f"Topic: {p['topicTag']}"] if p.get("topicTag") else []
+    hashtags = p.get("hashtags")
+    if hashtags is None:  # posts saved before tags were collected
+        hashtags = re.findall(r"#[^\s#.,!?;:]+", p.get("text") or "")
+    return tags + list(hashtags)
 
 
 def normalize_comment(row: dict, author: str) -> dict:
@@ -634,7 +646,8 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str,
         txt = re.sub(r"\s+", " ", p["text"])[:600] or "(image or video without text)"
         return (f"- @{p['account']} | {(p['date'] or '')[:10]} {weekday_of(p['date']) or ''} | likes {p['likes']}, "
                 f"replies {p['replies']}, reposts {p['reposts']}, quotes {p['quotes']}{views} | "
-                f"format {format_of(p['text'])} | {len(p['text'])} chars\n  \"{txt}\"")
+                f"format {format_of(p['text'])} | {len(p['text'])} chars"
+                + (f" | tags {', '.join(tags_of(p))}" if tags_of(p) else "") + f"\n  \"{txt}\"")
 
     ranked = posts  # already best-first
     top = "\n".join(line(p) for p in ranked[:60 if focus == "voice" else 30]) or "(none)"
@@ -675,7 +688,10 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str,
         "BY_FORMAT": agg(lambda p: format_of(p["text"])), "BY_LENGTH": agg(lambda p: length_of(p["text"])),
         "BY_WEEKDAY": agg(lambda p: weekday_of(p["date"])),
         "VOICE_POSTS": voice_stats(posts), "VOICE_REPLIES": voice_stats(replies),
-        "TOP_POSTS": top, "SELECTION": selection, "REPLIES": rep, "CONVERSATIONS": convo_txt,
+        "TOP_POSTS": top, "SELECTION": selection,
+        "TAGS": "; ".join(f"{t}: {len(v)} posts, median reactions {round(statistics.median(v))}" for t, v in sorted(
+            ((t, [engagement(p) for p in posts if t in tags_of(p)]) for t in {t for p in posts for t in tags_of(p)}),
+            key=lambda kv: -len(kv[1]))[:25]) or "no tags found in these posts", "REPLIES": rep, "CONVERSATIONS": convo_txt,
     }
     task = task.replace("{{BRAND_NAME}}", brand["name"]).replace("{{DRAFTS_LANGUAGE}}", brand["drafts_language"])
     values["TASK"] = task
@@ -740,6 +756,24 @@ def facts_markdown(accounts: list[dict], chosen: list[dict], tz_name: str) -> st
             r = _rate(p)
             out.append(f"| {i} | {text} | {_fmt_n(p['likes'])} | {_fmt_n(p.get('views'))} | {f'{r:.1f}' if r is not None else '-'} |")
         out.append("")
+
+    tag_stats = {}
+    for p in every:
+        for t in tags_of(p):
+            tag_stats.setdefault(t, []).append(engagement(p))
+    typical_all = statistics.median([engagement(p) for p in every]) if every else 0
+    out += ["## Tags they use", ""]
+    if tag_stats:
+        out += ["| Tag | Posts | Typical reactions | Compared with their usual |", "|---|---|---|---|"]
+        for t, v in sorted(tag_stats.items(), key=lambda kv: (len(kv[1]) >= 2, statistics.median(kv[1])), reverse=True)[:10]:
+            m = statistics.median(v)
+            ratio = m / typical_all if typical_all else 0
+            out.append(f"| {_cell(t, 40)} | {len(v)} | {_fmt_n(m)} | "
+                       f"{f'{ratio:.1f}x usual' if ratio >= 2 else f'{(ratio - 1) * 100:+.0f}%'} |")
+        tagged = sum(1 for p in every if tags_of(p))
+        out += ["", f"*{tagged} of {len(every)} posts have a tag. \"Topic\" = the Threads topic tag shown above a post; # = hashtags in the text.*", ""]
+    else:
+        out += ["*No tags found in these posts. Threads topic tags are collected from new posts onwards, so they appear after the next update.*", ""]
 
     def band(h):
         return "Morning (6-12)" if 6 <= h < 12 else "Afternoon (12-17)" if h < 17 else "Evening (17-22)" if h < 22 else "Night (22-6)"

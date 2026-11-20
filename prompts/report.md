@@ -14,6 +14,7 @@ DATA SUMMARY (engagement = likes + replies + reposts + quotes)
 By format: {{BY_FORMAT}}
 By length: {{BY_LENGTH}}
 By weekday: {{BY_WEEKDAY}}
+Tags (Threads topic tags and #hashtags): {{TAGS}}
 
 LANGUAGE STATS - POSTS
 {{VOICE_POSTS}}
@@ -49,7 +50,7 @@ STYLE RULES (very important)
 - Always connect a finding to an action for {{BRAND_NAME}} ("So what: ...").
 - Use numbers to prove a point, but no more than 2 numbers per bullet. Round them (1.2K, 39K).
 - Don't repeat the tables the tracker shows (scorecard, top posts, best times) - refer to them in one line if useful.
-- Keep the whole text under about 900 words, not counting the post drafts.
+- Keep the whole text under about 1300 words, not counting the post drafts and tables.
 - Use the section headings exactly as given in the task, including the emoji.
 
 RULES
