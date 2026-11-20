@@ -1,16 +1,20 @@
 {
  "handle": "esmipsicologa",
  "profile": {
-  "fullName": "",
+  "fullName": "Elizabeth Clapés",
   "bio": "🎓 Directora y docente de Máster\n🌀 ORIGEN. Máster de especialización en trauma \n📖 Autora de 5 libros\n📍 Citas online en Esmipsicologa.com",
   "url": "https://www.threads.com/@esmipsicologa",
-  "followers": 225242,
-  "lastFetched": "2026-11-16T11:59:54Z"
+  "followers": 225299,
+  "lastFetched": "2026-11-20T13:11:13Z"
  },
  "followersHistory": [
   {
    "d": "2026-11-16",
    "followers": 225242
+  },
+  {
+   "d": "2026-11-20",
+   "followers": 225299
   }
  ],
  "posts": {
@@ -20,17 +24,19 @@
    "type": "post",
    "text": "Una enfermedad crónica pone a prueba tu cuerpo, pero también tus amistades, tus vínculos familiares y tu relación de pareja.\n\nY hay días en los que no sabes qué duele más.",
    "date": "2026-11-15T23:41:35Z",
-   "likes": 288,
-   "replies": 11,
-   "reposts": 29,
-   "quotes": 3,
-   "shares": 1,
-   "views": 5783,
+   "likes": 828,
+   "replies": 29,
+   "reposts": 80,
+   "quotes": 9,
+   "shares": 5,
+   "views": 25387,
    "url": "https://www.threads.com/@esmipsicologa/post/Dfx_CwejDyp",
    "media": "text",
    "parentText": "",
    "parentAuthor": "",
-   "followers": 225242,
+   "followers": 225299,
+   "topicTag": "",
+   "hashtags": [],
    "history": [
     {
      "d": "2026-11-16",
@@ -39,6 +45,14 @@
      "reposts": 29,
      "quotes": 3,
      "views": 5783
+    },
+    {
+     "d": "2026-11-20",
+     "likes": 828,
+     "replies": 29,
+     "reposts": 80,
+     "quotes": 9,
+     "views": 25387
     }
    ]
   },
@@ -2783,6 +2797,66 @@
      "reposts": 0,
      "quotes": 0,
      "views": 26
+    }
+   ]
+  },
+  "4034065726909992532": {
+   "id": "4034065726909992532",
+   "account": "esmipsicologa",
+   "type": "reply",
+   "text": "❤️",
+   "date": "2026-11-19T19:55:31Z",
+   "likes": 2,
+   "replies": 0,
+   "reposts": 0,
+   "quotes": 0,
+   "shares": 0,
+   "views": 171,
+   "url": "https://www.threads.com/@esmipsicologa/post/Df74We9DE5U",
+   "media": "text",
+   "parentText": "Me encantan los libros de @esmipsicologa 💛✨ se los super recomiendo.",
+   "parentAuthor": "anallely_gf",
+   "followers": 225299,
+   "topicTag": "",
+   "hashtags": [],
+   "history": [
+    {
+     "d": "2026-11-20",
+     "likes": 2,
+     "replies": 0,
+     "reposts": 0,
+     "quotes": 0,
+     "views": 171
+    }
+   ]
+  },
+  "4031878911427895815": {
+   "id": "4031878911427895815",
+   "account": "esmipsicologa",
+   "type": "reply",
+   "text": "Te quiero mucho. ❤️",
+   "date": "2026-11-16T19:30:42Z",
+   "likes": 1,
+   "replies": 0,
+   "reposts": 0,
+   "quotes": 0,
+   "shares": 0,
+   "views": 300,
+   "url": "https://www.threads.com/@esmipsicologa/post/Df0HIIVDGIH",
+   "media": "text",
+   "parentText": "También traen nuevas amistades que estarán ahí para siempre. 🩷\nY que bordarían cojines por ti.",
+   "parentAuthor": "lavecinarubia",
+   "followers": 225299,
+   "topicTag": "",
+   "hashtags": [],
+   "history": [
+    {
+     "d": "2026-11-20",
+     "likes": 1,
+     "replies": 0,
+     "reposts": 0,
+     "quotes": 0,
+     "views": 300
     }
    ]
   }

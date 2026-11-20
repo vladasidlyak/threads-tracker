@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T12:54:48Z",
+ "updated": "2026-11-20T13:14:45Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -28,11 +28,11 @@
     "ines",
     "pablo"
    ],
-   "fullName": "",
-   "followers": 225242,
-   "lastFetched": "2026-11-16T11:59:54Z",
+   "fullName": "Elizabeth Clapés",
+   "followers": 225299,
+   "lastFetched": "2026-11-20T13:11:13Z",
    "posts": 60,
-   "replies": 39,
+   "replies": 41,
    "commentThreads": 0
   },
   {
@@ -43,11 +43,11 @@
     "pablo"
    ],
    "fullName": "Maxi McCoubrey | Psicólogo Clínico",
-   "followers": 181179,
-   "lastFetched": "2026-11-16T16:09:03Z",
-   "posts": 27,
-   "replies": 18,
-   "commentThreads": 5
+   "followers": 181472,
+   "lastFetched": "2026-11-20T13:11:40Z",
+   "posts": 31,
+   "replies": 19,
+   "commentThreads": 7
   },
   {
    "handle": "enric_corbera",
@@ -57,9 +57,9 @@
     "pablo"
    ],
    "fullName": "Enric Corbera - Bioneuroemoción®",
-   "followers": 315580,
-   "lastFetched": "2026-11-16T16:18:36Z",
-   "posts": 30,
+   "followers": 315814,
+   "lastFetched": "2026-11-20T13:12:20Z",
+   "posts": 34,
    "replies": 30,
    "commentThreads": 3
   },
@@ -83,8 +83,8 @@
     "ines"
    ],
    "fullName": "Psicóloga Brenda Benavides",
-   "followers": 184600,
-   "lastFetched": "2026-11-17T15:40:31Z",
+   "followers": 184610,
+   "lastFetched": "2026-11-20T13:12:38Z",
    "posts": 3,
    "replies": 0,
    "commentThreads": 3
@@ -96,10 +96,10 @@
     "ines"
    ],
    "fullName": "Dr. Rodrigo Arteaga",
-   "followers": 369615,
-   "lastFetched": "2026-11-17T15:43:18Z",
-   "posts": 23,
-   "replies": 37,
+   "followers": 369869,
+   "lastFetched": "2026-11-20T13:13:29Z",
+   "posts": 34,
+   "replies": 40,
    "commentThreads": 0
   },
   {
@@ -143,6 +143,23 @@
   }
  ],
  "reports": [
+  {
+   "path": "reports/all-ines/2026-11-20-1314-full-ines.md",
+   "title": "Full analysis - all Inés's competitors",
+   "accounts": [
+    "esmipsicologa",
+    "psico.maxi",
+    "enric_corbera",
+    "ju_zeppa",
+    "psicologiaconb",
+    "dr.rodrigoarteaga"
+   ],
+   "brand": "ines",
+   "focus": "full",
+   "scope": "all",
+   "created": "2026-11-20T13:14:45Z",
+   "requestedBy": "Vlada (via Claude)"
+  },
   {
    "path": "reports/heyismail.co/2026-11-20-1300-full-jeff.md",
    "title": "Full analysis (new format - sample)",
@@ -310,10 +327,10 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 2.22,
+  "spent": 2.51,
   "budget": 5,
-  "apify": 1.34,
-  "claude": 0.88,
+  "apify": 1.62,
+  "claude": 0.89,
   "apifyBudget": 4.8,
   "claudeBudget": 5
  }

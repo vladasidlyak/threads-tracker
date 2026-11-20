@@ -4,13 +4,17 @@
   "fullName": "Maxi McCoubrey | Psicólogo Clínico",
   "bio": "✍️Divulgación en\nTrauma Complejo & Estrés Postraumático, Abuso Emocional, Narcisismo Patológico\nConsulta online\n24 años de Practica Clínica\nMP52229",
   "url": "https://www.threads.com/@psico.maxi",
-  "followers": 181179,
-  "lastFetched": "2026-11-16T16:09:03Z"
+  "followers": 181472,
+  "lastFetched": "2026-11-20T13:11:40Z"
  },
  "followersHistory": [
   {
    "d": "2026-11-16",
    "followers": 181179
+  },
+  {
+   "d": "2026-11-20",
+   "followers": 181472
   }
  ],
  "posts": {
@@ -40,7 +44,9 @@
      "quotes": 63,
      "views": 23292
     }
-   ]
+   ],
+   "_score": 0.9774193548387097,
+   "_er": 0.016189825427614178
   },
   "4031305423177318252": {
    "id": "4031305423177318252",
@@ -48,17 +54,19 @@
    "type": "post",
    "text": "1/8\n\nHace dos días me suspendieron mi cuenta de Instagram, @psico.maxi, y todavía no tengo claro por qué. Fueron años de trabajo arduo para hacer accesible un tema complejo y, al mismo tiempo, aprender de tecnología.\n\nSon días de mucha movilización interna, angustia y ansiedad.",
    "date": "2026-11-16T00:31:17Z",
-   "likes": 407,
-   "replies": 114,
-   "reposts": 22,
-   "quotes": 0,
+   "likes": 663,
+   "replies": 168,
+   "reposts": 38,
+   "quotes": 2,
    "shares": 17,
-   "views": 5709,
+   "views": 11255,
    "url": "https://www.threads.com/@psico.maxi/post/DfyEuxxlv9s",
    "media": "text",
    "parentText": "",
    "parentAuthor": "",
-   "followers": 181179,
+   "followers": 181472,
+   "topicTag": "",
+   "hashtags": [],
    "history": [
     {
      "d": "2026-11-16",
@@ -67,8 +75,18 @@
      "reposts": 22,
      "quotes": 0,
      "views": 5709
+    },
+    {
+     "d": "2026-11-20",
+     "likes": 663,
+     "replies": 168,
+     "reposts": 38,
+     "quotes": 2,
+     "views": 11255
     }
-   ]
+   ],
+   "_score": 0.9193548387096773,
+   "_er": 0.004799638511726327
   },
   "4031305424410395272": {
    "id": "4031305424410395272",
@@ -76,17 +94,19 @@
    "type": "reply",
    "text": "Hace 25 años que soy psicólogo y ejerzo la clínica. Desde los 20 estudio todos los días (o casi). Amo mi trabajo. Toda mi producción profesional, todo lo que hago, nace de ese recorrido. He escrito libros, dado clases y estudiado en distintos lugares del mundo. Y, gracias a Dios, pude conocer en persona a grandes referentes de mi especialidad. Algunos son mis amigos. Después de la pandemia, Instagram fue un lugar donde pude compartir parte de ese trabajo con muchísima gente.",
    "date": "2026-11-16T00:31:17Z",
-   "likes": 170,
-   "replies": 9,
-   "reposts": 9,
+   "likes": 278,
+   "replies": 14,
+   "reposts": 11,
    "quotes": 0,
    "shares": 0,
-   "views": 2073,
+   "views": 3652,
    "url": "https://www.threads.com/@psico.maxi/post/DfyEuy7FkKI",
    "media": "text",
    "parentText": "",
    "parentAuthor": "",
-   "followers": 181179,
+   "followers": 181472,
+   "topicTag": "",
+   "hashtags": [],
    "history": [
     {
      "d": "2026-11-16",
@@ -95,6 +115,14 @@
      "reposts": 9,
      "quotes": 0,
      "views": 2073
+    },
+    {
+     "d": "2026-11-20",
+     "likes": 278,
+     "replies": 14,
+     "reposts": 11,
+     "quotes": 0,
+     "views": 3652
     }
    ]
   },
@@ -104,17 +132,19 @@
    "type": "reply",
    "text": "Y, sin embargo, me pasa esto. Me borran de un plumazo y me encuentro con la angustia, el llanto, el desconcierto. Me vienen a la cabeza dos palabras que me cuesta escribir. ¿Desarrollé una «adicción», una «dependencia»?\n\n¿Cuánto poder le doy a esto? ¿Cuánto poder le estamos dando a la inteligencia artificial?",
    "date": "2026-11-16T00:31:17Z",
-   "likes": 90,
-   "replies": 6,
+   "likes": 133,
+   "replies": 8,
    "reposts": 0,
    "quotes": 0,
    "shares": 0,
-   "views": 866,
+   "views": 1390,
    "url": "https://www.threads.com/@psico.maxi/post/DfyEuzaFkVh",
    "media": "text",
    "parentText": "",
    "parentAuthor": "",
-   "followers": 181179,
+   "followers": 181472,
+   "topicTag": "",
+   "hashtags": [],
    "history": [
     {
      "d": "2026-11-16",
@@ -123,6 +153,14 @@
      "reposts": 0,
      "quotes": 0,
      "views": 866
+    },
+    {
+     "d": "2026-11-20",
+     "likes": 133,
+     "replies": 8,
+     "reposts": 0,
+     "quotes": 0,
+     "views": 1390
     }
    ]
   },
@@ -132,17 +170,19 @@
    "type": "reply",
    "text": "Las redes ya venían cambiando nuestra manera de vincularnos. Con la inteligencia artificial, siento que ese cambio se está acelerando. Buena parte de nuestra vida y de nuestros vínculos pasa por estos teléfonos. ¿Cuántas decisiones sobre lo que vemos y compartimos quedan cada vez más en manos de sistemas automatizados?",
    "date": "2026-11-16T00:31:17Z",
-   "likes": 90,
+   "likes": 130,
    "replies": 2,
    "reposts": 1,
    "quotes": 0,
    "shares": 0,
-   "views": 822,
+   "views": 1275,
    "url": "https://www.threads.com/@psico.maxi/post/DfyEuzDlszL",
    "media": "text",
    "parentText": "",
    "parentAuthor": "",
-   "followers": 181179,
+   "followers": 181472,
+   "topicTag": "",
+   "hashtags": [],
    "history": [
     {
      "d": "2026-11-16",
@@ -151,6 +191,14 @@
      "reposts": 1,
      "quotes": 0,
      "views": 822
+    },
+    {
+     "d": "2026-11-20",
+     "likes": 130,
+     "replies": 2,
+     "reposts": 1,
+     "quotes": 0,
+     "views": 1275
     }
    ]
   },
@@ -180,7 +228,9 @@
      "quotes": 5,
      "views": 5763
     }
-   ]
+   ],
+   "_score": 0.8612903225806452,
+   "_er": 0.0020003085875506966
   },
   "4026858189098663936": {
    "id": "4026858189098663936",
@@ -208,7 +258,9 @@
      "quotes": 0,
      "views": 2098
     }
-   ]
+   ],
+   "_score": 0.6741935483870968,
+   "_er": 0.0005896226415094339
   },
   "4025854194405713970": {
    "id": "4025854194405713970",
@@ -236,7 +288,9 @@
      "quotes": 0,
      "views": 1023
     }
-   ]
+   ],
+   "_score": 0.3419354838709677,
+   "_er": 0.00028103509081290777
   },
   "4025366981696377581": {
    "id": "4025366981696377581",
@@ -264,7 +318,9 @@
      "quotes": 0,
      "views": 610
     }
-   ]
+   ],
+   "_score": 0.23870967741935484,
+   "_er": 0.0002700141068594604
   },
   "4025270680383756582": {
    "id": "4025270680383756582",
@@ -292,7 +348,9 @@
      "quotes": 1,
      "views": 4031
     }
-   ]
+   ],
+   "_score": 0.7387096774193549,
+   "_er": 0.000865147240345618
   },
   "4025089137208008625": {
    "id": "4025089137208008625",
@@ -320,7 +378,9 @@
      "quotes": 0,
      "views": 728
     }
-   ]
+   ],
+   "_score": 0.3870967741935484,
+   "_er": 0.0003140980426732499
   },
   "4024546114082553048": {
    "id": "4024546114082553048",
@@ -348,7 +408,9 @@
      "quotes": 0,
      "views": 686
     }
-   ]
+   ],
+   "_score": 0.34516129032258064,
+   "_er": 0.0002975665667430788
   },
   "4020825483218360394": {
    "id": "4020825483218360394",
@@ -376,7 +438,9 @@
      "quotes": 0,
      "views": 5600
     }
-   ]
+   ],
+   "_score": 0.7774193548387097,
+   "_er": 0.0009643360959266443
   },
   "4020387442423102632": {
    "id": "4020387442423102632",
@@ -404,7 +468,9 @@
      "quotes": 0,
      "views": 951
     }
-   ]
+   ],
+   "_score": 0.3596774193548387,
+   "_er": 0.00028654558278963147
   },
   "4020247972075870424": {
    "id": "4020247972075870424",
@@ -432,7 +498,9 @@
      "quotes": 1,
      "views": 1609
     }
-   ]
+   ],
+   "_score": 0.47096774193548385,
+   "_er": 0.00033062951860342093
   },
   "4018107174190232624": {
    "id": "4018107174190232624",
@@ -460,7 +528,9 @@
      "quotes": 0,
      "views": 666
     }
-   ]
+   ],
+   "_score": 0.41612903225806447,
+   "_er": 0.0003361400105801446
   },
   "4017508102245047892": {
    "id": "4017508102245047892",
@@ -488,7 +558,9 @@
      "quotes": 0,
      "views": 1485
     }
-   ]
+   ],
+   "_score": 0.6806451612903227,
+   "_er": 0.0007549374008111444
   },
   "4017477024465951003": {
    "id": "4017477024465951003",
@@ -516,7 +588,9 @@
      "quotes": 0,
      "views": 200
     }
-   ]
+   ],
+   "_score": 0.041935483870967745,
+   "_er": 6.06154117439605e-05
   },
   "4016689771305168371": {
    "id": "4016689771305168371",
@@ -544,7 +618,9 @@
      "quotes": 0,
      "views": 303
     }
-   ]
+   ],
+   "_score": 0.1064516129032258,
+   "_er": 7.163639569740787e-05
   },
   "4016522474644463583": {
    "id": "4016522474644463583",
@@ -572,7 +648,9 @@
      "quotes": 0,
      "views": 865
     }
-   ]
+   ],
+   "_score": 0.4887096774193548,
+   "_er": 0.00040777640627755245
   },
   "4015106482018082466": {
    "id": "4015106482018082466",
@@ -600,7 +678,9 @@
      "quotes": 0,
      "views": 416
     }
-   ]
+   ],
+   "_score": 0.13870967741935486,
+   "_er": 9.36783636043026e-05
   },
   "4015033799360133157": {
    "id": "4015033799360133157",
@@ -628,7 +708,9 @@
      "quotes": 0,
      "views": 609
     }
-   ]
+   ],
+   "_score": 0.17096774193548386,
+   "_er": 0.0001873567272086052
   },
   "4014481876013035084": {
    "id": "4014481876013035084",
@@ -656,7 +738,9 @@
      "quotes": 0,
      "views": 1036
     }
-   ]
+   ],
+   "_score": 0.5661290322580645,
+   "_er": 0.0004187973902309998
   },
   "4014407033398638325": {
    "id": "4014407033398638325",
@@ -684,7 +768,9 @@
      "quotes": 2,
      "views": 1966
     }
-   ]
+   ],
+   "_score": 0.7709677419354839,
+   "_er": 0.0011020983953447365
   },
   "4012378254384139685": {
    "id": "4012378254384139685",
@@ -712,7 +798,9 @@
      "quotes": 1,
      "views": 1090
     }
-   ]
+   ],
+   "_score": 0.6064516129032258,
+   "_er": 0.0004518603420913419
   },
   "4011638397823189793": {
    "id": "4011638397823189793",
@@ -740,7 +828,9 @@
      "quotes": 0,
      "views": 821
     }
-   ]
+   ],
+   "_score": 0.12580645161290321,
+   "_er": 6.612590372068418e-05
   },
   "4009352341526494221": {
    "id": "4009352341526494221",
@@ -768,7 +858,9 @@
      "quotes": 0,
      "views": 924
     }
-   ]
+   ],
+   "_score": 0.29838709677419356,
+   "_er": 0.00028103509081290777
   },
   "4008636134582050911": {
    "id": "4008636134582050911",
@@ -796,7 +888,9 @@
      "quotes": 0,
      "views": 302
     }
-   ]
+   ],
+   "_score": 0.02258064516129032,
+   "_er": 4.959442779051314e-05
   },
   "4008061836805109327": {
    "id": "4008061836805109327",
@@ -824,7 +918,9 @@
      "quotes": 1,
      "views": 918
     }
-   ]
+   ],
+   "_score": 0.5532258064516129,
+   "_er": 0.0004187973902309998
   },
   "4006601858739164958": {
    "id": "4006601858739164958",
@@ -852,7 +948,9 @@
      "quotes": 1,
      "views": 1474
     }
-   ]
+   ],
+   "_score": 0.2870967741935484,
+   "_er": 0.00023144066302239463
   },
   "4031284600638943855": {
    "id": "4031284600638943855",
@@ -860,17 +958,19 @@
    "type": "reply",
    "text": "🍀",
    "date": "2026-11-15T23:49:54Z",
-   "likes": 0,
+   "likes": 2,
    "replies": 0,
    "reposts": 0,
    "quotes": 0,
    "shares": 0,
-   "views": 56,
+   "views": 121,
    "url": "https://www.threads.com/@psico.maxi/post/Dfx__xRljJv",
    "media": "text",
    "parentText": "@meta qué pasa con ustedes, yo no pido, yo exigo le regresen su cuenta a @psico.maxi , qué no tienen idea de la cantidad de personas que literal nos ha salvado de tanto?? ...necesitamos su restitución de cuenta en instagram",
    "parentAuthor": "angel_de_dulce",
-   "followers": 181179,
+   "followers": 181472,
+   "topicTag": "",
+   "hashtags": [],
    "history": [
     {
      "d": "2026-11-16",
@@ -879,6 +979,14 @@
      "reposts": 0,
      "quotes": 0,
      "views": 56
+    },
+    {
+     "d": "2026-11-20",
+     "likes": 2,
+     "replies": 0,
+     "reposts": 0,
+     "quotes": 0,
+     "views": 121
     }
    ]
   },
@@ -1273,17 +1381,214 @@
      "views": 42
     }
    ]
+  },
+  "4033214205469818245": {
+   "id": "4033214205469818245",
+   "account": "psico.maxi",
+   "type": "post",
+   "text": "",
+   "date": "2026-11-18T15:43:41Z",
+   "likes": 234,
+   "replies": 51,
+   "reposts": 11,
+   "quotes": 1,
+   "shares": 8,
+   "views": 2128,
+   "url": "https://www.threads.com/@psico.maxi/post/Df42vN0Fn2F",
+   "media": "link",
+   "parentText": "",
+   "parentAuthor": "",
+   "followers": 181472,
+   "topicTag": "",
+   "hashtags": [],
+   "history": [
+    {
+     "d": "2026-11-20",
+     "likes": 234,
+     "replies": 51,
+     "reposts": 11,
+     "quotes": 1,
+     "views": 2128
+    }
+   ],
+   "_score": 0.8096774193548387,
+   "_er": 0.0016366161170869335
+  },
+  "4032760858509979634": {
+   "id": "4032760858509979634",
+   "account": "psico.maxi",
+   "type": "post",
+   "text": "https://youtu.be/w6zVds1JKcY",
+   "date": "2026-11-18T00:42:58Z",
+   "likes": 66,
+   "replies": 2,
+   "reposts": 5,
+   "quotes": 0,
+   "shares": 2,
+   "views": 934,
+   "url": "https://www.threads.com/@psico.maxi/post/Df3PqJjli_y",
+   "media": "link",
+   "parentText": "",
+   "parentAuthor": "",
+   "followers": 181472,
+   "topicTag": "",
+   "hashtags": [],
+   "history": [
+    {
+     "d": "2026-11-20",
+     "likes": 66,
+     "replies": 2,
+     "reposts": 5,
+     "quotes": 0,
+     "views": 934
+    }
+   ],
+   "_score": 0.4919354838709677,
+   "_er": 0.0004022659143008288
+  },
+  "4032722712480451491": {
+   "id": "4032722712480451491",
+   "account": "psico.maxi",
+   "type": "post",
+   "text": "👉Hoy más que nunca, hay que valorar el esfuerzo de quienes trabajamos en salud mental. En tiempos de desconexión y de falta de sentido, cuidar la salud mental es una prioridad. ¿Cuántas señales más hacen falta para que le demos pelota?\n\nMeta me cerró la cuenta tras recibir reclamos de otra empresa por supuestas infracciones de derechos de autor en tres memes. Por lo que entiendo, la medida se aplicó a través de sus bots.",
+   "date": "2026-11-17T23:28:09Z",
+   "likes": 481,
+   "replies": 61,
+   "reposts": 30,
+   "quotes": 0,
+   "shares": 12,
+   "views": 4146,
+   "url": "https://www.threads.com/@psico.maxi/post/Df3G_DTDAuj",
+   "media": "video",
+   "parentText": "",
+   "parentAuthor": "",
+   "followers": 181472,
+   "topicTag": "",
+   "hashtags": [],
+   "history": [
+    {
+     "d": "2026-11-20",
+     "likes": 481,
+     "replies": 61,
+     "reposts": 30,
+     "quotes": 0,
+     "views": 4146
+    }
+   ],
+   "_score": 0.8741935483870968,
+   "_er": 0.003152001410685946
+  },
+  "4032722736648698836": {
+   "id": "4032722736648698836",
+   "account": "psico.maxi",
+   "type": "reply",
+   "text": "En estos días, mis amigos y colegas me devolvieron un poco de calma. Hoy quiero compartirla con ustedes.\n\n@pilarsordooficial @lucas.casanova.yoga @alealvarezpsi @psic.renzosantamaria @omar.rueda.empathy @carlacardona_ @psi.carlacabelli estoydemilado @giselachavezm flordegineco @belu.wellbeing @dra.psicosalud \n\nDale, vamos a estar bien 🍀",
+   "date": "2026-11-17T23:27:14Z",
+   "likes": 118,
+   "replies": 8,
+   "reposts": 5,
+   "quotes": 0,
+   "shares": 1,
+   "views": 918,
+   "url": "https://www.threads.com/@psico.maxi/post/Df3G_ZzljvU",
+   "media": "text",
+   "parentText": "",
+   "parentAuthor": "",
+   "followers": 181472,
+   "topicTag": "",
+   "hashtags": [],
+   "history": [
+    {
+     "d": "2026-11-20",
+     "likes": 118,
+     "replies": 8,
+     "reposts": 5,
+     "quotes": 0,
+     "views": 918
+    }
+   ]
+  },
+  "4031872729761995390": {
+   "id": "4031872729761995390",
+   "account": "psico.maxi",
+   "type": "post",
+   "text": "Aquí estoy",
+   "date": "2026-11-16T19:20:25Z",
+   "likes": 2001,
+   "replies": 440,
+   "reposts": 208,
+   "quotes": 14,
+   "shares": 196,
+   "views": 33471,
+   "url": "https://www.threads.com/@psico.maxi/post/Df0FuLNDFp-",
+   "media": "video",
+   "parentText": "",
+   "parentAuthor": "",
+   "followers": 181472,
+   "topicTag": "",
+   "hashtags": [],
+   "history": [
+    {
+     "d": "2026-11-20",
+     "likes": 2001,
+     "replies": 440,
+     "reposts": 208,
+     "quotes": 14,
+     "views": 33471
+    }
+   ],
+   "_score": 0.9580645161290322,
+   "_er": 0.014674440134015166
   }
  },
  "comments": {
   "4029925841747854356": [
+   {
+    "id": "4030443490148364359",
+    "username": "fiorellabondy",
+    "isAuthor": false,
+    "text": "Qué pasó Maxi?? Los perfiles que deberían cerrar, no los cierran, y los que están llenos de conocimiento y buena educación, sí los cierran. Es una vergüenza!! Ojalá te veamos pronto por el otro lado, me encanta tu contenido.",
+    "date": "2026-11-14T19:58:46Z",
+    "likes": 20,
+    "replies": 1,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4029925841747854356",
+    "url": "https://www.threads.com/@fiorellabondy/post/DfvAwAFlDBH"
+   },
+   {
+    "id": "4030446856656272317",
+    "username": "psico.maxi",
+    "isAuthor": true,
+    "text": "Alegan derechos de autor…pero nunca recibí un mail de borrar nada… estoy esperando la apelación",
+    "date": "2026-11-14T20:05:28Z",
+    "likes": 24,
+    "replies": 0,
+    "views": 0,
+    "depth": 2,
+    "parentId": "4030443490148364359",
+    "url": "https://www.threads.com/@psico.maxi/post/DfvBg_ZFju9"
+   },
+   {
+    "id": "4030511507818360343",
+    "username": "anamariabaistrocchi",
+    "isAuthor": false,
+    "text": "Siempre fuiste respetado, prudente y muy profesional. 💪🏼 vamos todavía! @meta",
+    "date": "2026-11-14T22:13:55Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4029925841747854356",
+    "url": "https://www.threads.com/@anamariabaistrocchi/post/DfvQNyeoy4X"
+   },
    {
     "id": "4029960738164815874",
     "username": "psicobiointegral",
     "isAuthor": false,
     "text": "@meta @instagram @instagramforbusiness  le solicitamos tengan a bien restablecer la  cuenta de @psico.maxi  ya que es de vital importancia para su comunidad. Ojalá nos proporcionen una pronta y satisfactoria respuesta.",
     "date": "2026-11-14T03:59:38Z",
-    "likes": 97,
+    "likes": 102,
     "replies": 5,
     "views": 0,
     "depth": 1,
@@ -1296,7 +1601,7 @@
     "isAuthor": false,
     "text": "Que tristeza y a la vez que vergüenza que le pase algo así a alguien como tú que tantísimo ayudas a tod@s.\nEspero que te lo solucionen rápidamente. Hacen falta más cuentas como la tuya, no sabes cuánto me ayudaste en su momento.\nGracias por todo y suerte con esto, yo te seguiré igual por aquí.",
     "date": "2026-11-14T11:52:46Z",
-    "likes": 31,
+    "likes": 33,
     "replies": 1,
     "views": 0,
     "depth": 2,
@@ -1309,7 +1614,7 @@
     "isAuthor": true,
     "text": "Siento mucho esas dos cosas… mucho… desconcierto",
     "date": "2026-11-15T12:12:08Z",
-    "likes": 0,
+    "likes": 2,
     "replies": 0,
     "views": 0,
     "depth": 3,
@@ -1322,25 +1627,12 @@
     "isAuthor": false,
     "text": "@meta@Instagram,una injusticia tremenda haber sacado de Instagram a semejante profesional,ayudando a gente que tanto lo necesita.Es urgente su reincorporacion,lo exijo!!!!",
     "date": "2026-11-14T15:30:19Z",
-    "likes": 14,
+    "likes": 15,
     "replies": 0,
     "views": 0,
     "depth": 2,
     "parentId": "4029960738164815874",
     "url": "https://www.threads.com/@ethelceciliab/post/DfuiByGEZ21"
-   },
-   {
-    "id": "4030402483587769708",
-    "username": "mariaeugenial.cepparo",
-    "isAuthor": false,
-    "text": "@meta  @instagram @instagramforbusiness se solicita restablecer la cuenta de @psico.maxi ya que su labor es muy importante para aquellos que lo seguimos y para la gente que se va sumando cada día más.",
-    "date": "2026-11-14T18:37:18Z",
-    "likes": 1,
-    "replies": 0,
-    "views": 0,
-    "depth": 2,
-    "parentId": "4029960738164815874",
-    "url": "https://www.threads.com/@mariaeugenial.cepparo/post/Dfu3bRwGeVs"
    },
    {
     "id": "4030288429849881166",
@@ -1369,30 +1661,17 @@
     "url": "https://www.threads.com/@mandy_descarg/post/DfvqrUmkeqZ"
    },
    {
-    "id": "4030443490148364359",
-    "username": "fiorellabondy",
+    "id": "4030402483587769708",
+    "username": "mariaeugenial.cepparo",
     "isAuthor": false,
-    "text": "Qué pasó Maxi?? Los perfiles que deberían cerrar, no los cierran, y los que están llenos de conocimiento y buena educación, sí los cierran. Es una vergüenza!! Ojalá te veamos pronto por el otro lado, me encanta tu contenido.",
-    "date": "2026-11-14T19:58:46Z",
-    "likes": 17,
-    "replies": 1,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4029925841747854356",
-    "url": "https://www.threads.com/@fiorellabondy/post/DfvAwAFlDBH"
-   },
-   {
-    "id": "4030446856656272317",
-    "username": "psico.maxi",
-    "isAuthor": true,
-    "text": "Alegan derechos de autor…pero nunca recibí un mail de borrar nada… estoy esperando la apelación",
-    "date": "2026-11-14T20:05:28Z",
-    "likes": 21,
+    "text": "@meta  @instagram @instagramforbusiness se solicita restablecer la cuenta de @psico.maxi ya que su labor es muy importante para aquellos que lo seguimos y para la gente que se va sumando cada día más.",
+    "date": "2026-11-14T18:37:18Z",
+    "likes": 1,
     "replies": 0,
     "views": 0,
     "depth": 2,
-    "parentId": "4030443490148364359",
-    "url": "https://www.threads.com/@psico.maxi/post/DfvBg_ZFju9"
+    "parentId": "4029960738164815874",
+    "url": "https://www.threads.com/@mariaeugenial.cepparo/post/Dfu3bRwGeVs"
    },
    {
     "id": "4031275478179502282",
@@ -1400,7 +1679,7 @@
     "isAuthor": false,
     "text": "@meta qué pasa con ustedes, yo no pido, yo exigo le regresen su cuenta a @psico.maxi , qué no tienen idea de la cantidad de personas que literal nos ha salvado de tanto?? ...necesitamos su restitución de cuenta en instagram",
     "date": "2026-11-15T23:31:47Z",
-    "likes": 1,
+    "likes": 6,
     "replies": 1,
     "views": 0,
     "depth": 1,
@@ -1413,7 +1692,7 @@
     "isAuthor": true,
     "text": "🍀",
     "date": "2026-11-15T23:49:54Z",
-    "likes": 0,
+    "likes": 2,
     "replies": 0,
     "views": 0,
     "depth": 2,
@@ -1426,7 +1705,7 @@
     "isAuthor": false,
     "text": "Dale @meta \"Vamos a estar bien\" cuando nos devuelvan la cuenta de @psico.maxi , porque lo quieren silenciar?? Será que su contenido es muy poderoso!",
     "date": "2026-11-14T06:40:24Z",
-    "likes": 56,
+    "likes": 57,
     "replies": 2,
     "views": 0,
     "depth": 1,
@@ -1439,7 +1718,7 @@
     "isAuthor": false,
     "text": "Muy probablemente sea porque los narcisistas y psicópatas están quedando expuestos y eso les incomoda. Llevan haciéndolo hace años con cuentas que ayudan a que la gente despierte.",
     "date": "2026-11-14T10:10:28Z",
-    "likes": 39,
+    "likes": 46,
     "replies": 3,
     "views": 0,
     "depth": 2,
@@ -1452,7 +1731,7 @@
     "isAuthor": false,
     "text": "Están en todos lados 🚩",
     "date": "2026-11-14T11:16:16Z",
-    "likes": 4,
+    "likes": 5,
     "replies": 1,
     "views": 0,
     "depth": 3,
@@ -1465,7 +1744,7 @@
     "isAuthor": false,
     "text": "Sí, levantás una baldosa y salen tres.",
     "date": "2026-11-14T11:24:47Z",
-    "likes": 4,
+    "likes": 5,
     "replies": 0,
     "views": 0,
     "depth": 4,
@@ -1523,19 +1802,6 @@
     "depth": 3,
     "parentId": "4030641199950870194",
     "url": "https://www.threads.com/@lola.lopez.fire.in.blood/post/DfvuKCijUCr"
-   },
-   {
-    "id": "4030643853393399421",
-    "username": "noraraquelilieff",
-    "isAuthor": false,
-    "text": "Tampoco sé. Confiemos en que mañana esté solucionado.",
-    "date": "2026-11-15T02:36:51Z",
-    "likes": 1,
-    "replies": 1,
-    "views": 0,
-    "depth": 4,
-    "parentId": "4030643191581327531",
-    "url": "https://www.threads.com/@noraraquelilieff/post/DfvuTq5oA59"
    }
   ],
   "4031305423177318252": [
@@ -1545,25 +1811,25 @@
     "isAuthor": false,
     "text": "Si supieras las veces que me salvaste con tus posteos de instagram, la salud mental es un privilegio que hoy tengo, pero muchos no y profesionales como vos, que dejan pistas, pequeñas ayudas, son un salvavidas. Quizás sólo tengas que volver a empezar a juntar seguidores pero seguro, como a mi ayudaste a muchos...yo empecé de cero tantas veces que no recuerdo. Toma un descanso, unos mates, una llorada, sacudirse la tierra y seguir! Aquí te esperamos los que miramos tus videos siempre 💜🍀 Abrazo",
     "date": "2026-11-16T00:43:53Z",
-    "likes": 37,
-    "replies": 0,
+    "likes": 51,
+    "replies": 1,
     "views": 0,
     "depth": 1,
     "parentId": "4031305423177318252",
     "url": "https://www.threads.com/@vir.niederle/post/DfyGLC0kThg"
    },
    {
-    "id": "4031314891541975573",
-    "username": "mare.camacaro",
+    "id": "4032932300567618153",
+    "username": "imma.iles",
     "isAuthor": false,
-    "text": "Yo te apoyo y en otra publicación etiqueté a @meta y @instagram , porque tus seguidores, a quienes nos has ayudado con tus terapias, estamos muy conmovidos con esto. Recuperarás tu cuenta, y seguiremos en contacto. Vamos a estar bien 💝🌹✨✨✨✨",
-    "date": "2026-11-16T00:50:05Z",
-    "likes": 22,
+    "text": "Suscribo todo esto, palabra por palabra. A mí me ayudaste tantooooo, tantísimo, a poder seguir adelante, a entender. Solo confía, entre todos los que te seguimos conseguiremos que te devuelvan la cuenta o si no se dá, al menos que empieces una de cero donde todos volvamos a seguirte y el mal sea el menor. Mucho ánimo. Te abrazo y te agradezco por todo a la distancia.🫂❤️",
+    "date": "2026-11-18T06:23:36Z",
+    "likes": 0,
     "replies": 0,
     "views": 0,
-    "depth": 1,
-    "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@mare.camacaro/post/DfyG4j4GhIV"
+    "depth": 2,
+    "parentId": "4031311763672741984",
+    "url": "https://www.threads.com/@imma.iles/post/Df32o9aiCJp"
    },
    {
     "id": "4031666938308909549",
@@ -1592,51 +1858,12 @@
     "url": "https://www.threads.com/@drayoli_endovital/post/DfzgH0VlkmX"
    },
    {
-    "id": "4031696277716957225",
-    "username": "ciolicris",
-    "isAuthor": false,
-    "text": "No tenes idea lo que extraño tus mensajes Max, nos ayudaron tanto, estoy muy triste 🥹",
-    "date": "2026-11-16T13:27:50Z",
-    "likes": 0,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@ciolicris/post/DfzdmdblXgp"
-   },
-   {
-    "id": "4031714479100562959",
-    "username": "verocoqui",
-    "isAuthor": false,
-    "text": "Crea una nueva cuenta de respaldo maxi, todos te buscaremos y te seguiremos❤️ te queremos mucho, y estamos contigo.",
-    "date": "2026-11-16T14:04:00Z",
-    "likes": 0,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@verocoqui/post/DfzhvUylo4P"
-   },
-   {
-    "id": "4031319222522320113",
-    "username": "ali.chiar",
-    "isAuthor": false,
-    "text": "Aún no tenes respuesta, que pudo haber pasado... Te extrañamos Maxi...Abrazo 🫂",
-    "date": "2026-11-16T00:58:42Z",
-    "likes": 13,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@ali.chiar/post/DfyH3lapZTx"
-   },
-   {
     "id": "4031643208044131965",
     "username": "ingrid174984",
     "isAuthor": false,
     "text": "Podés abrir una nueva cuenta en Instagram, o en Youtube, tiene solución.",
     "date": "2026-11-16T11:42:24Z",
-    "likes": 2,
+    "likes": 4,
     "replies": 1,
     "views": 0,
     "depth": 1,
@@ -1649,7 +1876,7 @@
     "isAuthor": false,
     "text": "Sí! YouTube! Ahí hay varios exponentes de su materia muy buenos !!!!!❤️🍀🍀🍀🍀🍀🍀",
     "date": "2026-11-16T15:26:28Z",
-    "likes": 0,
+    "likes": 1,
     "replies": 0,
     "views": 0,
     "depth": 2,
@@ -1657,56 +1884,30 @@
     "url": "https://www.threads.com/@lupita_cervantess/post/DfzrLX4li0v"
    },
    {
-    "id": "4031676700099434506",
-    "username": "thelonely_ggod",
+    "id": "4031319222522320113",
+    "username": "ali.chiar",
     "isAuthor": false,
-    "text": "Espero q puedas recuperarla con razón ya no veo tus post en Instagram 🥺",
-    "date": "2026-11-16T12:48:56Z",
-    "likes": 0,
+    "text": "Aún no tenes respuesta, que pudo haber pasado... Te extrañamos Maxi...Abrazo 🫂",
+    "date": "2026-11-16T00:58:42Z",
+    "likes": 15,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@thelonely_ggod/post/DfzZJkWpVgK"
+    "url": "https://www.threads.com/@ali.chiar/post/DfyH3lapZTx"
    },
    {
-    "id": "4031384659082205301",
-    "username": "nina_quinteros",
+    "id": "4031314891541975573",
+    "username": "mare.camacaro",
     "isAuthor": false,
-    "text": "Por favor, restablezcan la cuenta de @psico.maxi  Es un profesional de la salud mental con una enorme trayectoria y una comunidad de muchas personas que necesitan su contenido. Pedimos que revisen su caso y le devuelvan su cuenta. ¡Su trabajo es muy valioso para la comunidad!\n@instagram @mosseri @meta @creators @zuck",
-    "date": "2026-11-16T03:08:42Z",
-    "likes": 6,
+    "text": "Yo te apoyo y en otra publicación etiqueté a @meta y @instagram , porque tus seguidores, a quienes nos has ayudado con tus terapias, estamos muy conmovidos con esto. Recuperarás tu cuenta, y seguiremos en contacto. Vamos a estar bien 💝🌹✨✨✨✨",
+    "date": "2026-11-16T00:50:05Z",
+    "likes": 32,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@nina_quinteros/post/DfyWvz9jdh1"
-   },
-   {
-    "id": "4031631705970118792",
-    "username": "ehenhoy",
-    "isAuthor": false,
-    "text": "Siento en el alma que estés atravesando por esta situación @psico.maxi . Eres una de esas voces en medio del desierto que nos ha salvado a muchas, nombrando lo innombrable y ofreciéndonos herramientas que son oro para navegar la ola del abuso emocional. Hoy tu comunidad se siente muy triste, Maxi. Pero @instagram es solo un medio. Y aunque no se entienda la decisión totalmente arbitraria de @meta y la indefensión a la que te han sometido, tu legado es inmenso , Maxi 🍀",
-    "date": "2026-11-16T11:19:33Z",
-    "likes": 5,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@ehenhoy/post/DfzO60TjRCI"
-   },
-   {
-    "id": "4031641848049469121",
-    "username": "cristinacen",
-    "isAuthor": false,
-    "text": "Te sigo desde hace tiempo y tu labor de difusión es impecable, incluso innovadora. No todos los profesionales están preparados para este tema. Si esto de la cuenta es una señal... yo diría que es para el rumbo de la FORMACION , hacen falta muchos mas profesionales que puedan ayudar como vos lo haces",
-    "date": "2026-11-16T11:39:42Z",
-    "likes": 1,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@cristinacen/post/DfzROZ2lobB"
+    "url": "https://www.threads.com/@mare.camacaro/post/DfyG4j4GhIV"
    },
    {
     "id": "4031384028888521656",
@@ -1714,7 +1915,7 @@
     "isAuthor": false,
     "text": "Increíble… pero es señal de que estás haciendo algo bien, y obviamente a varios les molesta, los refleja…Así estamos…\nDale, vamos a estar bien ❤️",
     "date": "2026-11-16T03:07:27Z",
-    "likes": 5,
+    "likes": 10,
     "replies": 0,
     "views": 0,
     "depth": 1,
@@ -1722,17 +1923,56 @@
     "url": "https://www.threads.com/@carinaverzi/post/DfyWmpDFVu4"
    },
    {
-    "id": "4031714621304564603",
-    "username": "zamoranoasis",
+    "id": "4031744933228783061",
+    "username": "madre_monolitica_",
     "isAuthor": false,
-    "text": "😔",
-    "date": "2026-11-16T14:04:17Z",
+    "text": "Ánimos Maxi! Estamos con vos en este momento. Te abrazo con gratitud infinita por tanto!!!❤️",
+    "date": "2026-11-16T15:04:30Z",
     "likes": 0,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@zamoranoasis/post/DfzhxZOm2t7"
+    "url": "https://www.threads.com/@madre_monolitica_/post/DfzoqfaFSXV"
+   },
+   {
+    "id": "4031696277716957225",
+    "username": "ciolicris",
+    "isAuthor": false,
+    "text": "No tenes idea lo que extraño tus mensajes Max, nos ayudaron tanto, estoy muy triste 🥹",
+    "date": "2026-11-16T13:27:50Z",
+    "likes": 2,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031305423177318252",
+    "url": "https://www.threads.com/@ciolicris/post/DfzdmdblXgp"
+   },
+   {
+    "id": "4031823133007077412",
+    "username": "cetinamascolo",
+    "isAuthor": false,
+    "text": "Hola Maxi,muy apenada por lo sucedido, pero nunca sabemos dónde se esconden los monstruos! Y agradezco cada palabra sobre el abuso! Hizo que 20 años de sufrimiento tuvieran una razón con vos. Y no sentí más que la loca era yo, y rompiste nuestras cadenas y te necesitamos! Los monstruos siguen alrededor,nunca te dejan, viven de tu dependencia y VOS NOS SALVAS DE CAER DÍA A DÍA!",
+    "date": "2026-11-16T17:39:53Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031305423177318252",
+    "url": "https://www.threads.com/@cetinamascolo/post/Dfz6ccoFuAk"
+   },
+   {
+    "id": "4031394336080272138",
+    "username": "edulacal",
+    "isAuthor": false,
+    "text": "Crearon uno similar",
+    "date": "2026-11-16T03:27:56Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031305423177318252",
+    "url": "https://www.threads.com/@edulacal/post/DfyY8oXlhsK"
    },
    {
     "id": "4031544874608505858",
@@ -1748,71 +1988,110 @@
     "url": "https://www.threads.com/@claudiafaidutti/post/Dfy7LQTFjQC"
    },
    {
-    "id": "4031698366907555390",
-    "username": "gabriela_dalmasso",
+    "id": "4031325455600871617",
+    "username": "pattmoar",
     "isAuthor": false,
-    "text": "Maxi menos mal que te leí, me parecía muy raro que no postearas!!! Sos tan  necesario!!! Queremos saber que buscan con este bloqueo !  Te seguimos! Abrazo",
-    "date": "2026-11-16T13:31:59Z",
-    "likes": 0,
+    "text": "Tranquilo , todo tiene solución en la vida, menos la muerte …frase que es mi lema desde chiquita. \nUn abrazo @psico.maxi  todo va a estar bien !",
+    "date": "2026-11-16T01:11:05Z",
+    "likes": 4,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@gabriela_dalmasso/post/DfzeE3JDB4-"
+    "url": "https://www.threads.com/@pattmoar/post/DfyJSSbFGjB"
    },
    {
-    "id": "4031423158582064631",
-    "username": "saryta_ok",
+    "id": "4031384659082205301",
+    "username": "nina_quinteros",
     "isAuthor": false,
-    "text": "Se te extraña @psico.maxi . Hoy domingo extrañe tus preguntas. No es justo lo que te esta pasando,y para nosotros,tus lectores que esperamos palabras de ayuda,para salir de donde no sabíamos como. Y escucharte o leer ese \" Dale, vamos a estar bien\".",
-    "date": "2026-11-16T04:25:12Z",
-    "likes": 0,
+    "text": "Por favor, restablezcan la cuenta de @psico.maxi  Es un profesional de la salud mental con una enorme trayectoria y una comunidad de muchas personas que necesitan su contenido. Pedimos que revisen su caso y le devuelvan su cuenta. ¡Su trabajo es muy valioso para la comunidad!\n@instagram @mosseri @meta @creators @zuck",
+    "date": "2026-11-16T03:08:42Z",
+    "likes": 10,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@saryta_ok/post/DfyfgDakTX3"
+    "url": "https://www.threads.com/@nina_quinteros/post/DfyWvz9jdh1"
    },
    {
-    "id": "4031601576540585290",
-    "username": "sinergiaexpansiva",
+    "id": "4032202499540488877",
+    "username": "bhm71456",
     "isAuthor": false,
-    "text": "Buenos dias @psico.maxi , esto tambien nos ayuda a abrir el juego a todas las plataformas, porque no trabajamos para instagram, you tuve, esta red social...hay infinitas maneras de llegar y a los que hacen mucho ruido suelen bajarle las cuentas... pero es barajar y tirar de nuevo en este tiempo!! Tus seguidores , te seguimos y nuevos vendran.. cual es el proposito de tu trabajo? Ahi es en el punto ...tranquilo como vos decis....VAMOS A ESTAR BIEN!!",
-    "date": "2026-11-16T10:19:41Z",
+    "text": "Maxi , no sabes aún nada? Ojalá que pronto veamos tus vídeos. Un abrazo amigo",
+    "date": "2026-11-17T06:13:37Z",
     "likes": 0,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@sinergiaexpansiva/post/DfzIEYFmz1K"
+    "url": "https://www.threads.com/@bhm71456/post/Df1Qs9PjZKt"
    },
    {
-    "id": "4031427504191404063",
-    "username": "silvi_riq",
+    "id": "4031714479100562959",
+    "username": "verocoqui",
     "isAuthor": false,
-    "text": "Nooo!! Cómo??? Hay cuenta de respaldo?",
-    "date": "2026-11-16T04:33:50Z",
+    "text": "Crea una nueva cuenta de respaldo maxi, todos te buscaremos y te seguiremos❤️ te queremos mucho, y estamos contigo.",
+    "date": "2026-11-16T14:04:00Z",
     "likes": 0,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4031305423177318252",
-    "url": "https://www.threads.com/@silvi_riq/post/DfygfSlEXgf"
+    "url": "https://www.threads.com/@verocoqui/post/DfzhvUylo4P"
+   },
+   {
+    "id": "4031844734872848453",
+    "username": "ferrarirosales",
+    "isAuthor": false,
+    "text": "@psico.maxi llevaba días buscando en Instagram tu contenido. He hecho alguno de tus cursos y he leído tus dos libros. Sin duda a estos medios no le sirve se publique con seriedad, conocimiento y rigor científico como tú haces. \nTe seguiremos por otras vías.\nTodo el apoyo. Un abrazo. Vamos a estar bien 🍀",
+    "date": "2026-11-16T18:22:48Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031305423177318252",
+    "url": "https://www.threads.com/@ferrarirosales/post/Dfz_Wy7oAhF"
+   },
+   {
+    "id": "4031656886164381482",
+    "username": "gloriapalmayoga",
+    "isAuthor": false,
+    "text": "Nooooooo.",
+    "date": "2026-11-16T12:09:34Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031305423177318252",
+    "url": "https://www.threads.com/@gloriapalmayoga/post/DfzUpPMFd8q"
    }
   ],
   "4030237152051089705": [
    {
-    "id": "4030559336044820941",
-    "username": "marca8204",
+    "id": "4030593902444333444",
+    "username": "michina9610",
     "isAuthor": false,
-    "text": "Claro igual no entiendo q deberia poner?? Ayer me di cuenta de lo q pasaba le escribi a Beth porq me parecio q se debia al cierre , bloqueo o hackeo de cuenta!",
-    "date": "2026-11-14T23:48:56Z",
+    "text": "Lo subi a mi instagram, como publicacion. Ya no me aparece tu cuenta como \"no encontrada\" Pero no carga nada, no se ven publicaciones y en ceros los seguidores y seguidos",
+    "date": "2026-11-15T00:57:37Z",
     "likes": 3,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4030237152051089705",
-    "url": "https://www.threads.com/@marca8204/post/DfvbFx_FfnN"
+    "url": "https://www.threads.com/@michina9610/post/Dfvi8ydDMmE"
+   },
+   {
+    "id": "4031271434148192383",
+    "username": "itzelalvarado297",
+    "isAuthor": false,
+    "text": "Oye me enterè el viernes !!! Qué mal de instagram …",
+    "date": "2026-11-15T23:23:45Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4030237152051089705",
+    "url": "https://www.threads.com/@itzelalvarado297/post/Dfx9ALBlSB_"
    },
    {
     "id": "4030566381166610877",
@@ -1854,30 +2133,17 @@
     "url": "https://www.threads.com/@july_cassinelli_/post/Dfy6Snsm1fS"
    },
    {
-    "id": "4030593902444333444",
-    "username": "michina9610",
+    "id": "4030559336044820941",
+    "username": "marca8204",
     "isAuthor": false,
-    "text": "Lo subi a mi instagram, como publicacion. Ya no me aparece tu cuenta como \"no encontrada\" Pero no carga nada, no se ven publicaciones y en ceros los seguidores y seguidos",
-    "date": "2026-11-15T00:57:37Z",
+    "text": "Claro igual no entiendo q deberia poner?? Ayer me di cuenta de lo q pasaba le escribi a Beth porq me parecio q se debia al cierre , bloqueo o hackeo de cuenta!",
+    "date": "2026-11-14T23:48:56Z",
     "likes": 3,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4030237152051089705",
-    "url": "https://www.threads.com/@michina9610/post/Dfvi8ydDMmE"
-   },
-   {
-    "id": "4030557002552813562",
-    "username": "lilitobella",
-    "isAuthor": false,
-    "text": "Con todo gusto lo haré! Espero que todo haya sido un error y pronto recuperes tu cuenta!",
-    "date": "2026-11-14T23:44:18Z",
-    "likes": 1,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4030237152051089705",
-    "url": "https://www.threads.com/@lilitobella/post/Dfvaj0wH6f6"
+    "url": "https://www.threads.com/@marca8204/post/DfvbFx_FfnN"
    },
    {
     "id": "4030685531840310790",
@@ -1906,6 +2172,32 @@
     "url": "https://www.threads.com/@meta.ai/post/Dfv31Xgj71I"
    },
    {
+    "id": "4030954567902796377",
+    "username": "g.urzay",
+    "isAuthor": false,
+    "text": "Pero qué les molesta? Yo he denunciado un par de cuentas por  violencia (mucha) y jamás me dieron bolilla.",
+    "date": "2026-11-15T12:54:11Z",
+    "likes": 2,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4030237152051089705",
+    "url": "https://www.threads.com/@g.urzay/post/Dfw09KVlZpZ"
+   },
+   {
+    "id": "4030557002552813562",
+    "username": "lilitobella",
+    "isAuthor": false,
+    "text": "Con todo gusto lo haré! Espero que todo haya sido un error y pronto recuperes tu cuenta!",
+    "date": "2026-11-14T23:44:18Z",
+    "likes": 2,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4030237152051089705",
+    "url": "https://www.threads.com/@lilitobella/post/Dfvaj0wH6f6"
+   },
+   {
     "id": "4031385350756495696",
     "username": "nina_quinteros",
     "isAuthor": false,
@@ -1919,95 +2211,17 @@
     "url": "https://www.threads.com/@nina_quinteros/post/DfyW54IjfFQ"
    },
    {
-    "id": "4030724309127387350",
-    "username": "sra.gabrielamaciera",
+    "id": "4032536826313190934",
+    "username": "claudia_gonzalez_mattas",
     "isAuthor": false,
-    "text": "Recuperar cuenta de @piscomaxi recuperar cuenta por favor",
-    "date": "2026-11-15T05:16:43Z",
-    "likes": 1,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4030237152051089705",
-    "url": "https://www.threads.com/@sra.gabrielamaciera/post/DfwAmdJEdjW"
-   },
-   {
-    "id": "4030964616197291855",
-    "username": "jap_medita",
-    "isAuthor": false,
-    "text": "\"No te preocupes, vamos a estar bien\"\n ladran Sancho",
-    "date": "2026-11-15T13:14:09Z",
-    "likes": 2,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4030237152051089705",
-    "url": "https://www.threads.com/@jap_medita/post/Dfw3PYim79P"
-   },
-   {
-    "id": "4031474249785295255",
-    "username": "mangels_clar",
-    "isAuthor": false,
-    "text": "Que pasó? Que hay que hacer? Necesito su post diarioooo!!!",
-    "date": "2026-11-16T06:06:42Z",
-    "likes": 1,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4030237152051089705",
-    "url": "https://www.threads.com/@mangels_clar/post/DfyrHhzlkGX"
-   },
-   {
-    "id": "4030646456268623733",
-    "username": "mery_ckuin",
-    "isAuthor": false,
-    "text": "Alguna persona se liberó del psicópata gracias a tus consejos y al victimario le molestó... ¿como te ayudamos Maxi? que necesitas que escribamos desde nuestras cuentas?",
-    "date": "2026-11-15T02:42:02Z",
-    "likes": 5,
-    "replies": 1,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4030237152051089705",
-    "url": "https://www.threads.com/@mery_ckuin/post/Dfvu5jBFA91"
-   },
-   {
-    "id": "4030773397282004570",
-    "username": "psico.maxi",
-    "isAuthor": true,
-    "text": "Si por favor",
-    "date": "2026-11-15T06:54:14Z",
-    "likes": 2,
-    "replies": 0,
-    "views": 0,
-    "depth": 2,
-    "parentId": "4030646456268623733",
-    "url": "https://www.threads.com/@psico.maxi/post/DfwLwyDFp5a"
-   },
-   {
-    "id": "4030527901028111598",
-    "username": "lorena_fal223",
-    "isAuthor": false,
-    "text": "Que mal porbre.",
-    "date": "2026-11-14T22:46:29Z",
+    "text": "Subida tu historia",
+    "date": "2026-11-17T17:17:51Z",
     "likes": 0,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4030237152051089705",
-    "url": "https://www.threads.com/@lorena_fal223/post/DfvT8V2FNTu"
-   },
-   {
-    "id": "4031271434148192383",
-    "username": "itzelalvarado297",
-    "isAuthor": false,
-    "text": "Oye me enterè el viernes !!! Qué mal de instagram …",
-    "date": "2026-11-15T23:23:45Z",
-    "likes": 1,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "4030237152051089705",
-    "url": "https://www.threads.com/@itzelalvarado297/post/Dfx9ALBlSB_"
+    "url": "https://www.threads.com/@claudia_gonzalez_mattas/post/Df2cuDUFC4W"
    },
    {
     "id": "4031358271297971433",
@@ -2023,6 +2237,19 @@
     "url": "https://www.threads.com/@monitercero/post/DfyQv0bDGTp"
    },
    {
+    "id": "4031474249785295255",
+    "username": "mangels_clar",
+    "isAuthor": false,
+    "text": "Que pasó? Que hay que hacer? Necesito su post diarioooo!!!",
+    "date": "2026-11-16T06:06:42Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4030237152051089705",
+    "url": "https://www.threads.com/@mangels_clar/post/DfyrHhzlkGX"
+   },
+   {
     "id": "4031005548048678597",
     "username": "luzmiriamtabares",
     "isAuthor": false,
@@ -2036,30 +2263,69 @@
     "url": "https://www.threads.com/@luzmiriamtabares/post/DfxAjBTEf7F"
    },
    {
-    "id": "4030637026961352788",
-    "username": "moya.chistaya.pravda",
+    "id": "4033193693193504940",
+    "username": "buenoshabitos__",
     "isAuthor": false,
-    "text": "@psico.maxi",
-    "date": "2026-11-15T02:23:18Z",
+    "text": "Ahi lo repostee Maxi!!!!Exitossss",
+    "date": "2026-11-18T15:02:56Z",
     "likes": 0,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4030237152051089705",
-    "url": "https://www.threads.com/@moya.chistaya.pravda/post/DfvswVSkWhU"
+    "url": "https://www.threads.com/@buenoshabitos__/post/Df4yEuRJQis"
    },
    {
-    "id": "4030954567902796377",
-    "username": "g.urzay",
+    "id": "4030964616197291855",
+    "username": "jap_medita",
     "isAuthor": false,
-    "text": "Pero qué les molesta? Yo he denunciado un par de cuentas por  violencia (mucha) y jamás me dieron bolilla.",
-    "date": "2026-11-15T12:54:11Z",
-    "likes": 1,
+    "text": "\"No te preocupes, vamos a estar bien\"\n ladran Sancho",
+    "date": "2026-11-15T13:14:09Z",
+    "likes": 2,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "4030237152051089705",
-    "url": "https://www.threads.com/@g.urzay/post/Dfw09KVlZpZ"
+    "url": "https://www.threads.com/@jap_medita/post/Dfw3PYim79P"
+   },
+   {
+    "id": "4031681232874406763",
+    "username": "paredessilvialiliana",
+    "isAuthor": false,
+    "text": "Devuelvan la cuenta a psico. maxi por favor",
+    "date": "2026-11-16T12:57:57Z",
+    "likes": 2,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4030237152051089705",
+    "url": "https://www.threads.com/@paredessilvialiliana/post/DfzaLh1FoNr"
+   },
+   {
+    "id": "4033238843499630685",
+    "username": "maryge07",
+    "isAuthor": false,
+    "text": "@instagram @meta @meta.ai  revisen la cuenta Instagram de @psico.maxi es un profesional que ayuda a muchas personas.",
+    "date": "2026-11-18T16:32:38Z",
+    "likes": 0,
+    "replies": 1,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4030237152051089705",
+    "url": "https://www.threads.com/@maryge07/post/Df48VvxGlBd"
+   },
+   {
+    "id": "4033239092841678188",
+    "username": "meta.ai",
+    "isAuthor": false,
+    "text": "Ya apeló, que es el paso correcto — una vez enviada la apelación no hay otra vía para acelerarla, solo esperar la revisión del equipo de Instagram.\n\nNo puedo ver el motivo de la suspensión de esa cuenta específica ni el estado de su apelación. Si la revisión determina que fue un error recuperará el acceso, y es importante que revise el correo vinculado a la cuenta y lo que ve al intentar iniciar sesión, que es donde aparecen las actualizaciones.\n\nEscribir desde otras cuentas o etiquetar a @instagram no cambia la revisión, y la cantidad de reportes no decide el resultado.",
+    "date": "2026-11-18T16:33:08Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 2,
+    "parentId": "4033238843499630685",
+    "url": "https://www.threads.com/@meta.ai/post/Df48ZX_DAVs"
    }
   ],
   "4014407033398638325": [
@@ -2259,6 +2525,530 @@
     "depth": 1,
     "parentId": "4020825483218360394",
     "url": "https://www.threads.com/@melycarmely2/post/DfNuY0dFJ3c"
+   }
+  ],
+  "4031872729761995390": [
+   {
+    "id": "4031909327834018801",
+    "username": "roman.vivi",
+    "isAuthor": false,
+    "text": "Maxi que podemos hacer por vos ya!!! TU TRABAJO NO SON BOLUDECES DE FRIBOLIDADES, ES CLARAMENTE SALVAR VIDAS, SALVAR VIDAS, NO TE PODES IR, SI ALGUIEN CON DON DE GENTE, CON EMPATÍA, QUE ESCUCHE TU RECLAMACIÓN Y SEPA QUE TU TRABAJO ES VALIOSO, QUE POR FAVOR HAGA ALGO",
+    "date": "2026-11-16T20:31:08Z",
+    "likes": 78,
+    "replies": 2,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@roman.vivi/post/Df0OCv0IXPx"
+   },
+   {
+    "id": "4032327738883067495",
+    "username": "martaelenabertran",
+    "isAuthor": false,
+    "text": "Maxi...tu trabajo es exelente...ojala se solucione",
+    "date": "2026-11-17T10:22:26Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 2,
+    "parentId": "4031909327834018801",
+    "url": "https://www.threads.com/@martaelenabertran/post/Df1tLbeFE5n"
+   },
+   {
+    "id": "4032572392535462066",
+    "username": "edithgioino",
+    "isAuthor": false,
+    "text": "Lamento mucho dr Maxi lo que le ha sucedido. Yo soy una de sus seguidoras . No baje los brazos ,insista,persevere, su trabajo es muy importante. Primero a salvo como usted dice. 🙏🏼🙏🏼🙏🏼",
+    "date": "2026-11-17T18:28:31Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 2,
+    "parentId": "4031909327834018801",
+    "url": "https://www.threads.com/@edithgioino/post/Df2kzm8H5Cy"
+   },
+   {
+    "id": "4032562692057549811",
+    "username": "nancyeismendi",
+    "isAuthor": false,
+    "text": "Sr Maxi, a mi me ayudo mucho, con sus videos. Nose como podemos ayudarlo!! Le mando un abrazo! Quieri seguir escuchándolo. 🙏🙌🏻🤗",
+    "date": "2026-11-17T18:09:15Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@nancyeismendi/post/Df2imcqlUvz"
+   },
+   {
+    "id": "4033127862181987764",
+    "username": "martupna",
+    "isAuthor": false,
+    "text": "Me extrañaba no ver sus videos. Al punto que crei que era un problema de mi Instagram\nSiempre siento temor ante la IA. Y META.\nNos ayudaste a muchos Maxi \nSuerte",
+    "date": "2026-11-18T12:52:08Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@martupna/post/Df4jGwXFoW0"
+   },
+   {
+    "id": "4031909080125970539",
+    "username": "fernandodelacroix",
+    "isAuthor": false,
+    "text": "Pues entonces el desafío será crear nuestras propias plataformas con ayuda de la IA !!! Desde hace años te sigo y tu contenido es tremendamente útil y edificante!!!",
+    "date": "2026-11-16T20:30:38Z",
+    "likes": 45,
+    "replies": 1,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@fernandodelacroix/post/Df0N_JHlJhr"
+   },
+   {
+    "id": "4033267328712921184",
+    "username": "veronicaparolik",
+    "isAuthor": false,
+    "text": "Coincido",
+    "date": "2026-11-18T17:29:14Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 2,
+    "parentId": "4031909080125970539",
+    "url": "https://www.threads.com/@veronicaparolik/post/Df5C0QsH1Bg"
+   },
+   {
+    "id": "4032304210019653169",
+    "username": "mariadel244mar",
+    "isAuthor": false,
+    "text": "Es una injusticia",
+    "date": "2026-11-17T09:35:41Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@mariadel244mar/post/Df1n1CgiJYx"
+   },
+   {
+    "id": "4031988947333334210",
+    "username": "dianamoralesguerrero",
+    "isAuthor": false,
+    "text": "Mi Máxi querido tú excelente trabajo no lo borra nadie, esta plasmado en las mentes y en los corazones de tanta gente como yo a las que tu experiencia y sabiduría ha impactado sus vidas. Donde estes nosotros estaremos y siempre estaremos agradecidos  de ti. Dios te bendiga",
+    "date": "2026-11-16T23:09:19Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@dianamoralesguerrero/post/Df0gJXQGsTC"
+   },
+   {
+    "id": "4031890533333909502",
+    "username": "glen_glen_moreno",
+    "isAuthor": false,
+    "text": "Un fuerte abrazo Maxi, trata de comunicarte con jousfit de México a ella también le cerraron la cuenta, y creo q contrato a alguien para que le ayudara a recuperarla, parece que hay personas que se dedican a eso porque pasa seguido",
+    "date": "2026-11-16T19:53:47Z",
+    "likes": 51,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@glen_glen_moreno/post/Df0JxQEoL_-"
+   },
+   {
+    "id": "4032563177338520140",
+    "username": "nancyeismendi",
+    "isAuthor": false,
+    "text": "Sr Maxi, a mi me ayudo mucho, con sus videos. Nose como podemos ayudarlo!! Le mando un abrazo! Quieri seguir escuchándolo. 🙏🙌🏻🤗",
+    "date": "2026-11-17T18:10:13Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@nancyeismendi/post/Df2itgnlUJM"
+   },
+   {
+    "id": "4032078929967510654",
+    "username": "martinezfernandez.73",
+    "isAuthor": false,
+    "text": "dios mío Maxi...🫂🫂😢\nTODO MI APOYO Y ABRAZO.\nTremenda injusticia.\nGracias por compartirnos tu angustia y tu lado más humano y vulnerable.❤️‍🩹\nLa parte económica es directamente repugnante. 😠😠😢\n Ayer ya publiqué en IG aludiendo y aludiendo a @meta y copiando tus 3 últimos textos explicativos.\nMUCHO ÀNIMO💪, NO DECAIGAS💪💪✊️ Y MANTENNOS INFORMADOS de cualquier modo de apoyarte.y ayudarte (¿¿... Firmas en Change.org...??)",
+    "date": "2026-11-17T02:08:06Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@martinezfernandez.73/post/Df00myHDPR-"
+   },
+   {
+    "id": "4032044806519745238",
+    "username": "mjulietaferraz",
+    "isAuthor": false,
+    "text": "Solicitamos a @meta q devuelva la cuenta a@psico.maxi por la función social y en salud mental que representa!!!!!!",
+    "date": "2026-11-17T01:00:18Z",
+    "likes": 39,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@mjulietaferraz/post/Df0s2OLEWrW"
+   },
+   {
+    "id": "4032348363458767537",
+    "username": "ragotinmariacristina",
+    "isAuthor": false,
+    "text": "Maxi te veo tan transparente e inteligente, sincero y dedicado que.. TE QUIERO MAXI... NO TE VAMOS A DEJAR SOLO !!!",
+    "date": "2026-11-17T11:03:25Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@ragotinmariacristina/post/Df1x3jmlmqx"
+   },
+   {
+    "id": "4031891008053608496",
+    "username": "avanti_adri",
+    "isAuthor": false,
+    "text": "Terrible lo que ocurrió Maxi! \nTu trabajo en las redes es sumamente interesante y pedagógico !\nA muchos nos ayuda...\nEl peligro de la tecnología es preocupante.\nIntentaré ver si algo se me ocurre para intentar ayudarte!\nCuidate mucho, ojalá se resuelva pronto.Adelante!",
+    "date": "2026-11-16T19:54:44Z",
+    "likes": 35,
+    "replies": 1,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@avanti_adri/post/Df0J4KMIIAw"
+   },
+   {
+    "id": "4032267238119909230",
+    "username": "dianaguilar013",
+    "isAuthor": false,
+    "text": "ME CONSTA QUE UN SECTOR UTLIZA LA TECNOLOGÍA PARA PROOSITOS MUY PERVERSOS. Y LA LINEA TECNOLÓGICA Y DE INFORMACIÓN DEBE SER HUMANITARIO Y NO UTLITARIA ✍️🎓🇵🇾",
+    "date": "2026-11-17T08:22:14Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 2,
+    "parentId": "4031891008053608496",
+    "url": "https://www.threads.com/@dianaguilar013/post/Df1fbBvlSdu"
+   },
+   {
+    "id": "4033345035811133161",
+    "username": "cocoalarconphotography",
+    "isAuthor": false,
+    "text": "Aquí seguimos.....contigo vamos a estar bien...",
+    "date": "2026-11-18T20:03:37Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@cocoalarconphotography/post/Df5UfDEG5bp"
+   },
+   {
+    "id": "4032189319889012830",
+    "username": "surpriseme65",
+    "isAuthor": false,
+    "text": "Lamentable vamos a estar bien.",
+    "date": "2026-11-17T05:47:25Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@surpriseme65/post/Df1NtKvG8he"
+   },
+   {
+    "id": "4032036709239747629",
+    "username": "heuberger_lilian",
+    "isAuthor": false,
+    "text": "Mi apoyo incondicional por tu trabajo que escuchamos y leemos todos y nos ayudas !!!! Fuerza Maxiii seguí para triunfar",
+    "date": "2026-11-17T00:44:13Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@heuberger_lilian/post/Df0rAY_kfQt"
+   },
+   {
+    "id": "4031883437190702043",
+    "username": "doctoralauortiz",
+    "isAuthor": false,
+    "text": "Puedes saber usar la IA pero jamás se compara con la empatía de otro ser humano que te escuche, entiendo la ansiedad que sientes, siento tu dolor, sin embargo estoy seguro que sabes que tu talento es tuyo no de Meta, y lo puedes volver hacer de distintas maneras. Que triste amo tu contenido 🩷",
+    "date": "2026-11-16T19:39:41Z",
+    "likes": 20,
+    "replies": 2,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4031872729761995390",
+    "url": "https://www.threads.com/@doctoralauortiz/post/Df0IJ_RiGPb"
+   }
+  ],
+  "4032722712480451491": [
+   {
+    "id": "4032762666482490790",
+    "username": "ali.chiar",
+    "isAuthor": false,
+    "text": "Estoy con vos Maxi !!!! Vamos a estar bien ❤️",
+    "date": "2026-11-18T00:46:34Z",
+    "likes": 7,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@ali.chiar/post/Df3QEdXJV2m"
+   },
+   {
+    "id": "4032766802283952105",
+    "username": "yanetmoreira38",
+    "isAuthor": false,
+    "text": "Gracias Maxi,ojala muy pronto puedas recuperar esa cuenta. Es muy valioso tu trabajo y lo agradezco",
+    "date": "2026-11-18T00:54:47Z",
+    "likes": 8,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@yanetmoreira38/post/Df3RApIH3fp"
+   },
+   {
+    "id": "4032785678211011376",
+    "username": "rominad.mocca",
+    "isAuthor": false,
+    "text": "Queda claro que la plataforma tiene sus reglas y no somos dueños de la información que volvamos en ella, pero los corazones que tocaste y las enseñanzas, la luz que pusiste en tanta oscuridad son voces que no serán silenciadas. Vidas que han encontrado validación y contención eso no desaparece. Ánimo por que tu trabajo trasciende las plataformas. Quizás sea una oportunidad para encontrar otras formas de seguir comunicando. Que Dios ilumine tus pensamientos. Gracias por tu ayuda!",
+    "date": "2026-11-18T01:32:17Z",
+    "likes": 11,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@rominad.mocca/post/Df3VTUtDNMw"
+   },
+   {
+    "id": "4032738056755097731",
+    "username": "castrob01",
+    "isAuthor": false,
+    "text": "🤍 abrazos querido Maxi! 🤍",
+    "date": "2026-11-17T23:57:40Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@castrob01/post/Df3KeVxFjCD"
+   },
+   {
+    "id": "4033107126984935090",
+    "username": "uzcangagladys",
+    "isAuthor": false,
+    "text": "Eres un ser especial que ha dado todo de si para ayudar a las personas a comprender y fortalecer el estado emocional en todas sus formas a saber poner límites y entender que no te tienes que quedar donde hay abuso de cualquier índole. Gracias Maxi vamos a estar bien que Dios te proteja y te siga dando BP",
+    "date": "2026-11-18T12:10:57Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@uzcangagladys/post/Df4eZBNCIay"
+   },
+   {
+    "id": "4032983672637929306",
+    "username": "sandoc60",
+    "isAuthor": false,
+    "text": "Maxi, dale, vamos a estar bien. Te abrazo en la distancia, me ayudaste mucho sin conocerme.",
+    "date": "2026-11-18T08:05:40Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@sandoc60/post/Df4CUhYiLda"
+   },
+   {
+    "id": "4032754172706412156",
+    "username": "romarangelica",
+    "isAuthor": false,
+    "text": "Siempre con las palabras justas... Gracias por tanto @psico.maxi. Aquí seguiremos tus seguidores...Dale, vamos a estar bien💪🤗🔥",
+    "date": "2026-11-18T00:29:41Z",
+    "likes": 13,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@romarangelica/post/Df3OI26o9Z8"
+   },
+   {
+    "id": "4032994587375133806",
+    "username": "erikaabbape",
+    "isAuthor": false,
+    "text": "Dale Maxi, vamos a estar bien 🫶🏼💚🍀. Hablo por mí, te seguiré aquí y en cualquier red social. Gracias por tantas enseñanzas, gracias 🫂 por todo lo que me has ayudado desde que te encontré en Instagram. Me llevas acompañando más de un año!! Esto es una nueva etapa! Te abrazo fuerte",
+    "date": "2026-11-18T08:27:21Z",
+    "likes": 3,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@erikaabbape/post/Df4EzWhkWRu"
+   },
+   {
+    "id": "4032789263595324335",
+    "username": "alejandracontegrand",
+    "isAuthor": false,
+    "text": "Maxi dale!! Adelante, vamos a estar ❤️‍🩹 bien!!!",
+    "date": "2026-11-18T01:39:24Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@alejandracontegrand/post/Df3WHf2m8Ov"
+   },
+   {
+    "id": "4033199154863874763",
+    "username": "9veronicacifuentes",
+    "isAuthor": false,
+    "text": "No deberíamos usar la IA para que no crezca somos nosotros  mismos que le estamos  dando ese poder ,  revelémonos !!!",
+    "date": "2026-11-18T15:13:47Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@9veronicacifuentes/post/Df4zUM2ESLL"
+   },
+   {
+    "id": "4033059062921600123",
+    "username": "marielcarballal",
+    "isAuthor": false,
+    "text": "Dale Maxi ! Vamos a estar bien !!!",
+    "date": "2026-11-18T10:35:27Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@marielcarballal/post/Df4TdmDnJx7"
+   },
+   {
+    "id": "4033553281401851802",
+    "username": "mdifilippe",
+    "isAuthor": false,
+    "text": "Hasta con este gran y grace6 problema que tuviste podes enseñarnos a pensar y reflexionar. Me alegra muchísimo que hayas recuperado tu cuenta de Instagram!! Vamos a estar bien👏👏👏",
+    "date": "2026-11-19T02:57:22Z",
+    "likes": 2,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@mdifilippe/post/Df6D1a4kY-a"
+   },
+   {
+    "id": "4033200678034743684",
+    "username": "susana1624sola",
+    "isAuthor": false,
+    "text": "Dale vamos a estar bien❤️❤️💚❤️",
+    "date": "2026-11-18T15:16:49Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@susana1624sola/post/Df4zqXaICGE"
+   },
+   {
+    "id": "4033841541873917842",
+    "username": "mabel.staltari",
+    "isAuthor": false,
+    "text": "La vas a recuperar  porque tus posteos .. sus contenidos basados en la clínica y ciencia ayudan a miles de personas!! Fuerzas Msxi!! Va a salir bien!! 🫶🏼",
+    "date": "2026-11-19T12:30:06Z",
+    "likes": 2,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@mabel.staltari/post/Df7FYKXm9-S"
+   },
+   {
+    "id": "4033125040254222912",
+    "username": "lili_fe153",
+    "isAuthor": false,
+    "text": "Maxi tus videos anteriores no se olvidan .La escencia de tus cuidados no estarán en detalles en mi mente ...pero lo principal queda ...tu generosidad; acompañamiento y la confianza !!!",
+    "date": "2026-11-18T12:46:32Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@lili_fe153/post/Df4idsPFgJA"
+   },
+   {
+    "id": "4032784109676608984",
+    "username": "maeleram",
+    "isAuthor": false,
+    "text": "Dale, vamos a estar bien 🍀\n. . . . . . . . . . . . . . . .",
+    "date": "2026-11-18T01:29:10Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@maeleram/post/Df3U8f5HT3Y"
+   },
+   {
+    "id": "4033640646321781585",
+    "username": "julie_133",
+    "isAuthor": false,
+    "text": "Vamos a estar bien!! ❤️",
+    "date": "2026-11-19T05:50:57Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@julie_133/post/Df6XsvzljtR"
+   },
+   {
+    "id": "4032874550487971160",
+    "username": "daniel.cavil",
+    "isAuthor": false,
+    "text": "Lamento mucho lo sucedido !",
+    "date": "2026-11-18T04:28:51Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@daniel.cavil/post/Df3pgldjHVY"
+   },
+   {
+    "id": "4032763889431353051",
+    "username": "mirtanietodi",
+    "isAuthor": false,
+    "text": "A gran tribulación mayor victoria Maxi.!!! Si Dios permite que te hagan ésto hay un bien mayor seguro. Mucha Fortaleza y Sabiduría para campear éstos tiempos... Y gracias por tanto 🥰",
+    "date": "2026-11-18T00:48:59Z",
+    "likes": 5,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@mirtanietodi/post/Df3QWQUlBbb"
+   },
+   {
+    "id": "4032741312483037226",
+    "username": "montoyasandovalmonique",
+    "isAuthor": false,
+    "text": "Dale, vamos a estar bien!!",
+    "date": "2026-11-18T00:04:08Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "4032722712480451491",
+    "url": "https://www.threads.com/@montoyasandovalmonique/post/Df3LNt5mBAq"
    }
   ]
  }

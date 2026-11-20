@@ -4,13 +4,17 @@
   "fullName": "Psicóloga Brenda Benavides",
   "bio": "✨ La dosis diaria de psicología que necesitas \n🧠 Enfoque cognitivo conductual \n🌎 Psicoterapia internacional\n@ansiedadconb",
   "url": "https://www.threads.com/@psicologiaconb",
-  "followers": 184600,
-  "lastFetched": "2026-11-17T15:40:31Z"
+  "followers": 184610,
+  "lastFetched": "2026-11-20T13:12:38Z"
  },
  "followersHistory": [
   {
    "d": "2026-11-17",
    "followers": 184600
+  },
+  {
+   "d": "2026-11-20",
+   "followers": 184610
   }
  ],
  "posts": {
@@ -40,7 +44,9 @@
      "quotes": 5,
      "views": 3460
     }
-   ]
+   ],
+   "_score": 0.23333333333333334,
+   "_er": 0.0010996154054493256
   },
   "3255604475054010544": {
    "id": "3255604475054010544",
@@ -68,7 +74,9 @@
      "quotes": 11,
      "views": 3384
     }
-   ]
+   ],
+   "_score": 0.43333333333333335,
+   "_er": 0.0027246628026650777
   },
   "3255602294217257425": {
    "id": "3255602294217257425",
@@ -96,24 +104,13 @@
      "quotes": 52,
      "views": 7831
     }
-   ]
+   ],
+   "_score": 0.8333333333333335,
+   "_er": 0.013780401928389578
   }
  },
  "comments": {
   "3255602294217257425": [
-   {
-    "id": "3879470611895322003",
-    "username": "margaritafoss",
-    "isAuthor": false,
-    "text": "Yo lo tengo escrito porque es fácil de que se nos olvide y es este tipo de cosas que debemos de practicar para mantenernos más productivos 🩵",
-    "date": "2026-04-20T12:42:37Z",
-    "likes": 0,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "3255602294217257425",
-    "url": "https://www.threads.com/@margaritafoss/post/DXWpfealoWT"
-   },
    {
     "id": "3255625886430915597",
     "username": "danidiazk16",
@@ -126,6 +123,19 @@
     "depth": 1,
     "parentId": "3255602294217257425",
     "url": "https://www.threads.com/@danidiazk16/post/C0uTn6iR-wN"
+   },
+   {
+    "id": "3879470611895322003",
+    "username": "margaritafoss",
+    "isAuthor": false,
+    "text": "Yo lo tengo escrito porque es fácil de que se nos olvide y es este tipo de cosas que debemos de practicar para mantenernos más productivos 🩵",
+    "date": "2026-04-20T12:42:37Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "3255602294217257425",
+    "url": "https://www.threads.com/@margaritafoss/post/DXWpfealoWT"
    },
    {
     "id": "3259891584102539624",
@@ -141,32 +151,6 @@
     "url": "https://www.threads.com/@estibaliz_psicologa/post/C09dh_Et6Fo"
    },
    {
-    "id": "3255975886703882332",
-    "username": "e.flores021",
-    "isAuthor": false,
-    "text": "Es muy real, estoy en una situación complicada y que tiene que sanar... Gracias por el mensaje❤️",
-    "date": "2023-12-12T06:29:53Z",
-    "likes": 1,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "3255602294217257425",
-    "url": "https://www.threads.com/@e.flores021/post/C0vjNFsOPBc"
-   },
-   {
-    "id": "3264603555653238700",
-    "username": "drneurohealth",
-    "isAuthor": false,
-    "text": "Pensar en positivo siempre, una mente sana promueve bienestar y calidad de vida!",
-    "date": "2023-12-24T04:11:32Z",
-    "likes": 1,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "3255602294217257425",
-    "url": "https://www.threads.com/@drneurohealth/post/C1OM6MjMD-s"
-   },
-   {
     "id": "3257381947008843011",
     "username": "llslesther",
     "isAuthor": false,
@@ -180,17 +164,17 @@
     "url": "https://www.threads.com/@llslesther/post/C00i59ZO30D"
    },
    {
-    "id": "3257019051061932623",
-    "username": "ramosyada",
+    "id": "3264603555653238700",
+    "username": "drneurohealth",
     "isAuthor": false,
-    "text": "Gracias 🙏 necesitaba esto 🌸",
-    "date": "2023-12-13T17:02:28Z",
-    "likes": 0,
+    "text": "Pensar en positivo siempre, una mente sana promueve bienestar y calidad de vida!",
+    "date": "2023-12-24T04:11:32Z",
+    "likes": 1,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "3255602294217257425",
-    "url": "https://www.threads.com/@ramosyada/post/C0zQZINOfJP"
+    "url": "https://www.threads.com/@drneurohealth/post/C1OM6MjMD-s"
    },
    {
     "id": "3255616119573899530",
@@ -232,56 +216,17 @@
     "url": "https://www.threads.com/@genesisbirzabith/post/C0u59ASr3la"
    },
    {
-    "id": "3256285104803214640",
-    "username": "dcero_dyt",
+    "id": "3257019051061932623",
+    "username": "ramosyada",
     "isAuthor": false,
-    "text": "Uff, Justo lo que necesitaba leer en estos días..",
-    "date": "2023-12-12T16:44:15Z",
+    "text": "Gracias 🙏 necesitaba esto 🌸",
+    "date": "2023-12-13T17:02:28Z",
     "likes": 0,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "3255602294217257425",
-    "url": "https://www.threads.com/@dcero_dyt/post/C0wpgzfMPUw"
-   },
-   {
-    "id": "3256220046006629326",
-    "username": "maressilvia",
-    "isAuthor": false,
-    "text": "A mí me gustaría que la familia de quienes padecemos depresión ansiedad y anexas nos entiendan un poco y no se enfaden, no se enojen por nuestro estado de ánimo, no es algo que, querramos provocar 😥",
-    "date": "2023-12-12T14:35:00Z",
-    "likes": 0,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "3255602294217257425",
-    "url": "https://www.threads.com/@maressilvia/post/C0wauEwuzPO"
-   },
-   {
-    "id": "3255836396818855981",
-    "username": "atenea868",
-    "isAuthor": false,
-    "text": "Gracias",
-    "date": "2023-12-12T01:52:45Z",
-    "likes": 1,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "3255602294217257425",
-    "url": "https://www.threads.com/@atenea868/post/C0vDfPnLPgt"
-   },
-   {
-    "id": "3256847201736331035",
-    "username": "iriti_bustos",
-    "isAuthor": false,
-    "text": "Gracias, un bálsamo estas palabras",
-    "date": "2023-12-13T11:21:02Z",
-    "likes": 0,
-    "replies": 0,
-    "views": 0,
-    "depth": 1,
-    "parentId": "3255602294217257425",
-    "url": "https://www.threads.com/@iriti_bustos/post/C0ypUZDOA8b"
+    "url": "https://www.threads.com/@ramosyada/post/C0zQZINOfJP"
    },
    {
     "id": "3255783431518635117",
@@ -297,6 +242,58 @@
     "url": "https://www.threads.com/@milagros_martinezg71/post/C0u3cf1RURt"
    },
    {
+    "id": "3255975886703882332",
+    "username": "e.flores021",
+    "isAuthor": false,
+    "text": "Es muy real, estoy en una situación complicada y que tiene que sanar... Gracias por el mensaje❤️",
+    "date": "2023-12-12T06:29:53Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "3255602294217257425",
+    "url": "https://www.threads.com/@e.flores021/post/C0vjNFsOPBc"
+   },
+   {
+    "id": "3256847201736331035",
+    "username": "iriti_bustos",
+    "isAuthor": false,
+    "text": "Gracias, un bálsamo estas palabras",
+    "date": "2023-12-13T11:21:02Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "3255602294217257425",
+    "url": "https://www.threads.com/@iriti_bustos/post/C0ypUZDOA8b"
+   },
+   {
+    "id": "3256220046006629326",
+    "username": "maressilvia",
+    "isAuthor": false,
+    "text": "A mí me gustaría que la familia de quienes padecemos depresión ansiedad y anexas nos entiendan un poco y no se enfaden, no se enojen por nuestro estado de ánimo, no es algo que, querramos provocar 😥",
+    "date": "2023-12-12T14:35:00Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "3255602294217257425",
+    "url": "https://www.threads.com/@maressilvia/post/C0wauEwuzPO"
+   },
+   {
+    "id": "3256285104803214640",
+    "username": "dcero_dyt",
+    "isAuthor": false,
+    "text": "Uff, Justo lo que necesitaba leer en estos días..",
+    "date": "2023-12-12T16:44:15Z",
+    "likes": 0,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "3255602294217257425",
+    "url": "https://www.threads.com/@dcero_dyt/post/C0wpgzfMPUw"
+   },
+   {
     "id": "3257340574536491569",
     "username": "danielcontrev",
     "isAuthor": false,
@@ -310,17 +307,17 @@
     "url": "https://www.threads.com/@danielcontrev/post/C00Zf6RtuIx"
    },
    {
-    "id": "3255634224042423949",
-    "username": "marianagl.01",
+    "id": "3255836396818855981",
+    "username": "atenea868",
     "isAuthor": false,
-    "text": "✨",
-    "date": "2023-12-11T19:11:04Z",
+    "text": "Gracias",
+    "date": "2023-12-12T01:52:45Z",
     "likes": 1,
     "replies": 0,
     "views": 0,
     "depth": 1,
     "parentId": "3255602294217257425",
-    "url": "https://www.threads.com/@marianagl.01/post/C0uVhPipzaN"
+    "url": "https://www.threads.com/@atenea868/post/C0vDfPnLPgt"
    },
    {
     "id": "3256336401587035502",
@@ -334,6 +331,19 @@
     "depth": 1,
     "parentId": "3255602294217257425",
     "url": "https://www.threads.com/@carlisvillagra/post/C0w1LRVxN1u"
+   },
+   {
+    "id": "3255634224042423949",
+    "username": "marianagl.01",
+    "isAuthor": false,
+    "text": "✨",
+    "date": "2023-12-11T19:11:04Z",
+    "likes": 1,
+    "replies": 0,
+    "views": 0,
+    "depth": 1,
+    "parentId": "3255602294217257425",
+    "url": "https://www.threads.com/@marianagl.01/post/C0uVhPipzaN"
    }
   ],
   "3255604475054010544": [

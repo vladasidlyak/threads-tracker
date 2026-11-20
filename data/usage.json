@@ -1,6 +1,6 @@
 {
  "2026-11": {
-  "total": 2.2207,
+  "total": 2.5095,
   "items": [
    {
     "t": "2026-11-16T15:48:20Z",
@@ -151,6 +151,96 @@
     "kind": "claude",
     "usd": 0.0825,
     "what": "You are a social media strategist analyzing competitors on Threads.  BRAND WE AR"
+   },
+   {
+    "t": "2026-11-20T13:10:52Z",
+    "kind": "apify",
+    "usd": 0.0032,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"esmipsicologa\"], \"includeViewCoun"
+   },
+   {
+    "t": "2026-11-20T13:11:13Z",
+    "kind": "apify",
+    "usd": 0.0032,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"esmipsicologa\"], \"includeViewCoun"
+   },
+   {
+    "t": "2026-11-20T13:11:33Z",
+    "kind": "apify",
+    "usd": 0.016,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"psico.maxi\"], \"includeViewCounts\""
+   },
+   {
+    "t": "2026-11-20T13:11:40Z",
+    "kind": "apify",
+    "usd": 0.0016,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"psico.maxi\"], \"includeViewCounts\""
+   },
+   {
+    "t": "2026-11-20T13:11:52Z",
+    "kind": "apify",
+    "usd": 0.168,
+    "what": "deepmine/threads-scraper {\"postUrls\": [\"https://www.threads.com/@psico.maxi/post"
+   },
+   {
+    "t": "2026-11-20T13:12:16Z",
+    "kind": "apify",
+    "usd": 0.0112,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"enric_corbera\"], \"includeViewCoun"
+   },
+   {
+    "t": "2026-11-20T13:12:20Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"enric_corbera\"], \"includeViewCoun"
+   },
+   {
+    "t": "2026-11-20T13:12:25Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"ju_zeppa\"], \"includeViewCounts\": "
+   },
+   {
+    "t": "2026-11-20T13:12:28Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"ju_zeppa\"], \"includeViewCounts\": "
+   },
+   {
+    "t": "2026-11-20T13:12:33Z",
+    "kind": "apify",
+    "usd": 0.0016,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"psicologiaconb\"], \"includeViewCou"
+   },
+   {
+    "t": "2026-11-20T13:12:38Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"psicologiaconb\"], \"includeViewCou"
+   },
+   {
+    "t": "2026-11-20T13:13:00Z",
+    "kind": "apify",
+    "usd": 0.0416,
+    "what": "deepmine/threads-scraper {\"postUrls\": [\"https://www.threads.com/@psicologiaconb/"
+   },
+   {
+    "t": "2026-11-20T13:13:26Z",
+    "kind": "apify",
+    "usd": 0.032,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"dr.rodrigoarteaga\"], \"includeView"
+   },
+   {
+    "t": "2026-11-20T13:13:29Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"dr.rodrigoarteaga\"], \"includeView"
+   },
+   {
+    "t": "2026-11-20T13:14:45Z",
+    "kind": "claude",
+    "usd": 0.0104,
+    "what": "[economy] You are a social media strategist analyzing competitors on Threads.  B"
    }
   ]
  }
