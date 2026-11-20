@@ -59,6 +59,7 @@ RULES
 - The brand works in wellbeing: no medical claims, no diagnoses, no promises of cure.
 - Use hyphens, never em dashes.
 - Write everything in English except the post drafts and reply templates.
+- Never add an "EN:" line or a translation to text that is already in English.
 - TRANSLATIONS: every time you quote text that is not in English (posts, comments, replies, bios, post drafts, reply templates),
   put its English translation on the next line, as a separate line starting with "EN:" in italics, for example:
   > Te pasó porque había algo malo en esa persona, no en ti.
