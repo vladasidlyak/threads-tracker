@@ -44,12 +44,31 @@ def account_brief(paths: T.Paths, acc: dict) -> str:
              "Language stats (posts):", T.voice_stats(posts), "Top posts:", top or "  (none)"]
     # latest reports for this account (most useful context), trimmed
     idx = T.read_json(paths.reports / "index.json", [])
-    for r in [r for r in idx if acc["handle"] in r["accounts"]][:2]:
+    singles = sorted((r for r in idx if r["accounts"] == [acc["handle"]]), key=lambda r: r.get("created", ""), reverse=True)
+    for r in singles[:1]:
         f = paths.root / r["path"]
         if f.exists():
-            txt = f.read_text(encoding="utf-8")
-            lines.append(f"Latest AI report ({r['title']}), excerpt:\n{txt[:5000]}")
+            lines.append(f"Latest report on @{acc['handle']} ({r['title']}), excerpt:\n{report_core(f.read_text(encoding='utf-8'))[:3000]}")
     return "\n".join(lines)
+
+
+def report_core(txt: str) -> str:
+    """The AI part of a report (drop the computed tables, which the plan already has as data)."""
+    parts = txt.split("\n---\n")
+    return max(parts, key=len).strip() if len(parts) > 1 else txt
+
+
+def brand_report(paths, brand: str) -> str:
+    """Latest combined report on all of this brand's competitors - the main input for the plan."""
+    idx = T.read_json(paths.reports / "index.json", [])
+    combined = sorted((r for r in idx if r.get("brand") == brand and r.get("scope") == "all"),
+                      key=lambda r: r.get("created", ""), reverse=True)
+    for r in combined[:1]:
+        f = paths.root / r["path"]
+        if f.exists():
+            return (f"LATEST COMBINED REPORT ON ALL COMPETITORS ({r['created'][:10]}) - follow its actions, hooks, words, "
+                    f"topic ideas, tags and hypotheses:\n{report_core(f.read_text(encoding='utf-8'))[:12000]}\n")
+    return ""
 
 
 # Fixed, consistent schedule: which weekdays (0=Mon) and which times of day.
@@ -115,6 +134,7 @@ def common_rules(per_day: int) -> str:
 {"- With " + str(per_day) + " posts a day, vary the length and format a lot: mostly one-liners and short thoughts, at most 2 lists a day, at least 1 question a day. Never two posts in a row with the same format." if many else "- Mix formats according to what worked."}
 - Vary topics; never copy competitor text - adapt the pattern in the brand's voice.
 - Drafts: Threads length (mostly under 300 characters), no hashtags unless the research shows they help.
+- When a combined report is given: build on its "Do this next" actions, hooks, words, topic ideas and tags, and spread its hypotheses across the plan so each one is tested by 2-4 posts (fill "tests").
 - Wellbeing brand: no medical claims, no diagnoses, no promises of cure. Use hyphens, never em dashes.
 - Everything except hook and draft in English. When hook and draft are not in English, always fill hook_en and draft_en.
 - When "why" or an action quotes a non-English post, add the English translation in brackets right after the quote."""
@@ -123,7 +143,9 @@ def common_rules(per_day: int) -> str:
 POST_SHAPE = """{{"slot": 1, "pillar": "one of the pillar names", "format": "Statement|Question|List|Personal story|Quote|Thread",
              "topic": "short", "hook": "first line, in {lang}", "draft": "full ready-to-post text in {lang}",
              "hook_en": "English translation of the hook (empty if already English)", "draft_en": "English translation of the draft (empty if already English)",
-             "cta": "how to invite replies, or empty", "inspiration": "@handle and the pattern it builds on", "why": "one sentence"}}"""
+             "cta": "how to invite replies, or empty", "tag": "one Threads topic tag for this post (from the report's tag list when there is one)",
+             "tests": "which hypothesis from the report this post tests, in a few words, or empty",
+             "inspiration": "@handle and the pattern it builds on", "why": "one sentence"}}"""
 
 
 def build_more_prompt(brand: dict, briefs: list[str], plan: dict, slots: list[dict], first: int, used: list[str], per_day: int) -> str:
@@ -249,7 +271,7 @@ def push_notion(plan: dict, title: str, page: str = "") -> str | None:
             "Pillar": {"select": {"options": sel(pillars)}},
             "Format": {"select": {"options": sel(p.get("format", "") for p in plan["posts"])}},
             "Hook": {"rich_text": {}}, "Draft": {"rich_text": {}}, "Time": {"rich_text": {}},
-            "Inspiration": {"rich_text": {}}, "Why": {"rich_text": {}},
+            "Inspiration": {"rich_text": {}}, "Why": {"rich_text": {}}, "Tag": {"rich_text": {}}, "Tests": {"rich_text": {}},
         }})
     if db.status_code >= 300:
         T.log(f"Notion: couldn't create the database ({db.status_code}): {db.text[:200]}. "
@@ -271,6 +293,7 @@ def push_notion(plan: dict, title: str, page: str = "") -> str | None:
                 "Hook": {"rich_text": rt(p.get("hook", ""))}, "Draft": {"rich_text": rt(p.get("draft", ""))},
                 "Time": {"rich_text": rt(p.get("time", ""))}, "Inspiration": {"rich_text": rt(p.get("inspiration", ""))},
                 "Why": {"rich_text": rt(p.get("why", ""))},
+                "Tag": {"rich_text": rt(p.get("tag", ""))}, "Tests": {"rich_text": rt(p.get("tests", ""))},
             },
             "children": [{"object": "block", "type": "paragraph", "paragraph": {"rich_text": rt(p.get("draft", ""))}}]})
         if r.status_code >= 300:
@@ -333,7 +356,7 @@ def main(argv=None) -> int:
         if a.dry_run:
             plan = dry_plan(slots)
         else:
-            briefs = [account_brief(paths, x) for x in accs]
+            briefs = [brand_report(paths, a.brand)] + [account_brief(paths, x) for x in accs]
             per_day = max(1, per_week // 7)
             parts = [slots[i:i + POSTS_PER_CALL] for i in range(0, len(slots), POSTS_PER_CALL)]
             cfg = {**settings, "claude_max_tokens": 16000}

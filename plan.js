@@ -14,8 +14,8 @@ function download(name, text, type) {
 }
 const csvCell = v => '"' + String(v ?? "").replace(/"/g, '""') + '"';
 function planCSV(p) {
-  const cols = ["Post", "Date", "Time", "Status", "Pillar", "Format", "Hook", "Hook (EN)", "Draft", "Draft (EN)", "CTA", "Inspiration", "Why"];
-  const rows = p.posts.map(x => [x.topic || x.hook, x.date, x.time, "Idea", x.pillar, x.format, x.hook, x.hook_en, x.draft, x.draft_en, x.cta, x.inspiration, x.why]);
+  const cols = ["Post", "Date", "Time", "Status", "Pillar", "Format", "Hook", "Hook (EN)", "Draft", "Draft (EN)", "CTA", "Tag", "Tests", "Inspiration", "Why"];
+  const rows = p.posts.map(x => [x.topic || x.hook, x.date, x.time, "Idea", x.pillar, x.format, x.hook, x.hook_en, x.draft, x.draft_en, x.cta, x.tag, x.tests, x.inspiration, x.why]);
   return "﻿" + [cols, ...rows].map(r => r.map(csvCell).join(",")).join("\r\n");
 }
 function actionsCSV(p) {
@@ -28,7 +28,7 @@ function planMD(p) {
     "## Action steps", ...p.actions.map(a => `- [ ] **${a.title}** (${a.priority}, ${a.effort})\n  - Why: ${a.why}\n  - How: ${a.how}`), "",
     "## Posts"];
   p.posts.forEach(x => L.push("", `### ${x.date} ${x.time} · ${x.format} · ${x.pillar}`, `**${x.topic}**`, "", x.draft.split("\n").map(l => "> " + l).join("\n"), x.draft_en ? `\n*EN: ${x.draft_en}*` : "",
-    "", x.cta ? `CTA: ${x.cta}` : "", `Inspiration: ${x.inspiration}`, `Why: ${x.why}`));
+    "", x.cta ? `CTA: ${x.cta}` : "", x.tag ? `Tag: ${x.tag}` : "", x.tests ? `Tests: ${x.tests}` : "", `Inspiration: ${x.inspiration}`, `Why: ${x.why}`));
   return L.filter((l, i, a) => !(l === "" && a[i - 1] === "")).join("\n") + "\n";
 }
 
@@ -43,6 +43,8 @@ function postDetail(x) {
     <div style="font-weight:600;margin-bottom:4px">${esc(x.topic)}</div>
     <div class="parent" style="white-space:pre-wrap">${esc(x.draft)}${x.draft_en ? `<div class="en">EN: ${esc(x.draft_en)}</div>` : ""}</div>
     ${x.cta ? `<div class="small"><b>Invite replies:</b> ${esc(x.cta)}</div>` : ""}
+    ${x.tag ? `<div class="small"><b>Tag:</b> ${esc(x.tag)}</div>` : ""}
+    ${x.tests ? `<div class="small"><b>Tests:</b> ${esc(x.tests)}</div>` : ""}
     <div class="small muted"><b>Inspired by:</b> ${esc(x.inspiration)}</div><div class="small muted"><b>Why:</b> ${esc(x.why)}</div>
     <div class="row" style="margin-top:6px"><button class="btn" type="button" data-copy="${esc(x.draft)}" style="padding:4px 10px;font-size:12px">Copy draft</button></div></div>`;
 }
