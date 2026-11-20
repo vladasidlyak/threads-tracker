@@ -649,6 +649,20 @@ def voice_stats(items: list[dict]) -> str:
     return "\n".join(lines)
 
 
+def benchmark_text(paths: Paths, brand_key: str) -> str:
+    """Typical numbers of this ambassador's competitors, to compare the own account with."""
+    rows = []
+    for h in accounts_for(paths, brand_key):
+        a = read_json(paths.account_file(h))
+        posts = [p for p in a["posts"].values() if p["type"] == "post"]
+        if not posts:
+            continue
+        views = [p["views"] for p in posts if p.get("views")]
+        rows.append(f"@{h}: followers {a['profile'].get('followers', '?')}, typical likes {round(statistics.median(p['likes'] for p in posts))}, "
+                    f"typical views {round(statistics.median(views)) if views else '?'}, typical engagement {round(statistics.median(brand_engagement(p) for p in posts))}")
+    return "\n".join(rows) or "(no competitors tracked yet)"
+
+
 def persona_text(brand: dict, brand_key: str, strategy: dict) -> str:
     """The persona profile and the brand team's rules, as plain text for the AI."""
     L = []
@@ -736,6 +750,7 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str,
         "VOICE_POSTS": voice_stats(posts), "VOICE_REPLIES": voice_stats(replies),
         "TOP_POSTS": top, "SELECTION": selection,
         "PERSONA": persona_text(brand, brand_key, read_json(paths.config / "strategy.json", {})),
+        "BENCHMARK": benchmark_text(paths, brand_key) if focus == "own" else "(not used in this report)",
         "OUTLIERS": "\n".join(f"- {p['_verdict']} {p['_x']:.1f}x | @{p['account']} | {(p['date'] or '')[:10]} | likes {p['likes']}, "
                               f"replies {p['replies']}, reposts {p['reposts']}, shares {p.get('shares') or 0} | median {round(p['_median'])} "
                               f"(n={p['_n']}){' LOW-CONFIDENCE' if p['_low_conf'] else ''}\n  \"{squash(p['text'])[:500]}\""
@@ -752,7 +767,7 @@ def build_prompt(paths: Paths, accounts: list[dict], brand_key: str, focus: str,
     return template
 
 
-FOCUS_TITLES = {"full": "Full analysis", "replies": "Communication & replies", "hooks": "Hooks & outliers",
+FOCUS_TITLES = {"own": "Own account review", "full": "Full analysis", "replies": "Communication & replies", "hooks": "Hooks & outliers",
                 "topics": "Topics & tags", "hypotheses": "Hypothesis cards", "voice": "AI linguistic report", "ideas": "Post ideas"}
 
 def _grams5(text: str) -> set:
@@ -1020,6 +1035,8 @@ def add_account(paths: Paths, handle: str, note: str = "", comments: bool = Fals
     accounts = read_accounts(paths)
     existing = next((a for a in accounts if a["handle"] == handle), None)
     if existing:
+        if existing.get("own"):
+            return False  # an ambassador's own account is never a competitor
         if brand and brand not in existing.setdefault("brands", []):
             existing["brands"].append(brand)
             write_json(accounts_cfg_path(paths), {"accounts": accounts})
@@ -1034,7 +1051,7 @@ def add_account(paths: Paths, handle: str, note: str = "", comments: bool = Fals
 def accounts_for(paths: Paths, brand: str) -> list[str]:
     """Handles tracked as competitors for this brand (that already have data)."""
     return [a["handle"] for a in read_accounts(paths)
-            if brand in a.get("brands", []) and paths.account_file(a["handle"]).exists()]
+            if brand in a.get("brands", []) and not a.get("own") and paths.account_file(a["handle"]).exists()]
 
 
 def monthly(paths: Paths, settings: dict, dry_run: bool) -> None:
@@ -1047,10 +1064,19 @@ def monthly(paths: Paths, settings: dict, dry_run: bool) -> None:
             log(f"- {b.get('name', key)}: no competitors tracked yet, skipped.")
             continue
         try:
-            report(paths, settings, handles, key, "full", dry_run, "monthly schedule", combined=True)
+            report(paths, settings, handles, key, "full", dry_run, "scheduled digest", combined=True)
             done += 1
         except TrackerError as e:
             log(f"!! {b.get('name', key)}: {e}")
+    # a review of each ambassador's own account, compared with their competitors
+    for key, b in brands.items():
+        own = clean_handle(b.get("own_account") or "") if b.get("own_account") else ""
+        if own and paths.account_file(own).exists():
+            try:
+                report(paths, settings, [own], key, "own", dry_run, "scheduled digest")
+                done += 1
+            except TrackerError as e:
+                log(f"!! {b.get('name', key)} own account: {e}")
     if not done:
         raise TrackerError("No monthly reports were written - no brand has tracked competitors yet.")
 

@@ -37,6 +37,9 @@ THEIR REPLIES TO OTHER PEOPLE (with the comment they answered)
 CONVERSATIONS UNDER THEIR TOP POSTS
 {{CONVERSATIONS}}
 
+COMPETITOR BENCHMARK (only for the own-account review)
+{{BENCHMARK}}
+
 OUTLIER POSTS (each post vs the median of its author's last 40 posts; brand formula: likes + replies + reposts + shares)
 {{OUTLIERS}}
 

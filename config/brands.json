@@ -23,7 +23,8 @@
       "promises of cure",
       "copying competitor posts",
       "engagement bait with no point of view"
-    ]
+    ],
+    "own_account": "quintanilla_iness"
   },
   "jeff": {
     "name": "Jeff (English, productivity)",
@@ -48,7 +49,8 @@
       "headline-only teasers",
       "promo-link replies",
       "medical or mental-health claims"
-    ]
+    ],
+    "own_account": ""
   },
   "pablo": {
     "name": "Pablo (Spanish, relationships)",

@@ -77,11 +77,10 @@
   },
   {
    "handle": "quintanilla_iness",
-   "note": "",
+   "note": "Inés's own account",
    "comments": false,
-   "brands": [
-    "ines"
-   ]
+   "brands": [],
+   "own": "ines"
   }
  ]
 }
