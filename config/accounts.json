@@ -81,6 +81,13 @@
    "comments": false,
    "brands": [],
    "own": "ines"
+  },
+  {
+   "handle": "jeff_navarroo",
+   "note": "Jeff's own account",
+   "comments": false,
+   "brands": [],
+   "own": "jeff"
   }
  ]
 }

@@ -1,12 +1,12 @@
-# Digest every 2 weeks: refresh every account in config/accounts.json (only posts since the last refresh),
+# Monthly digest: refresh every account in config/accounts.json (only posts since the last refresh),
 # write one combined report per ambassador (their own competitors) and a review of each ambassador's own account,
 # then email the new reports (needs SMTP_USER, SMTP_PASSWORD, MAIL_TO secrets).
-# Runs on the 1st and the 15th of each month around 06:40 Kyiv time (04:40 UTC), and on demand from the Actions tab.
-name: Digest every 2 weeks
+# Runs on the 1st of each month around 06:40 Kyiv time (04:40 UTC), and on demand from the Actions tab.
+name: Monthly digest
 
 on:
   schedule:
-    - cron: "40 4 1,15 * *"
+    - cron: "40 4 1 * *"
   workflow_dispatch:
 
 permissions:
