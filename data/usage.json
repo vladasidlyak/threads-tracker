@@ -319,6 +319,18 @@
     "kind": "claude",
     "usd": 0.2754,
     "what": "[standard] You are a social media strategist analyzing competitors on Threads.  "
+   },
+   {
+    "t": "2026-11-20T14:00:32Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"ju_zeppa\"], \"includeViewCounts\": "
+   },
+   {
+    "t": "2026-11-20T14:00:37Z",
+    "kind": "apify",
+    "usd": 0.0,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"ju_zeppa\"], \"includeViewCounts\": "
    }
   ]
  }
