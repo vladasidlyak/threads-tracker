@@ -1,5 +1,17 @@
 [
  {
+  "path": "reports/quintanilla_iness/2026-11-20-1355-full-ines.md",
+  "title": "Full analysis",
+  "accounts": [
+   "quintanilla_iness"
+  ],
+  "brand": "ines",
+  "focus": "full",
+  "scope": "single",
+  "created": "2026-11-20T13:55:24Z",
+  "requestedBy": "Vlada"
+ },
+ {
   "path": "reports/all-ines/2026-11-20-1342-hypotheses-ines.md",
   "title": "Hypothesis cards - all Inés's competitors",
   "accounts": [

@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T13:42:48Z",
+ "updated": "2026-11-20T13:55:24Z",
  "brands": {
   "ines": {
    "name": "Inés (Spanish, psychologist)"
@@ -140,9 +140,34 @@
    "posts": 8,
    "replies": 52,
    "commentThreads": 0
+  },
+  {
+   "handle": "quintanilla_iness",
+   "note": "",
+   "brands": [
+    "ines"
+   ],
+   "fullName": "Inés Quintanilla",
+   "followers": 1541,
+   "lastFetched": "2026-11-20T13:52:21Z",
+   "posts": 49,
+   "replies": 17,
+   "commentThreads": 0
   }
  ],
  "reports": [
+  {
+   "path": "reports/quintanilla_iness/2026-11-20-1355-full-ines.md",
+   "title": "Full analysis",
+   "accounts": [
+    "quintanilla_iness"
+   ],
+   "brand": "ines",
+   "focus": "full",
+   "scope": "single",
+   "created": "2026-11-20T13:55:24Z",
+   "requestedBy": "Vlada"
+  },
   {
    "path": "reports/all-ines/2026-11-20-1342-hypotheses-ines.md",
    "title": "Hypothesis cards - all Inés's competitors",
@@ -355,10 +380,10 @@
  ],
  "usage": {
   "month": "2026-11",
-  "spent": 2.56,
+  "spent": 2.94,
   "budget": 5,
-  "apify": 1.62,
-  "claude": 0.94,
+  "apify": 1.72,
+  "claude": 1.22,
   "apifyBudget": 4.8,
   "claudeBudget": 5
  }

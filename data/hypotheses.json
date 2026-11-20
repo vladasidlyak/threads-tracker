@@ -82,5 +82,26 @@
   "brand": "ines",
   "report": "reports/all-ines/2026-11-20-1342-hypotheses-ines.md",
   "created": "2026-11-20T13:42:00Z"
+ },
+ {
+  "name": "The \"no\" without compensation",
+  "persona": "Inés",
+  "type": "H1 Strong Expert POV",
+  "topic": "Setting boundaries",
+  "verdict": "✅ Core",
+  "guardrails": "No labels about the friend, and no promise of cure.",
+  "mechanic": "First-person micro-scene plus one expert verdict line.",
+  "insight": "After saying no, she immediately offers a fix to avoid upsetting the other person.",
+  "hook": "\"I said no to a friend and, five minutes later, I was already offering her a solution.\"",
+  "novelty": "🆕 New",
+  "reach": "People forward it with \"this is literally me\".",
+  "quiz_because": "\"Why do I always make it up to people after saying no?\"",
+  "ref_url": "",
+  "x_median": 13.3,
+  "refs_table": "| Ref | Account | Format | Date | ❤ · 💬 · 🔁 · ↗ | Median (n) | × median | Hook | Verdict |\n|---|---|---|---|---|---|---|---|---|\n| #1 | @quintanilla_iness | Question | 2026-11-15 | 28 · 12 · 0 · 0 | 3 (40) | 13.3× | \"Hoy una amiga me pidió un favor y le dije que no podía\" (Today a friend asked me for a favour and I said I couldn't) | ✅ translates ✅ |",
+  "posts": "1. > Decir que no y quedarte tranquila es una habilidad, no un rasgo de carácter.\n   > Si después de «no puedo» te lanzas a ofrecer tres alternativas, no eres generosa: estás pagando por adelantado el miedo a que se enfaden.\n   > ¿Cuál es tu «no» que más te cuesta dejar sin compensar?\n\n   *EN: Saying no and staying calm is a skill, not a personality trait. If after \"I can't\" you rush to offer three alternatives, you're not being generous: you're paying in advance for the fear that they'll be upset. Which of your \"no\"s is hardest to leave without making up for it?*\n2. > Prueba esto esta semana: di «no puedo» y cuenta hasta cinco antes de añadir nada.\n   > Ese silencio incómodo es justo donde se aprende que la gente no se rompe con tu no.\n\n   *EN\n\n*(Report cut off at the length limit. Raise claude_max_tokens in config/settings.json.)*",
+  "brand": "ines",
+  "report": "reports/quintanilla_iness/2026-11-20-1355-full-ines.md",
+  "created": "2026-11-20T13:55:24Z"
  }
 ]

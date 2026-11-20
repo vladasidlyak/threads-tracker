@@ -1,6 +1,6 @@
 {
  "2026-11": {
-  "total": 2.5579,
+  "total": 2.9405,
   "items": [
    {
     "t": "2026-11-16T15:48:20Z",
@@ -301,6 +301,24 @@
     "kind": "claude",
     "usd": 0.0044,
     "what": "[economy] You are a social media strategist analyzing competitors on Threads.  B"
+   },
+   {
+    "t": "2026-11-20T13:51:51Z",
+    "kind": "apify",
+    "usd": 0.0832,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"quintanilla_iness\"], \"includeView"
+   },
+   {
+    "t": "2026-11-20T13:52:21Z",
+    "kind": "apify",
+    "usd": 0.024,
+    "what": "deepmine/threads-posts-scraper {\"usernames\": [\"quintanilla_iness\"], \"includeView"
+   },
+   {
+    "t": "2026-11-20T13:55:24Z",
+    "kind": "claude",
+    "usd": 0.2754,
+    "what": "[standard] You are a social media strategist analyzing competitors on Threads.  "
    }
   ]
  }
