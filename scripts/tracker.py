@@ -839,10 +839,7 @@ def report(paths: Paths, settings: dict, handles: list[str], brand: str, focus: 
               f"Brand: {read_json(paths.config / 'brands.json')[brand]['name']} · Generated {now_iso()[:16].replace('T', ' ')} UTC\n\n")
     out = paths.root / rel
     out.parent.mkdir(parents=True, exist_ok=True)
-    glance, _, rest = facts.partition("## Top 5 posts")
-    rest = ("## Top 5 posts" + rest) if rest else ""
-    out.write_text(header + glance.strip() + "\n\n---\n\n" + text.strip() + ("\n\n---\n\n" + rest.strip() if rest else "") + "\n",
-                   encoding="utf-8")
+    out.write_text(header + text.strip() + "\n\n---\n\n" + facts.strip() + "\n", encoding="utf-8")
     idx = read_json(paths.reports / "index.json", [])
     entry = {"path": rel, "title": title, "accounts": handles, "brand": brand, "focus": focus,
              "scope": "all" if combined else "single", "created": now_iso()}
