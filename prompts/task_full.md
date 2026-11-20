@@ -11,7 +11,7 @@ If no replies or comments were collected, say so in one line and base this on ho
 How they move people from a post to an action. Use the CONTENT FUNNEL data.
 - A bold one-line takeaway: which funnel stage they invest in most and which one performs best.
 - 3-4 bullets: the mechanics that work at each stage (Reach = shared, Warm-up = comments, Conversion = quiz, link, DM), with one real example each (EN translation if needed) and its × usual.
-- One bullet on CTAs: how often they use one, which type, where (post, first reply, reply to followers), and whether CTA posts lose reach.
+- One bullet on CTAs: how often they use one, which type, where (post, first reply, reply to followers), and how CTA posts perform vs their other posts (reactions and views if shown; say how many posts this rests on and if the CTA posts also differ in topic or format).
 - "**So what for {{BRAND_NAME}}:**" one sentence: which mechanic to add for the stage we're missing.
 
 ### 🪝 Hooks that worked

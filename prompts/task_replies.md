@@ -18,4 +18,4 @@ A checklist ("- [ ] ...") of 6-8 reply techniques for {{BRAND_NAME}}, each with 
 ### 🧪 Reply hypotheses to test
 2-3 short hypotheses in the form "If {{BRAND_NAME}} replies ..., then ... because ...", with what to measure (replies per post, likes on replies, follows).
 
-Also add, before the templates, "#### How they move people to action": from the CONTENT FUNNEL data and their replies, 2-3 bullets on how they warm people up in comments and when they bring in a CTA (quiz, link, DM, newsletter), with one real example each. Say plainly if a CTA in replies reads as spam.
+Also add, before the templates, "#### How they move people to action": from the CONTENT FUNNEL data and their replies, 2-3 bullets on how they warm people up in comments and when they bring in a CTA (quiz, link, DM, newsletter), with one real example each. Say whether CTA replies sit in their own thread or in answers to followers, and how they perform (likes). Call something spammy only if it is copy-paste to followers and gets clearly fewer reactions.

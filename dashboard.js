@@ -564,6 +564,18 @@ const MECH_ORDER = ["Transformation story", "Story", "Situation + question", "Pe
   "Hot take", "Myth reframe", "Advice / tip", "Fill in the blank", "Question to audience", "Quote", "One-liner", "Statement"];
 const CTA_ORDER = ["None", "Question / comments", "Save / share", "Follow", "DM / keyword", "Quiz / test", "Link in bio / link", "Newsletter / sign-up"];
 const HARD_CTA = new Set(["Quiz / test", "Link in bio / link", "DM / keyword", "Newsletter / sign-up"]);
+function ctaPlace(p) {
+  const t = (p.text || "").toLowerCase();
+  if (p.type === "reply") return p.parentAuthor && p.parentAuthor === p.account ? "Own thread" : "Reply to a follower";
+  if (/https?:\/\/|www\.|\.com\b/.test(t)) return "In the post (link)";
+  if (/\bbio\b|perfil/.test(t)) return "Points to bio";
+  return "In the post (ask)";
+}
+function linkTargets(text) {
+  return ((text || "").match(/(https?:\/\/[^\s)]+|www\.[^\s)]+|\b[\w-]+\.(com|net|org|io|me|ly|link|es|mx)(\/[^\s)]*)?)/gi) || [])
+    .map(u => u.replace(/^https?:\/\//i, "").replace(/^www\./i, "").split("/")[0].toLowerCase())
+    .map(d => /youtu/.test(d) ? "YouTube" : /instagram|instagr\.am/.test(d) ? "Instagram" : /tiktok/.test(d) ? "TikTok" : /linktr|beacons|bio\.link|hubs\.ly|bit\.ly/.test(d) ? d + " (link hub)" : d);
+}
 function renderCta() {
   if (!S.index) return;
   const hs = new Set(fillScope("cta")), range = $("#ctaRange").value;
@@ -577,17 +589,51 @@ function renderCta() {
     const withC = ps.filter(p => HARD_CTA.has(p.cta)), without = ps.filter(p => !HARD_CTA.has(p.cta));
     const types = {}; [...ps, ...rs].forEach(p => { if (HARD_CTA.has(p.cta)) types[p.cta] = (types[p.cta] || 0) + 1; });
     const main = Object.entries(types).sort((a, b) => b[1] - a[1])[0];
-    return { h, n: ps.length, pct: ps.length ? Math.round(withC.length / ps.length * 100) : 0, main: main ? main[0] : "-",
+    const places = {}; [...ps, ...rs].filter(p => HARD_CTA.has(p.cta)).forEach(p => { const k = ctaPlace(p); places[k] = (places[k] || 0) + 1; });
+    const where = Object.entries(places).sort((a, b) => b[1] - a[1])[0];
+    const vm = l => { const v = l.filter(p => p.views > 0).map(p => p.views); return v.length ? median(v) : null; };
+    return { h, n: ps.length, pct: ps.length ? Math.round(withC.length / ps.length * 100) : 0, main: main ? main[0] : "-", where: where ? where[0] : "-",
       xc: withC.length ? median(withC.map(xOf)) : null, xn: without.length ? median(without.map(xOf)) : null,
-      rc: rs.filter(p => HARD_CTA.has(p.cta)).length, rn: rs.length };
+      vc: vm(withC), vn: vm(without), rc: rs.filter(p => HARD_CTA.has(p.cta)).length, rn: rs.length };
   }).filter(Boolean).sort((a, b) => b.pct - a.pct);
-  $("#ctaTable").innerHTML = rows.length ? `<table><tr><th>Account</th><th class="n">Posts</th><th class="n">With CTA</th><th>Main CTA</th><th class="n">CTA posts</th><th class="n">Other posts</th><th class="n">CTA in replies</th></tr>${rows.map(r => `<tr><td>@${esc(r.h)}</td><td class="n">${r.n}</td><td class="n">${r.pct}%</td><td>${esc(r.main)}</td><td class="n">${r.xc == null ? "-" : xFmt(r.xc)}</td><td class="n">${r.xn == null ? "-" : xFmt(r.xn)}</td><td class="n">${r.rc} of ${r.rn}</td></tr>`).join("")}</table><p class="small muted">CTA posts / Other posts = × the author's usual engagement. If CTA posts are far below 1.0x, the CTA costs them reach.</p>` : '<p class="muted small">No data in this range.</p>';
+  $("#ctaTable").innerHTML = rows.length ? `<table><tr><th>Account</th><th class="n">Posts</th><th class="n">With CTA</th><th>Main CTA</th><th>Where</th><th class="n">Reactions: CTA / other</th><th class="n">Views: CTA / other</th><th class="n">CTA in replies</th></tr>${rows.map(r => `<tr><td>@${esc(r.h)}</td><td class="n">${r.n}</td><td class="n">${r.pct}%</td><td>${esc(r.main)}</td><td>${esc(r.where)}</td><td class="n">${r.xc == null ? "-" : xFmt(r.xc)} / ${r.xn == null ? "-" : xFmt(r.xn)}</td><td class="n">${r.vc == null ? "-" : fmt(Math.round(r.vc))} / ${r.vn == null ? "-" : fmt(Math.round(r.vn))}</td><td class="n">${r.rc} of ${r.rn}</td></tr>`).join("")}</table><p class="small muted">Reactions = × the author's usual engagement (likes + replies + reposts + shares). Views = median views per post. Few posts with a CTA = low confidence; a CTA post may also differ in topic or format, so treat gaps as a signal to check, not proof.</p>` : '<p class="muted small">No data in this range.</p>';
+  const ctaItems = [...posts, ...reps].filter(p => HARD_CTA.has(p.cta));
+  const pl = {}; ctaItems.forEach(p => { const k = ctaPlace(p); (pl[k] = pl[k] || []).push(p); });
+  $("#ctaPlace").innerHTML = ctaItems.length ? `<table><tr><th>Where the CTA is</th><th class="n">Times</th><th>Most common CTA</th></tr>${Object.entries(pl).sort((a, b) => b[1].length - a[1].length).map(([k, l]) => { const c = {}; l.forEach(p => c[p.cta] = (c[p.cta] || 0) + 1); return `<tr><td>${esc(k)}</td><td class="n">${l.length}</td><td>${esc(Object.entries(c).sort((a, b) => b[1] - a[1])[0][0])}</td></tr>`; }).join("")}</table>` : '<p class="muted small">No CTAs in this range.</p>';
+  const lt = {}; ctaItems.forEach(p => linkTargets(p.text).forEach(d => lt[d] = (lt[d] || 0) + 1));
+  $("#ctaLinks").innerHTML = Object.keys(lt).length ? `<table><tr><th>Where links lead</th><th class="n">Times</th></tr>${Object.entries(lt).sort((a, b) => b[1] - a[1]).slice(0, 8).map(([d, n]) => `<tr><td>${esc(d)}</td><td class="n">${n}</td></tr>`).join("")}</table>` : '<p class="muted small">No links found in posts or replies (they may only point to the bio).</p>';
   const cp = posts.filter(p => HARD_CTA.has(p.cta)).sort((a, b) => xOf(b) - xOf(a)).slice(0, 8);
-  $("#ctaPosts").innerHTML = cp.length ? cp.map(p => `<div class="mini"><div class="meta"><span class="xb">${xFmt(xOf(p))}</span><b>@${esc(p.account)}</b><span class="tag">${esc(p.cta)}</span><span class="tag">${esc(p.mech || "")}</span>${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">open ↗</a>` : ""}</div>${esc((p.text || "").slice(0, 280))}${(p.text || "").length > 280 ? "…" : ""}</div>`).join("") : '<p class="muted small">No posts with a CTA in this range.</p>';
+  $("#ctaPosts").innerHTML = cp.length ? cp.map(p => `<div class="mini"><div class="meta"><span class="xb">${xFmt(xOf(p))}</span><b>@${esc(p.account)}</b><span class="tag">${esc(p.cta)}</span><span class="tag">${esc(ctaPlace(p))}</span><span class="tag">${esc(p.mech || "")}</span>${p.views ? `<span>👁 ${fmt(p.views)}</span>` : ""}${p.url ? `<a href="${esc(p.url)}" target="_blank" rel="noopener">open ↗</a>` : ""}</div>${esc((p.text || "").slice(0, 280))}${(p.text || "").length > 280 ? "…" : ""}</div>`).join("") : '<p class="muted small">No posts with a CTA in this range.</p>';
   const cr = reps.filter(p => HARD_CTA.has(p.cta)).sort((a, b) => (b.likes || 0) - (a.likes || 0)).slice(0, 8);
-  $("#ctaReplies").innerHTML = cr.length ? cr.map(r => `<div class="mini">${r.parentText ? `<div class="par">↳ ${r.parentAuthor ? "@" + esc(r.parentAuthor) + ": " : ""}${esc(r.parentText.slice(0, 100))}${r.parentText.length > 100 ? "…" : ""}</div>` : ""}<div class="meta"><b>@${esc(r.account)}</b><span class="tag">${esc(r.cta)}</span><span>♥ ${fmt(r.likes)}</span></div>${esc((r.text || "").slice(0, 240))}</div>`).join("") : '<p class="muted small">No CTAs in their replies in this range.</p>';
+  $("#ctaReplies").innerHTML = cr.length ? cr.map(r => `<div class="mini">${r.parentText ? `<div class="par">↳ ${r.parentAuthor ? "@" + esc(r.parentAuthor) + ": " : ""}${esc(r.parentText.slice(0, 100))}${r.parentText.length > 100 ? "…" : ""}</div>` : ""}<div class="meta"><b>@${esc(r.account)}</b><span class="tag">${esc(r.cta)}</span><span class="tag">${esc(ctaPlace(r))}</span><span>♥ ${fmt(r.likes)}</span></div>${esc((r.text || "").slice(0, 240))}</div>`).join("") : '<p class="muted small">No CTAs in their replies in this range.</p>';
 }
-S.qLimit = 30;
+S.qLimit = 30; S.acLimit = 40;
+function allComments() {
+  const out = [];
+  Object.values(S.accounts).forEach(a => {
+    Object.entries(a.comments || {}).forEach(([pid, list]) => { const post = (a.posts || {})[pid] || {};
+      list.forEach(c => out.push({ acc: a.handle, who: c.username, author: !!c.isAuthor, text: c.text, likes: c.likes || 0, date: c.date || post.date, ctx: post.text, ctxWho: a.handle, url: post.url })); });
+    Object.values(a.posts || {}).filter(p => p.type === "reply").forEach(p => out.push({ acc: a.handle, who: a.handle, author: true, text: p.text, likes: p.likes || 0,
+      date: p.date, ctx: p.parentText, ctxWho: p.parentAuthor, url: p.url, cta: p.cta }));
+  });
+  return out;
+}
+function renderComments() {
+  if (!S.index) return;
+  const sel = $("#acAccount"), cur = sel.value, accs = Object.keys(S.accounts).sort();
+  if (sel.options.length - 1 !== accs.length) { sel.innerHTML = '<option value="">All accounts</option>' + accs.map(a => `<option value="${esc(a)}">@${esc(a)}</option>`).join(""); sel.value = cur; }
+  const q = $("#acSearch").value.toLowerCase(), acc = sel.value, who = $("#acWho").value, sort = $("#acSort").value;
+  const all = allComments().filter(c => (!acc || c.acc === acc) && (!who || (who === "author") === c.author) && (!q || ((c.text || "") + " " + (c.ctx || "")).toLowerCase().includes(q)));
+  all.sort(sort === "likes" ? (a, b) => b.likes - a.likes : (a, b) => (b.date || "").localeCompare(a.date || ""));
+  const f = all.filter(c => !c.author).length;
+  $("#acSummary").textContent = `${all.length} comments · ${f} from followers · ${all.length - f} by the accounts.`;
+  $("#acList").innerHTML = all.length ? all.slice(0, S.acLimit).map(c => `<div class="mini">${c.ctx ? `<div class="par">↳ ${c.ctxWho ? "@" + esc(c.ctxWho) + ": " : ""}${esc(c.ctx.slice(0, 110))}${c.ctx.length > 110 ? "…" : ""}</div>` : ""}<div class="meta"><b>@${esc(c.who)}</b>${c.author ? '<span class="tag">account</span>' : '<span class="tag">follower</span>'}${c.author ? "" : `<span>on @${esc(c.acc)}</span>`}${c.cta && c.cta !== "None" ? `<span class="tag">CTA: ${esc(c.cta)}</span>` : ""}<span>♥ ${fmt(c.likes)}</span>${c.date ? `<span>${new Date(c.date).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span>` : ""}${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">open ↗</a>` : ""}</div>${esc(c.text || "")}</div>`).join("")
+    : '<p class="muted small">No comments collected yet. Tick "Also collect comments" when you run a report.</p>';
+  $("#acMore").classList.toggle("hidden", all.length <= S.acLimit);
+}
+$("#acSearch").oninput = () => { S.acLimit = 40; renderComments(); };
+$("#acAccount").onchange = $("#acWho").onchange = $("#acSort").onchange = () => { S.acLimit = 40; renderComments(); };
+$("#acMore").onclick = () => { S.acLimit += 40; renderComments(); };
 function renderQuestions() {
   if (!S.index) return;
   const hs = new Set(fillScope("q")), range = +$("#qRange").value, now = Date.now();
@@ -614,14 +660,40 @@ function renderQuestions() {
   $("#" + p + "Brand").onchange = () => { $("#" + p + "Account").value = ""; fn(); };
   $("#" + p + "Account").onchange = $("#" + p + "Range").onchange = fn;
 });
-$("#qSearch").oninput = $("#qFilter").onchange = () => { S.qLimit = 30; renderQuestions(); };
+$("#qSearch").oninput = $("#qFilter").onchange = () => { S.qLimit = 30; S.acLimit = 40;
+function allComments() {
+  const out = [];
+  Object.values(S.accounts).forEach(a => {
+    Object.entries(a.comments || {}).forEach(([pid, list]) => { const post = (a.posts || {})[pid] || {};
+      list.forEach(c => out.push({ acc: a.handle, who: c.username, author: !!c.isAuthor, text: c.text, likes: c.likes || 0, date: c.date || post.date, ctx: post.text, ctxWho: a.handle, url: post.url })); });
+    Object.values(a.posts || {}).filter(p => p.type === "reply").forEach(p => out.push({ acc: a.handle, who: a.handle, author: true, text: p.text, likes: p.likes || 0,
+      date: p.date, ctx: p.parentText, ctxWho: p.parentAuthor, url: p.url, cta: p.cta }));
+  });
+  return out;
+}
+function renderComments() {
+  if (!S.index) return;
+  const sel = $("#acAccount"), cur = sel.value, accs = Object.keys(S.accounts).sort();
+  if (sel.options.length - 1 !== accs.length) { sel.innerHTML = '<option value="">All accounts</option>' + accs.map(a => `<option value="${esc(a)}">@${esc(a)}</option>`).join(""); sel.value = cur; }
+  const q = $("#acSearch").value.toLowerCase(), acc = sel.value, who = $("#acWho").value, sort = $("#acSort").value;
+  const all = allComments().filter(c => (!acc || c.acc === acc) && (!who || (who === "author") === c.author) && (!q || ((c.text || "") + " " + (c.ctx || "")).toLowerCase().includes(q)));
+  all.sort(sort === "likes" ? (a, b) => b.likes - a.likes : (a, b) => (b.date || "").localeCompare(a.date || ""));
+  const f = all.filter(c => !c.author).length;
+  $("#acSummary").textContent = `${all.length} comments · ${f} from followers · ${all.length - f} by the accounts.`;
+  $("#acList").innerHTML = all.length ? all.slice(0, S.acLimit).map(c => `<div class="mini">${c.ctx ? `<div class="par">↳ ${c.ctxWho ? "@" + esc(c.ctxWho) + ": " : ""}${esc(c.ctx.slice(0, 110))}${c.ctx.length > 110 ? "…" : ""}</div>` : ""}<div class="meta"><b>@${esc(c.who)}</b>${c.author ? '<span class="tag">account</span>' : '<span class="tag">follower</span>'}${c.author ? "" : `<span>on @${esc(c.acc)}</span>`}${c.cta && c.cta !== "None" ? `<span class="tag">CTA: ${esc(c.cta)}</span>` : ""}<span>♥ ${fmt(c.likes)}</span>${c.date ? `<span>${new Date(c.date).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span>` : ""}${c.url ? `<a href="${esc(c.url)}" target="_blank" rel="noopener">open ↗</a>` : ""}</div>${esc(c.text || "")}</div>`).join("")
+    : '<p class="muted small">No comments collected yet. Tick "Also collect comments" when you run a report.</p>';
+  $("#acMore").classList.toggle("hidden", all.length <= S.acLimit);
+}
+$("#acSearch").oninput = () => { S.acLimit = 40; renderComments(); };
+$("#acAccount").onchange = $("#acWho").onchange = $("#acSort").onchange = () => { S.acLimit = 40; renderComments(); };
+$("#acMore").onclick = () => { S.acLimit += 40; renderComments(); }; renderQuestions(); };
 $("#qMore").onclick = () => { S.qLimit += 30; renderQuestions(); };
 
 async function reloadData() {
   S.index = await getJSON("data/index.json"); S.accounts = {}; Object.keys(medCache).forEach(k => delete medCache[k]);
   try { S.hyps = await getJSON("data/hypotheses.json"); } catch (e) {}
   await Promise.all(S.index.accounts.filter(a => a.posts || a.replies).map(async a => { try { S.accounts[a.handle] = await getJSON(`data/accounts/${a.handle}.json`); } catch (e) {} }));
-  fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCta(); renderQuestions(); renderCompare(); renderReportList(); runFormUI();
+  fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCta(); renderQuestions(); renderComments(); renderCompare(); renderReportList(); runFormUI();
   dataHooks.forEach(f => { try { f(); } catch (e) { console.error(e); } });
 }
 (async function loadBrands() {
@@ -651,7 +723,7 @@ async function reloadData() {
     const u = S.index.usage;
     if (u && u.apifyBudget) $("#updated").textContent += ` · This month: Apify $${Number(u.apify || 0).toFixed(2)} of $${u.apifyBudget} (free credit), Claude $${Number(u.claude || 0).toFixed(2)} of $${u.claudeBudget}`;
     else if (u && u.budget) $("#updated").textContent += ` · Spent this month $${Number(u.spent || 0).toFixed(2)} of $${u.budget}`;
-    fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCta(); renderQuestions(); renderCompare(); renderReportList(); runFormUI();
+    fillSelects(); renderOverview(); renderPosts(); renderReplies(); renderCta(); renderQuestions(); renderComments(); renderCompare(); renderReportList(); runFormUI();
     dataHooks.forEach(f => { try { f(); } catch (e) { console.error(e); } });
     if (!Object.keys(S.accounts).length) $("#loadMsg").textContent = "No data yet. Run \"Get report\" in GitHub Actions to collect the first account.";
     else $("#loadMsg").classList.add("hidden");
